@@ -1,0 +1,22 @@
+#dotFiles:
+##Description
+This is a collection of my dot files that I keep synced across all of my machines and shell accounts. I have gathered most of them from over the internet and curated them to suit my purposes.
+Feel free to clone or fork.
+
+##INSTRUCTIONS:
+Setting up git to host dot files on your computer.
+
+####Option 1: (Not recommended)
+  You could setup this git repository in your home folder and choose to ignore everything inside of a .gitignore and then allow only the files you want to sync to github. But that would make your home directory slightly untidy..
+
+####Option 2: (Recommended)
+  1. Clone this repository with the git clone command into a new folder.
+  2. In your home directory, backup all of you existing dotfiles, by creating a new directory, something like"dotfiles_BAK" and move them all into that folder.
+  3. In your home directory make symlinks that point to the relevant dot files . For ex-  
+      ln -s dotFiles/.vimrc .vimrc
+  4. You're done. I should write a script that does all of this automatically.
+
+
+
+##NOTES:
+To keep something personal in .bashrc away from the repository, for example, aliases that only make sense to that machine, this .bashrc checks for ~/.bash_personal and sources it if it exists.
