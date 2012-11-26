@@ -1,5 +1,3 @@
-
-" Credit: Derek Wyatt, http://vim.spf13.com/
 "
 "
 "
@@ -16,17 +14,19 @@ Bundle 'gmarik/vundle'
 
 
 "Vundle Packages
-Bundle 'tpope/vim-fugitive'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'mutewinter/vim-indent-guides'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'Lokaltog/vim-powerline'
 Bundle 'tpope/vim-surround.git'
-Bundle 'gregsexton/MatchTag'
-Bundle 'myusuf3/numbers.vim'
-Bundle 'Shougo/neocomplcache'
 Bundle 'godlygeek/tabular.git'
+Bundle 'Shougo/neocomplcache'
+Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
+Bundle 'tpope/vim-fugitive'
 
+"Vundle deactivated Packages
+"Bundle 'myusuf3/numbers.vim'
 
 "-VUNDLE--END--------------------------------------
 
@@ -65,8 +65,8 @@ set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,
 
 
 
-"Allow backspace over indent. eol, start-of-insert
-set backspace=2
+"Allow backspace to work in the insert mode
+set backspace=indent,eol,start
 
 set cpoptions+=$
 
@@ -123,6 +123,8 @@ autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buff
 "Allow error files and error jumping
 set cf
 
+"Set character encoding in the scri[t
+scriptencoding  utf-8
 
 "Set leader to ,
 let mapleader = ","
@@ -130,12 +132,15 @@ let mapleader = ","
 "time to wait for a command
 set timeoutlen=350
 
-
+" Yank from the cursor to the end of the line, to be consistent with C and D.
+"Yank to end of line, just like C or D
+nnoremap Y y$
 
 "Encoding & small UI adjustments
 set encoding=utf-8
 set number
 set ruler
+"Enable setting title
 set title
 set wildmenu
 
@@ -144,10 +149,18 @@ set wildmenu
 command! W w
 command! Q q
 
-"" Toggle spelling mode with ,s
+"Toggle spelling mode 
 nmap <silent> <leader>s :set spell!<CR>
-" Edit vimrc with ,v
-nmap <silent> <leader>v :e ~/vimrc<CR>
+"
+"Edit vimrc 
+nmap <silent> <leader>v :e ~/.vimrc<CR>
+
+"Toggle the Quickfix window
+map <silent> <leader>q :QFix<CR>
+
+"Assing shortcuts to jump to next/previous errors from the quickfix window
+map <C-c>n :cnext<CR>
+map <C-c>p :cprevious<CR>
 
 
 "Initialise known file formats with my own starter templates in this location
@@ -168,14 +181,18 @@ let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
 
-"Backups
+"Backups etc.
 set backup
 set backupdir=~/.vim/backup
-set directory=~/.vim/tmp
+set directory=/tmp/
 
 
+"Tab navigation
+nmap <leader>tn :tabnext<CR>
+nmap <leader>tp :tabprevious<CR>
+nmap <leader>te :tabedit
 
-" Window Movement
+"Window Movement
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-k> :wincmd k<CR>
@@ -221,3 +238,19 @@ function! s:on_insert_leave()
     let &updatetime = s:update_time_save
   endif
 endfunction
+
+
+"when editing a file, jump to the last known cursor position; unless that
+"position is invalid
+ autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endi
+
+
+
+"------------------------------------------------------------------------------
+" Credits-
+" Derek Wyatt
+" http://vim.spf13.com/
+" etc.
