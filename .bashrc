@@ -1,5 +1,3 @@
-
-
 # EDITOR
 ## Setting default bash command line editor to vim
 #export EDITOR=vim
@@ -15,17 +13,17 @@ export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
 export PYTHONIOENCODING=utf-8
 
 # ALIASES
-## clear
 alias cl='clear'
 alias iconsole='ipython qtconsole --pylab=inline'
 alias ..='cd ..'
-#alias ls="ls -f"
 alias l="ls -lah"
 alias ll="ls -l"
 alias la='ls -a'
+#alias ls="ls -f"
 #alias rm="rm -i"
-#Show a nice tree structure
-alias showtree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+#Show a nice tree structure - has been taken off in favor off the command `tree` in homebrew
+#alias showtree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'" 
+
 # Basic administration
 alias pg="ping -c 4 www.google.com"
 alias myip="echo '----LOCAL----' && ifconfig | grep inet && echo '----WAN IP----'  && curl ifconfig.me"
