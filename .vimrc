@@ -24,6 +24,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
+Bundle 'Python-Syntax'
 
 "Vundle deactivated Packages
 "Bundle 'myusuf3/numbers.vim'

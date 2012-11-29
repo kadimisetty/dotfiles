@@ -32,6 +32,10 @@ alias myip="echo '----LOCAL----' && ifconfig | grep inet && echo '----WAN IP----
 #make
 alias m="clear && make clean && make"
 
+#Aliasing dtruss to strace, because htop doesnt know dtruss and strace doesnt exist in OSX
+alias strace="dtruss"
+
+
 # Create local files that will not be synced with the github repository
 if [ -e ~/.bash_personal ];
 then
