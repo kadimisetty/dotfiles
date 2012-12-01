@@ -34,8 +34,12 @@ filetype plugin on                        "Activate builtin set of filetypes plu
 filetype indent on                        "Activate builtin and computed indentations
 
 syntax on                                 "Turn on syntax highlighting
-set hidden                                "Hide buffers
-set showmode                              "Show current mode
+set hidden                                "Unsaved bufers are allowed to move to the background
+set showmode                              "Show current modeline
+
+
+set key=                                  "Disable encryption (:X) - via tpope
+set autoread                              "Sync loaded file to changes on disk
 
 "SEARCH
 set ignorecase                            "Case Insensitive Search
@@ -80,6 +84,7 @@ set number                                "Precede each line with the line numbe
 set ruler                                 "Show line nujmber and cursor position
 set title                                 "Enable setting title
 set wildmenu                              "Perform things like menu completion with wildchar(often tab) etc.
+set iskeyword+=_,$,@,%,#,-                "Treat as keywords
 
 set debug=msg,throw                       "Show error messages and throw exceptions
 
@@ -89,11 +94,15 @@ set directory=/tmp/                       "List of directory names to create the
 set backupcopy=yes                        "Make a backup and then overwrite the orginal file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
+set printoptions=header:0,duplex:long,paper:A4
+
+
+
 
 "UI EFFECTS
 set nostartofline                         "Do not shift cursor back to line beginning while scrolling
 set report=0                              "Threshold for number of lines changed
-set ch=1                                  "Command line height(1 is default)
+set ch=2                                  "Command line height(1 is default)
 set nolazyredraw                          "Don't redraw screen while executing macros, registers, untyped commands etc.
 set showmatch                             "When cursor on bracket, briefly jump to coupled bracket
 set mat=5                                 "Spend this much time doing the cursor switch to the coupled bracket
@@ -101,9 +110,18 @@ set visualbell                            "Show a visual indication instead of r
 set formatoptions+=n                      "Support lists (numbered, bulleted)
 set virtualedit=block                     "Allow cursor to go to invalid places only in visually selected blocks
 
-"COMMON TYPOS
+"TYPOS & ALIASES
 command! W w
 command! Q q
+
+nmap <silent> ,n :nohls<CR>               "turn off search highlight with this new shortcut
+
+
+
+" Syntax coloring lines that are too long just slows down the world
+set synmaxcol=2048                        "For performance, only do syntax highlight upto these columns
+set nocursorline                          "Highlight the screen line of cursor
+set nocursorcolumn                        "Highlight the screen column of cursor
 
 nnoremap Y y$                             "Yank to end of line, just like C or D
 let mapleader = ","                       "Set leader to user-preferenced character, mine is the comma `,`
@@ -196,6 +214,7 @@ endif
  
 "------------------------------------------------------------------------------
 " Credits and Isnpiration -
+" Tim Pope (ofcourse)
 " Ryan Tomayko
 " Drew Neil
 " Derek Wyatt
