@@ -4,7 +4,7 @@
 set nocompatible                          "No more vi
 
 "--BEGIN VUNDLE---------------------------------------------------------------
-"Vundle Vim package installation software (Needs t be in this exact location)
+"Vundle Vim package installation software (Needs to be in this exact location)
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -28,7 +28,7 @@ Bundle 'Python-Syntax'
 "Bundle 'myusuf3/numbers.vim'
 "--END VUNDLE----------------------------------------------------------------
 
-"Needs to be turned back on and done after Vundle is listed above
+"Needs to be turned back on  right here after done setting up Vundle
 filetype on                               "Detect filetypes
 filetype plugin on                        "Activate builtin set of filetypes plugins
 filetype indent on                        "Activate builtin and computed indentations
@@ -114,29 +114,37 @@ set virtualedit=block                     "Allow cursor to go to invalid places 
 command! W w
 command! Q q
 
-nmap <silent> ,n :nohls<CR>               "turn off search highlight with this new shortcut
-
 
 
 " Syntax coloring lines that are too long just slows down the world
 set synmaxcol=2048                        "For performance, only do syntax highlight upto these columns
 set nocursorline                          "Highlight the screen line of cursor
 set nocursorcolumn                        "Highlight the screen column of cursor
+"
+"Yank to end of line, just like C or D
+nnoremap Y y$                             
 
-nnoremap Y y$                             "Yank to end of line, just like C or D
 let mapleader = ","                       "Set leader to user-preferenced character, mine is the comma `,`
-nmap <silent> <leader>s :set spell!<CR>   "Toggle spelling mode 
-nmap <silent> <leader>v :e ~/.vimrc<CR>   "Edit vimrc 
+
+"Turn off search highlight with this new shortcut
+nmap <silent> <leader>n :nohls<CR>        
+"Toggle spelling mode 
+nmap <silent> <leader>s :set spell!<CR>   
+"Edit vimrc 
+nmap <silent> <leader>v :e ~/.vimrc<CR>   
 
 "QUICKFIX WINDOW
-map <silent> <leader>q :QFix<CR>          "Toggle the Quickfix window
-map <C-c>n :cnext<CR>                     "Jump to the next tab
-map <C-c>p :cprevious<CR>                 "Jump to previous tab
+"Toggle the Quickfix window
+map <silent> <leader>q :QFix<CR>          
+"Jump to the next tab
+map <C-c>n :cnext<CR>                     
+"Jump to previous tab
+map <C-c>p :cprevious<CR>                 
 
 
-syntax enable                           "Enable Syntax highlighting
-set background=dark                     "Use a theme with a dark background (as opposed to `light` themes)
-colorscheme solarized                   "Turn on solarized colorscheme (solarized is not a builtin theme)
+syntax enable                             "Enable Syntax highlighting
+set background=dark                       "Use a theme with a dark background (as opposed to `light` themes)
+colorscheme solarized                     "Turn on solarized colorscheme (solarized is not a builtin theme)
 
 "TABS
 nmap <leader>tn :tabnext<CR>
@@ -144,14 +152,22 @@ nmap <leader>tp :tabprevious<CR>
 nmap <leader>te :tabedit
 
 "WINDOW MOVEMENT & SPLITS
-nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-j> :wincmd j<CR>
-nmap <silent> <C-k> :wincmd k<CR>
-nmap <silent> <C-l> :wincmd l<CR>
-nmap <silent> <C-p> :wincmd p<CR>
-nmap <silent> <leader>w= :wincmd =<CR>  "Equal Size Windows
-nmap <silent> <leader>sh :split<CR>
-nmap <silent> <leader>sv :vsplit<CR>
+"Move focus to window facing h
+nmap <silent> <C-h> :wincmd h<CR>         
+"Move focus to window facing j 
+nmap <silent> <C-j> :wincmd j<CR>         
+"Move focus to window facing k
+nmap <silent> <C-k> :wincmd k<CR>         
+"Move focus to window facing l
+nmap <silent> <C-l> :wincmd l<CR>         
+"Move focus to previous window
+nmap <silent> <C-p> :wincmd p<CR>         
+"Equal size windows
+nmap <silent> <leader>w= :wincmd =<CR>    
+"Split window horizontally
+nmap <silent> <leader>sh :split<CR>       
+"Split window vertically
+nmap <silent> <leader>sv :vsplit<CR>      
 
 "PLUGINS
 "Powerline
