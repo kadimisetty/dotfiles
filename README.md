@@ -12,7 +12,7 @@ Make a directory to store backupfiles
 	mkdir ~/.vim
 	mkdir ~/.vim/backup
 
-Make symlinks in your hoe directory to these files
+Make symlinks in your home directory to these files
 
 	ln -s ~/dotfiles/.vimrc ~/.vimrc
 
@@ -25,8 +25,9 @@ Make symlinks in your hoe directory to these files
 
 	ln -s ~/dotfiles/.osx ~/.osx
 
-to a local directory and make symlinks in your home directory to the relevant rc files.
-
+Note that the above commands may fail if any links or directories exists withthe same names. 
+I would suggest making a backup of these files, deleting them and them following the above instructions from scratch.
+You are all set now. Have fun!
 
 ## Future
 To make the symlinking easier, I will write and include bash scripts that will install and uninstall these files. Untill just do them the good ol' way.
