@@ -1,5 +1,5 @@
 #Sri Kadimisetty's dot files
-These are a collection of my rc files. Feel free to use as you please.
+These are a collection of my configuration files. Feel free to use as you please.
 
 
 ## Installation
