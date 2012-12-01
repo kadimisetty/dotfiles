@@ -58,7 +58,6 @@ set history=500                           "Remember 500 items in history
 "Handle folding
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set scrolloff=3                           "Keep cursor these many lines above bottom of screen
-"set virtualedit=all                      "Cursor is allowed to go to invalid places
 set nowrap                                "Wrap Long lines
 set autoindent                            "Indent as previous line
 set shiftwidth=2                          "Use indents as length of 4 spaces
@@ -75,7 +74,6 @@ autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buff
 set cf                                    "Allow error files and error jumping
 scriptencoding  utf-8                     "Set character encoding in the scri[t
 set timeoutlen=350                        "Wait for this long anticipating for a command
-nnoremap Y y$                             "Yank to end of line, just like C or D
 
 set encoding=utf-8                        "Set default file encoding to UTF-8
 set number                                "Precede each line with the line number
@@ -89,12 +87,25 @@ set backup                                "Make a backup before writing the file
 set backupdir=~/.vim/backup               "Use this directory to store backups
 set directory=/tmp/                       "List of directory names to create the swp files in
 set backupcopy=yes                        "Make a backup and then overwrite the orginal file
+set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
+
+"UI EFFECTS
+set nostartofline                         "Do not shift cursor back to line beginning while scrolling
+set report=0                              "Threshold for number of lines changed
+set ch=1                                  "Command line height(1 is default)
+set nolazyredraw                          "Don't redraw screen while executing macros, registers, untyped commands etc.
+set showmatch                             "When cursor on bracket, briefly jump to coupled bracket
+set mat=5                                 "Spend this much time doing the cursor switch to the coupled bracket
+set visualbell                            "Show a visual indication instead of ringing an annoying bell.
+set formatoptions+=n                      "Support lists (numbered, bulleted)
+set virtualedit=block                     "Allow cursor to go to invalid places only in visually selected blocks
 
 "COMMON TYPOS
 command! W w
 command! Q q
 
+nnoremap Y y$                             "Yank to end of line, just like C or D
 let mapleader = ","                       "Set leader to user-preferenced character, mine is the comma `,`
 nmap <silent> <leader>s :set spell!<CR>   "Toggle spelling mode 
 nmap <silent> <leader>v :e ~/.vimrc<CR>   "Edit vimrc 
@@ -126,7 +137,7 @@ nmap <silent> <leader>sv :vsplit<CR>
 
 "PLUGINS
 "Powerline
-Let g:Powerline_symbols = 'fancy'
+let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
 "Neocachecompl
@@ -135,7 +146,7 @@ let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
 let g:neocomplcache_cursor_hold_i_time=300
 let g:neocomplcache_auto_completion_start_length=1
-
+"
 "Tab / Shift-Tab to cycle completions
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
