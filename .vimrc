@@ -3,7 +3,7 @@
 
 set nocompatible                          "No more vi
 
-"--BEGIN VUNDLE---------------------------------------------------------------
+"BEGIN VUNDLE-----------------------------------------------------------------
 "Vundle Vim package installation software (Needs to be in this exact location)
 filetype off
 set rtp+=~/.vim/bundle/vundle/
@@ -26,7 +26,7 @@ Bundle 'Python-Syntax'
 "Deactivated Packages
 "Bundle 'majutsushi/tagbar'
 "Bundle 'myusuf3/numbers.vim'
-"--END VUNDLE----------------------------------------------------------------
+"END VUNDLE------------------------------------------------------------------
 
 "Needs to be turned back on  right here after done setting up Vundle
 filetype on                               "Detect filetypes
@@ -38,7 +38,7 @@ set hidden                                "Unsaved bufers are allowed to move to
 set showmode                              "Show current modeline
 
 
-set key=                                  "Disable encryption (:X) - via tpope
+set key=                                  "Disable encryption by making the key empty
 set autoread                              "Sync loaded file to changes on disk
 
 "SEARCH
@@ -97,34 +97,35 @@ set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 set printoptions=header:0,duplex:long,paper:A4
 
 
-
-
-"UI EFFECTS
+"UI CHANGES------------------------------------------------------------------
 set nostartofline                         "Do not shift cursor back to line beginning while scrolling
 set report=0                              "Threshold for number of lines changed
 set ch=2                                  "Command line height(1 is default)
-set nolazyredraw                          "Don't redraw screen while executing macros, registers, untyped commands etc.
-set showmatch                             "When cursor on bracket, briefly jump to coupled bracket
-set mat=5                                 "Spend this much time doing the cursor switch to the coupled bracket
+set nolazyredraw                          "Redraw screen while executing macros, registers, untyped commands etc.
+set showmatch                             "When cursor is on bracket, briefly jump to coupled bracket
+set mat=5                                 "Spend this much time switching the cursor to the coupled bracket
 set visualbell                            "Show a visual indication instead of ringing an annoying bell.
 set formatoptions+=n                      "Support lists (numbered, bulleted)
 set virtualedit=block                     "Allow cursor to go to invalid places only in visually selected blocks
 
-"TYPOS & ALIASES
-command! W w
-command! Q q
-
-
-
-" Syntax coloring lines that are too long just slows down the world
 set synmaxcol=2048                        "For performance, only do syntax highlight upto these columns
 set nocursorline                          "Highlight the screen line of cursor
 set nocursorcolumn                        "Highlight the screen column of cursor
-"
+syntax enable                             "Enable Syntax highlighting
+set background=dark                       "Use a theme with a dark background (as opposed to `light` themes)
+colorscheme solarized                     "Turn on solarized colorscheme (solarized is not a builtin theme)
+
+
+"LEADERS --------------------------------------------------------------------
+let mapleader = ","                       
+
+"TYPOS AND ALIASES-----------------------------------------------------------
+command! W w
+command! Q q
+
 "Yank to end of line, just like C or D
 nnoremap Y y$                             
 
-let mapleader = ","                       "Set leader to user-preferenced character, mine is the comma `,`
 
 "Turn off search highlight with this new shortcut
 nmap <silent> <leader>n :nohls<CR>        
@@ -133,60 +134,61 @@ nmap <silent> <leader>s :set spell!<CR>
 "Edit vimrc 
 nmap <silent> <leader>v :e ~/.vimrc<CR>   
 
-"QUICKFIX WINDOW
-"Toggle the Quickfix window
+"QUICKFIX WINDOW--------------------------------------------------------------
+" Toggle the Quickfix window
 map <silent> <leader>q :QFix<CR>          
-"Jump to the next tab
+" Jump to the next tab
 map <C-c>n :cnext<CR>                     
-"Jump to previous tab
+" Jump to previous tab
 map <C-c>p :cprevious<CR>                 
 
 
-syntax enable                             "Enable Syntax highlighting
-set background=dark                       "Use a theme with a dark background (as opposed to `light` themes)
-colorscheme solarized                     "Turn on solarized colorscheme (solarized is not a builtin theme)
-
-"TABS
+"MOVEMENT --------------------------------------------------------------------
+" Tabs
+" Move focus to the next tab
 nmap <leader>tn :tabnext<CR>
+" Move focus to the previous tab
 nmap <leader>tp :tabprevious<CR>
+" Edit the tab
 nmap <leader>te :tabedit
-
-"WINDOW MOVEMENT & SPLITS
-"Move focus to window facing h
+ 
+ "Window Movement
+" Move focus to window facing h
 nmap <silent> <C-h> :wincmd h<CR>         
-"Move focus to window facing j 
+" Move focus to window facing j 
 nmap <silent> <C-j> :wincmd j<CR>         
-"Move focus to window facing k
+" Move focus to window facing k
 nmap <silent> <C-k> :wincmd k<CR>         
-"Move focus to window facing l
+" Move focus to window facing l
 nmap <silent> <C-l> :wincmd l<CR>         
-"Move focus to previous window
+" Move focus to previous window
 nmap <silent> <C-p> :wincmd p<CR>         
-"Equal size windows
+" Window Splits
+" Equal size windows
 nmap <silent> <leader>w= :wincmd =<CR>    
-"Split window horizontally
+" Split window horizontally
 nmap <silent> <leader>sh :split<CR>       
-"Split window vertically
+" Split window vertically
 nmap <silent> <leader>sv :vsplit<CR>      
 
-"PLUGINS
-"Powerline
+"PLUGINS --------------------------------------------------------------------
+" Powerline
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
-"TagBar
+" TagBar
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
 
 
-"Neocachecompl
+" Neocachecompl
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
 let g:neocomplcache_cursor_hold_i_time=300
 let g:neocomplcache_auto_completion_start_length=1
-"
-"Tab / Shift-Tab to cycle completions
+
+" Tab / Shift-Tab to cycle completions
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
@@ -205,7 +207,7 @@ endfunction
 
 
 
-
+"HANDY MACROS ---------------------------------------------------------------
 
 autocmd InsertLeave * call s:on_insert_leave()
 
@@ -215,24 +217,24 @@ function! s:on_insert_leave()
   endif
 endfunction
 
-"
-"Initialise known file formats with my own starter templates in this location
+" Initialise known file formats with my own starter templates in this location
 if has("autocmd")
     autocmd BufNewFile * silent! 0r ~/.vim/templates/template.%:e
 endif
 
-"Jump to the last known valid cursor position
+" Jump to the last known valid cursor position
  autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
         \ endi
 
  
-"------------------------------------------------------------------------------
-" Credits and Isnpiration -
+"CREDITS & INSPIRATION ------------------------------------------------------
+"
 " Tim Pope (ofcourse)
 " Ryan Tomayko
 " Drew Neil
 " Derek Wyatt
 " http://vim.spf13.com/
 " etc.
+"
