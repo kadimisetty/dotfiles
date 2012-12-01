@@ -1,7 +1,7 @@
 ".vimrc file
 "Compiled by Sri Kadimisetty. Credits listed at the bottom.
 
-set nocompatible                          "Goodbye vi. You're now officially vestigial
+set nocompatible                          "No more vi
 
 "--BEGIN VUNDLE---------------------------------------------------------------
 "Vundle Vim package installation software (Needs t be in this exact location)
