@@ -4,13 +4,16 @@ These are a collection of my configuration files. Feel free to use as you please
 
 ## Installation
 Clone this repository to your home directory
+
 	git clone git://github.com/happysri/dotfiles.git
 
 Make a directory to store backupfiles 
+
 	mkdir ~/.vim
 	mkdir ~/.vim/backup
 
 Make symlinks in your hoe directory to these files
+
 	ln -s ~/dotfiles/.vimrc ~/.vimrc
 
 	ln -s ~/dotfiles/.bashrc ~/.bashrc
