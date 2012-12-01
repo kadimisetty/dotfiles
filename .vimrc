@@ -1,17 +1,19 @@
+".vimrc file
+"Compiled by Sri Kadimisetty
+"See bottom for CREDITS
 "
-"
-"
-"Not compatible with vi
+"Goodbye vi. You're now officially a vestigial organ.
 set nocompatible
 
 
-"-VUNDLE--BEGIN------------------------------------
+"--BEGIN VUNDLE----
+"Vundle Vim package installation software
 "Vundle Installation - needs to be in this exact location
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+"Main vundle Package 
 Bundle 'gmarik/vundle'
-
 
 "Vundle Packages
 Bundle 'altercation/vim-colors-solarized'
@@ -26,140 +28,93 @@ Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Python-Syntax'
 
-"Vundle deactivated Packages
+"Deactivated Packages
 "Bundle 'myusuf3/numbers.vim'
+"--END VUNDLE------
 
-"-VUNDLE--END--------------------------------------
-
-
-
-
-
-"Turn on filetypes etc.
+"Needs to be turned back on and done after Vundle is listed above
 filetype on
 filetype plugin on
 filetype indent on
 
-"Turn on syntax highlighting
-syntax on
+syntax on                                 "Turn on syntax highlighting
+set hidden                                "Hide buffers
+set showmode                              "Show current mode
 
-"Hide buffers
-set hidden
-
-"Show current mode
-set showmode
-
-
-
-"SEARCH------------------------------------------------------------------------
-"Case Insensitive Search
-set ignorecase
-"For non-case sensitive search
-set hlsearch
+"SEARCH
+set ignorecase                            "Case Insensitive Search
+set hlsearch                              "For non-case sensitive search
 set smartcase
-"Wrap search scan around the file
-set wrapscan
-"Match search incrementally
-set incsearch
+set wrapscan                              "Wrap search scan around the file
+set incsearch                             "Match search incrementally
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,
   \.sass-cache,*.class,*.scssc,*.cssc,sprockets%*,*.lessc
 
 
 
-"Allow backspace to work in the insert mode
-set backspace=indent,eol,start
-
+set backspace=indent,eol,start            "Allow backspace to work in the insert mode
 set cpoptions+=$
 
 
 "set status line according to Derek Wyatt's preference
 set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+set laststatus=2                          "Always display a status line, even for just one window
+set mousehide                             "Hide mouse pointer while typing
+set mouse=a                               "Automatically detect mouse usage
 
-
-"Always display a status line, even for just one window
-set laststatus=2
-
-
-"Hide mouse pointer while typing
-set mousehide
-
-"Automatically detect mouse usage
-set mouse=a
-
-"Remeber 500 items in history
-set history=500
+set history=500                           "Remeber 500 items in history
 
 "Handle folding
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 
 
-"While scrolling keep cursor atleast these many lines above the bottom
-set scrolloff=3
-
-"Cursor is allowed to go to invalid places
-"set virtualedit=all
+set scrolloff=3                           "Keep cursor these many lines above bottom of screen
+"set virtualedit=all                      "Cursor is allowed to go to invalid places
 
 
-"Wrap Long lines
-set nowrap
+set nowrap                                "Wrap Long lines
 
-"Indent as previous line
-set autoindent
-"Use indents as length of 4 spaces
-set shiftwidth=2
+set autoindent                            "Indent as previous line
+set shiftwidth=2                          "Use indents as length of 4 spaces
 set tabstop=2
-"Delete everythong with backspace
-set backspace=2
+set backspace=2                           "Delete everythong with backspace
 set cindent
 set smarttab
 set expandtab
 
-"Same indentation on pastes
-set pastetoggle=<F12>
+set pastetoggle=<F12>                     "Same indentation on pastes
 
 "Remove trailing whitespaces and ^M characters
 autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 
 
-"Allow error files and error jumping
-set cf
+set cf                                    "Allow error files and error jumping
 
-"Set character encoding in the scri[t
-scriptencoding  utf-8
+scriptencoding  utf-8                     "Set character encoding in the scri[t
 
-"Set leader to ,
-let mapleader = ","
+let mapleader = ","                       "Set leader to ,
 
-"time to wait for a command
-set timeoutlen=350
+set timeoutlen=350                        "Wait for this long anticipating for a command
 
-" Yank from the cursor to the end of the line, to be consistent with C and D.
-"Yank to end of line, just like C or D
-nnoremap Y y$
+nnoremap Y y$                             "Yank to end of line, just like C or D
 
 "Encoding & small UI adjustments
 set encoding=utf-8
 set number
 set ruler
-"Enable setting title
-set title
+set title                                 "Enable setting title
 set wildmenu
 
 
-"Fixing typos
+"COMMON TYPOS
 command! W w
 command! Q q
 
-"Toggle spelling mode 
-nmap <silent> <leader>s :set spell!<CR>
-"
-"Edit vimrc 
-nmap <silent> <leader>v :e ~/.vimrc<CR>
+nmap <silent> <leader>s :set spell!<CR>   "Toggle spelling mode 
+nmap <silent> <leader>v :e ~/.vimrc<CR>   "Edit vimrc 
+map <silent> <leader>q :QFix<CR>          "Toggle the Quickfix window
 
-"Toggle the Quickfix window
-map <silent> <leader>q :QFix<CR>
-
-"Assing shortcuts to jump to next/previous errors from the quickfix window
+""Shortucts to jump to next/previous in the quickfix window
 map <C-c>n :cnext<CR>
 map <C-c>p :cprevious<CR>
 
@@ -169,59 +124,49 @@ if has("autocmd")
     autocmd BufNewFile * silent! 0r ~/.vim/templates/template.%:e
 endif
 
-"Turn on solarized colorscheme
-syntax enable
+syntax enable                           "Enable Syntax highlighting
 set background=dark
-"set background=light
-colorscheme solarized
+colorscheme solarized                   "Turn on solarized colorscheme
 
 
-"Powerline
-
+"POWERLINE
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
 
-"Backups etc.
 set backup
 set backupdir=~/.vim/backup
 set directory=/tmp/
 
 
-"Tab navigation
-nmap <leader>tn :tabnext<CR>
+"TAB NAVIGATION
+Nmap <leader>tn :tabnext<CR>
 nmap <leader>tp :tabprevious<CR>
 nmap <leader>te :tabedit
 
-"Window Movement
+"WINDOW MOVEMENT
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-l> :wincmd l<CR>
-" Previous Window
 nmap <silent> <C-p> :wincmd p<CR>
-
-" Equal Size Windows
-nmap <silent> <leader>w= :wincmd =<CR>
-
-" Window Splitting
+nmap <silent> <leader>w= :wincmd =<CR>  "Equal Size Windows
 nmap <silent> <leader>sh :split<CR>
 nmap <silent> <leader>sv :vsplit<CR>
 
 
-" Plugin--Neocachecompl
+"PLUGIN: Neocachecompl
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
 let g:neocomplcache_cursor_hold_i_time=300
 let g:neocomplcache_auto_completion_start_length=1
 
-" Tab / Shift-Tab to cycle completions
+"Tab / Shift-Tab to cycle completions
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" Required to make neocomplcache_cursor_hold_i_time work
-" See https://github.com/Shougo/neocomplcache/issues/140
+" Required to make neocomplcache_cursor_hold_i_time work - https://github.com/Shougo/neocomplcache/issues/140
 let s:update_time_save = &updatetime
 autocmd InsertEnter * call s:on_insert_enter()
 
@@ -241,17 +186,17 @@ function! s:on_insert_leave()
 endfunction
 
 
-"when editing a file, jump to the last known cursor position; unless that
-"position is invalid
+"Jump to the last known valid cursor position
  autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
         \ endi
 
-
-
+ 
 "------------------------------------------------------------------------------
-" Credits-
+" Credits and Isnpiration -
+" Ryan Tomayko
+" Drew Neil
 " Derek Wyatt
 " http://vim.spf13.com/
 " etc.
