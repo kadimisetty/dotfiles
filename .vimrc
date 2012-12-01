@@ -8,9 +8,8 @@ set nocompatible                          "Goodbye vi. You're now officially ves
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-"Main vundle Package 
+"Main vundle Package (Needs to be listed first)
 Bundle 'gmarik/vundle'
-
 "Vundle Packages
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
@@ -25,6 +24,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'Python-Syntax'
 "
 "Deactivated Packages
+"Bundle 'majutsushi/tagbar'
 "Bundle 'myusuf3/numbers.vim'
 "--END VUNDLE----------------------------------------------------------------
 
@@ -140,6 +140,11 @@ nmap <silent> <leader>sv :vsplit<CR>
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
+"TagBar
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+
+
 "Neocachecompl
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
@@ -162,6 +167,12 @@ function! s:on_insert_enter()
   endif
 endfunction
 
+
+
+
+
+
+
 autocmd InsertLeave * call s:on_insert_leave()
 
 function! s:on_insert_leave()
@@ -170,6 +181,7 @@ function! s:on_insert_leave()
   endif
 endfunction
 
+"
 "Initialise known file formats with my own starter templates in this location
 if has("autocmd")
     autocmd BufNewFile * silent! 0r ~/.vim/templates/template.%:e
