@@ -4,6 +4,12 @@
 set nocompatible                          "No more vi
 
 "BEGIN VUNDLE-----------------------------------------------------------------
+"
+"running a new system for the very first time, vundle needs to be installed - 
+"  $ mkdir ~/.vim
+"  $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+"
+"
 "Vundle Vim package installation software (Needs to be in this exact location)
 filetype off
 set rtp+=~/.vim/bundle/vundle/
@@ -117,7 +123,7 @@ colorscheme solarized                     "Turn on solarized colorscheme (solari
 
 
 "LEADERS --------------------------------------------------------------------
-let mapleader = ","                       
+let mapleader = ","
 
 "TYPOS AND ALIASES-----------------------------------------------------------
 command! W w

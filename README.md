@@ -25,6 +25,17 @@ Make symlinks in your home directory to these files
 
 	ln -s ~/dotfiles/.osx ~/.osx
 
+Install vundle, the plugin manager, that makes setting up all the fancy plugins so simple and easy to use
+
+  git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+
+Once finished with installing Vundle, fire up your vim and run this on the command line after typing `:`
+  
+  :BundleList 
+  :BundleInstall
+
+This finishes installing all the bundles (plugins) listed in the `.vimrc`
+
 Note that the above commands may fail if any links or directories exists withthe same names. 
 I would suggest making a backup of these files, deleting them and them following the above instructions from scratch.
 You are all set now. Have fun!
