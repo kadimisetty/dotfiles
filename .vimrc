@@ -72,7 +72,7 @@ set nowrap                                "Wrap Long lines
 set autoindent                            "Indent as previous line
 set shiftwidth=2                          "Use indents as length of 4 spaces
 set tabstop=2                             "A tab counts for these many spaces
-set backspace=2                           "Delete everythong with backspace
+set backspace=2                           "Make backspace behave more like the popular usage
 set cindent                               "Get the indent accotding to 'C' specifications
 set smarttab                              "Insert bkanks according to listed shiftwidth/tabstop/softtabstop
 set expandtab                             "Use appropriate number of spaces to insert a tab when autodindent is on
@@ -129,9 +129,13 @@ let mapleader = ","
 command! W w
 command! Q q
 
+"Retain visual selection after an indentation shift.
+vnoremap < <gv
+vnoremap > >gv
+
+
 "Yank to end of line, just like C or D
 nnoremap Y y$                             
-
 
 "Turn off search highlight with this new shortcut
 nmap <silent> <leader>n :nohls<CR>        
