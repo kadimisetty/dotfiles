@@ -27,7 +27,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
-Bundle 'Python-Syntax'
+"Bundle 'Python-Syntax'
 "
 "Deactivated Packages
 "Bundle 'majutsushi/tagbar'
