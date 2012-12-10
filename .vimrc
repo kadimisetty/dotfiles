@@ -113,6 +113,7 @@ set mat=5                                 "Spend this much time switching the cu
 set visualbell                            "Show a visual indication instead of ringing an annoying bell.
 set formatoptions+=n                      "Support lists (numbered, bulleted)
 set virtualedit=block                     "Allow cursor to go to invalid places only in visually selected blocks
+set wildmode=longest,list                 "Tab-Completion ala emacs
 
 set synmaxcol=2048                        "For performance, only do syntax highlight upto these columns
 set nocursorline                          "Highlight the screen line of cursor
@@ -236,15 +237,32 @@ endif
  autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
-        \ endi
+        \ endif
 
- 
+
+
+ " Indent if we're at the beginning of a line. Else, do completion.
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+
+
+
 "CREDITS & INSPIRATION ------------------------------------------------------
 "
 " Tim Pope (ofcourse)
 " Ryan Tomayko
 " Drew Neil
 " Derek Wyatt
+" Gary Bernhardt
 " http://vim.spf13.com/
 " etc.
 "
