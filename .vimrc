@@ -27,7 +27,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
-"Bundle 'Python-Syntax'
+Bundle 'Python-Syntax'
 "
 "Deactivated Packages
 "Bundle 'majutsushi/tagbar'
@@ -141,7 +141,7 @@ nnoremap Y y$
 "Turn off search highlight with this new shortcut
 nmap <silent> <leader>n :nohls<CR>        
 "Toggle spelling mode 
-nmap <silent> <leader>s :set spell!<CR>   
+nmap <silent> <leader>ss :set spell!<CR>   
 "Edit vimrc 
 nmap <silent> <leader>v :e ~/.vimrc<CR>   
 
@@ -190,8 +190,6 @@ set fillchars+=stl:\ ,stlnc:\
 " TagBar
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-
-
 " Neocachecompl
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
@@ -215,10 +213,10 @@ function! s:on_insert_enter()
 endfunction
 
 
-
-
-
 "HANDY MACROS ---------------------------------------------------------------
+
+" Pass current buffer through a python nterpreter
+map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
 autocmd InsertLeave * call s:on_insert_leave()
 
@@ -265,4 +263,4 @@ inoremap <s-tab> <c-n>
 " Gary Bernhardt
 " http://vim.spf13.com/
 " etc.
-"
+" https://github.com/joshcom/vimconfig/blob/master/.vimrc

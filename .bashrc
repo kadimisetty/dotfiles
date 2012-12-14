@@ -13,6 +13,7 @@ export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
 export PYTHONIOENCODING=utf-8
 
 # ALIASES
+alias marble="cd ~/dev/personal/Marble"
 alias cl='clear'
 alias iconsole='ipython qtconsole --pylab=inline'
 alias ..='cd ..'
