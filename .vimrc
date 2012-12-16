@@ -14,22 +14,24 @@ set nocompatible                          "No more vi
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-"Main vundle Package (Needs to be listed first)
+"Vundle Packag (Should be listed first)
 Bundle 'gmarik/vundle'
+
 "Vundle Packages
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'tpope/vim-surround.git'
-Bundle 'godlygeek/tabular.git' 
 Bundle 'Shougo/neocomplcache'
 Bundle 'tpope/vim-commentary'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
-"Bundle 'Python-Syntax'
+Bundle 'tpope/vim-surround'
+Bundle 'godlygeek/tabular' 
+Bundle 'wincent/Command-T'
 Bundle 'klen/python-mode'
+"Bundle 'Python-Syntax'
 
 "
 "Deactivated Packages
