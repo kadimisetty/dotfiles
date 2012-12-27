@@ -12,6 +12,7 @@ export RUBYOPT=rubygems
 #PYTHON
 #Setting Python Path
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 #Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
 
