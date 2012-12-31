@@ -4,7 +4,7 @@
 
 # PROMPT
 #export PS1="\D{%d %b %H:%M} \u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
-export PS1="\D{%d %b %H:%M} \u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
+export PS1="\u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
 
 #RUBY
 export RUBYOPT=rubygems
