@@ -1,6 +1,12 @@
 ".vimrc file
 "Compiled by Sri Kadimisetty. Credits listed at the bottom.
 
+" PLAY ----------------------
+"echo ">^.^<"
+" ---------------------------
+
+
+
 set nocompatible                          "No more vi
 
 "BEGIN VUNDLE-----------------------------------------------------------------
@@ -20,6 +26,7 @@ Bundle 'gmarik/vundle'
 "Vundle Packages
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
+"Bundle 'vim-scripts/YankRing.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
@@ -29,14 +36,15 @@ Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
-Bundle 'wincent/Command-T'
 Bundle 'klen/python-mode'
-"Bundle 'Python-Syntax'
+Bundle 'kien/ctrlp.vim'
 
 "
 "Deactivated Packages
-"Bundle 'majutsushi/tagbar'
 "Bundle 'myusuf3/numbers.vim'
+"Bundle 'majutsushi/tagbar'
+"Bundle 'wincent/Command-T'
+"Bundle 'Python-Syntax'
 "END VUNDLE------------------------------------------------------------------
 
 "Needs to be turned back on  right here after done setting up Vundle
@@ -153,7 +161,11 @@ vnoremap > >gv
 nnoremap Y y$                             
 
 "Turn off search highlight with this new shortcut
-nmap <silent> <leader>n :nohls<CR>        
+if maparg('<C-L>', 'n') ==# ''
+      nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
+
+
 "Toggle spelling mode 
 nmap <silent> <leader>ss :set spell!<CR>   
 "Edit vimrc 

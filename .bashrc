@@ -7,7 +7,20 @@
 
 # user@Hostname (dir) ->
 #export PS1="\u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
-export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
+#export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
+
+#export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
+#Powerline bash
+function _update_ps1()
+{
+    export PS1="$(~/powerline-bash.py $?)"
+}
+
+export PROMPT_COMMAND="_update_ps1"
+
+# required by tmux-powerline
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
 
 #RUBY
 export RUBYOPT=rubygems
