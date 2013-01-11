@@ -60,6 +60,8 @@ set showmode                                "Show current modeline
 set key=                                    "Disable encryption by making the key empty
 set autoread                                "Sync loaded file to changes on disk
 
+set infercase
+
 "SEARCH
 set ignorecase                              "Case Insensitive Search
 set hlsearch                                "For non-case sensitive search
