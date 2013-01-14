@@ -26,7 +26,7 @@ Bundle 'gmarik/vundle'
 "Vundle Packages
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
-"Bundle 'vim-scripts/YankRing.vim'
+Bundle 'vim-scripts/YankRing.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
@@ -37,7 +37,9 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
 Bundle 'klen/python-mode'
-Bundle 'kien/ctrlp.vim'
+"Bundle "kien/ctrlp.vim"
+"Bundle 'kien/ctrlp.vim'
+"Bundle 'Shougo/unite.vim'
 
 "
 "Deactivated Packages
