@@ -5,7 +5,7 @@ These are a collection of my configuration files. Feel free to use as you please
 ## Installation
 Clone this repository to your home directory
 
-	git clone git://github.com/happysri/dotfiles.git
+	git clone git://github.com/kadimisetty/dotfiles.git
 
 Make a directory to store backupfiles 
 
