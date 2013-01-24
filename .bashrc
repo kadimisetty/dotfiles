@@ -1,6 +1,6 @@
 # EDITOR
 ## Setting default bash command line editor to vim
-#export EDITOR=vim
+export EDITOR=vim
 
 # PROMPT
 #export PS1="\D{%d %b %H:%M} \u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
@@ -70,3 +70,6 @@ fi
 
 #Terminal Color Settings
 TERM=xterm-256color
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

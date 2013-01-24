@@ -37,7 +37,8 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
 Bundle 'klen/python-mode'
-"Bundle "kien/ctrlp.vim"
+Bundle 'sjl/vitality.vim'
+Bundle 'kien/ctrlp.vim'
 "Bundle 'kien/ctrlp.vim'
 "Bundle 'Shougo/unite.vim'
 
