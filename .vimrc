@@ -81,8 +81,21 @@ set laststatus=2                            "Always display a status line, even 
 set mousehide                               "Hide mouse pointer while typing
 set mouse=a                                 "Automatically detect mouse usage
 set history=500                             "Remember 500 items in history
+
 "Handle folding
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+set foldmethod=syntax
+set foldlevelstart=1
+
+let javaScript_fold=1                       "JavaScript
+let perl_fold=1                             "Perl
+let php_folding=1                           "PHP
+let r_syntax_folding=1                      "R
+let ruby_fold=1                             "Ruby
+let sh_fold_enabled=1                       "sh
+let vimsyn_folding='af'                     "Vim script
+let xml_syntax_folding=1                    "XML
+
 set scrolloff=3                             "Keep cursor these many lines above bottom of screen
 set nowrap                                  "Wrap Long lines
 set autoindent                              "Indent as previous line

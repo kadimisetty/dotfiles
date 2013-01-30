@@ -24,6 +24,13 @@ PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -
 
 #RUBY
 export RUBYOPT=rubygems
+export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
+
+#RUBY RVM
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # This loads RVM into a shell session.  
+
+
+
 
 #PYTHON
 #Setting Python Path
@@ -32,44 +39,23 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 #Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
 
-#ALIASES
-alias scrapd="pushd ~/Desktop/Scrap"
-alias marble="cd ~/dev/personal/Marble"
-alias cl='clear'
-alias iconsole='ipython qtconsole --pylab=inline'
-alias ..='cd ..'
-alias l="ls -lah"
-alias ll="ls -l"
-alias la='ls -a'
-#alias ls="ls -f"
-#alias rm="rm -i"
-#Show a nice tree structure - has been taken off in favor off the command `tree` in homebrew
-#alias showtree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'" 
-
-# Basic administration
-alias pg="ping -c 4 www.google.com"
-alias myip="echo '----LOCAL----' && ifconfig | grep inet && echo '----WAN IP----'  && curl ifconfig.me"
-#make
-alias m="clear && make clean && make"
-alias pclean="rm *.pyc"
-
-#Aliasing dtruss to strace, because htop doesnt know dtruss and strace doesnt exist in OSX
-alias strace="dtruss"
-
-
-# Create local files that will not be synced with the github repository
-if [ -e ~/.bash_personal ];
-then
-    . ~/.bash_personal
-fi
-if [ -e ~/.aliases ];
-then
-    . ~/.aliases
-fi
-
 
 #Terminal Color Settings
 TERM=xterm-256color
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# Source a .bash_aliases if it exists. Add to .gitignore
+if [ -e ~/.bash_aliases ];
+then
+    . ~/bash_.aliases
+fi
+
+# Source a .bash_personal if it exists. Add to .gitignore
+if [ -e ~/.bash_personal ];
+then
+    . ~/.bash_personal
+fi
