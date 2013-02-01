@@ -27,6 +27,7 @@ Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'vim-scripts/YankRing.vim'
+Bundle 'sophacles/vim-processing'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
@@ -39,6 +40,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'klen/python-mode'
 Bundle 'sjl/vitality.vim'
 Bundle 'kien/ctrlp.vim'
+
 "CREDITS & INSPIRATION ------------------------------------------------------
 "
 "Deactivated Packages
