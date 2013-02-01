@@ -51,7 +51,7 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # Source a .bash_aliases if it exists. Add to .gitignore
 if [ -e ~/.bash_aliases ];
 then
-    . ~/bash_.aliases
+    . ~/.bash_aliases
 fi
 
 # Source a .bash_personal if it exists. Add to .gitignore
