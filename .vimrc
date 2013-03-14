@@ -29,6 +29,7 @@ Bundle 'mutewinter/vim-indent-guides'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'sophacles/vim-processing'
 Bundle 'Lokaltog/vim-easymotion'
+"Bundle 'Valloric/YouCompleteMe'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'tpope/vim-commentary'
@@ -37,6 +38,7 @@ Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
+Bundle 'tpope/vim-endwise'
 Bundle 'klen/python-mode'
 Bundle 'sjl/vitality.vim'
 Bundle 'kien/ctrlp.vim'
@@ -227,6 +229,9 @@ nmap <silent> <leader>sh :split<CR>
 nmap <silent> <leader>sv :vsplit<CR>      
 
 "PLUGINS --------------------------------------------------------------------
+
+
+
 " Powerline
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
@@ -258,6 +263,21 @@ endfunction
 
 
 "HANDY MACROS ---------------------------------------------------------------
+
+" Execute current ruby line when there is a # => marker at the end replacing it with the evaled result
+" http://gist.github.com/thenoseman/4113709
+function! RubyExecuteLineWithMarker()
+    ruby << EOF
+        marker = '# =>'
+        buffer = VIM::Buffer.current
+        if buffer.line.match(/#{marker}/)
+          result = marker + ' ' + eval(buffer.line, binding).inspect
+          buffer.line = buffer.line.sub(/#{marker}.*/, result).chomp
+        end
+EOF
+endfunction
+com! RubyExecuteLineWithMarker call RubyExecuteLineWithMarker()
+
 
 " Run  current buffer through a python interpreter
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
@@ -309,10 +329,22 @@ set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
   \ }
+" CtrlP
 
+"Set max files
+let g:ctrlp_max_files = 10000
+"Using Nix's find for faster searching
 
+if has("unix")
+    let g:ctrlp_user_command = {
+        \   'types': {
+        \       1: ['.git/', 'cd %s && git ls-files']
+        \   },
+        \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
+        \ }
+endif
 
 
 
