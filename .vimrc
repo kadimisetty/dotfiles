@@ -1,13 +1,8 @@
 ".vimrc file
 "Compiled by Sri Kadimisetty. Credits listed at the bottom.
 
-" PLAY ----------------------
-"echo ">^.^<"
-" ---------------------------
 
-
-
-set nocompatible                          "No more vi
+set nocompatible                          "Ther shall not be vi any more!!
 
 "BEGIN VUNDLE-----------------------------------------------------------------
 "
