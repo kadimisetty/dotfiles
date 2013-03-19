@@ -278,7 +278,6 @@ EOF
 endfunction
 com! RubyExecuteLineWithMarker call RubyExecuteLineWithMarker()
 
-
 " Run  current buffer through a python interpreter
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
