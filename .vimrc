@@ -24,13 +24,13 @@ Bundle 'mutewinter/vim-indent-guides'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'sophacles/vim-processing'
 Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'Valloric/YouCompleteMe'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'tpope/vim-commentary'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'vimez/vim-showmarks'
+Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
@@ -45,9 +45,10 @@ Bundle 'sjl/gundo.vim'
 "CREDITS & INSPIRATION ------------------------------------------------------
 "
 "Deactivated Packages
+"Bundle 'Valloric/YouCompleteMe'
 "Bundle 'myusuf3/numbers.vim'
-"Bundle 'majutsushi/tagbar'
 "Bundle 'wincent/Command-T'
+"Bundle 'majutsushi/tagbar'
 "Bundle 'Python-Syntax'
 "END VUNDLE------------------------------------------------------------------
 
