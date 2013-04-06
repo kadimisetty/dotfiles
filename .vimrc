@@ -30,13 +30,17 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'tpope/vim-commentary'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
+Bundle 'vimez/vim-showmarks'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
 Bundle 'godlygeek/tabular' 
+Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-endwise'
 Bundle 'klen/python-mode'
 Bundle 'sjl/vitality.vim'
+Bundle 'applescript.vim'
 Bundle 'kien/ctrlp.vim'
+Bundle 'sjl/gundo.vim'
 
 "CREDITS & INSPIRATION ------------------------------------------------------
 "
