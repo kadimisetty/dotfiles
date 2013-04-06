@@ -3,6 +3,49 @@
 # Sensible OSX settings
 # Idea from https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 
+# Set highlight color to green
+defaults write NSGlobalDomain AppleHighlightColor -string '0.764700 0.976500 0.568600'
+
+
+# Reveal IP address, hostname, OS version, etc. when clicking the clock in login window
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+
+# Check for software updates daily, not just once per week
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
+
+# SCREEN
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+
+# Disable shadow in screenshots
+defaults write com.apple.screencapture disable-shadow -bool true
+
+
+# FINDER
+
+# Finder: show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Finder: show path bar
+defaults write com.apple.finder ShowPathBar -bool true
+
+
+# DOCK, DASH & HOT CORNERS
+
+# Don’t show Dashboard as a Space
+defaults write com.apple.dock dashboard-in-overlay -bool true
+
+# Disable Dashboard
+defaults write com.apple.dashboard mcx-disabled -bool true
+
+# Make Dock icons of hidden applications translucent
+defaults write com.apple.dock showhidden -bool true
+
 
 
 
