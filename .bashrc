@@ -11,15 +11,15 @@ export EDITOR=vim
 
 # export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
 # Powerline bash
-function _update_ps1()
-{
-    export PS1="$(~/powerline-bash.py $?)"
-}
+# function _update_ps1()
+# {
+#     export PS1="$(~/powerline-bash.py $?)"
+# }
 
-export PROMPT_COMMAND="_update_ps1"
+# export PROMPT_COMMAND="_update_ps1"
 
 # required by tmux-powerline
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
 
 #RUBY
@@ -46,16 +46,18 @@ TERM=xterm-256color
 # Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin 
 
-# Source a .bash_aliases if it exists. Add to .gitignore
-if [ -e ~/.bash_aliases ];
+# Source a .aliases if it exists. 
+if [ -e ~/.aliases ];
 then
-    . ~/.bash_aliases
+    . ~/.aliases
 fi
 
-# Source a .bash_personal if it exists. Add to .gitignore
-if [ -e ~/.bash_personal ];
+# Source a .personal if it exists. 
+# Add to .gitignore
+if [ -e ~/.personal ];
 then
-    . ~/.bash_personal
+    . ~/.personal
 fi
