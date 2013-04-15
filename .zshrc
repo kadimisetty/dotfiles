@@ -47,7 +47,7 @@ export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1
 export EDITOR=vim
 
 # required by tmux-powerline
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
 
 #RUBY

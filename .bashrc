@@ -9,7 +9,7 @@ export EDITOR=vim
 # export PS1="\u@\[\e[1;31m\]\h\e[0m (\W) \[\e[1;31m\]⇾ \e[0m"
 # export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
 
-# export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
+export PS1="\u·\h·\W \[\e[1;31m\]⇾ \e[0m"
 # Powerline bash
 # function _update_ps1()
 # {
@@ -28,9 +28,6 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
 # RUBY RVM
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # This loads RVM into a shell session.  
-
-
-
 
 # PYTHON
 # Setting Python Path

@@ -23,6 +23,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'sophacles/vim-processing'
+" Bundle 'kana/vim-textobj-entire'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
@@ -49,6 +50,7 @@ Bundle 'sjl/gundo.vim'
 "Bundle 'myusuf3/numbers.vim'
 "Bundle 'wincent/Command-T'
 "Bundle 'majutsushi/tagbar'
+"Bundle 'textobj-entire'
 "Bundle 'Python-Syntax'
 "END VUNDLE------------------------------------------------------------------
 
@@ -201,14 +203,24 @@ map <C-c>p :cprevious<CR>
 
 
 "MOVEMENT --------------------------------------------------------------------
-" Tabs
-" Move focus to the next tab
-nmap <leader>tn :tabnext<CR>
-" Move focus to the previous tab
-nmap <leader>tp :tabprevious<CR>
-" Edit the tab
+
+"Tab Pages
+"Switch between tab pages
+nnoremap <silent> [t :tprevious<CR>
+nnoremap <silent> ]t :tnext<CR>
+nnoremap <silent> [t :tfirst<CR>
+nnoremap <silent> ]t :tlast<CR>
+" Start editing in a new tab page
 nmap <leader>te :tabedit
- 
+
+"Buffers
+"Switch between buffers
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
+
  "Window Movement
 " Move focus to window facing h
 nmap <silent> <C-h> :wincmd h<CR>         
@@ -227,6 +239,14 @@ nmap <silent> <leader>w= :wincmd =<CR>
 nmap <silent> <leader>sh :split<CR>       
 " Split window vertically
 nmap <silent> <leader>sv :vsplit<CR>      
+
+
+"MAPPINGS -------------------------------------------------------------------
+" Make <C-p> and <C-n> behave like <Up> and <Down>; else they do not filter
+" command line history
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
 
 "PLUGINS --------------------------------------------------------------------
 
