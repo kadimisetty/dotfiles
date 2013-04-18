@@ -15,9 +15,11 @@ set nocompatible                          "Behave like a grown-up Vim. You are n
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+
+"Install Vundle
 Bundle 'gmarik/vundle' 
 
-"Vundle Bundles
+"Active Bundles
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'vim-scripts/YankRing.vim'
@@ -41,7 +43,7 @@ Bundle 'applescript.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'sjl/gundo.vim'
 
-"DEACTIVATED BUNDLES
+"Inactive Bundles
 "Bundle 'kana/vim-textobj-entire' "@TODO - Fix error or file bug report
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'myusuf3/numbers.vim'
