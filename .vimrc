@@ -89,6 +89,7 @@ set mousehide                               "Hide mouse pointer while typing
 set mouse=a                                 "Automatically detect mouse usage
 set history=500                             "Remember 500 items in history
 
+"INDENTS & FOLDS ------------------------------------------------------------
 "Folds
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
