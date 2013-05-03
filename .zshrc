@@ -37,7 +37,7 @@ plugins=(git zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin
+export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/sbin
 
 
 # ------------------ FROM BASHRC
@@ -71,10 +71,18 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
+# Adding Anaconda onto the Shell Path
+#if [-e ~/anaconda ];
+#then
+#    export PATH=/Users/sri/anaconda/bin:$PATH
+#fi
+
+
+
 # Source a .bash_aliases if it exists. Add to .gitignore
-if [ -e ~/.bash_aliases ];
+if [ -e ~/.aliases ];
 then
-    . ~/.bash_aliases
+    . ~/.aliases
 fi
 
 # Source a .bash_personal if it exists. Add to .gitignore
