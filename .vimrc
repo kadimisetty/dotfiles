@@ -29,28 +29,31 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'guns/vim-clojure-static'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-fireplace'
+Bundle 'scrooloose/syntastic'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
-Bundle 'vimez/vim-showmarks'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-abolish'
 Bundle 'peterhoeg/vim-qml'
 Bundle 'godlygeek/tabular' 
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-endwise'
 Bundle 'klen/python-mode'
 Bundle 'sjl/vitality.vim'
 Bundle 'applescript.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'sjl/gundo.vim'
 
+Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-fireplace'
+Bundle 'tpope/vim-obsession'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-repeat'
+"
 "Inactive Bundles
 "Bundle 'kana/vim-textobj-entire' "@TODO - Fix error or file bug report
 "Bundle 'Valloric/YouCompleteMe'
+" Bundle 'vimez/vim-showmarks'
 "Bundle 'myusuf3/numbers.vim'
 "Bundle 'wincent/Command-T'
 "Bundle 'majutsushi/tagbar'
@@ -124,9 +127,9 @@ set expandtab                               "Use appropriate number of spaces to
 set pastetoggle=<F12>                       "Same indentation on pastes
 
 set cf                                      "Allow error files and error jumping
-scriptencoding  utf-8                       "Set character encoding in the scri[t
 set timeoutlen=350                          "Wait for this long anticipating for a command
 
+scriptencoding  utf-8                       "Set character encoding in the script
 set encoding=utf-8                          "Set default file encoding to UTF-8
 set title                                   "Enable setting title
 set wildmenu                                "Perform things like menu completion with wildchar(often tab) etc.
@@ -139,7 +142,6 @@ set backupcopy=yes                          "Make a backup and then overwrite or
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
 set printoptions=header:0,duplex:long,paper:A4
-
 
 "UI CHANGES------------------------------------------------------------------
 set number                                  "Display line numbers
@@ -162,7 +164,7 @@ set nocursorline                            "Highlight the screen line of cursor
 set nocursorcolumn                          "Highlight the screen column of cursor
 syntax enable                               "Enable Syntax highlighting
 
-"set background=light                       "Use a theme with a light background 
+" set background=light                       "Use a theme with a light background 
 set background=dark                         "Use a theme with a dark background 
 colorscheme solarized                       "Turn on solarized colorscheme (solarized is not a builtin theme)
 
@@ -170,11 +172,12 @@ set splitbelow                              "Position newly split windows to the
 set splitright                              "Position newly split windows to the right
 
 
-
-"Remove trailing whitespaces and ^M characters
-if has ("autocmd")
+augroup WhiteSpaceCleaner
+    autocmd!
+    "Remove trailing whitespaces and ^M characters
     autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
-endif
+augroup END
+
 
 "LEADERS --------------------------------------------------------------------
 " let mapleader = ","
@@ -192,10 +195,22 @@ vnoremap > >gv
 "Yank to end of line, just like C or D
 nnoremap Y y$                             
 
+
+"Retain cursor position after done joining two lines
+nnoremap J mzJ`z
+
+
+
 "Toggle spelling mode 
 nmap <silent> <leader>ss :set spell!<CR>   
 "Edit vimrc 
 nmap <silent> <leader>v :edit $MYVIMRC<CR>   
+
+
+
+"ABBREVIATIONS ---------------------------------------------------------------
+iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted
+
 
 "QUICKFIX WINDOW--------------------------------------------------------------
 " Toggle the Quickfix window
@@ -211,8 +226,8 @@ map <C-c>p :cprevious<CR>
 "Switch between Tab Pages
 nnoremap <silent> [t :tabprevious<CR>
 nnoremap <silent> ]t :tabnext<CR>
-nnoremap <silent> [t :tabfirst<CR>
-nnoremap <silent> ]t :tablast<CR>
+nnoremap <silent> [T :tabfirst<CR>
+nnoremap <silent> ]T :tablast<CR>
 "Start editing in a new tab page
 "nmap <leader>te :tabedit
 
@@ -290,16 +305,32 @@ if has("autocmd")
 "    autocmd BufWritePost .vimrc source $MYVIMRC
 "endif
 
-
+ 
 "PLUGINS PREFS --------------------------------------------------------------
-"Powerline
+"POWERLINE
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
-"TagBar
+
+"PYTHON-MODE
+"Disable pylint checking every save
+let g:pymode_lint_write = 0
+"Set key 'R' for run python code
+let g:pymode_run_key = 'R'
+"Load show documentation plugin
+let g:pymode_doc = 1
+"Show python documentation
+let g:pymode_doc_key = 'K'
+"Maximal height of pylint error window
+ let g:pymode_lint_maxheight = 3
+"Autoremove unused whitespaces
+let g:pymode_utils_whitespaces = 1
+
+
+"TAGBAR
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-"Neocachecompl
+"NEOCACHECOMPL
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
@@ -382,4 +413,5 @@ endif
 " Gary Bernhardt
 " http://vim.spf13.com/
 " github.com/joshcom/vimconfig/
+" blog.sanctum.geek.nz/page/2/
 " etc.
