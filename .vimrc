@@ -41,6 +41,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'sjl/gundo.vim'
 
 Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-fireplace'
 Bundle 'tpope/vim-obsession'
@@ -202,9 +203,9 @@ nnoremap J mzJ`z
 
 
 "Toggle spelling mode 
-nmap <silent> <leader>ss :set spell!<CR>   
+nnoremap <silent> <leader>ss :set spell!<CR>   
 "Edit vimrc 
-nmap <silent> <leader>v :edit $MYVIMRC<CR>   
+nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
 
 
 
@@ -224,39 +225,39 @@ map <C-c>p :cprevious<CR>
 "MOVEMENT --------------------------------------------------------------------
 
 "Switch between Tab Pages
-nnoremap <silent> [t :tabprevious<CR>
-nnoremap <silent> ]t :tabnext<CR>
-nnoremap <silent> [T :tabfirst<CR>
-nnoremap <silent> ]T :tablast<CR>
+" nnoremap <silent> [t :tabprevious<CR>
+" nnoremap <silent> ]t :tabnext<CR>
+" nnoremap <silent> [T :tabfirst<CR>
+" nnoremap <silent> ]T :tablast<CR>
 "Start editing in a new tab page
-"nmap <leader>te :tabedit
+"nnoremap <leader>te :tabedit
 
 "Switching between Buffers
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
+" nnoremap <silent> [b :bprevious<CR>
+" nnoremap <silent> ]b :bnext<CR>
+" nnoremap <silent> [B :bfirst<CR>
+" nnoremap <silent> ]B :blast<CR>
 
 
 "Window Movement
 "Move focus to window facing h
-nmap <silent> <C-h> :wincmd h<CR>         
+nnoremap <silent> <C-h> :wincmd h<CR>         
 "Move focus to window facing j 
-nmap <silent> <C-j> :wincmd j<CR>         
+nnoremap <silent> <C-j> :wincmd j<CR>         
 "Move focus to window facing k
-nmap <silent> <C-k> :wincmd k<CR>         
+nnoremap <silent> <C-k> :wincmd k<CR>         
 "Move focus to window facing l
-nmap <silent> <C-l> :wincmd l<CR>         
+nnoremap <silent> <C-l> :wincmd l<CR>         
 "Move focus to previous window
-nmap <silent> <C-p> :wincmd p<CR>         
+nnoremap <silent> <C-p> :wincmd p<CR>         
 
 "Window Splits
 "Equal size windows
-nmap <silent> <leader>w= :wincmd =<CR>    
+nnoremap <silent> <leader>w= :wincmd =<CR>    
 "Split window horizontally
-nmap <silent> <leader>sh :split<CR>       
+nnoremap <silent> <leader>sh :split<CR>       
 "Split window vertically
-nmap <silent> <leader>sv :vsplit<CR>      
+nnoremap <silent> <leader>sv :vsplit<CR>      
 
 
 "MAPPINGS -------------------------------------------------------------------
