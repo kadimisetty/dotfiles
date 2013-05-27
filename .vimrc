@@ -1,74 +1,67 @@
-".vimrc file
-"Compiled by Sri Kadimisetty.
-"Credits listed at the bottom.
+".vimrc (Vim Configuration file)
+"Author: Sri Kadimisetty
+"Credits: Listed at the bottom
 
-
-set nocompatible                          "Behave like a grown-up Vim. You are not vi anymore.
-
-
-"VUNDLE ----------------------------------------------------------------------
-"Vundle is a *package manager* for vim bundles compatible with Pathogen
-"Information and instructions available at - https://github.com/gmarik/vundle
-
-"Vundle Vim package installation preferences require following
-"to be in this order and location (and before bundles being listed).
+"PREAMBLE ---------------------------------------------------------------- {{{
+"Vundle installation requires the following to be in this order in the
+"beginning, before Vundle bundles are listed).
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-
-"Install Vundle
 Bundle 'gmarik/vundle' 
 
+"Act like a grownup Vim, you're not vi anymore
+set nocompatible                          
+" }}}
+"VIM BUNDLES ------------------------------------------------------------- {{{
 "Active Bundles
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'mutewinter/vim-indent-guides'
-Bundle 'rickharris/vim-blackboard'
-Bundle 'vim-scripts/YankRing.vim'
-Bundle 'sophacles/vim-processing'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'guns/vim-clojure-static'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
-Bundle 'scrooloose/syntastic'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'applescript.vim'
+Bundle 'godlygeek/tabular' 
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
-Bundle 'peterhoeg/vim-qml'
-Bundle 'wincent/Command-T'
-Bundle 'godlygeek/tabular' 
-Bundle 'klen/python-mode'
-Bundle 'sjl/vitality.vim'
-Bundle 'applescript.vim'
+Bundle 'guns/vim-clojure-static'
 Bundle 'kien/ctrlp.vim'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'klen/python-mode'
+Bundle 'mutewinter/vim-indent-guides'
+Bundle 'peterhoeg/vim-qml'
+Bundle 'rickharris/vim-blackboard'
+Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
-
-Bundle 'tpope/vim-speeddating'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-fireplace'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
+Bundle 'sjl/vitality.vim'
+Bundle 'sophacles/vim-processing'
 Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fireplace'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-repeat'
-"
+Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'vim-scripts/YankRing.vim'
+Bundle 'wincent/Command-T'
+
 "Inactive Bundles
-"Bundle 'kana/vim-textobj-entire' "@TODO - Fix error or file bug report
-"Bundle 'Valloric/YouCompleteMe'
-" Bundle 'vimez/vim-showmarks'
-"Bundle 'myusuf3/numbers.vim'
-"Bundle 'majutsushi/tagbar'
-"Bundle 'textobj-entire'
 "Bundle 'Python-Syntax'
+"Bundle 'Valloric/YouCompleteMe'
+"Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
+"Bundle 'majutsushi/tagbar'
+"Bundle 'myusuf3/numbers.vim'
+"Bundle 'textobj-entire'
+"Bundle 'vimez/vim-showmarks'
 
 "Needs to be turned back on right here after done setting up Vundle
 filetype on                                 "Detect filetypes
 filetype plugin on                          "Activate builtin set of filetypes plugins
 filetype indent on                          "Activate builtin and computed indentations
-
-
-"SEARCH ---------------------------------------------------------------------
+" }}}
+"SEARCH ----------------------------------------------------------------- {{{
 set infercase                               "Infer case matching while doing keyword completions
 set ignorecase                              "Case Insensitive Search
 set hlsearch                                "For non-case sensitive search
@@ -81,25 +74,39 @@ set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,
   \.sass-cache,*.class,*.scssc,*.cssc,sprockets%*,*.lessc
 
 
-"MISC PREFERENCES -----------------------------------------------------------
+
+"}}}
+"MISC PREFERENCES ------------------------------------------------------- {{{
+
+" let mapleader = ","                       | "Use default leader and leave the comma for search traversal
 syntax on                                   "Turn on syntax highlighting
-set hidden                                  "Unsaved bufers are allowed to move to the background
-set showmode                                "Show current modeline
+set hidden                                  | "Unsaved bufers are allowed to move to the background
+set showmode                                | "Show current modeline
 
-set key=                                    "Disable encryption by making the key empty
-set autoread                                "Sync loaded file to changes on disk
+set key=                                    | "Disable encryption by making the key empty
+set autoread                                | "Sync loaded file to changes on disk
 
-set backspace=indent,eol,start              "Allow backspace to work in the insert mode
-set cpoptions+=$                            "When making a change to one line , show a $ at end of changed text
+set backspace=indent,eol,start              | "Allow backspace to work in the insert mode
+set cpoptions+=$                            | "When making a change to one line , show a $ at end of changed text
 
 "Set status line akin to Derek Wyatt's preference - http://www.derekwyatt.org/vim/the-vimrc-file/better-settings/
 set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
-set laststatus=2                            "Always display a status line, even when there's just 1 window
-set mousehide                               "Hide mouse pointer while typing
-set mouse=a                                 "Automatically detect mouse usage
-set history=500                             "Remember 500 items in history
-
-"INDENTS & FOLDS ------------------------------------------------------------
+set laststatus=2                            | "Always display a status line, even when there's just 1 window
+set mousehide                               | "Hide mouse pointer while typing
+set mouse=a                                 | "Automatically detect mouse usage
+set history=500                             | "Remember 500 items in history
+"}}}
+"FILETYPE PREFERENCES --------------------------------------------------- {{{
+" Vim {{{
+augroup ft_vim
+    au!
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+"}}}
+"}}}
+"INDENTS & FOLDS -------------------------------------------------------- {{{
 "Folds
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
@@ -144,8 +151,8 @@ set backupcopy=yes                          "Make a backup and then overwrite or
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
 set printoptions=header:0,duplex:long,paper:A4
-
-"UI CHANGES------------------------------------------------------------------
+"}}}
+"UI CHANGES-------------------------------------------------------------- {{{
 set number                                  "Display line numbers
 set ruler                                   "Display line nujmber and cursor position
 set nostartofline                           "Do not shift cursor back to line beginning while scrolling
@@ -166,27 +173,22 @@ set nocursorline                            "Highlight the screen line of cursor
 set nocursorcolumn                          "Highlight the screen column of cursor
 syntax enable                               "Enable Syntax highlighting
 
-" set background=light                       "Use a theme with a light background 
+"set background=light                       "Use a theme with a light background 
 set background=dark                         "Use a theme with a dark background 
 colorscheme solarized                       "Turn on solarized colorscheme (solarized is not a builtin theme)
 
 set splitbelow                              "Position newly split windows to thebelow
 set splitright                              "Position newly split windows to the right
 
-
 augroup WhiteSpaceCleaner
     autocmd!
     "Remove trailing whitespaces and ^M characters
     autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 augroup END
-
-
-"LEADERS --------------------------------------------------------------------
-" let mapleader = ","
-" Use default leader and leave the comma for search traversal
-"Leave leader as default \ instead of popular , to let , be a seach movement.
-
-"TYPOS AND ALIASES-----------------------------------------------------------
+"}}}
+"LEADERS ---------------------------------------------------------------- {{{
+"}}}
+"TYPOS AND ALIASES------------------------------------------------------- {{{
 command! W w
 command! Q q
 
@@ -197,49 +199,19 @@ vnoremap > >gv
 "Yank to end of line, just like C or D
 nnoremap Y y$                             
 
-
 "Retain cursor position after done joining two lines
 nnoremap J mzJ`z
 
-
-
 "Toggle spelling mode 
 nnoremap <silent> <leader>ss :set spell!<CR>   
+
 "Edit vimrc 
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
-
-
-
-"ABBREVIATIONS ---------------------------------------------------------------
-iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted
-
-
-"QUICKFIX WINDOW--------------------------------------------------------------
-" Toggle the Quickfix window
-map <silent> <leader>q :QFix<CR>          
-" Jump to the next tab
-map <C-c>n :cnext<CR>                     
-" Jump to previous tab
-map <C-c>p :cprevious<CR>                 
-
-
-"MOVEMENT --------------------------------------------------------------------
-
-"Switch between Tab Pages
-" nnoremap <silent> [t :tabprevious<CR>
-" nnoremap <silent> ]t :tabnext<CR>
-" nnoremap <silent> [T :tabfirst<CR>
-" nnoremap <silent> ]T :tablast<CR>
-"Start editing in a new tab page
-"nnoremap <leader>te :tabedit
-
-"Switching between Buffers
-" nnoremap <silent> [b :bprevious<CR>
-" nnoremap <silent> ]b :bnext<CR>
-" nnoremap <silent> [B :bfirst<CR>
-" nnoremap <silent> ]B :blast<CR>
-
-
+"}}}
+"ABBREVIATIONS ----------------------------------------------------------- {{{
+iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted.
+"}}}
+"MOVEMENT ---------------------------------------------------------------- {{{
 "Window Movement
 "Move focus to window facing h
 nnoremap <silent> <C-h> :wincmd h<CR>         
@@ -259,19 +231,15 @@ nnoremap <silent> <leader>w= :wincmd =<CR>
 nnoremap <silent> <leader>sh :split<CR>       
 "Split window vertically
 nnoremap <silent> <leader>sv :vsplit<CR>      
-
-
-"MAPPINGS -------------------------------------------------------------------
+"}}}
+"MAPPINGS --------------------------------------------------------------- {{{
 "Make <C-p> and <C-n> behave like <Up> and <Down>; else they do not filter
 "command line history
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-
-
-
-
-"HANDY MACROS ---------------------------------------------------------------
-" Execute current ruby line when there is a # => marker at the end replacing it with the evaled result
+"}}}
+"HANDY MACROS ----------------------------------------------------------- {{{
+" Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
 " http://gist.github.com/thenoseman/4113709
 function! RubyExecuteLineWithMarker()
     ruby << EOF
@@ -306,9 +274,8 @@ if has("autocmd")
 "if has ("autocmd")
 "    autocmd BufWritePost .vimrc source $MYVIMRC
 "endif
-
- 
-"PLUGINS PREFS --------------------------------------------------------------
+"}}}
+"PLUGINS PREFS ---------------------------------------------------------- {{{
 "POWERLINE
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
@@ -339,11 +306,11 @@ let g:neocomplcache_enable_cursor_hold_i=1
 let g:neocomplcache_cursor_hold_i_time=300
 let g:neocomplcache_auto_completion_start_length=1
 
-" Tab / Shift-Tab to cycle completions
+"Tab / Shift-Tab to cycle completions
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" Required to make neocomplcache_cursor_hold_i_time work - https://github.com/Shougo/neocomplcache/issues/140
+"Required to make neocomplcache_cursor_hold_i_time work - https://github.com/Shougo/neocomplcache/issues/140
 let s:update_time_save = &updatetime
 if has ("autocmd")
     autocmd InsertEnter * call s:on_insert_enter()
@@ -367,7 +334,7 @@ function! s:on_insert_leave()
 endfunction
 
 
- " Indent if we're at the beginning of a line. Else, do completion.
+"Indent if we're at the beginning of a line. Else, do completion.
 function! InsertTabWrapper()
     let col = col('.') - 1
     if !col || getline('.')[col - 1] !~ '\k'
@@ -379,7 +346,7 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
-"Ctrl-P
+"CTRL-P
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -405,15 +372,14 @@ if has("unix")
         \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
         \ }
 endif
-
-
-"CREDITS & INSPIRATION ------------------------------------------------------
-" Tim Pope (ofcourse)
-" Ryan Tomayko
-" Drew Neil
-" Derek Wyatt
-" Gary Bernhardt
-" http://vim.spf13.com/
-" github.com/joshcom/vimconfig/
-" blog.sanctum.geek.nz/page/2/
-" etc.
+"}}}
+"CREDITS & INSPIRATION -------------------------------------------------- {{{
+"Tim Pope (of course)
+"Ryan Tomayko
+"Drew Neil
+"Derek Wyatt
+"Gary Bernhardt
+"http://vim.spf13.com/
+"github.com/joshcom/vimconfig/
+"blog.sanctum.geek.nz/page/2/
+"}}}
