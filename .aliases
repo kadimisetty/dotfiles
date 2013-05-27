@@ -1,15 +1,12 @@
 
 #ALIASES
-alias scrapd="pushd ~/Desktop/Scrap"
-alias marble="cd ~/dev/personal/Marble"
-alias cl='clear'
 alias iconsole='ipython qtconsole --pylab=inline'
-alias ..='cd ..'
 alias l="ls -lah"
-alias ll="ls -l"
-alias la='ls -a'
-#alias ls="ls -f"
-#alias rm="rm -i"
+# alias ll="ls -l"
+# alias la='ls -a'
+# alias ls="ls -f"
+# alias rm="rm -i"
+#
 #Show a nice tree structure - has been taken off in favor off the command `tree` in homebrew
 #alias showtree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'" 
 
