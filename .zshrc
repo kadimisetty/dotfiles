@@ -32,7 +32,7 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git zsh-syntax-highlighting brew osx)
+plugins=(git zsh-syntax-highlighting brew osx battery)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -41,7 +41,6 @@ export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1
 
 
 # ------------------ FROM BASHRC
-
 # EDITOR
 ## Setting default bash command line editor to vim
 export EDITOR=vim
@@ -59,6 +58,7 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 # Setting Python Path
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
 
@@ -78,8 +78,7 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 #fi
 
 
-
-# Source a .bash_aliases if it exists. Add to .gitignore
+ Source a .aliases if it exists. Add to .gitignore
 if [ -e ~/.aliases ];
 then
     . ~/.aliases
