@@ -1,8 +1,10 @@
-".vimrc (Vim Configuration file)
-"Author: Sri Kadimisetty
-"Credits: Listed at the bottom
+" vim: foldmethod=marker:foldlevel=0
 
-"PREAMBLE ---------------------------------------------------------------- {{{
+" INFO {{{1
+".vimrc (Vim Configuration file)
+"Author:    Sri Kadimisetty
+"Credits:   Listed at the bottom
+"PREAMBLE {{{1
 "Vundle installation requires the following to be in this order in the
 "beginning, before Vundle bundles are listed).
 filetype off
@@ -12,9 +14,9 @@ Bundle 'gmarik/vundle'
 
 "Act like a grownup Vim, you're not vi anymore
 set nocompatible                          
-" }}}
-"VIM BUNDLES ------------------------------------------------------------- {{{
-"Active Bundles
+
+"VIM BUNDLES {{{1
+"Active Bundles {{{2
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
@@ -47,7 +49,7 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'wincent/Command-T'
 
-"Inactive Bundles
+"Inactive Bundles {{{2
 "Bundle 'Python-Syntax'
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
@@ -56,12 +58,13 @@ Bundle 'wincent/Command-T'
 "Bundle 'textobj-entire'
 "Bundle 'vimez/vim-showmarks'
 
+"Vundle Cleanup {{{2
 "Needs to be turned back on right here after done setting up Vundle
 filetype on                                 "Detect filetypes
 filetype plugin on                          "Activate builtin set of filetypes plugins
 filetype indent on                          "Activate builtin and computed indentations
-" }}}
-"SEARCH ----------------------------------------------------------------- {{{
+
+"SEARCH {{{1
 set infercase                               "Infer case matching while doing keyword completions
 set ignorecase                              "Case Insensitive Search
 set hlsearch                                "For non-case sensitive search
@@ -73,13 +76,10 @@ set incsearch                               "Match search incrementally
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,
   \.sass-cache,*.class,*.scssc,*.cssc,sprockets%*,*.lessc
 
-
-
-"}}}
-"MISC PREFERENCES ------------------------------------------------------- {{{
+"MISC PREFERENCES {{{1
 
 " let mapleader = ","                       | "Use default leader and leave the comma for search traversal
-syntax on                                   "Turn on syntax highlighting
+syntax on                                   | "Turn on syntax highlighting
 set hidden                                  | "Unsaved bufers are allowed to move to the background
 set showmode                                | "Show current modeline
 
@@ -95,19 +95,22 @@ set laststatus=2                            | "Always display a status line, eve
 set mousehide                               | "Hide mouse pointer while typing
 set mouse=a                                 | "Automatically detect mouse usage
 set history=500                             | "Remember 500 items in history
-"}}}
-"FILETYPE PREFERENCES --------------------------------------------------- {{{
-" Vim {{{
+
+"Look for vim modelines in the first 3 lines of a file(3 to allow for encoding, title)
+set modeline
+set modelines=5
+
+"FILETYPE PREFERENCES {{{1
+" Vi {{{2
 augroup ft_vim
     au!
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
-"}}}
-"}}}
-"INDENTS & FOLDS -------------------------------------------------------- {{{
-"Folds
+
+
+"INDENTS & FOLDS {{{1
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
 set foldlevelstart=1
@@ -151,8 +154,8 @@ set backupcopy=yes                          "Make a backup and then overwrite or
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
 set printoptions=header:0,duplex:long,paper:A4
-"}}}
-"UI CHANGES-------------------------------------------------------------- {{{
+
+"UI CHANGES {{{1
 set number                                  "Display line numbers
 set ruler                                   "Display line nujmber and cursor position
 set nostartofline                           "Do not shift cursor back to line beginning while scrolling
@@ -185,34 +188,26 @@ augroup WhiteSpaceCleaner
     "Remove trailing whitespaces and ^M characters
     autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 augroup END
-"}}}
-"LEADERS ---------------------------------------------------------------- {{{
-"}}}
-"TYPOS AND ALIASES------------------------------------------------------- {{{
+
+"ABBREVIATIONS, TYPOS & ALIASES {{{1
+"Custom Abbreviations
+iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted.
+
 command! W w
 command! Q q
-
 "Retain visual selection after an indentation shift.
 vnoremap < <gv
 vnoremap > >gv
-
 "Yank to end of line, just like C or D
 nnoremap Y y$                             
-
 "Retain cursor position after done joining two lines
 nnoremap J mzJ`z
-
 "Toggle spelling mode 
 nnoremap <silent> <leader>ss :set spell!<CR>   
-
 "Edit vimrc 
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
-"}}}
-"ABBREVIATIONS ----------------------------------------------------------- {{{
-iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted.
-"}}}
-"MOVEMENT ---------------------------------------------------------------- {{{
-"Window Movement
+"MOVEMENT {{{1
+"Window Movement {{{2
 "Move focus to window facing h
 nnoremap <silent> <C-h> :wincmd h<CR>         
 "Move focus to window facing j 
@@ -224,21 +219,21 @@ nnoremap <silent> <C-l> :wincmd l<CR>
 "Move focus to previous window
 nnoremap <silent> <C-p> :wincmd p<CR>         
 
-"Window Splits
+"Window Splits {{{2
 "Equal size windows
 nnoremap <silent> <leader>w= :wincmd =<CR>    
 "Split window horizontally
 nnoremap <silent> <leader>sh :split<CR>       
 "Split window vertically
 nnoremap <silent> <leader>sv :vsplit<CR>      
-"}}}
-"MAPPINGS --------------------------------------------------------------- {{{
+
+"MAPPINGS {{{1
 "Make <C-p> and <C-n> behave like <Up> and <Down>; else they do not filter
 "command line history
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-"}}}
-"HANDY MACROS ----------------------------------------------------------- {{{
+
+"HANDY MACROS {{{1
 " Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
 " http://gist.github.com/thenoseman/4113709
 function! RubyExecuteLineWithMarker()
@@ -274,14 +269,14 @@ if has("autocmd")
 "if has ("autocmd")
 "    autocmd BufWritePost .vimrc source $MYVIMRC
 "endif
-"}}}
-"PLUGINS PREFS ---------------------------------------------------------- {{{
-"POWERLINE
+
+"PLUGINS PREFS {{{1
+"Powerline {{{2
 let g:Powerline_symbols = 'fancy'
 set fillchars+=stl:\ ,stlnc:\
 
 
-"PYTHON-MODE
+"Python-mode {{{2
 "Disable pylint checking every save
 let g:pymode_lint_write = 0
 "Set key 'R' for run python code
@@ -296,10 +291,10 @@ let g:pymode_doc_key = 'K'
 let g:pymode_utils_whitespaces = 1
 
 
-"TAGBAR
+"Tagbar {{{2
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-"NEOCACHECOMPL
+"Neocachecompl {{{2
 let g:neocomplcache_enable_at_startup=1
 let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
 let g:neocomplcache_enable_cursor_hold_i=1
@@ -346,7 +341,7 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
-"CTRL-P
+"Ctrl-p {{{2
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -372,8 +367,8 @@ if has("unix")
         \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
         \ }
 endif
-"}}}
-"CREDITS & INSPIRATION -------------------------------------------------- {{{
+
+"CREDITS & INSPIRATION {{{1
 "Tim Pope (of course)
 "Ryan Tomayko
 "Drew Neil
@@ -382,4 +377,3 @@ endif
 "http://vim.spf13.com/
 "github.com/joshcom/vimconfig/
 "blog.sanctum.geek.nz/page/2/
-"}}}
