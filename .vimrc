@@ -100,8 +100,25 @@ set history=500                             | "Remember 500 items in history
 set modeline
 set modelines=5
 
+"
 "FILETYPE PREFERENCES {{{1
-" Vi {{{2
+
+"Set Tabs & Spaces for filetyes {{{2
+" Only do this part when compiled with support for autocommands
+if has("autocmd")
+  filetype on
+  " Syntax of these languages is fussy over tabs Vs spaces
+  autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+  " Customisations based on house-style (arbitrary)
+  autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+  " Treat .rss files as XML
+  autocmd BufNewFile,BufRead *.rss setfiletype xml
+endif
+
+" Vi Folding Specifics {{{2
 augroup ft_vim
     au!
     au FileType vim setlocal foldmethod=marker
@@ -133,6 +150,9 @@ set tabstop=4                               "A tab counts for these many spaces
 
 set backspace=2                             "Make backspace behave more like the popular usage
 
+"Enables :Wrap to set settings required for soft wrap
+command! -nargs=* Wrap set wrap linebreak nolist
+
 set cindent                                 "Use C's indenting rules
 set smarttab                                "Insert bkanks according to listed shiftwidth/tabstop/softtabstop
 set expandtab                               "Use appropriate number of spaces to insert a tab when autodindent is on
@@ -154,6 +174,9 @@ set backupcopy=yes                          "Make a backup and then overwrite or
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
 set printoptions=header:0,duplex:long,paper:A4
+
+"Show ellipsis on a soft break
+set showbreak=…
 
 "UI CHANGES {{{1
 set number                                  "Display line numbers
@@ -233,6 +256,17 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+"Move across "softly-wrapped" lines
+vnoremap <D-j> gj
+vnoremap <D-k> gk
+vnoremap <D-4> g$
+vnoremap <D-6> g^
+vnoremap <D-0> g^
+nnoremap <D-j> gj
+nnoremap <D-k> gk
+nnoremap <D-4> g$
+nnoremap <D-6> g^
+nnoremap <D-0> g^
 "HANDY MACROS {{{1
 " Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
 " http://gist.github.com/thenoseman/4113709
