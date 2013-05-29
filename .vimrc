@@ -100,6 +100,10 @@ set history=500                             | "Remember 500 items in history
 set modeline
 set modelines=5
 
+"Save undo-history for a file EVEN AFTER a close and reopen. Yes, possible
+"Unfortunately, +persistent-undo feature is not avilable in this installation
+"set persistent-undo
+
 "
 "FILETYPE PREFERENCES {{{1
 
