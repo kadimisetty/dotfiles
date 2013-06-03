@@ -46,10 +46,10 @@ Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'vim-scripts/YankRing.vim'
 Bundle 'wincent/Command-T'
 
 "Inactive Bundles {{{2
+"Bundle 'vim-scripts/YankRing.vim'
 "Bundle 'Python-Syntax'
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
