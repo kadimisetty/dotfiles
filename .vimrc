@@ -17,8 +17,9 @@ set nocompatible
 
 "VIM BUNDLES {{{1
 "Active Bundles {{{2
+Bundle 'kadimisetty/vim-simplebar'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Lokaltog/vim-powerline'
+" Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'applescript.vim'
@@ -42,9 +43,9 @@ Bundle 'tpope/vim-fireplace'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'wincent/Command-T'
 
@@ -195,7 +196,8 @@ set mat=5                                   "Spend this much time switching the 
 set visualbell                              "Show a visual indication instead of ringing an annoying bell.
 set formatoptions+=n                        "Support lists (numbered, bulleted)
 set virtualedit=block                       "Allow cursor to go to invalid places only in visually selected blocks
-set wildmode=longest,list                   "Tab-Completion ala emacs
+" set wildmode=longest,list                   "Tab-Completion ala bash
+set wildmode=full                           "Tab-Completion ala zsh
 
 set debug=msg,throw                         "Show error messages and throw exceptions
 
@@ -311,8 +313,8 @@ if has("autocmd")
 
 "PLUGINS PREFS {{{1
 "Powerline {{{2
-let g:Powerline_symbols = 'fancy'
-set fillchars+=stl:\ ,stlnc:\
+" let g:Powerline_symbols = 'fancy'
+" set fillchars+=stl:\ ,stlnc:\
 
 
 "Python-mode {{{2
