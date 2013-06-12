@@ -17,9 +17,7 @@ set nocompatible
 
 "VIM BUNDLES {{{1
 "Active Bundles {{{2
-Bundle 'kadimisetty/vim-simplebar'
 Bundle 'Lokaltog/vim-easymotion'
-" Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/neocomplcache'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'applescript.vim'
@@ -27,6 +25,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'guns/vim-clojure-static'
+Bundle 'kadimisetty/vim-simplebar'
 Bundle 'kien/ctrlp.vim'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'mutewinter/vim-indent-guides'
@@ -50,15 +49,16 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'wincent/Command-T'
 
 "Inactive Bundles {{{2
-"Bundle 'vim-scripts/YankRing.vim'
-"Bundle 'Python-Syntax'
-"Bundle 'Valloric/YouCompleteMe'
-"Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
-"Bundle 'klen/python-mode'
-"Bundle 'majutsushi/tagbar'
-"Bundle 'myusuf3/numbers.vim'
-"Bundle 'textobj-entire'
-"Bundle 'vimez/vim-showmarks'
+" Bundle 'Lokaltog/vim-powerline'
+" Bundle 'Python-Syntax'
+" Bundle 'Valloric/YouCompleteMe'
+" Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
+" Bundle 'klen/python-mode'
+" Bundle 'majutsushi/tagbar'
+" Bundle 'myusuf3/numbers.vim'
+" Bundle 'textobj-entire'
+" Bundle 'vim-scripts/YankRing.vim'
+" Bundle 'vimez/vim-showmarks'
 
 "Vundle Cleanup {{{2
 "Needs to be turned back on right here after done setting up Vundle
@@ -97,6 +97,12 @@ set laststatus=2                            | "Always display a status line, eve
 set mousehide                               | "Hide mouse pointer while typing
 set mouse=a                                 | "Automatically detect mouse usage
 set history=500                             | "Remember 500 items in history
+
+set showcmd                                 | "Show partial command in the last line at the bottom
+
+"Use the external program [`par`](http://www.nicemice.net/par/) to format paragraphs
+"gwip will still use vim's own formatprg
+set formatprg=par\ -w50
 
 "Look for vim modelines in the first 3 lines of a file(3 to allow for encoding, title)
 set modeline
@@ -208,7 +214,7 @@ syntax enable                               "Enable Syntax highlighting
 
 "set background=light                       "Use a theme with a light background 
 set background=dark                         "Use a theme with a dark background 
-colorscheme solarized                       "Turn on solarized colorscheme (solarized is not a builtin theme)
+silent! colorscheme solarized               "Turn on solarized colorscheme (solarized is not a builtin theme)
 
 set splitbelow                              "Position newly split windows to thebelow
 set splitright                              "Position newly split windows to the right
@@ -274,7 +280,7 @@ nnoremap <D-k> gk
 nnoremap <D-4> g$
 nnoremap <D-6> g^
 nnoremap <D-0> g^
-"HANDY MACROS {{{1
+"HANDY FUNCTIONS {{{1
 " Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
 " http://gist.github.com/thenoseman/4113709
 function! RubyExecuteLineWithMarker()
@@ -293,7 +299,7 @@ com! RubyExecuteLineWithMarker call RubyExecuteLineWithMarker()
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
 
-" Initialise known file formats with my own starter templates in this location
+" Initialise known file formats with my own starter templates
 if has("autocmd")
     autocmd BufNewFile * silent! 0r ~/.vim/templates/template.%:e
 endif
@@ -306,7 +312,7 @@ if has("autocmd")
             \ endif
  endif
 
-"Source vimrc after every save
+"Source vimrc after every save. Might be a little too much.
 "if has ("autocmd")
 "    autocmd BufWritePost .vimrc source $MYVIMRC
 "endif
@@ -316,6 +322,8 @@ if has("autocmd")
 " let g:Powerline_symbols = 'fancy'
 " set fillchars+=stl:\ ,stlnc:\
 
+"netrw {{{2
+let g:netrw_banner=0
 
 "Python-mode {{{2
 "Disable pylint checking every save

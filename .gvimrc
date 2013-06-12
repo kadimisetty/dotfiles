@@ -1,3 +1,4 @@
 
 
-set gfn=Inconsolata-dz\ for\ Powerline:h16
+set guifont=Source\ Code\ Pro:h24
+
