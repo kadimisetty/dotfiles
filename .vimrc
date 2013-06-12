@@ -17,6 +17,7 @@ set nocompatible
 
 "VIM BUNDLES {{{1
 "Active Bundles {{{2
+
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Shougo/neocomplcache'
 Bundle 'altercation/vim-colors-solarized'
@@ -28,6 +29,7 @@ Bundle 'guns/vim-clojure-static'
 Bundle 'kadimisetty/vim-simplebar'
 Bundle 'kien/ctrlp.vim'
 Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'mhinz/vim-startify'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'peterhoeg/vim-qml'
 Bundle 'rickharris/vim-blackboard'
@@ -416,6 +418,19 @@ if has("unix")
         \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
         \ }
 endif
+
+"Startify {{{2
+let g:startify_show_files_number = 10
+"
+"Do not list these files, they just clog it up.
+let g:startify_skiplist = [
+            \ 'COMMIT_EDITMSG',
+            \ $VIMRUNTIME .'/doc',
+            \ 'bundle/.*/doc'
+            \ ]
+
+let g:startify_show_files = 1
+let g:startify_bookmarks = [ '~/dev/personal/dotfiles/.vimrc' ]
 
 "CREDITS & INSPIRATION {{{1
 "Tim Pope (of course)
