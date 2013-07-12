@@ -8,7 +8,7 @@
 [core]
     pager = cat
     editor = vim
-    excludesfile = /Users/sri/.gitignore
+	excludesfile = /Users/sri/.gitignore_global
 
 [alias]
     tags = tag -l
