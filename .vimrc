@@ -18,8 +18,8 @@ set nocompatible
 "VIM BUNDLES {{{1
 "Active Bundles {{{2
 
+Bundle 'arsenerei/vim-ragel'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Shougo/neocomplcache'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'applescript.vim'
 Bundle 'godlygeek/tabular' 
@@ -27,9 +27,9 @@ Bundle 'gregsexton/MatchTag'
 Bundle 'groenewege/vim-less'
 Bundle 'guns/vim-clojure-static'
 Bundle 'kadimisetty/vim-simplebar'
+Bundle 'kadimisetty/vim-yenti'
 Bundle 'kien/ctrlp.vim'
 Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'mhinz/vim-startify'
 Bundle 'mutewinter/vim-indent-guides'
 Bundle 'peterhoeg/vim-qml'
 Bundle 'rickharris/vim-blackboard'
@@ -37,6 +37,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'sjl/gundo.vim'
 Bundle 'sjl/vitality.vim'
 Bundle 'sophacles/vim-processing'
+Bundle 'Shougo/neocomplcache'
 Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-endwise'
@@ -51,9 +52,10 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'wincent/Command-T'
 
 "Inactive Bundles {{{2
+" Bundle 'mhinz/vim-startify'
 " Bundle 'Lokaltog/vim-powerline'
-" Bundle 'Python-Syntax'
 " Bundle 'Valloric/YouCompleteMe'
+" Bundle 'Python-Syntax'
 " Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
 " Bundle 'klen/python-mode'
 " Bundle 'majutsushi/tagbar'
@@ -140,6 +142,8 @@ augroup ft_vim
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
+"Use md for markdown instead of the default module2
+au BufNewFile,BufRead *.md  setf markdown
 
 "INDENTS & FOLDS {{{1
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
@@ -214,7 +218,7 @@ set nocursorline                            "Highlight the screen line of cursor
 set nocursorcolumn                          "Highlight the screen column of cursor
 syntax enable                               "Enable Syntax highlighting
 
-"set background=light                       "Use a theme with a light background 
+" set background=light                       "Use a theme with a light background 
 set background=dark                         "Use a theme with a dark background 
 silent! colorscheme solarized               "Turn on solarized colorscheme (solarized is not a builtin theme)
 
@@ -227,8 +231,8 @@ augroup WhiteSpaceCleaner
     autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 augroup END
 
-"ABBREVIATIONS, TYPOS & ALIASES {{{1
-"Custom Abbreviations
+"ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
+"Abbreviations
 iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted.
 
 command! W w
@@ -244,6 +248,12 @@ nnoremap J mzJ`z
 nnoremap <silent> <leader>ss :set spell!<CR>   
 "Edit vimrc 
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
+
+"Conceals
+if has('conceal')
+    syntax keyword pyNiceStatement lambda conceal cchar=λ
+endif
+
 "MOVEMENT {{{1
 "Window Movement {{{2
 "Move focus to window facing h
@@ -344,6 +354,9 @@ let g:pymode_utils_whitespaces = 1
 
 "Tagbar {{{2
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
+
+"Syntastic {{{2
+let g:syntastic_warning_symbol='⚠'
 
 "Neocachecompl {{{2
 let g:neocomplcache_enable_at_startup=1

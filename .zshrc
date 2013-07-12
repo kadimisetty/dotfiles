@@ -58,6 +58,9 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 # Setting Python Path
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+# Add pip etc. as the default, if you want to use pip-2.7 call $pip-2.7
+export PATH=/Library/Frameworks/Python.framework/Versions/3.3/bin:$PATH
+
 
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
@@ -89,3 +92,5 @@ if [ -e ~/.bash_personal ];
 then
     . ~/.bash_personal
 fi
+
+alias python2="python"
