@@ -31,8 +31,8 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
 # PYTHON
 # Setting Python Path
-export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+# export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
+# export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
 

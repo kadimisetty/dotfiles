@@ -56,14 +56,16 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
 # PYTHON
 # Setting Python Path
-export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+# export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
+# export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 # Add pip etc. as the default, if you want to use pip-2.7 call $pip-2.7
-export PATH=/Library/Frameworks/Python.framework/Versions/3.3/bin:$PATH
-
+# export PATH=/Library/Frameworks/Python.framework/Versions/3.3/bin:$PATH
 
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
+
+# Setting virtualenv3 
+alias virtualenv3="/usr/local/bin/virtualenv-3.3"
 
 
 # Terminal Color Settings
