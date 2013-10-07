@@ -49,9 +49,9 @@ Bundle 'tpope/vim-speeddating'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-tbone'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'wincent/Command-T'
 
 "Inactive Bundles {{{2
+" Bundle 'wincent/Command-T'
 " Bundle 'mhinz/vim-startify'
 " Bundle 'Lokaltog/vim-powerline'
 " Bundle 'Valloric/YouCompleteMe'
