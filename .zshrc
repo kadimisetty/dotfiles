@@ -40,6 +40,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/sbin
 
 
+
 # ------------------ FROM BASHRC
 # EDITOR
 ## Setting default bash command line editor to vim
@@ -63,6 +64,7 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
+export PYTHONSTARTUP=$HOME/.pythonstartup.py
 
 # Setting virtualenv3 
 alias virtualenv3="/usr/local/bin/virtualenv-3.3"
@@ -84,15 +86,15 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
 # Source a .aliases if it exists. Add to .gitignore
-if [ -e ~/.aliases ];
+if [ -e $HOME/.aliases ];
 then
-    . ~/.aliases
+    . $HOME/.aliases
 fi
 
 # Source a .bash_personal if it exists. Add to .gitignore
-if [ -e ~/.bash_personal ];
+if [ -e $HOME/.bash_personal ];
 then
-    . ~/.bash_personal
+    . $HOME/.bash_personal
 fi
 
 alias python2="python"
