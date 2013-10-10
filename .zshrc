@@ -64,7 +64,7 @@ export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
 # Setting Python Default Encoding to utf-8
 export PYTHONIOENCODING=utf-8
-export PYTHONSTARTUP=$HOME/.pythonstartup.py
+export PYTHONSTARTUP=$HOME/dev/personal/dotfiles/.pystartup
 
 # Setting virtualenv3 
 alias virtualenv3="/usr/local/bin/virtualenv-3.3"
