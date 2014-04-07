@@ -237,7 +237,7 @@ augroup END
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
 "Abbreviations
-iabbrev ccopy Copyright 2013 Sri Kadimisetty, all rights reserved unless otherwise noted.
+iabbrev ccopy Copyright 2014 Sri Kadimisetty
 
 command! W w
 command! Q q
@@ -298,9 +298,9 @@ nnoremap <D-6> g^
 nnoremap <D-0> g^
 "HANDY FUNCTIONS {{{1
 " Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
-" http://gist.github.com/thenoseman/4113709
+"   http://gist.github.com/thenoseman/4113709
 function! RubyExecuteLineWithMarker()
-    ruby << EOF
+ruby << EOF
         marker = '#=>'
         buffer = VIM::Buffer.current
         if buffer.line.match(/#{marker}/)
@@ -313,7 +313,6 @@ com! RubyExecuteLineWithMarker call RubyExecuteLineWithMarker()
 
 " Run  current buffer through a python interpreter
 map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
-
 
 " Initialise known file formats with my own starter templates
 if has("autocmd")
@@ -437,17 +436,15 @@ if has("unix")
 endif
 
 "Startify {{{2
-let g:startify_show_files_number = 10
-"
+" let g:startify_show_files_number = 10
 "Do not list these files, they just clog it up.
-let g:startify_skiplist = [
-            \ 'COMMIT_EDITMSG',
-            \ $VIMRUNTIME .'/doc',
-            \ 'bundle/.*/doc'
-            \ ]
-
-let g:startify_show_files = 1
-let g:startify_bookmarks = [ '~/dev/personal/dotfiles/.vimrc' ]
+" let g:startify_skiplist = [
+"             \ 'COMMIT_EDITMSG',
+"             \ $VIMRUNTIME .'/doc',
+"             \ 'bundle/.*/doc'
+"             \ ]
+" let g:startify_show_files = 1
+" let g:startify_bookmarks = [ '~/dev/personal/dotfiles/.vimrc' ]
 
 "CREDITS & INSPIRATION {{{1
 "Tim Pope (of course)

@@ -37,7 +37,7 @@ plugins=(git zsh-syntax-highlighting brew osx battery)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/sbin
+# export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/sbin
 
 
 

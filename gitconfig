@@ -71,6 +71,7 @@
     addrem = !git addremove
 
     sl = "!sh -c 'git show --color=always $1 | less -R' -"
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 
 [push]
     default = current
@@ -83,3 +84,12 @@
 
 [web]
     browser = open
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
