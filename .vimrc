@@ -7,53 +7,55 @@
 "PREAMBLE {{{1
 "Vundle installation requires the following to be in this order in the
 "beginning, before Vundle bundles are listed).
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle' 
-
 "Act like a grownup Vim, you're not vi anymore
 set nocompatible                          
+filetype off
+"Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"Let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
 
 "VIM BUNDLES {{{1
 "Active Bundles {{{2
 
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Shougo/neocomplcache'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'applescript.vim'
-Bundle 'arsenerei/vim-ragel'
-Bundle 'dahu/LearnVim'
-Bundle 'godlygeek/tabular' 
-Bundle 'gregsexton/MatchTag'
-Bundle 'groenewege/vim-less'
-Bundle 'guns/vim-clojure-static'
-Bundle 'kadimisetty/vim-simplebar'
-Bundle 'kadimisetty/vim-yenti'
-Bundle 'kien/ctrlp.vim'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'mikewest/vimroom'
-Bundle 'peterhoeg/vim-qml'
-Bundle 'rickharris/vim-blackboard'
-Bundle 'rizzatti/dash.vim'
-Bundle 'rizzatti/funcoo.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'sjl/gundo.vim'
-Bundle 'sjl/vitality.vim'
-Bundle 'sophacles/vim-processing'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-characterize'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-fireplace'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-speeddating'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-tbone'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-vinegar'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'Shougo/neocomplcache'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'applescript.vim'
+Plugin 'arsenerei/vim-ragel'
+Plugin 'dahu/LearnVim'
+Plugin 'godlygeek/tabular' 
+Plugin 'gregsexton/MatchTag'
+Plugin 'groenewege/vim-less'
+Plugin 'guns/vim-clojure-static'
+Plugin 'kadimisetty/vim-simplebar'
+Plugin 'kadimisetty/vim-yenti'
+Plugin 'kien/ctrlp.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'mikewest/vimroom'
+Plugin 'peterhoeg/vim-qml'
+Plugin 'rickharris/vim-blackboard'
+Plugin 'rizzatti/dash.vim'
+Plugin 'rizzatti/funcoo.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
+Plugin 'sjl/vitality.vim'
+Plugin 'sophacles/vim-processing'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-characterize'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fireplace'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-tbone'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-vinegar'
 "Inactive Bundles {{{2
 " Bundle 'wincent/Command-T'
 " Bundle 'mhinz/vim-startify'
@@ -69,6 +71,7 @@ Bundle 'tpope/vim-vinegar'
 " Bundle 'vimez/vim-showmarks'
 
 "Vundle Cleanup {{{2
+call vundle#end()  
 "Needs to be turned back on right here after done setting up Vundle
 filetype on                                 "Detect filetypes
 filetype plugin on                          "Activate builtin set of filetypes plugins
