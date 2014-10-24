@@ -1,4 +1,4 @@
-" vim: foldmethod=marker:foldlevel=0
+" vim: foldmethod=marker:foldlevel=0:nofoldenable:
 
 " INFO {{{1
 ".vimrc (Vim Configuration file)
@@ -17,24 +17,27 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 
-"VIM BUNDLES {{{1
-"Active Bundles {{{2
+"VIM Plugins {{{1
+"Active Plugins {{{2
 
+Plugin 'JulesWang/css.vim' 
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Shougo/neocomplcache'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'applescript.vim'
 Plugin 'arsenerei/vim-ragel'
+Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'dahu/LearnVim'
+Plugin 'fatih/vim-go'
 Plugin 'godlygeek/tabular' 
 Plugin 'gregsexton/MatchTag'
 Plugin 'groenewege/vim-less'
 Plugin 'guns/vim-clojure-static'
 Plugin 'kadimisetty/vim-simplebar'
-Plugin 'kadimisetty/vim-yenti'
 Plugin 'kien/ctrlp.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'mikewest/vimroom'
+Plugin 'nelstrom/vim-markdown-folding'
 Plugin 'peterhoeg/vim-qml'
 Plugin 'rickharris/vim-blackboard'
 Plugin 'rizzatti/dash.vim'
@@ -43,12 +46,14 @@ Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'sjl/vitality.vim'
 Plugin 'sophacles/vim-processing'
+Plugin 'toyamarinyon/vim-swift'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-characterize'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-speeddating'
@@ -56,19 +61,22 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-tbone'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-vinegar'
-"Inactive Bundles {{{2
-" Bundle 'wincent/Command-T'
-" Bundle 'mhinz/vim-startify'
-" Bundle 'Lokaltog/vim-powerline'
-" Bundle 'Valloric/YouCompleteMe'
-" Bundle 'Python-Syntax'
-" Bundle 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
-" Bundle 'klen/python-mode'
-" Bundle 'majutsushi/tagbar'
-" Bundle 'myusuf3/numbers.vim'
-" Bundle 'textobj-entire'
-" Bundle 'vim-scripts/YankRing.vim'
-" Bundle 'vimez/vim-showmarks'
+Plugin 'tybenz/vimdeck'
+
+"Inactive Plugins {{{2
+" Plugin 'fatih/vim-go'
+" Plugin 'wincent/Command-T'
+" Plugin 'mhinz/vim-startify'
+" Plugin 'Lokaltog/vim-powerline'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Python-Syntax'
+" Plugin 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
+" Plugin 'klen/python-mode'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'myusuf3/numbers.vim'
+" Plugin 'textobj-entire'
+" Plugin 'vim-scripts/YankRing.vim'
+" Plugin 'vimez/vim-showmarks'
 
 "Vundle Cleanup {{{2
 call vundle#end()  
@@ -103,7 +111,7 @@ set backspace=indent,eol,start              | "Allow backspace to work in the in
 set cpoptions+=$                            | "When making a change to one line , show a $ at end of changed text
 
 "Set status line akin to Derek Wyatt's preference - http://www.derekwyatt.org/vim/the-vimrc-file/better-settings/
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+" set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 set laststatus=2                            | "Always display a status line, even when there's just 1 window
 set mousehide                               | "Hide mouse pointer while typing
 set mouse=a                                 | "Automatically detect mouse usage
