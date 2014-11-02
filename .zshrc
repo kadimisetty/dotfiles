@@ -2,7 +2,7 @@
 ZSH=$HOME/.oh-my-zsh
 
 # Pick a theme from ~/.oh-my-zsh/themes/ or 'random' to load random theme
-ZSH_THEME="prose"
+ZSH_THEME="random"
 
 # Number of days to wait before autoupdate
 # DISABLE_AUTO_UPDATE="true" # Biweekly
@@ -62,3 +62,11 @@ function sourceFileIfExists() {
 
 sourceFileIfExists $HOME/.aliases 
 sourceFileIfExists $HOME/.bash_personal 
+
+
+
+# Aliases
+# Easier ls
+alias l="ls -lah"
+# Aliasing dtruss to strace, because htop doesnt know dtruss and strace doesnt exist in OSX
+alias strace="dtruss"
