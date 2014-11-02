@@ -35,6 +35,11 @@ export RUBYOPT=rubygems
 export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 ## Python {{{2
 export PYTHONSTARTUP=~/.pystartup
+## Heroku {{{2
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+## pyenv {{{2
+eval "$(pyenv init -)"
 
 
 # ALIASES {{{1
