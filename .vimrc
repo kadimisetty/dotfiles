@@ -1,10 +1,12 @@
 " vim: foldmethod=marker:foldlevel=0:nofoldenable:
 
-" INFO {{{1
+"INFO {{{1
 ".vimrc (Vim Configuration file)
-"Author:    Sri Kadimisetty
+"Author:    [Sri Kadimisetty](sri.io)
 "Credits:   Listed at the bottom
-"PREAMBLE {{{1
+
+"PLUGINS {{{1
+" Vundle Preamble {{{2
 "Vundle installation requires the following to be in this order in the
 "beginning, before Vundle bundles are listed).
 "Act like a grownup Vim, you're not vi anymore
@@ -17,9 +19,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 
-"VIM Plugins {{{1
-"Active Plugins {{{2
-
+" Plugins {{{2
+"Active Plugins {{{3
 Plugin 'JulesWang/css.vim' 
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Shougo/neocomplcache'
@@ -36,6 +37,7 @@ Plugin 'guns/vim-clojure-static'
 Plugin 'kadimisetty/vim-simplebar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'mhinz/vim-startify'
 Plugin 'mikewest/vimroom'
 Plugin 'nelstrom/vim-markdown-folding'
 Plugin 'peterhoeg/vim-qml'
@@ -63,7 +65,8 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tybenz/vimdeck'
 
-"Inactive Plugins {{{2
+"Inactive Plugins {{{3
+" Plugin 'majutsushi/tagbar'
 " Plugin 'fatih/vim-go'
 " Plugin 'wincent/Command-T'
 " Plugin 'mhinz/vim-startify'
@@ -72,7 +75,6 @@ Plugin 'tybenz/vimdeck'
 " Plugin 'Python-Syntax'
 " Plugin 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
 " Plugin 'klen/python-mode'
-" Plugin 'majutsushi/tagbar'
 " Plugin 'myusuf3/numbers.vim'
 " Plugin 'textobj-entire'
 " Plugin 'vim-scripts/YankRing.vim'
@@ -99,25 +101,23 @@ set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,.svn,.hg,.bzr,.git,
 
 "MISC PREFERENCES {{{1
 
-" let mapleader = ","                       | "Use default leader and leave the comma for search traversal
-syntax on                                   | "Turn on syntax highlighting
-set hidden                                  | "Unsaved bufers are allowed to move to the background
-set showmode                                | "Show current modeline
+" let mapleader = ","                       "Use default leader and leave the comma for search traversal
+syntax on                                   "Turn on syntax highlighting
+set hidden                                  "Unsaved bufers are allowed to move to the background
+set showmode                                "Show current modeline
 
-set key=                                    | "Disable encryption by making the key empty
-set autoread                                | "Sync loaded file to changes on disk
+set key=                                    "Disable encryption by making the key empty
+set autoread                                "Sync loaded file to changes on disk
 
-set backspace=indent,eol,start              | "Allow backspace to work in the insert mode
-set cpoptions+=$                            | "When making a change to one line , show a $ at end of changed text
+set backspace=indent,eol,start              "Allow backspace to work in the insert mode
+set cpoptions+=$                            "When making a change to one line , show a $ at end of changed text
 
-"Set status line akin to Derek Wyatt's preference - http://www.derekwyatt.org/vim/the-vimrc-file/better-settings/
-" set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
-set laststatus=2                            | "Always display a status line, even when there's just 1 window
-set mousehide                               | "Hide mouse pointer while typing
-set mouse=a                                 | "Automatically detect mouse usage
-set history=500                             | "Remember 500 items in history
+set laststatus=2                            "Always display a status line, even when there's just 1 window
+set mousehide                               "Hide mouse pointer while typing
+set mouse=a                                 "Automatically detect mouse usage
+set history=500                             "Remember 500 items in history
 
-set showcmd                                 | "Show partial command in the last line at the bottom
+set showcmd                                 "Show partial command in the last line at the bottom
 
 "Use the external program [`par`](http://www.nicemice.net/par/) to format paragraphs
 "gwip will still use vim's own formatprg
@@ -344,10 +344,6 @@ if has("autocmd")
 "endif
 
 "PLUGINS PREFS {{{1
-"Powerline {{{2
-" let g:Powerline_symbols = 'fancy'
-" set fillchars+=stl:\ ,stlnc:\
-
 "netrw {{{2
 let g:netrw_banner=0
 
@@ -365,59 +361,60 @@ let g:pymode_doc_key = 'K'
 "Autoremove unused whitespaces
 let g:pymode_utils_whitespaces = 1
 
-
-"Tagbar {{{2
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
-
 "Syntastic {{{2
-let g:syntastic_warning_symbol='⚠'
+let g:syntastic_warning_symbol='☡'
+""" Use python 3 executable if it exists
+let s:usr_syntastic_local_python_3_executable = exepath('python3')
+let s:usr_syntastic_preferred_python_version  = s:usr_syntastic_local_python_3_executable
+let g:syntastic_python_exec = s:usr_syntastic_preferred_python_version
+
 
 "Neocachecompl {{{2
-let g:neocomplcache_enable_at_startup=1
-let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
-let g:neocomplcache_enable_cursor_hold_i=1
-let g:neocomplcache_cursor_hold_i_time=300
-let g:neocomplcache_auto_completion_start_length=1
+" let g:neocomplcache_enable_at_startup=1
+" let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
+" let g:neocomplcache_enable_cursor_hold_i=1
+" let g:neocomplcache_cursor_hold_i_time=300
+" let g:neocomplcache_auto_completion_start_length=1
 
 "Tab / Shift-Tab to cycle completions
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 "Required to make neocomplcache_cursor_hold_i_time work - https://github.com/Shougo/neocomplcache/issues/140
-let s:update_time_save = &updatetime
-if has ("autocmd")
-    autocmd InsertEnter * call s:on_insert_enter()
-endif
+" let s:update_time_save = &updatetime
+" if has ("autocmd")
+"     autocmd InsertEnter * call s:on_insert_enter()
+" endif
 
-function! s:on_insert_enter()
-  if &updatetime > g:neocomplcache_cursor_hold_i_time
-    let s:update_time_save = &updatetime
-    let &updatetime = g:neocomplcache_cursor_hold_i_time
-  endif
-endfunction
+" function! s:on_insert_enter()
+"   if &updatetime > g:neocomplcache_cursor_hold_i_time
+"     let s:update_time_save = &updatetime
+"     let &updatetime = g:neocomplcache_cursor_hold_i_time
+"   endif
+" endfunction
 
-if has ("autocmd")
-    autocmd InsertLeave * call s:on_insert_leave()
-endif
+" if has ("autocmd")
+"     autocmd InsertLeave * call s:on_insert_leave()
+" endif
 
-function! s:on_insert_leave()
-  if &updatetime < s:update_time_save
-    let &updatetime = s:update_time_save
-  endif
-endfunction
+" function! s:on_insert_leave()
+"   if &updatetime < s:update_time_save
+"     let &updatetime = s:update_time_save
+"   endif
+" endfunction
 
 
 "Indent if we're at the beginning of a line. Else, do completion.
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
+" function! InsertTabWrapper()
+"     let col = col('.') - 1
+"     if !col || getline('.')[col - 1] !~ '\k'
+"         return "\<tab>"
+"     else
+"         return "\<c-p>"
+"     endif
+" endfunction
+" inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" inoremap <s-tab> <c-n>
 
 "Ctrl-p {{{2
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -425,7 +422,6 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -445,17 +441,6 @@ if has("unix")
         \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
         \ }
 endif
-
-"Startify {{{2
-" let g:startify_show_files_number = 10
-"Do not list these files, they just clog it up.
-" let g:startify_skiplist = [
-"             \ 'COMMIT_EDITMSG',
-"             \ $VIMRUNTIME .'/doc',
-"             \ 'bundle/.*/doc'
-"             \ ]
-" let g:startify_show_files = 1
-" let g:startify_bookmarks = [ '~/dev/personal/dotfiles/.vimrc' ]
 
 "CREDITS & INSPIRATION {{{1
 "Tim Pope (of course)

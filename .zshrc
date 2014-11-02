@@ -1,100 +1,64 @@
-# Path to your oh-my-zsh configuration.
+# Set oh-my-zsh configuration path
 ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
+# Pick a theme from ~/.oh-my-zsh/themes/ or 'random' to load random theme
 ZSH_THEME="prose"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# Number of days to wait before autoupdate
+# DISABLE_AUTO_UPDATE="true" # Biweekly
+export UPDATE_ZSH_DAYS=21
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
+# Load plugins from ~/.oh-my-zsh/plugins/ 
+# Custom plugins go in ~/.oh-my-zsh/custom/plugins
 plugins=(git zsh-syntax-highlighting brew osx battery)
 
+# Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-# export PATH=/Users/sri/.rvm/gems/ruby-1.9.3-p374/bin:/Users/sri/.rvm/gems/ruby-1.9.3-p374@global/bin:/Users/sri/.rvm/rubies/ruby-1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/heroku/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin:/usr/local/Cellar/ruby/1.9.3-p374/bin:/Users/sri/.rvm/bin:/usr/local/sbin
-
-
-
-# ------------------ FROM BASHRC
-# EDITOR
-## Setting default bash command line editor to vim
+# BASHRC
+# Setting default bash command line editor to vim
 export EDITOR=vim
 
-# required by tmux-powerline
-# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-
-
-#RUBY
+# RUBY
 export RUBYOPT=rubygems
 export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
 
-
 # PYTHON
-# Setting Python Path
-# export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python
-# export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
-# Add pip etc. as the default, if you want to use pip-2.7 call $pip-2.7
-# export PATH=/Library/Frameworks/Python.framework/Versions/3.3/bin:$PATH
-
-# Setting Python Default Encoding to utf-8
-export PYTHONIOENCODING=utf-8
-export PYTHONSTARTUP=$HOME/dev/personal/dotfiles/.pystartup
-
-# Setting virtualenv3 
-alias virtualenv3="/usr/local/bin/virtualenv-3.3"
-
 
 # Terminal Color Settings
 TERM=xterm-256color
 
-# Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+# Source relevant files
+function sourceFileIfExists() {
+    # Check if an argument has been supplied
+    if (( $# == 1 ))
+    then
+        # Source the argument as a file name if it exists
+        test -f $1 && source $1
+    fi
+}
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# function sourceFilesInArray() {
+#     # Check if an argument has been supplied
+#     if (( $# == 1 ))
+#     then
+#         # Source files in array 
+#         placeholderArray = $1
+#         for filetoBeSourced in ${placeholderArray[*]}
+#         do
+#             sourceFileIfExists filetoBeSourced
+#         done
+#     fi
+# }
 
-# Adding Anaconda onto the Shell Path
-#if [-e ~/anaconda ];
-#then
-#    export PATH=/Users/sri/anaconda/bin:$PATH
-#fi
 
 
-# Source a .aliases if it exists. Add to .gitignore
-if [ -e $HOME/.aliases ];
-then
-    . $HOME/.aliases
-fi
+# arrayOfFilestoSource = ( $HOME/.aliases $HOME/.bash_personal )
+# sourceFilesInArray arrayOfFilestoSource
 
-# Source a .bash_personal if it exists. Add to .gitignore
-if [ -e $HOME/.bash_personal ];
-then
-    . $HOME/.bash_personal
-fi
 
-alias python2="python"
+sourceFileIfExists $HOME/.aliases 
+sourceFileIfExists $HOME/.bash_personal 
