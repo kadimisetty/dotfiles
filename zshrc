@@ -33,13 +33,24 @@ COMPLETION_WAITING_DOTS="true"
 ## Ruby {{{2
 export RUBYOPT=rubygems
 export PATH=$PATH:/usr/local/Cellar/ruby/1.9.3-p374/bin
+
+## RVM {{{2
+### Load the default .profile
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
+### Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+### Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.rvm/bin"
+
 ## Python {{{2
 export PYTHONSTARTUP=~/.pystartup
+## pyenv {{{2
+eval "$(pyenv init -)"
+
 ## Heroku {{{2
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-## pyenv {{{2
-eval "$(pyenv init -)"
+
 
 
 # ALIASES {{{1
@@ -47,3 +58,5 @@ eval "$(pyenv init -)"
 alias l="ls -lah"
 # Aliasing dtruss to strace; because htop doesnt know dtruss and strace doesnt exist in OSX
 alias strace="dtruss"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
