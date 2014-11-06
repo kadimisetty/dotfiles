@@ -37,6 +37,7 @@ Plugin 'guns/vim-clojure-static'
 Plugin 'kadimisetty/vim-simplebar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'klen/python-mode'
 Plugin 'mhinz/vim-startify'
 Plugin 'mikewest/vimroom'
 Plugin 'nelstrom/vim-markdown-folding'
@@ -44,7 +45,7 @@ Plugin 'peterhoeg/vim-qml'
 Plugin 'rickharris/vim-blackboard'
 Plugin 'rizzatti/dash.vim'
 Plugin 'rizzatti/funcoo.vim'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'sjl/vitality.vim'
 Plugin 'sophacles/vim-processing'
@@ -58,6 +59,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-scriptease'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-tbone'
@@ -74,7 +76,6 @@ Plugin 'tybenz/vimdeck'
 " Plugin 'Valloric/YouCompleteMe'
 " Plugin 'Python-Syntax'
 " Plugin 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
-" Plugin 'klen/python-mode'
 " Plugin 'myusuf3/numbers.vim'
 " Plugin 'textobj-entire'
 " Plugin 'vim-scripts/YankRing.vim'
@@ -270,6 +271,12 @@ if has('conceal')
 endif
 
 "MOVEMENT {{{1
+"Tab Pages Movement {{{2
+" Move between tabs with just the <Tab> key
+nnoremap <Tab>      :tabnext<CR>
+nnoremap <S-Tab>    :tabprevious<CR>
+
+
 "Window Movement {{{2
 "Move focus to window facing h
 nnoremap <silent> <C-h> :wincmd h<CR>         
@@ -348,8 +355,8 @@ if has("autocmd")
 let g:netrw_banner=0
 
 "Python-mode {{{2
-"Disable pylint checking every save
-let g:pymode_lint_write = 0
+"Enable pylint checking every save
+let g:pymode_lint_write = 1
 "Set key 'R' for run python code
 let g:pymode_run_key = 'R'
 "Load show documentation plugin
@@ -360,6 +367,9 @@ let g:pymode_doc_key = 'K'
  let g:pymode_lint_maxheight = 3
 "Autoremove unused whitespaces
 let g:pymode_utils_whitespaces = 1
+" Set code checkers
+" let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
+let g:pymode_lint_checkers = ['pyflakes', 'mccabe', 'pep8']
 
 "Syntastic {{{2
 let g:syntastic_warning_symbol='☡'
