@@ -26,6 +26,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Shougo/neocomplcache'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'applescript.vim'
+Plugin 'VOoM'
 Plugin 'arsenerei/vim-ragel'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'dahu/LearnVim'
@@ -40,14 +41,16 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'klen/python-mode'
 Plugin 'mhinz/vim-startify'
 Plugin 'mikewest/vimroom'
+Plugin 'mitsuhiko/vim-jinja'
+Plugin 'mitsuhiko/vim-json'
 Plugin 'nelstrom/vim-markdown-folding'
 Plugin 'peterhoeg/vim-qml'
 Plugin 'rickharris/vim-blackboard'
 Plugin 'rizzatti/dash.vim'
 Plugin 'rizzatti/funcoo.vim'
-" Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'sjl/vitality.vim'
+Plugin 'slim-template/vim-slim'
 Plugin 'sophacles/vim-processing'
 Plugin 'toyamarinyon/vim-swift'
 Plugin 'tpope/vim-abolish'
@@ -58,6 +61,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-scriptease'
 Plugin 'tpope/vim-speeddating'
@@ -68,18 +72,19 @@ Plugin 'tpope/vim-vinegar'
 Plugin 'tybenz/vimdeck'
 
 "Inactive Plugins {{{3
-" Plugin 'majutsushi/tagbar'
-" Plugin 'fatih/vim-go'
-" Plugin 'wincent/Command-T'
-" Plugin 'mhinz/vim-startify'
 " Plugin 'Lokaltog/vim-powerline'
-" Plugin 'Valloric/YouCompleteMe'
 " Plugin 'Python-Syntax'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'fatih/vim-go'
 " Plugin 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
+" Plugin 'majutsushi/tagbar'
+" Plugin 'mhinz/vim-startify'
 " Plugin 'myusuf3/numbers.vim'
+" Plugin 'scrooloose/syntastic'
 " Plugin 'textobj-entire'
 " Plugin 'vim-scripts/YankRing.vim'
 " Plugin 'vimez/vim-showmarks'
+" Plugin 'wincent/Command-T'
 
 "Vundle Cleanup {{{2
 call vundle#end()  
@@ -131,6 +136,12 @@ set modelines=5
 "Save undo-history for a file EVEN AFTER a close and reopen. Yes, possible
 "Unfortunately, +persistent-undo feature is not avilable in this installation
 "set persistent-undo
+
+" Session preferences. Do not save some options into the sessions file, so
+" they dont override any vimrc changes made when the session is revoked later.
+set ssop-=options                           "Do'nt store global and local values into session file
+set ssop-=folds                             "Do'nt store folds into session file
+
 
 "
 "FILETYPE PREFERENCES {{{1
@@ -248,8 +259,6 @@ augroup WhiteSpaceCleaner
 augroup END
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
-"Abbreviations
-iabbrev ccopy Copyright 2014 Sri Kadimisetty
 
 command! W w
 command! Q q
@@ -265,9 +274,15 @@ nnoremap <silent> <leader>ss :set spell!<CR>
 "Edit vimrc 
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
 
+"Abbreviations
+iabbrev ccopy Copyright 2014 Sri Kadimisetty
+iabbrev html html
+iabbrev filetpye filetype
+
 "Conceals
 if has('conceal')
     syntax keyword pyNiceStatement lambda conceal cchar=λ
+    syntax keyword pyNiceStatement format conceal cchar=ƒ
 endif
 
 "MOVEMENT {{{1
@@ -315,6 +330,21 @@ nnoremap <D-4> g$
 nnoremap <D-6> g^
 nnoremap <D-0> g^
 "HANDY FUNCTIONS {{{1
+"Make a better writing env
+func! WordProcessorMode() 
+  setlocal formatoptions=1 
+  setlocal noexpandtab 
+  map j gj 
+  map k gk
+  setlocal spell spelllang=en_us 
+  set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
+  set complete+=s
+  set formatprg=par
+  setlocal wrap 
+  setlocal linebreak 
+endfu 
+com! WP call WordProcessorMode()
+
 " Execute current ruby line when there is a #=> marker at the end replacing it with the evaled result
 "   http://gist.github.com/thenoseman/4113709
 function! RubyExecuteLineWithMarker()
@@ -349,6 +379,7 @@ if has("autocmd")
 "if has ("autocmd")
 "    autocmd BufWritePost .vimrc source $MYVIMRC
 "endif
+
 
 "PLUGINS PREFS {{{1
 "netrw {{{2

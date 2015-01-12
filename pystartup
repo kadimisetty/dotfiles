@@ -33,4 +33,5 @@ else:
     import rlcompleter
     readline.parse_and_bind('tab: complete')
     atexit.register(save_history)
+
     del os, atexit, readline, rlcompleter, save_history, history_path
