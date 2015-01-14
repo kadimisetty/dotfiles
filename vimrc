@@ -5,93 +5,84 @@
 "Author:    [Sri Kadimisetty](sri.io)
 "Credits:   Listed at the bottom
 
-"PLUGINS {{{1
-" Vundle Preamble {{{2
-"Vundle installation requires the following to be in this order in the
-"beginning, before Vundle bundles are listed).
-"Act like a grownup Vim, you're not vi anymore
+" Make Vim mature
 set nocompatible                          
-filetype off
-"Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-"Let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
 
+"PLUGINS {{{1
+" Vim-Plug Preamble {{{2
+call plug#begin('~/.vim/plugged')
 
 " Plugins {{{2
 "Active Plugins {{{3
-Plugin 'JulesWang/css.vim' 
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'Shougo/neocomplcache'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'applescript.vim'
-Plugin 'VOoM'
-Plugin 'arsenerei/vim-ragel'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'dahu/LearnVim'
-Plugin 'fatih/vim-go'
-Plugin 'godlygeek/tabular' 
-Plugin 'gregsexton/MatchTag'
-Plugin 'groenewege/vim-less'
-Plugin 'guns/vim-clojure-static'
-Plugin 'kadimisetty/vim-simplebar'
-Plugin 'kien/ctrlp.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'klen/python-mode'
-Plugin 'mhinz/vim-startify'
-Plugin 'mikewest/vimroom'
-Plugin 'mitsuhiko/vim-jinja'
-Plugin 'mitsuhiko/vim-json'
-Plugin 'nelstrom/vim-markdown-folding'
-Plugin 'peterhoeg/vim-qml'
-Plugin 'rickharris/vim-blackboard'
-Plugin 'rizzatti/dash.vim'
-Plugin 'rizzatti/funcoo.vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'sjl/vitality.vim'
-Plugin 'slim-template/vim-slim'
-Plugin 'sophacles/vim-processing'
-Plugin 'toyamarinyon/vim-swift'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-characterize'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-obsession'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-scriptease'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-tbone'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-vinegar'
-Plugin 'tybenz/vimdeck'
+Plug 'JulesWang/css.vim' 
+Plug 'Lokaltog/vim-easymotion'
+Plug 'Shougo/neocomplcache'
+Plug 'altercation/vim-colors-solarized'
+Plug 'applescript.vim'
+Plug 'VOoM'
+Plug 'arsenerei/vim-ragel'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'dahu/LearnVim'
+Plug 'fatih/vim-go'
+Plug 'godlygeek/tabular' 
+Plug 'gregsexton/MatchTag'
+Plug 'groenewege/vim-less'
+Plug 'guns/vim-clojure-static'
+Plug 'kadimisetty/vim-simplebar'
+Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'klen/python-mode'
+Plug 'mhinz/vim-startify'
+Plug 'mikewest/vimroom'
+Plug 'mitsuhiko/vim-jinja'
+Plug 'mitsuhiko/vim-json'
+Plug 'nelstrom/vim-markdown-folding'
+Plug 'peterhoeg/vim-qml'
+Plug 'rickharris/vim-blackboard'
+Plug 'rizzatti/dash.vim'
+Plug 'rizzatti/funcoo.vim'
+Plug 'sjl/gundo.vim'
+Plug 'sjl/vitality.vim'
+Plug 'slim-template/vim-slim'
+Plug 'sophacles/vim-processing'
+Plug 'toyamarinyon/vim-swift'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-tbone'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'tybenz/vimdeck'
 
 "Inactive Plugins {{{3
-" Plugin 'Lokaltog/vim-powerline'
-" Plugin 'Python-Syntax'
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'fatih/vim-go'
-" Plugin 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
-" Plugin 'majutsushi/tagbar'
-" Plugin 'mhinz/vim-startify'
-" Plugin 'myusuf3/numbers.vim'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'textobj-entire'
-" Plugin 'vim-scripts/YankRing.vim'
-" Plugin 'vimez/vim-showmarks'
-" Plugin 'wincent/Command-T'
+" Plug 'Lokaltog/vim-powerline'
+" Plug 'Python-Syntax'
+" Plug 'Valloric/YouCompleteMe'
+" Plug 'fatih/vim-go'
+" Plug 'kana/vim-textobj-entire' | "@TODO - Fix error or file bug report
+" Plug 'majutsushi/tagbar'
+" Plug 'mhinz/vim-startify'
+" Plug 'myusuf3/numbers.vim'
+" Plug 'scrooloose/syntastic'
+" Plug 'textobj-entire'
+" Plug 'vim-scripts/YankRing.vim'
+" Plug 'vimez/vim-showmarks'
+" Plug 'wincent/Command-T'
 
-"Vundle Cleanup {{{2
-call vundle#end()  
-"Needs to be turned back on right here after done setting up Vundle
-filetype on                                 "Detect filetypes
-filetype plugin on                          "Activate builtin set of filetypes plugins
-filetype indent on                          "Activate builtin and computed indentations
+
+" Finish Vim-Plug
+call plug#end()
+
 
 "SEARCH {{{1
 set infercase                               "Infer case matching while doing keyword completions
@@ -145,6 +136,12 @@ set ssop-=folds                             "Do'nt store folds into session file
 
 "
 "FILETYPE PREFERENCES {{{1
+
+" Filetype settings
+filetype on                                 "Detect filetypes
+filetype plugin on                          "Activate builtin set of filetypes plugins
+filetype indent on                          "Activate builtin and computed indentations
+
 
 "Set Tabs & Spaces for filetyes {{{2
 " Only do this part when compiled with support for autocommands
@@ -279,11 +276,6 @@ iabbrev ccopy Copyright 2014 Sri Kadimisetty
 iabbrev html html
 iabbrev filetpye filetype
 
-"Conceals
-if has('conceal')
-    syntax keyword pyNiceStatement lambda conceal cchar=λ
-    syntax keyword pyNiceStatement format conceal cchar=ƒ
-endif
 
 "MOVEMENT {{{1
 "Tab Pages Movement {{{2
