@@ -2,36 +2,36 @@
 # vim: set fileencoding=utf-8 filetype=python:
 
 '''
-For reference
+PURPOSE:
+Make readline friendly with tab automcomplete
+and save history to file
+
+NOTES:
 1. `man python` and search for `PYTHONSTARTUP` variable
 2. https://github.com/stroparo/czlinux/blob/7eaab90a10fc28b89f3bb9d13682f10e74381364/conf/pystartup
 3. http://docs.python.org/3.3/library/rlcompleter.html
-
-Purpose
-- Make the readline behave more friendly by
-    1. Using tab to autocomplete
-    2. Save user history to a file
-    3. Allow prompt1 and prompt2 customisation
 '''
 
 import atexit
 import os
+import readline
+import rlcompleter
 
 
-try:
-    import readline
-except ImportError:
-    print('Module readline isnt available.')
-else:
-    def save_history(history_path):
-        readline.write_history_file(history_path)
+# Save startup history path
+history_path = os.getenv('PYTHONSTARTUP')
 
-    history_path = os.path.expanduser("~/.pyhistory")
-    if os.path.exists(history_path):
-        readline.read_history_file(history_path)
+# Read startup history
+if os.path.exists(history_path):
+    readline.read_history_file(history_path)
 
-    import rlcompleter
-    readline.parse_and_bind('tab: complete')
-    atexit.register(save_history)
+# Setup Automcomplete
+readline.parse_and_bind('tab: complete')
 
-    del os, atexit, readline, rlcompleter, save_history, history_path
+
+# Save startup history on python shell exit
+atexit.register(readline.write_history_file, history_path)
+
+
+# Destroy unused variables
+del os, atexit, readline, rlcompleter, history_path

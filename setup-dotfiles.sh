@@ -32,6 +32,9 @@ function link-source-to-target () {
 }
 
 
+## Vim Setup {{{2
+### Vim-Plug {{{3
+
 ## Vundle {{{2
 ### These vundle helpers are from oh-my-zsh's Vundle plugin
 function vundle-init () {
