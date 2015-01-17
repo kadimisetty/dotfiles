@@ -154,20 +154,21 @@ if has("autocmd")
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-  " Treat .rss files as XML
+  " Treat .rss files as XML. Place bfore encoding.
   autocmd BufNewFile,BufRead *.rss setfiletype xml
 endif
 
 " Vi Folding Specifics {{{2
 augroup ft_vim
-    au!
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType help setlocal textwidth=78
+    autocmd BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    
+    "Use md for markdown instead of the default module2
+    autocmd BufNewFile,BufRead *.md  setf markdown
 augroup END
 
-"Use md for markdown instead of the default module2
-au BufNewFile,BufRead *.md  setf markdown
 
 "INDENTS & FOLDS {{{1
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
@@ -203,7 +204,7 @@ set pastetoggle=<F12>                       "Same indentation on pastes
 set cf                                      "Allow error files and error jumping
 set timeoutlen=350                          "Wait for this long anticipating for a command
 
-scriptencoding  utf-8                       "Set character encoding in the script
+scriptencoding  utf-8                       "Set character encoding in the script. Place bfore encoding.
 set encoding=utf-8                          "Set default file encoding to UTF-8
 set title                                   "Enable setting title
 set wildmenu                                "Perform things like menu completion with wildchar(often tab) etc.
@@ -221,8 +222,8 @@ set printoptions=header:0,duplex:long,paper:A4
 set showbreak=…
 
 "UI CHANGES {{{1
-set number                                  "Display line numbers
-set ruler                                   "Display line nujmber and cursor position
+" set number                                  "Display line numbers
+" set ruler                                   "Display line nujmber and cursor position
 set nostartofline                           "Do not shift cursor back to line beginning while scrolling
 set report=0                                "Threshold for number of lines changed
 set ch=2                                    "Command line height(1 is default)
@@ -242,7 +243,6 @@ set nocursorline                            "Highlight the screen line of cursor
 set nocursorcolumn                          "Highlight the screen column of cursor
 syntax enable                               "Enable Syntax highlighting
 
-" set background=light                       "Use a theme with a light background 
 set background=dark                         "Use a theme with a dark background 
 silent! colorscheme solarized               "Turn on solarized colorscheme (solarized is not a builtin theme)
 
@@ -391,9 +391,17 @@ let g:pymode_doc_key = 'K'
 "Autoremove unused whitespaces
 let g:pymode_utils_whitespaces = 1
 " Set code checkers
-" let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
 let g:pymode_lint_checkers = ['pyflakes', 'mccabe', 'pep8']
+"Enable Python folding
+let g:pymode_folding = 1
+"Disable documentation
+let g:pymode_doc = 0
+"Enable quick pasting of breakpoint (pdb)
+let g:pymode_breakpoint = 1
+"Make quickfix window 1 line smaller
+let g:pymode_quickfix_maxheight = 5
 
+"
 "Syntastic {{{2
 let g:syntastic_warning_symbol='☡'
 """ Use python 3 executable if it exists
@@ -401,53 +409,6 @@ let s:usr_syntastic_local_python_3_executable = exepath('python3')
 let s:usr_syntastic_preferred_python_version  = s:usr_syntastic_local_python_3_executable
 let g:syntastic_python_exec = s:usr_syntastic_preferred_python_version
 
-
-"Neocachecompl {{{2
-" let g:neocomplcache_enable_at_startup=1
-" let g:neocomplcache_enable_auto_select=1 "Select the first entry automatically
-" let g:neocomplcache_enable_cursor_hold_i=1
-" let g:neocomplcache_cursor_hold_i_time=300
-" let g:neocomplcache_auto_completion_start_length=1
-
-"Tab / Shift-Tab to cycle completions
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
-"Required to make neocomplcache_cursor_hold_i_time work - https://github.com/Shougo/neocomplcache/issues/140
-" let s:update_time_save = &updatetime
-" if has ("autocmd")
-"     autocmd InsertEnter * call s:on_insert_enter()
-" endif
-
-" function! s:on_insert_enter()
-"   if &updatetime > g:neocomplcache_cursor_hold_i_time
-"     let s:update_time_save = &updatetime
-"     let &updatetime = g:neocomplcache_cursor_hold_i_time
-"   endif
-" endfunction
-
-" if has ("autocmd")
-"     autocmd InsertLeave * call s:on_insert_leave()
-" endif
-
-" function! s:on_insert_leave()
-"   if &updatetime < s:update_time_save
-"     let &updatetime = s:update_time_save
-"   endif
-" endfunction
-
-
-"Indent if we're at the beginning of a line. Else, do completion.
-" function! InsertTabWrapper()
-"     let col = col('.') - 1
-"     if !col || getline('.')[col - 1] !~ '\k'
-"         return "\<tab>"
-"     else
-"         return "\<c-p>"
-"     endif
-" endfunction
-" inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-" inoremap <s-tab> <c-n>
 
 "Ctrl-p {{{2
 set runtimepath^=~/.vim/bundle/ctrlp.vim
