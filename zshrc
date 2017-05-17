@@ -3,14 +3,11 @@
 # GENERAL SH CONFIGURATION{{{1
 # Default Editor
 export EDITOR=vim
-# Terminal Color Settings
-TERM=xterm-256color
 
 
 # ZSH {{{1
 # Init {{{2
 # Number of days to wait before autoupdate
-export UPDATE_ZSH_DAYS=21
 # oh-my-zsh Configuration Path
 ZSH=$HOME/.oh-my-zsh
 
@@ -18,7 +15,7 @@ ZSH=$HOME/.oh-my-zsh
 # Plugins in ~/.oh-my-zsh/plugins. Custom plugins in ~/.oh-my-zsh/custom/plugins
 plugins=(git zsh-syntax-highlighting vundle xcode)
 # Themes in ~/.oh-my-zsh/themes. Custom themes in ~/.oh-my-zsh/custom/themes
-ZSH_THEME="pose"
+ZSH_THEME="robbyrussell"
 
 # Source {{{2
 # Source oh-my-zsh ONLY after setting up plugins & themes
@@ -46,11 +43,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PYTHONSTARTUP=~/.pystartup
 ## pyenv {{{2
 eval "$(pyenv init -)"
-
-## Heroku {{{2
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
 
 
 # ALIASES {{{1
