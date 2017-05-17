@@ -1,3 +1,4 @@
+" Vim Configuration File
 " vim: foldmethod=marker:foldlevel=0:nofoldenable:
 
 "PLUGINS {{{1
