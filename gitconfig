@@ -1,9 +1,6 @@
 [user]
 	name = Sri Kadimisetty
-	email = s@sri.io
-
-[credential]
-	helper = osxkeychain
+	email = kadimisetty@users.noreply.github.com
 
 [core]
     pager = cat
@@ -15,7 +12,6 @@
     branches = branch -a
     remotes = remote -v
 
-    make-the-fucking-branch-point-at-the-fucking-commit = !sh -c "git checkout $1 && git reset --hard $2" -
     root = rev-parse --show-toplevel
 
     graft = cherry-pick -x
@@ -84,12 +80,7 @@
 
 [web]
     browser = open
+
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
