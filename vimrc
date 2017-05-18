@@ -1,6 +1,7 @@
 " Vim Configuration File
 " vim: foldmethod=marker:foldlevel=0:nofoldenable:
 
+
 "PLUGINS {{{1
 "Vim-Plug {{{2
 call plug#begin('~/.vim/plugged')
