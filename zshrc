@@ -5,7 +5,7 @@
 # PLUGINS & THEMES {{{1
 # Plugins in ~/.oh-my-zsh/plugins. 
 # Custom plugins in ~/.oh-my-zsh/custom/plugins
-plugins=(git zsh-syntax-highlighting pyenv python sudo xcode django)
+plugins=(git zsh-syntax-highlighting pyenv python sudo xcode)
 
 # Themes in ~/.oh-my-zsh/themes.
 # Custom themes in ~/.oh-my-zsh/custom/themes
