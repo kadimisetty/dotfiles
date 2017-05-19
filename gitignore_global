@@ -33,6 +33,8 @@
 # Misc #
 ######################
 .jekyll-metadata
+_site
+.sass-cache
 
 
 # OS generated files #
