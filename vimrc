@@ -9,18 +9,19 @@ call plug#begin('~/.vim/plugged')
 "Plugins {{{2
 "Inactive Plugins {{{3
 "Active Plugins {{{3
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'godlygeek/tabular'
+Plug 'gregsexton/MatchTag'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/tpope-vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
-Plug 'mhinz/vim-signify'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-markdown'
-Plug 'godlygeek/tabular'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
-Plug 'gregsexton/MatchTag'
 
 "Finish Vim-Plug
 call plug#end()
