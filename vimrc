@@ -13,6 +13,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/MatchTag'
 Plug 'mhinz/vim-signify'
+Plug 'tomlion/vim-solidity'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -22,6 +23,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 
 "Finish Vim-Plug
 call plug#end()
@@ -171,7 +173,7 @@ set nocursorline                    "Highlight the screen line of cursor
 set nocursorcolumn                  "Highlight the screen column of cursor
 syntax enable                       "Enable Syntax highlighting
 
-set background=dark                 "Use a theme with a dark background 
+set background=light                "Use a theme with a dark background 
 
 set splitbelow                      "Position newly split windows to thebelow
 set splitright                      "Position newly split windows to the right
@@ -252,20 +254,22 @@ nnoremap <D-0> g^
 
 
 "HANDY FUNCTIONS {{{1
-"Make a "Word Proessor" writing environment {{{2
-func! WordProcessorMode() 
-  " set thesaurus+=/Users/sbrown/.vim/thesaurus/mthesaur.txt
+"Make environment writing friendly {{{2
+func! WriteMode() 
   setlocal formatoptions=1 
   setlocal noexpandtab 
-  map j gj 
+  "gj and gk move with wrapped lines
+  map j gj i
   map k gk
+  "Set spelling dictionry to US
   setlocal spell spelllang=en_us 
   set complete+=s
+  "Use external program `par` to format paragraph
   set formatprg=par
   setlocal wrap 
   setlocal linebreak 
 endfu 
-com! WP call WordProcessorMode()
+com! WP call WriteMode()
 
 " Run  current buffer through a python interpreter {{{2
 " TODO - Accomodate both python versions
