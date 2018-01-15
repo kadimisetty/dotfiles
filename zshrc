@@ -36,6 +36,7 @@ export EDITOR=vim
 #
 # ALIASES {{{1
 alias l="ls -lah"
+alias v="vim"
 
 # Enable Ctrl-S and Strl=P {{{2
 # # enable control-s and control-q
