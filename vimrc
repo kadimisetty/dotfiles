@@ -163,6 +163,14 @@ set formatoptions+=n                "Support lists (numbered, bulleted)
 set virtualedit=block               "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full                   "Tab-Completion ala zsh
 
+"Change cursor shape specifically in iTerm
+"https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
+if $TERM_PROGRAM =~ "iTerm"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+    let &t_SR = "\<esc>]50;CursorShape=2\x7" " Underline in replace mode
+endif
+
 set debug=msg,throw                 "Show error messages and throw exceptions
 
 "Show ellipsis on a soft break
