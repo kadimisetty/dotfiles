@@ -9,9 +9,12 @@ call plug#begin('~/.vim/plugged')
 "Plugins {{{2
 "Inactive Plugins {{{3
 "Active Plugins {{{3
+Plug 'bps/vim-textobj-python'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/MatchTag'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-user'
 Plug 'mhinz/vim-signify'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/tpope-vim-abolish'
@@ -21,6 +24,7 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 

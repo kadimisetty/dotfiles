@@ -43,3 +43,5 @@ alias v="vim"
 stty start undef
 stty stop undef
 setopt noflowcontrol
+
+export PATH=/Users/sri/.local/bin:$PATH
