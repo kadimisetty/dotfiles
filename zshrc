@@ -24,7 +24,8 @@ source $ZSH/oh-my-zsh.sh
 # Ruby rbenv {{{2
 # Load rbenv for using a non-system ruby version
 eval "$(rbenv init -)"
-
+# Flutter SDK setup {{{2
+export PATH=$PATH:~/dev/external/flutter-setup/flutter/bin
 
 # PREFERENCES {{{1
 # Display red dots while waiting for completion

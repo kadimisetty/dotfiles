@@ -9,14 +9,17 @@ call plug#begin('~/.vim/plugged')
 "Plugins {{{2
 "Inactive Plugins {{{3
 "Active Plugins {{{3
+Plug 'airblade/vim-gitgutter'
+Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
-Plug 'gregsexton/MatchTag'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
-Plug 'mhinz/vim-signify'
-Plug 'tomlion/vim-solidity'
+Plug 'mattn/emmet-vim'
+Plug 'mxw/vim-jsx'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'pangloss/vim-javascript'
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -24,10 +27,8 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 
 "Finish Vim-Plug
 call plug#end()
@@ -175,7 +176,8 @@ if $TERM_PROGRAM =~ "iTerm"
     let &t_SR = "\<esc>]50;CursorShape=2\x7" " Underline in replace mode
 endif
 
-set debug=msg,throw                 "Show error messages and throw exceptions
+"Show error messages and throw exceptions
+" set debug=msg,throw
 
 "Show ellipsis on a soft break
 set showbreak=…
@@ -183,12 +185,15 @@ set showbreak=…
 set synmaxcol=2048                  "For performance, only do syntax highlight upto these columns
 set nocursorline                    "Highlight the screen line of cursor
 set nocursorcolumn                  "Highlight the screen column of cursor
-syntax enable                       "Enable Syntax highlighting
-
-set background=light                "Use a theme with a dark background 
 
 set splitbelow                      "Position newly split windows to thebelow
 set splitright                      "Position newly split windows to the right
+
+syntax enable                       "Enable Syntax highlighting
+
+"Use ColorScheme Solarized
+set background=dark
+colorscheme solarized
 
 "Remove trailing whitespaces and ^M characters {{{2
 augroup WhiteSpaceCleaner
@@ -285,12 +290,12 @@ com! WP call WriteMode()
 
 " Run  current buffer through a python interpreter {{{2
 " TODO - Accomodate both python versions
-map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
+" map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
 " Initialise known file formats with my own starter templates {{{2
 if has("autocmd")
     " TODO - Create these templates
-    " autocmd BufNewFile * silent! 0r ~/.vim/templates/template.%:e
+    autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
 endif
 
 " Jump to the last known valid cursor position {{{2
@@ -306,7 +311,7 @@ if has("autocmd")
 "netrw {{{2
 let g:netrw_banner=0
 
-"Airline {{{@
+"Airline {{{2
 let g:airline_theme='solarized'
 
 let g:airline_symbols = {}
@@ -324,6 +329,9 @@ let g:airline#extensions#tabline#show_tab_nr = 1
 "Ctrl-P {{{2
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+"Ignore Files in .gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
 
 
 "CREDITS & INSPIRATION {{{1
