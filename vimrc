@@ -334,6 +334,12 @@ let g:ctrlp_cmd = 'CtrlP'
 "Ignore Files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
+"pangloss/vim-javascript {{{2
+"Conceal corresponding keywords with symbols
+let g:javascript_conceal_arrow_function = "⇒"
+let g:javascript_conceal_arrow_function = "⇒"
+"Enable Concealing
+set conceallevel=1
 
 
 "CREDITS & INSPIRATION {{{1
