@@ -306,9 +306,8 @@ com! WP call WriteMode()
 " TODO - Accomodate both python versions
 " map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
 
-" Initialise known file formats with my own starter templates {{{2
+" Initialise new files with corresponding skeleton templates {{{2
 if has("autocmd")
-    " TODO - Create these templates
     autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
 endif
 
@@ -335,7 +334,12 @@ let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 "Airline {{{2
 let g:airline_theme='solarized'
 
-let g:airline_symbols = {}
+" let g:airline_statusline_ontop=1 "Show Airline tabbar at the top
+" let g:airline_extensions = [] "Stop all Airline Extensions
+
+if !exists('g:airline_symbols') 
+  let g:airline_symbols = {}    
+endif                           
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
