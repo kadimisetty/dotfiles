@@ -55,17 +55,17 @@ syntax on               "Turn on syntax highlighting
 set hidden              "Unsaved bufers are allowed to move to the background
 set showmode            "Show current modeline
 set autoread            "Sync loaded file to changes on disk
-set laststatus=2        "Always display a status line, even when there's just 1 window
+set laststatus=2        "Always display a status line, even with only 1 window
 set mousehide           "Hide mouse pointer while typing
 set mouse=a             "Automatically detect mouse usage
 set history=500         "Remember 500 items in history
 set showcmd             "Show partial command in the last line at the bottom
 
-"Use the external program [`par`](http://www.nicemice.net/par/) to format paragraphs
+"Use external program [`par`](http://www.nicemice.net/par/) to format paragraphs
 "gwip will still use vim's own formatprg
 set formatprg=par\ -w50
 
-"Look for vim modelines in the first 3 lines of a file(3 to allow for encoding, title)
+"Expect vim modelines in the first 3 lines (3 to allow for encoding, title)
 set modeline
 set modelines=3
 
@@ -85,17 +85,19 @@ filetype indent on      "Activate builtin and computed indentations
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
   filetype on
-  " Syntax of these languages is fussy over tabs Vs spaces
+  " make and yaml files are particular about whitespace syntax
   autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-  " Customisations based on house-style (arbitrary)
+  " Treat .rss files as XML. Place bfore encoding.
+  autocmd BufNewFile,BufRead *.rss setfiletype xml
+  " Customisations based on preferences
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-  " Treat .rss files as XML. Place bfore encoding.
-  autocmd BufNewFile,BufRead *.rss setfiletype xml
 endif
 
+
+"INDENTS & FOLDS {{{1
 " Vi Folding Specifics {{{2
 augroup ft_vim
     autocmd!
@@ -106,9 +108,6 @@ augroup ft_vim
     "Use md for markdown instead of the default module2
     autocmd BufNewFile,BufRead *.md  setf markdown
 augroup END
-
-
-"INDENTS & FOLDS {{{1
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
 set foldlevelstart=1
@@ -169,18 +168,18 @@ set foldtext=NeatFoldText()
 
 
 "UI CHANGES {{{1
-set number                          "Display line numbers
-set ruler                           "Display line nujmber and cursor position
-set nostartofline                   "Do not shift cursor back to line beginning while scrolling
-set report=0                        "Threshold for number of lines changed
-set ch=2                            "Command line height(1 is default)
-set nolazyredraw                    "Redraw screen while executing macros, registers, untyped commands etc.
-set showmatch                       "When cursor is on bracket, briefly jump to coupled bracket
-set mat=5                           "Spend this much time switching the cursor to the coupled bracket
-set visualbell                      "Show a visual indication instead of ringing an annoying bell.
-set formatoptions+=n                "Support lists (numbered, bulleted)
-set virtualedit=block               "Allow cursor to go to invalid places only in visually selected blocks
-set wildmode=full                   "Tab-Completion ala zsh
+set number              "Display line numbers
+set ruler               "Display line number and cursor position
+set nostartofline       "Do not shift cursor back to line beginning while scrolling
+set report=0            "Threshold for number of lines changed
+set ch=2                "Command line height(1 is default)
+set nolazyredraw        "Redraw screen while executing macros, registers, untyped commands etc.
+set showmatch           "When cursor is on bracket, briefly jump to coupled bracket
+set mat=5               "Spend this much time switching the cursor to the coupled bracket
+set visualbell          "Show a visual indication instead of ringing an annoying bell.
+set formatoptions+=n    "Support lists (numbered, bulleted)
+set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
+set wildmode=full       "Tab-Completion ala zsh
 
 "Change cursor shape specifically in iTerm
 "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
@@ -196,16 +195,16 @@ endif
 "Show ellipsis on a soft break
 set showbreak=…
 
-set synmaxcol=2048                  "For performance, only do syntax highlight upto these columns
-set nocursorline                    "Highlight the screen line of cursor
-set nocursorcolumn                  "Highlight the screen column of cursor
+set synmaxcol=2048      "For performance, only do syntax highlight upto these columns
+set nocursorline        "Highlight the screen line of cursor
+set nocursorcolumn      "Highlight the screen column of cursor
 
-set splitbelow                      "Position newly split windows to thebelow
-set splitright                      "Position newly split windows to the right
+set splitbelow          "Position newly split windows to thebelow
+set splitright          "Position newly split windows to the right
 
-syntax enable                       "Enable Syntax highlighting
+syntax enable           "Enable Syntax highlighting
 
-"Use ColorScheme Solarized
+"Use ColorScheme Dark Solarized
 set background=dark
 colorscheme solarized
 
@@ -262,9 +261,8 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 
 "MAPPINGS {{{1
 "In Command line, make <C-p> and <C-n> behave like <Up> and <Down> {{{2
-" else they do not filter command line history
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
+" cnoremap <C-p> <Up>
+" cnoremap <C-n> <Down>
 
 " Save with Ctrl-S {{{2
 noremap <C-S>      :update<CR>
@@ -272,16 +270,17 @@ vnoremap <C-S>     <C-C>:update<CR>
 inoremap <C-S>     <C-O>:update<CR>
 
 "Move across "softly-wrapped" lines {{{2
-vnoremap <D-j> gj
-vnoremap <D-k> gk
-vnoremap <D-4> g$
-vnoremap <D-6> g^
-vnoremap <D-0> g^
+"<D> is the OSX Command Key
 nnoremap <D-j> gj
 nnoremap <D-k> gk
 nnoremap <D-4> g$
 nnoremap <D-6> g^
 nnoremap <D-0> g^
+vnoremap <D-j> gj
+vnoremap <D-k> gk
+vnoremap <D-4> g$
+vnoremap <D-6> g^
+vnoremap <D-0> g^
 
 
 "HANDY FUNCTIONS {{{1
@@ -302,9 +301,11 @@ func! WriteMode()
 endfu 
 com! WP call WriteMode()
 
-" Run  current buffer through a python interpreter {{{2
-" TODO - Accomodate both python versions
-" map <buffer> <S-e> :w<CR>:!/usr/bin/env python % <CR>
+" Run current buffer through a python interpreter {{{2
+" <S-e> is Shift-E
+" TODO - Accomodate both 3.x(default) and 2.7
+" TODO - Run only selection
+" map <buffer> <S-e> :w<CR>:!/usr/bin/env python3 % <CR>
 
 " Initialise new files with corresponding skeleton templates {{{2
 if has("autocmd")
@@ -320,7 +321,7 @@ if has("autocmd")
  endif
 
 
-"PLUGINS PREFS {{{1
+"PLUGINS PREFERENCES {{{1
 "netrw {{{2
 let g:netrw_banner=0
 
@@ -333,10 +334,11 @@ let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 
 "Airline {{{2
 let g:airline_theme='solarized'
-
 " let g:airline_statusline_ontop=1 "Show Airline tabbar at the top
 " let g:airline_extensions = [] "Stop all Airline Extensions
 
+" Initialize Airline Symbols if not created. 
+" Avoid overwriting existing Airline symbols
 if !exists('g:airline_symbols') 
   let g:airline_symbols = {}    
 endif                           
@@ -358,18 +360,20 @@ let g:airline#extensions#ctrlp#color_template = 'normal'
 let g:airline#extensions#ctrlp#color_template = 'visual'
 let g:airline#extensions#ctrlp#color_template = 'replace'
 "Within CtrlP window show the previous and next modes (mru, buffer, etc.)
+" To switch through those modes use forward: <C-f> and backward <C-d> 
 let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 
 "pangloss/vim-javascript {{{2
-"Conceal corresponding keywords with symbols
-let g:javascript_conceal_arrow_function = "⇒"
-let g:javascript_conceal_arrow_function = "⇒"
 "Enable Concealing
 set conceallevel=1
+"Conceal corresponding keywords with symbols
+let g:javascript_conceal_arrow_function = "⇒"
+let g:javascript_conceal_function = "ƒ"
 
 
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty 
+"External Inspirations:
 "Tim Pope (of course)
 "Ryan Tomayko
 "Drew Neil
