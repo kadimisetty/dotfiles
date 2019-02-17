@@ -325,6 +325,13 @@ if has("autocmd")
 "netrw {{{2
 let g:netrw_banner=0
 
+"Ctrl-P {{{2
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+"Ignore Files in .gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
+
 "Airline {{{2
 let g:airline_theme='solarized'
 
@@ -340,11 +347,14 @@ let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#close_symbol = '×'
 let g:airline#extensions#tabline#show_tab_nr = 1
 
-"Ctrl-P {{{2
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-"Ignore Files in .gitignore
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+"Airline support for CtrlP. Select mode colors to use in CtrlP window 
+"(Only effective if active airline theme doesn't define ctrlp colors)
+let g:airline#extensions#ctrlp#color_template = 'insert' "(default)
+let g:airline#extensions#ctrlp#color_template = 'normal'
+let g:airline#extensions#ctrlp#color_template = 'visual'
+let g:airline#extensions#ctrlp#color_template = 'replace'
+"Within CtrlP window show the previous and next modes (mru, buffer, etc.)
+let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 
 "pangloss/vim-javascript {{{2
 "Conceal corresponding keywords with symbols
