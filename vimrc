@@ -31,11 +31,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " vim-prettier installs it's own prettier with npm. 
-" Also enable for listed formats. to enable fpr all do 
+" Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-" Plug 'prettier/vim-prettier', {
-"   \ 'do': 'npm install',
-"   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
