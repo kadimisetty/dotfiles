@@ -30,6 +30,13 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" vim-prettier installs it's own prettier with npm. 
+" Also enable for listed formats. to enable fpr all do 
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'npm install',
+"   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
 
@@ -94,7 +101,7 @@ if has("autocmd")
   " Customisations based on preferences
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+  " autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
 endif
 
 
@@ -326,12 +333,20 @@ if has("autocmd")
 "netrw {{{2
 let g:netrw_banner=0
 
+"Prettier {{{2
+"Don't change focus to quickfix window on errors
+let g:prettier#quickfix_auto_focus = 1
+
 "Ctrl-P {{{2
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 "Ignore Files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
+"TODO: Customise CtrlP Status window 
+" Intent - Include instruction "Use <C-F> to select next mode"
+" Example - https://gist.github.com/kien/1610859
 
 "Airline {{{2
 let g:airline_theme='solarized'
