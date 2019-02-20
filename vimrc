@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
+Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'kana/vim-textobj-entire'
@@ -130,6 +131,7 @@ set nowrap                  "Wrap Long lines
 set autoindent              "Indent as previous line
 set softtabstop=4
 set shiftwidth=4            "Use indents as length of 4 spaces
+set shiftround              "Round indent to multiple of 'shiftwidth'
 set tabstop=4               "A tab counts for these many spaces
 set backspace=2             "Make backspace behave more like the popular usage
 
