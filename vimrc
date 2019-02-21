@@ -99,7 +99,7 @@ if has("autocmd")
   " Customisations based on preferences
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-  " autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+  autocmd FileType javascript setlocal ts=2 sts=4 sw=4 noexpandtab
 endif
 
 
@@ -333,6 +333,8 @@ if has("autocmd")
 let g:netrw_banner=0
 
 "Prettier {{{2
+" max line length that prettier will wrap on
+let g:prettier#config#print_width = 60
 "Don't change focus to quickfix window on errors
 let g:prettier#quickfix_auto_focus = 1
 
