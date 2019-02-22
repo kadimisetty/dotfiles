@@ -30,6 +30,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale'
 
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
@@ -336,7 +337,18 @@ let g:netrw_banner=0
 " max line length that prettier will wrap on
 let g:prettier#config#print_width = 60
 "Don't change focus to quickfix window on errors
-let g:prettier#quickfix_auto_focus = 1
+" let g:prettier#quickfix_auto_focus = 1
+
+"ALE {{{2
+"Lint after leading Insert Mode. Off by Default
+let g:ale_lint_on_insert_leave = 1
+"Lint only on save 
+" let g:ale_lint_on_save = 1
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '⚠'
+let g:ale_fixers = {
+\  'javascript': ['eslint'],
+\}
 
 "Ctrl-P {{{2
 let g:ctrlp_map = '<c-p>'
