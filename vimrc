@@ -95,12 +95,12 @@ if has("autocmd")
   " make and yaml files are particular about whitespace syntax
   autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-  " Treat .rss files as XML. Place bfore encoding.
+  " Treat .rss files as XML. Place before encoding.
   autocmd BufNewFile,BufRead *.rss setfiletype xml
   " Customisations based on preferences
   autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
   autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType javascript setlocal ts=2 sts=4 sw=4 noexpandtab
+  autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
 endif
 
 
