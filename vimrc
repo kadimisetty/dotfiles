@@ -115,6 +115,7 @@ augroup ft_vim
     "Use md for markdown instead of the default module2
     autocmd BufNewFile,BufRead *.md  setf markdown
 augroup END
+set nofoldenable            "Disable Folds by deafult
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
 set foldlevelstart=1
