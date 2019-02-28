@@ -16,11 +16,13 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
+Plug 'luochen1990/rainbow'
 Plug 'mattn/emmet-vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
 Plug 'romainl/vim-cool'
+Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components'
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
@@ -33,7 +35,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
-Plug 'luochen1990/rainbow'
 
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
@@ -403,11 +404,17 @@ set conceallevel=1
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
-"luochen1990/rainbow {{{2
+"Rainbow {{{2
 "Disable at Startup and Toggle with <leader>r
 let g:rainbow_active = 0
 nnoremap <silent> <leader>r :RainbowToggle<CR>
 
+"Mundo {{{2
+"Undo settings recommended by vim-mundo
+"Enable persistent undo so that undo history persists across vim sessions
+set undofile
+set undodir=~/.vim/undo
+nnoremap <silent> <leader>m :MundoToggle<CR>
 
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty 
