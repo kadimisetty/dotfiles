@@ -258,8 +258,8 @@ nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-k> :wincmd k<CR>         
 "Move focus to window facing l
 nnoremap <silent> <C-l> :wincmd l<CR>         
-"Move focus to previous window
-nnoremap <silent> <C-p> :wincmd p<CR>         
+"Move focus to previous window. (Currently yeidling to Ctrl-P Plugin)
+" nnoremap <silent> <C-p> :wincmd p<CR>         
 
 "Window Splits {{{2
 "Equal size windows
