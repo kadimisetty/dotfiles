@@ -239,9 +239,9 @@ nnoremap Y y$
 "Retain cursor position after done joining two lines
 nnoremap J mzJ`z
 "Toggle spelling mode 
-nnoremap <silent> <leader>ss :set spell!<CR>   
+nnoremap <silent> <leader>ss :set spell!<CR>
 "Edit vimrc 
-nnoremap <silent> <leader>v :edit $MYVIMRC<CR>   
+nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 
 "MOVEMENT {{{1
@@ -253,23 +253,23 @@ nnoremap <S-Tab>    :tabprevious<CR>
 
 "Window Movement {{{2
 "Move focus to window facing h
-nnoremap <silent> <C-h> :wincmd h<CR>         
+nnoremap <silent> <C-h> :wincmd h<CR>
 "Move focus to window facing j 
-nnoremap <silent> <C-j> :wincmd j<CR>         
+nnoremap <silent> <C-j> :wincmd j<CR>
 "Move focus to window facing k
-nnoremap <silent> <C-k> :wincmd k<CR>         
+nnoremap <silent> <C-k> :wincmd k<CR>
 "Move focus to window facing l
-nnoremap <silent> <C-l> :wincmd l<CR>         
+nnoremap <silent> <C-l> :wincmd l<CR>
 "Move focus to previous window. (Currently yeidling to Ctrl-P Plugin)
-" nnoremap <silent> <C-p> :wincmd p<CR>         
+" nnoremap <silent> <C-p> :wincmd p<CR>
 
 "Window Splits {{{2
 "Equal size windows
-nnoremap <silent> <leader>w= :wincmd =<CR>    
+nnoremap <silent> <leader>w= :wincmd =<CR>
 "Split window horizontally
-nnoremap <silent> <leader>sh :split<CR>       
+nnoremap <silent> <leader>sh :split<CR>
 "Split window vertically
-nnoremap <silent> <leader>sv :vsplit<CR>      
+nnoremap <silent> <leader>sv :vsplit<CR>
 
 
 "MAPPINGS {{{1
