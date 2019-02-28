@@ -33,6 +33,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
+Plug 'luochen1990/rainbow'
 
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
@@ -401,6 +402,11 @@ set conceallevel=1
 "Conceal corresponding keywords with symbols
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
+
+"luochen1990/rainbow {{{2
+"Disable at Startup and Toggle with <leader>r
+let g:rainbow_active = 0
+nnoremap <silent> <leader>r :RainbowToggle<CR>
 
 
 "CREDITS & INSPIRATION {{{1
