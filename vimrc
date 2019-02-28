@@ -20,6 +20,7 @@ Plug 'mattn/emmet-vim'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
+Plug 'styled-components/vim-styled-components'
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
