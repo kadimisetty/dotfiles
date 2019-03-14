@@ -302,7 +302,7 @@ func! WriteMode()
   setlocal formatoptions=1 
   setlocal noexpandtab 
   "gj and gk move with wrapped lines
-  map j gj i
+  map j gj
   map k gk
   "Set spelling dictionry to US
   setlocal spell spelllang=en_us 
