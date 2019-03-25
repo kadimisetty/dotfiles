@@ -313,6 +313,9 @@ func! WriteMode()
   setlocal linebreak 
 endfu 
 com! WP call WriteMode()
+nnoremap <silent> <leader>w :call WriteMode()<CR>
+" TODO - Make ToggleWriteMode
+
 
 " Run current buffer through a python interpreter {{{2
 " <S-e> is Shift-E
