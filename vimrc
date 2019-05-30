@@ -196,12 +196,23 @@ set formatoptions+=n    "Support lists (numbered, bulleted)
 set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full       "Tab-Completion ala zsh
 
-"Change cursor shape specifically in iTerm
-"https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
-if $TERM_PROGRAM =~ "iTerm"
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-    let &t_SR = "\<esc>]50;CursorShape=2\x7" " Underline in replace mode
+"Change Cursor Shape based on Mode {{{2
+"Terminal Escape Sequence Numbers for Cursor Shapes
+"0, 1 or none - Blink Block (Default)
+"2 - Steady Block
+"3 - Blink Underline
+"4 - Steady Underline
+"5 - Steady Vertical Bar
+if $TERM_PROGRAM =~ "Apple_Terminal"
+    let &t_SI="\033[5 q" "Vertical bar in Insert mode
+    let &t_EI="\033[2 q" "Steady Block in Normal mode
+    let &t_EI="\033[4 q" "Underline in Replace mode
+elseif $TERM_PROGRAM =~ "iTerm"
+    "iTerm cursors look much better, especially contrast on hover.
+    "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" "Vertical bar in Insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" "Steady Block in Normal mode
+    let &t_SR = "\<esc>]50;CursorShape=2\x7" "Underline in Replace mode
 endif
 
 "Show error messages and throw exceptions
