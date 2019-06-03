@@ -36,7 +36,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale' "Slows down vim-elixir
 
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
@@ -206,7 +206,7 @@ set wildmode=full       "Tab-Completion ala zsh
 if $TERM_PROGRAM =~ "Apple_Terminal"
     let &t_SI="\033[5 q" "Vertical bar in Insert mode
     let &t_EI="\033[2 q" "Steady Block in Normal mode
-    let &t_EI="\033[4 q" "Underline in Replace mode
+    let &t_SR="\033[4 q" "Underline in Replace mode
 elseif $TERM_PROGRAM =~ "iTerm"
     "iTerm cursors look much better, especially contrast on hover.
     "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
