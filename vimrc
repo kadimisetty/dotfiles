@@ -203,11 +203,15 @@ set wildmode=full       "Tab-Completion ala zsh
 "2 - Steady Block
 "3 - Blink Underline
 "4 - Steady Underline
-"5 - Steady Vertical Bar
+"6 - Steady Vertical Bar
 if $TERM_PROGRAM =~ "Apple_Terminal"
-    let &t_SI="\033[5 q" "Vertical bar in Insert mode
-    let &t_EI="\033[2 q" "Steady Block in Normal mode
+    let &t_SI="\033[6 q" "Vertical bar in Insert mode
     let &t_SR="\033[4 q" "Underline in Replace mode
+    let &t_EI="\033[2 q" "Steady Block in Normal mode
+elseif $TERM_PROGRAM =~ "Hyper"
+    let &t_SI="\033[6 q" "Vertical bar in Insert mode
+    let &t_SR="\033[4 q" "Underline in Replace mode
+    let &t_EI="\033[2 q" "Steady Block in Normal mode
 elseif $TERM_PROGRAM =~ "iTerm"
     "iTerm cursors look much better, especially contrast on hover.
     "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
@@ -394,9 +398,9 @@ let g:airline_theme='gruvbox'
 if !exists('g:airline_symbols') 
   let g:airline_symbols = {}    
 endif                           
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
