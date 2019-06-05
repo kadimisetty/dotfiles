@@ -36,6 +36,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'morhetz/gruvbox'
 " Plug 'w0rp/ale' "Slows down vim-elixir
 
 " vim-prettier installs it's own prettier with npm. 
@@ -232,7 +233,7 @@ syntax enable           "Enable Syntax highlighting
 
 "Use ColorScheme Dark Solarized
 set background=dark
-colorscheme solarized
+colorscheme gruvbox
 
 "Remove trailing whitespaces and ^M characters {{{2
 augroup WhiteSpaceCleaner
@@ -383,7 +384,8 @@ let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 " Example - https://gist.github.com/kien/1610859
 
 "Airline {{{2
-let g:airline_theme='solarized'
+" let g:airline_theme='solarized'
+let g:airline_theme='gruvbox'
 " let g:airline_statusline_ontop=1 "Show Airline tabbar at the top
 " let g:airline_extensions = [] "Stop all Airline Extensions
 
