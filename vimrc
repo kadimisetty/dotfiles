@@ -19,6 +19,7 @@ Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
 Plug 'luochen1990/rainbow'
 Plug 'mattn/emmet-vim'
+Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
@@ -36,8 +37,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'morhetz/gruvbox'
-" Plug 'w0rp/ale' "Slows down vim-elixir
+" Plug 'w0rp/ale' "Drags down vim when used with elixir
 
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
@@ -366,15 +366,15 @@ let g:prettier#config#print_width = 60
 " let g:prettier#quickfix_auto_focus = 1
 
 "ALE {{{2
-"Lint after leading Insert Mode. Off by Default
+"Lint after leaving Insert Mode. Off by Default
 let g:ale_lint_on_insert_leave = 1
 "Lint only on save 
 " let g:ale_lint_on_save = 1
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '⚠'
-let g:ale_fixers = {
-\  'javascript': ['eslint'],
-\}
+"Enable ESLint(fixing and linting) only for JavaScript.
+let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_linters = {'javascript': ['eslint']}
 
 "Ctrl-P {{{2
 let g:ctrlp_map = '<c-p>'
