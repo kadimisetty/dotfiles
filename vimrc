@@ -26,7 +26,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'romainl/vim-cool'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slashmili/alchemist.vim'
-Plug 'styled-components/vim-styled-components'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
