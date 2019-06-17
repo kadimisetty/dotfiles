@@ -59,9 +59,13 @@ set wrapscan        "Wrap search scan around the file
 set incsearch       "Match search incrementally
 
 "Ignore these file patterns while completing file/dir names
+"Used by plugins like CtrlP
+"Ignoring; Source Control, CSS Preprocessors, Elixir Mix & Phoenix etc.
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
-            \.svn,.hg,.bzr,.git,
-            \.sass-cache,*.class,*.scssc,*.cssc,sprockets%*,*.lessc
+            \.svn,.hg,.bzr,.git,.git/*,
+            \.sass-cache,*.class,*.scssc,*.cssc,
+            \*/_build/*,*/cover/*,*/deps/*,*/.fetch/*,erl_crash.dump,
+            \*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
 
 
 "MISC PREFERENCES {{{1
