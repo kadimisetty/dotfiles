@@ -60,7 +60,7 @@ set incsearch       "Match search incrementally
 
 "Ignore these file patterns while completing file/dir names
 "Used by plugins like CtrlP
-"Ignoring; Source Control, CSS Preprocessors, Elixir Mix & Phoenix etc.
+"Ignoring: Usuals, Source Control, CSS Preprocessors, Elixir Mix & Phoenix etc.
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
             \.svn,.hg,.bzr,.git,.git/*,
             \.sass-cache,*.class,*.scssc,*.cssc,
