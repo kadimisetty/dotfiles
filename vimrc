@@ -8,18 +8,19 @@ call plug#begin('~/.vim/plugged')
 
 "Plugins {{{2
 "Active Plugins {{{3
-Plug 'elmcast/elm-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-editors/vim-elixir'
+Plug 'elmcast/elm-vim'
 Plug 'godlygeek/tabular'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
 Plug 'luochen1990/rainbow'
 Plug 'mattn/emmet-vim'
+Plug 'mhinz/vim-mix-format'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
