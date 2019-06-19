@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 "Plugins {{{2
 "Active Plugins {{{3
+Plug 'elmcast/elm-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
