@@ -10,6 +10,7 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins {{{3
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
+Plug 'andyl/vim-projectionist-elixir'
 Plug 'bps/vim-textobj-python'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -33,6 +34,7 @@ Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -66,7 +68,7 @@ set incsearch       "Match search incrementally
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
             \.svn,.hg,.bzr,.git,.git/*,
             \.sass-cache,*.class,*.scssc,*.cssc,
-            \*/_build/*,*/cover/*,*/deps/*,*/.fetch/*,erl_crash.dump,
+            \*/_build/*,*/cover/*,*/deps/*,*/.fetch/*,erl_crash.dump,mix.lock,
             \*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
 
 
@@ -101,7 +103,8 @@ filetype on             "Detect filetypes
 filetype plugin on      "Activate builtin set of filetypes plugins
 filetype indent on      "Activate builtin and computed indentations
 
-"Set Tabs & Spaces for filetyes {{{2
+"Set Tabs & Spaces for common filetyes {{{2
+"TODO - Use a plugin for this
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
   filetype on
@@ -116,6 +119,18 @@ if has("autocmd")
   autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
 endif
 
+augroup filetype_md
+    "Use md for markdown instead of the default module2
+    autocmd BufNewFile,BufRead *.md  setfiletype markdown
+augroup end
+
+augroup filetype_help
+    autocmd!
+    autocmd BufWinEnter *.txt call MoveHelpToNewTab()
+augroup end
+function MoveHelpToNewTab ()
+    if &buftype ==# 'help' | wincmd T | endif
+endfunction
 
 "INDENTS & FOLDS {{{1
 " Vi Folding Specifics {{{2
@@ -123,11 +138,8 @@ augroup ft_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType help setlocal textwidth=78
-    autocmd BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    
-    "Use md for markdown instead of the default module2
-    autocmd BufNewFile,BufRead *.md  setf markdown
 augroup END
+
 set nofoldenable            "Disable Folds by deafult
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=syntax
