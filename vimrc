@@ -258,11 +258,15 @@ set background=dark
 colorscheme gruvbox
 
 "Remove trailing whitespaces and ^M characters {{{2
-augroup WhiteSpaceCleaner
+"TODO - Increase filetypes
+"TODO - Move into a plugin to support prefs eg. `confirmations` or `conditions`
+augroup trailing_whitespace
     autocmd!
-    autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+    autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
 augroup END
-
+function RemoveTrailingWhitespace ()
+     call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+endfunction
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
 command! W w
