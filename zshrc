@@ -41,11 +41,3 @@ export PATH=/Users/sri/.local/bin:$PATH
 # Ruby rbenv - Use non-system ruby versions{{{2
 # Load rbenv
 eval "$(rbenv init -)"
-
-# Flutter SDK {{{2
-export PATH=$PATH:~/dev/external/flutter-setup/flutter/bin
-
-# Electron Forge {{{2
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[[ -f /Users/sri/.npm/_npx/37381/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /Users/sri/.npm/_npx/37381/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh
