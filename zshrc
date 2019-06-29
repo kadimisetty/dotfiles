@@ -22,6 +22,10 @@ source $ZSH/oh-my-zsh.sh
 # Display red dots while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
+# Enable Ctrl-S and Ctrl=P {{{2
+stty start undef
+stty stop undef
+setopt noflowcontrol
 # Default Editor
 export EDITOR=vim
 
@@ -30,11 +34,15 @@ export EDITOR=vim
 alias l="ls -lah"
 alias v="vim"
 
-# Enable Ctrl-S and Ctrl=P {{{2
-stty start undef
-stty stop undef
-setopt noflowcontrol
+## Mix {{{2
+alias im="iex -S mix"
+alias
 
+
+# MISCELLANEOUS {{{1
+# TODO 
+# Check if this is some homebrew option?
+# Contains nvim & lunatudio apps
 export PATH=/Users/sri/.local/bin:$PATH
 
 # PLATFORMS & PROGRAMS {{{1
