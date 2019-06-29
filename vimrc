@@ -476,6 +476,17 @@ set undofile
 set undodir=~/.vim/undo
 nnoremap <silent> <leader>m :MundoToggle<CR>
 
+"vim-projectionist-elixir {{{2
+"Open alternate file
+nnoremap <silent> <leader>a :A<CR>
+"Open alternate file in a split window
+nnoremap <silent> <leader>as :AS<CR>
+"Open alternate file in a vertical split window
+nnoremap <silent> <leader>av :AV<CR>
+"Open alternate file in another tab
+nnoremap <silent> <leader>at :AT<CR>
+
+
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty 
 "External Inspirations:
