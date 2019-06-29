@@ -114,26 +114,22 @@ filetype indent on      "Activate builtin and computed indentations
 "Set Tabs & Spaces for common filetyes {{{2
 "TODO - Use a plugin for this
 " Only do this part when compiled with support for autocommands
-if has("autocmd")
-  filetype on
-  " make and yaml files are particular about whitespace syntax
-  autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-  " Treat .rss files as XML. Place before encoding.
-  autocmd BufNewFile,BufRead *.rss setfiletype xml
-  " Customisations based on preferences
-  autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
-endif
+
+augroup filetype_rss
+    autocmd!
+    " Treat .rss files as XML. Place before encoding.
+    autocmd BufNewFile,BufRead *.rss setfiletype xml
+augroup end
 
 augroup filetype_md
+    autocmd!
     "Use md for markdown instead of the default module2
     autocmd BufNewFile,BufRead *.md  setfiletype markdown
 augroup end
 
 augroup filetype_help
     autocmd!
+    autocmd FileType help setlocal textwidth=78
     autocmd BufWinEnter *.txt call MoveHelpToNewTab()
 augroup end
 function MoveHelpToNewTab ()
@@ -142,11 +138,10 @@ endfunction
 
 "INDENTS & FOLDS {{{1
 " Vi Folding Specifics {{{2
-augroup ft_vim
+augroup foldmethod_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
-    autocmd FileType help setlocal textwidth=78
-augroup END
+augroup end
 
 set nofoldenable            "Disable Folds by deafult
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
@@ -268,10 +263,21 @@ colorscheme gruvbox
 "Remove trailing whitespaces and ^M characters {{{2
 "TODO - Increase filetypes
 "TODO - Move into a plugin to support prefs eg. `confirmations` or `conditions`
-augroup trailing_whitespace
+augroup whitespace_preferences
+    autocmd!
+    filetype on
+    " make and yaml files are particular about whitespace syntax
+    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+    " Customisations based on preferences
+    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
+    autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
+augroup end
+augroup whitespace_trailing
     autocmd!
     autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
-augroup END
+augroup end
 function RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 endfunction
@@ -372,17 +378,19 @@ nnoremap <silent> <leader>w :call WriteMode()<CR>
 " map <buffer> <S-e> :w<CR>:!/usr/bin/env python3 % <CR>
 
 " Initialise new files with corresponding skeleton templates {{{2
-if has("autocmd")
+augroup skeleton_files
+    autocmd!
     autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
-endif
+augroup end
 
 " Jump to the last known valid cursor position {{{2
-if has("autocmd")
-     autocmd BufReadPost *
-            \ if line("'\"") > 0 && line("'\"") <= line("$") |
-            \   exe "normal g`\"" |
-            \ endif
- endif
+augroup cursor_position
+    autocmd!
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal g`\"" |
+                \ endif
+augroup end
 
 
 "PLUGINS PREFERENCES {{{1
