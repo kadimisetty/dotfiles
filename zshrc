@@ -36,7 +36,7 @@ alias v="vim"
 
 ## Mix {{{2
 alias im="iex -S mix"
-alias
+alias mt="mix test --trace"
 
 
 # MISCELLANEOUS {{{1
