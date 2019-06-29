@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins {{{3
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
-Plug 'andyl/vim-projectionist-elixir'
 Plug 'bps/vim-textobj-python'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
@@ -33,21 +32,25 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"
-" vim-prettier installs it's own prettier with npm. 
-" Also enable for listed formats
+
+"vim-prettier installs it's own prettier with npm. 
+"Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-"
-" Uses external fzf installed via homebrew. Keep in this order
+
+"Uses external fzf installed via homebrew. Keep ordering.
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+
+"Projections. Keep ordering.
+Plug 'tpope/vim-projectionist'
+Plug 'c-brenn/fuzzy-projectionist.vim'
+Plug 'andyl/vim-projectionist-elixir'
 
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
