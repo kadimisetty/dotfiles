@@ -13,7 +13,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'andyl/vim-projectionist-elixir'
 Plug 'bps/vim-textobj-python'
 Plug 'chrisbra/NrrwRgn'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
 Plug 'godlygeek/tabular'
@@ -45,6 +44,10 @@ Plug 'vim-airline/vim-airline-themes'
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+"
+" Uses external fzf installed via homebrew
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
@@ -65,7 +68,7 @@ set wrapscan        "Wrap search scan around the file
 set incsearch       "Match search incrementally
 
 "Ignore these file patterns while completing file/dir names
-"Used by plugins like CtrlP
+"Also used by plugins like CtrlP etc.
 "Ignoring: Usuals, Source Control, CSS Preprocessors, Elixir Mix & Phoenix etc.
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
             \.svn,.hg,.bzr,.git,.git/*,
@@ -302,7 +305,7 @@ nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-k> :wincmd k<CR>
 "Move focus to window facing l
 nnoremap <silent> <C-l> :wincmd l<CR>
-"Move focus to previous window. (Currently yeidling to Ctrl-P Plugin)
+"Move focus to previous window. (Disabled for use by plugins like CtrlP, fzf etc.)
 " nnoremap <silent> <C-p> :wincmd p<CR>
 
 "Window Splits {{{2
@@ -400,16 +403,8 @@ let g:ale_sign_warning = '⚠'
 let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_linters = {'javascript': ['eslint']}
 
-"Ctrl-P {{{2
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
-"Ignore Files in .gitignore
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
-"TODO: Customise CtrlP Status window 
-" Intent - Include instruction "Use <C-F> to select next mode"
-" Example - https://gist.github.com/kien/1610859
+"fzf {{{2
+"Currently using fzf instance installed via homebrew
 
 "Airline {{{2
 " let g:airline_theme='solarized'
@@ -432,16 +427,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#close_symbol = '×'
 let g:airline#extensions#tabline#show_tab_nr = 1
-
-"Airline support for CtrlP. Select mode colors to use in CtrlP window 
-"(Only effective if active airline theme doesn't define ctrlp colors)
-let g:airline#extensions#ctrlp#color_template = 'insert' "(default)
-let g:airline#extensions#ctrlp#color_template = 'normal'
-let g:airline#extensions#ctrlp#color_template = 'visual'
-let g:airline#extensions#ctrlp#color_template = 'replace'
-"Within CtrlP window show the previous and next modes (mru, buffer, etc.)
-" To switch through those modes use forward: <C-f> and backward <C-d> 
-let g:airline#extensions#ctrlp#show_adjacent_modes = 1
 
 "pangloss/vim-javascript {{{2
 "Enable Concealing
