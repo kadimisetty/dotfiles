@@ -45,7 +45,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 "
-" Uses external fzf installed via homebrew
+" Uses external fzf installed via homebrew. Keep in this order
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -404,7 +404,14 @@ let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_linters = {'javascript': ['eslint']}
 
 "fzf {{{2
-"Currently using fzf instance installed via homebrew
+let g:fzf_command_prefix = 'FZF'
+nnoremap <C-P>      :FZFFiles<CR>
+nnoremap <C-P><C-G> :FZFGFiles<CR>
+nnoremap <C-P><C-S> :FZFGFiles?<CR>
+nnoremap <C-P><C-B> :FZFBuffers<CR>
+nnoremap <C-P><C-R> :FZFRg<CR>
+nnoremap <C-P><C-L> :FZFLines<CR>
+nnoremap <C-P><C-W> :FZFWindows<CR>
 
 "Airline {{{2
 " let g:airline_theme='solarized'
