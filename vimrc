@@ -137,7 +137,7 @@ function MoveHelpToNewTab ()
 endfunction
 
 "INDENTS & FOLDS {{{1
-" Vi Folding Specifics {{{2
+"Vi Folding Specifics {{{2
 augroup foldmethod_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
@@ -156,14 +156,19 @@ let sh_fold_enabled=1       "sh
 let vimsyn_folding='af'     "Vim script
 let xml_syntax_folding=1    "XML
 
-set scrolloff=1             "Keep cursor these many lines above bottom of screen
-set nowrap                  "Wrap Long lines
-set autoindent              "Indent as previous line
-set softtabstop=4
-set shiftwidth=4            "Use indents as length of 4 spaces
-set shiftround              "Round indent to multiple of 'shiftwidth'
-set tabstop=4               "A tab counts for these many spaces
-set backspace=2             "Make backspace behave more like the popular usage
+"Custom Fold Title {{{2
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' '
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('⨁ ' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(' ', 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+set foldtext=NeatFoldText()
+
 
 "Enables :Wrap to set settings required for soft wrap
 command! -nargs=* Wrap set wrap linebreak nolist
@@ -179,29 +184,20 @@ set timeoutlen=350          "Wait for this long anticipating for a command
 scriptencoding  utf-8       "Set character encoding in the script. Place before encoding.
 set encoding=utf-8          "Set default file encoding to UTF-8
 set title                   "Enable setting title
+
 set wildmenu                "Perform things like menu completion with wildchar(often tab) etc.
 set iskeyword+=_,$,@,%,#,-  "Treat as keywords
 
+set printoptions=header:0,duplex:long,paper:A4
+
+"Backup Preferences {{{2
 set backup                  "Make a backup before writing the file
 set backupdir=~/.vim/backup "Use this directory to store backups
 set directory=/tmp/         "List of directory names to create the swp files in
 set backupcopy=yes          "Make a backup and then overwrite orginal file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
-set printoptions=header:0,duplex:long,paper:A4
 
-"Custom Fold Title {{{2
-function! NeatFoldText()
-  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-  let lines_count = v:foldend - v:foldstart + 1
-  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' '
-  let foldchar = matchstr(&fillchars, 'fold:\zs.')
-  let foldtextstart = strpart('⨁ ' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-  let foldtextend = lines_count_text . repeat(' ', 8)
-  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
-set foldtext=NeatFoldText()
 
 
 "UI CHANGES {{{1
@@ -260,8 +256,18 @@ syntax enable           "Enable Syntax highlighting
 set background=dark
 colorscheme gruvbox
 
+"Whitespace, tabstops etc. {{{2
+set scrolloff=1             "Keep cursor these many lines above bottom of screen
+set nowrap                  "Wrap Long lines
+set autoindent              "Indent as previous line
+set softtabstop=4
+set shiftwidth=4            "Use indents as length of 4 spaces
+set shiftround              "Round indent to multiple of 'shiftwidth'
+set tabstop=4               "A tab counts for these many spaces
+set backspace=2             "Make backspace behave more like the popular usage
+
 "Remove trailing whitespaces and ^M characters {{{2
-"TODO - Increase filetypes
+"TODO - More filetypes
 "TODO - Move into a plugin to support prefs eg. `confirmations` or `conditions`
 augroup whitespace_preferences
     autocmd!
