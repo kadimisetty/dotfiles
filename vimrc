@@ -26,6 +26,7 @@ Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
+Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
 Plug 'romainl/vim-cool'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slashmili/alchemist.vim'
@@ -33,7 +34,6 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -41,14 +41,16 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'w0rp/ale' "Drags down vim when used with elixir
-
+"
 " vim-prettier installs it's own prettier with npm. 
 " Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-markdown'
+"Plug 'w0rp/ale' "Drags down vim when used with elixir
+
 
 "Finish Vim-Plug
 call plug#end()
@@ -452,6 +454,11 @@ let g:javascript_conceal_function = "ƒ"
 "Disable at Startup and Toggle with <leader>r
 let g:rainbow_active = 0
 nnoremap <silent> <leader>r :RainbowToggle<CR>
+
+"plasticboy/vim-markdown {{{2
+"Enable fenced code syntax highlighting for following languages
+let g:vim_markdown_fenced_languages = []
+
 
 "Mundo {{{2
 "Undo settings recommended by vim-mundo
