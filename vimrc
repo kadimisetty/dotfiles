@@ -356,7 +356,7 @@ vnoremap <D-6> g^
 vnoremap <D-0> g^
 
 "Flip cursorcolumn on demand {{2
-nnoremap <silent> <leader>s :setlocal cursorcolumn!<CR>
+nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
 
 "HANDY FUNCTIONS {{{1
 "Make environment writing friendly {{{2
