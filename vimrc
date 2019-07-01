@@ -356,7 +356,16 @@ vnoremap <D-6> g^
 vnoremap <D-0> g^
 
 "Flip cursorcolumn on demand {{2
-nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
+"nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
+"Use shortcuts from 'tpope/vim-unimpaired' instead
+"
+"   ON    OFF     TOGGLE  OPTION
+"   ----------------------------------------------------------------------
+"   [oc   ]oc     yoc     'cursorline'
+"   [ou   ]ou     you     'cursorcolumn'
+"   [ox   ]ox     yox     'cursorline' 'cursorcolumn' (x as in crosshairs)
+"
+"NOTE: The mnemonic for y is that if you tilt it a bit it looks like a switch.
 
 "HANDY FUNCTIONS {{{1
 "Make environment writing friendly {{{2
@@ -443,9 +452,9 @@ let g:airline_theme='gruvbox'
 if !exists('g:airline_symbols') 
   let g:airline_symbols = {}    
 endif                           
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
