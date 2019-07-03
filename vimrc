@@ -337,9 +337,9 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 " cnoremap <C-n> <Down>
 
 " Save with Ctrl-S {{{2
-noremap <C-S>      :update<CR>
-vnoremap <C-S>     <C-C>:update<CR>
-inoremap <C-S>     <C-O>:update<CR>
+nnoremap <C-S>  :update<CR>
+vnoremap <C-S>  <C-C>:update<CR>
+inoremap <C-S>  <C-O>:update<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
