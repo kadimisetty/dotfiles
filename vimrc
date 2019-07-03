@@ -38,7 +38,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 
-"vim-prettier installs it's own prettier with npm. 
+"vim-prettier installs it's own prettier with npm.
 "Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
@@ -294,12 +294,12 @@ command! Q q
 vnoremap < <gv
 vnoremap > >gv
 "Yank to end of line, just like C or D
-nnoremap Y y$                             
+nnoremap Y y$
 "Retain cursor position after done joining two lines
 nnoremap J mzJ`z
-"Toggle spelling mode 
+"Toggle spelling mode
 nnoremap <silent> <leader>ss :set spell!<CR>
-"Edit vimrc 
+"Edit vimrc
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 
@@ -313,7 +313,7 @@ nnoremap <S-Tab>    :tabprevious<CR>
 "Window Movement {{{2
 "Move focus to window facing h
 nnoremap <silent> <C-h> :wincmd h<CR>
-"Move focus to window facing j 
+"Move focus to window facing j
 nnoremap <silent> <C-j> :wincmd j<CR>
 "Move focus to window facing k
 nnoremap <silent> <C-k> :wincmd k<CR>
@@ -368,20 +368,20 @@ vnoremap <D-0> g^
 
 "HANDY FUNCTIONS {{{1
 "Make environment writing friendly {{{2
-func! WriteMode() 
-  setlocal formatoptions=1 
-  setlocal noexpandtab 
+func! WriteMode()
+  setlocal formatoptions=1
+  setlocal noexpandtab
   "gj and gk move with wrapped lines
   map j gj
   map k gk
   "Set spelling dictionry to US
-  setlocal spell spelllang=en_us 
+  setlocal spell spelllang=en_us
   set complete+=s
   "Use external program `par` to format paragraph
   set formatprg=par
-  setlocal wrap 
-  setlocal linebreak 
-endfu 
+  setlocal wrap
+  setlocal linebreak
+endfu
 com! WP call WriteMode()
 nnoremap <silent> <leader>w :call WriteMode()<CR>
 " TODO - Make ToggleWriteMode
@@ -422,7 +422,7 @@ let g:prettier#config#print_width = 60
 "ALE {{{2
 "Lint after leaving Insert Mode. Off by Default
 let g:ale_lint_on_insert_leave = 1
-"Lint only on save 
+"Lint only on save
 " let g:ale_lint_on_save = 1
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '⚠'
@@ -443,11 +443,11 @@ nnoremap <C-P><C-W> :FZFWindows<CR>
 "Airline {{{2
 let g:airline_theme='gruvbox'
 
-" Initialize Airline Symbols if not created. 
+" Initialize Airline Symbols if not created.
 " Avoid overwriting existing Airline symbols
-if !exists('g:airline_symbols') 
-  let g:airline_symbols = {}    
-endif                           
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
@@ -500,7 +500,7 @@ nnoremap <silent> <leader>at :AT<CR>
 
 
 "CREDITS & INSPIRATION {{{1
-"Author:Sri Kadimisetty 
+"Author:Sri Kadimisetty
 "External Inspirations:
 "Tim Pope (of course)
 "Ryan Tomayko
