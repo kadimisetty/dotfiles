@@ -32,6 +32,7 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-liquid'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
