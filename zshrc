@@ -45,7 +45,15 @@ alias mt="mix test --trace"
 # Contains nvim & lunatudio apps
 export PATH=/Users/sri/.local/bin:$PATH
 
-# PLATFORMS & PROGRAMS {{{1
+# PROGRAMS' SETTINGS {{{1
 # Ruby rbenv - Use non-system ruby versions{{{2
 # Load rbenv
 eval "$(rbenv init -)"
+
+# FZF {{{2
+# Use ripgrep(installed via homebrew) to power fzf searches
+# --files           : Print files'names but not their content
+# --hidden          : Search hidden files and directories
+# --smart-case       : Search smart with upper and lower case
+# --glob "!.git/*" : Ignore .git/ folder
+export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'

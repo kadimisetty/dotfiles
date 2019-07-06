@@ -438,14 +438,14 @@ let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_linters = {'javascript': ['eslint']}
 
 "fzf {{{2
-let g:fzf_command_prefix = 'FZF'
-nnoremap <C-P>      :FZFFiles<CR>
-nnoremap <C-P><C-G> :FZFGFiles<CR>
-nnoremap <C-P><C-S> :FZFGFiles?<CR>
-nnoremap <C-P><C-B> :FZFBuffers<CR>
-nnoremap <C-P><C-R> :FZFRg<CR>
-nnoremap <C-P><C-L> :FZFLines<CR>
-nnoremap <C-P><C-W> :FZFWindows<CR>
+let g:fzf_command_prefix = 'F'
+nnoremap <C-P>      :FFiles<CR>
+nnoremap <C-P><C-G> :FGFiles<CR>
+nnoremap <C-P><C-S> :FGFiles?<CR>
+nnoremap <C-P><C-B> :FBuffers<CR>
+nnoremap <C-P><C-R> :FRg<CR>
+nnoremap <C-P><C-L> :FLines<CR>
+nnoremap <C-P><C-W> :FWindows<CR>
 
 "Airline {{{2
 let g:airline_theme='gruvbox'
