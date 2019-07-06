@@ -25,6 +25,7 @@ Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'romainl/vim-cool'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slashmili/alchemist.vim'
@@ -99,6 +100,7 @@ set formatprg=par\ -w50
 set modeline
 set modelines=3
 
+set completeopt=menu,menuone,noinsert,preview
 " Session preferences. Do not save some options into the sessions file, so
 " they dont override any vimrc changes made when the session is revoked later.
 set ssop-=options       "Dont store global and local values into session file
@@ -282,7 +284,7 @@ augroup whitespace_preferences
 augroup end
 augroup whitespace_trailing
     autocmd!
-    autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
+    autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
 augroup end
 function RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
@@ -499,6 +501,23 @@ nnoremap <silent> <leader>av :AV<CR>
 "Open alternate file in another tab
 nnoremap <silent> <leader>at :AT<CR>
 
+"python-mode {{{2
+let g:pymode_python = 'python3'
+let g:pymode_folding = 1 "Experimental Feature. Remove if problematic.
+let g:pymode_rope = 1
+
+"pymode-rope scans current dir then upwards for .ropeproject to set as root
+"Scan could  be slow. So only check if .ropeproject root is in current dir.
+"To manually set .ropeproject root dir, set g:pymode_rope_project_root
+let g:pymode_rope_lookup_project = 0
+
+"From pymode docs - Beware that when editing python files in multiple windows
+"vim computes the folding for every typed character. So use this:
+augroup pymode_unset_folding_in_insert_mode
+    autocmd!
+    autocmd InsertEnter *.py setlocal foldmethod=marker
+    autocmd InsertLeave *.py setlocal foldmethod=expr
+augroup END
 
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty
