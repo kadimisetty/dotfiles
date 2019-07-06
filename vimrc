@@ -510,6 +510,8 @@ let g:pymode_python = 'python3'
 let g:pymode_folding = 1 "Experimental Feature. Remove if problematic.
 let g:pymode_rope = 1
 
+let g:pymode_rope_complete_on_dot = 0 "I don't like the popup resizing windows
+
 "pymode-rope scans current dir then upwards for .ropeproject to set as root
 "Scan could  be slow. So only check if .ropeproject root is in current dir.
 "To manually set .ropeproject root dir, set g:pymode_rope_project_root
