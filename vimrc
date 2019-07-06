@@ -26,6 +26,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'python/black'
 Plug 'romainl/vim-cool'
 Plug 'simnalamburt/vim-mundo'
 Plug 'slashmili/alchemist.vim'
@@ -82,6 +83,9 @@ set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
 
 
 "MISC PREFERENCES {{{1
+let mapleader = '\'
+let maplocalleader = '\\'
+
 syntax on               "Turn on syntax highlighting
 set hidden              "Unsaved bufers are allowed to move to the background
 set showmode            "Show current modeline
@@ -518,6 +522,10 @@ augroup pymode_unset_folding_in_insert_mode
     autocmd InsertEnter *.py setlocal foldmethod=marker
     autocmd InsertLeave *.py setlocal foldmethod=expr
 augroup END
+
+"Black {{{2
+let g:black_linelength=80
+nnoremap <silent> <localleader>b :Black<CR>
 
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty
