@@ -114,7 +114,7 @@ set ssop-=folds         "Dont store folds into session file
 
 "diffs {{{2
 "open diffs in vertical split
-set diffopts+=vertical
+set diffopt+=vertical
 
 
 "FILETYPE PREFERENCES {{{1
