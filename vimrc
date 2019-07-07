@@ -540,7 +540,8 @@ augroup END
 
 "Black {{{2
 let g:black_linelength=80
-nnoremap <silent> <localleader>b :Black<CR>
+"Format with Black
+nnoremap <silent> <localleader>f :Black<CR>
 
 "Startify {{{2
 let g:startify_files_number = 4
