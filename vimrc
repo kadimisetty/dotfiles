@@ -20,6 +20,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'luochen1990/rainbow'
 Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-mix-format'
+Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -529,6 +530,9 @@ augroup END
 let g:black_linelength=80
 nnoremap <silent> <localleader>b :Black<CR>
 
+"Startify {{{2
+let g:startify_files_number = 4
+let g:startify_custom_header = 'startify#fortune#boxed()'
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty
 "External Inspirations:
