@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 "Plugins {{{2
 "Active Plugins {{{3
+Plug 'kassio/neoterm'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
@@ -340,6 +341,9 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 
 
 "MAPPINGS {{{1
+"Terminal {{{2
+nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
+
 "In Command line, make <C-p> and <C-n> behave like <Up> and <Down> {{{2
 " cnoremap <C-p> <Up>
 " cnoremap <C-n> <Down>
@@ -487,6 +491,10 @@ nnoremap <silent> <leader>r :RainbowToggle<CR>
 "plasticboy/vim-markdown {{{2
 "Enable fenced code syntax highlighting for following languages
 let g:vim_markdown_fenced_languages = []
+
+"neoterm {{{2
+nnoremap <leader>nn :<c-u>rightbelow Tnew<cr>
+nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 
 
 "Mundo {{{2
