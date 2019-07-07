@@ -112,6 +112,10 @@ set completeopt=menu,menuone,noinsert,preview
 set ssop-=options       "Dont store global and local values into session file
 set ssop-=folds         "Dont store folds into session file
 
+"diffs {{{2
+"open diffs in vertical split
+set diffopts+=vertical
+
 
 "FILETYPE PREFERENCES {{{1
 " Filetype settings {{{2
