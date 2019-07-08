@@ -8,17 +8,17 @@ call plug#begin('~/.vim/plugged')
 
 "Plugins {{{2
 "Active Plugins {{{3
-Plug 'kassio/neoterm'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
-Plug 'luochen1990/rainbow'
+Plug 'kassio/neoterm'
 Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-mix-format'
 Plug 'mhinz/vim-startify'
@@ -59,6 +59,7 @@ Plug 'andyl/vim-projectionist-elixir'
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
 "Plug 'tpope/vim-markdown'
+"Plug 'godlygeek/tabular'
 "Plug 'w0rp/ale' "Drags down vim when used with elixir
 
 
@@ -487,10 +488,9 @@ set conceallevel=1
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
-"Rainbow {{{2
-"Disable at Startup and Toggle with <leader>r
-let g:rainbow_active = 0
-nnoremap <silent> <leader>r :RainbowToggle<CR>
+"Rainbow Parenthesis (junegunn) {{{2
+"Toggle Rainbow
+nnoremap <silent> <localleader>r :RainbowParentheses!!<CR>
 
 "plasticboy/vim-markdown {{{2
 "Enable fenced code syntax highlighting for following languages
@@ -546,6 +546,14 @@ nnoremap <silent> <localleader>f :Black<CR>
 "Startify {{{2
 let g:startify_files_number = 4
 let g:startify_custom_header = 'startify#fortune#boxed()'
+
+"EasyAlign {{{2
+"Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+"Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
 "CREDITS & INSPIRATION {{{1
 "Author:Sri Kadimisetty
 "External Inspirations:
