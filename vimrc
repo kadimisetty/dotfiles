@@ -539,7 +539,7 @@ augroup pymode_unset_folding_in_insert_mode
 augroup END
 
 "Black {{{2
-let g:black_linelength=80
+let g:black_linelength=79
 "Format with Black
 nnoremap <silent> <localleader>f :Black<CR>
 
