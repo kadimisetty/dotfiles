@@ -346,6 +346,10 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 
 
 "MAPPINGS {{{1
+"Hide Preview window quickly
+nnoremap <leader>z :pclose!<CR>
+
+
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
