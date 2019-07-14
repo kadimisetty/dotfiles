@@ -42,6 +42,10 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 
+"NERDTree. Save order.
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 "vim-prettier installs it's own prettier with npm.
 "Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
@@ -59,6 +63,7 @@ Plug 'andyl/vim-projectionist-elixir'
 "Tabular and Markdown. Save order.
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
+
 
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
@@ -356,10 +361,6 @@ nnoremap <leader>z :pclose!<CR>
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
-"In Command line, make <C-p> and <C-n> behave like <Up> and <Down> {{{2
-" cnoremap <C-p> <Up>
-" cnoremap <C-n> <Down>
-
 " Save with Ctrl-S {{{2
 nnoremap <C-S>  :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
@@ -506,10 +507,28 @@ let g:vim_markdown_fenced_languages = []
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
+"NERDTree {{{2
+nnoremap <C-n> :NERDTreeToggle<CR>
+"Find and reveal active buffer's file within NERDTree window
+nnoremap <C-n><C-f> :NERDTreeFind<CR>
+
+"Show minimal UI(without help-text, bookmark-label etc.)
+let NERDTreeMinimalUI = 1
+let NERDTreeMinimalMenu = 1
+let NERDTreeSortHiddenFirst = 1
+let NERDTreeRespectWildIgnore = 1
+let NERDTreeShowHidden=1
+
+"Automaticaly close NERDTree when it's a tab's last window left
+augroup nerdtree_close
+    autocmd!
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
+
+
 "neoterm {{{2
 nnoremap <leader>nn :<c-u>rightbelow Tnew<cr>
 nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
-
 
 "Mundo {{{2
 "Undo settings recommended by vim-mundo
