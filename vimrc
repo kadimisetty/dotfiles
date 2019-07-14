@@ -59,10 +59,12 @@ Plug 'tpope/vim-projectionist'
 Plug 'c-brenn/fuzzy-projectionist.vim'
 Plug 'andyl/vim-projectionist-elixir'
 
-
 "Tabular and Markdown. Save order.
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
+
+"Vim-Devicons. Load as last plugin
+Plug 'ryanoasis/vim-devicons' "Requires encoding utf-8. Set as such elsewhere.
 
 
 "Inactive Plugins {{{3
