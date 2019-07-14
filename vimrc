@@ -26,7 +26,6 @@ Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'pangloss/vim-javascript'
-Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'romainl/vim-cool'
@@ -47,19 +46,23 @@ Plug 'vim-airline/vim-airline'
 "Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
-"Uses external fzf installed via homebrew. Keep ordering.
+"Uses external fzf installed via homebrew. Save order.
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-"Projections. Keep ordering.
+"Projections. Save order.
 Plug 'tpope/vim-projectionist'
 Plug 'c-brenn/fuzzy-projectionist.vim'
 Plug 'andyl/vim-projectionist-elixir'
 
+
+"Tabular and Markdown. Save order.
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
+
 "Inactive Plugins {{{3
 "Plug 'tpope/vim-commentary'
 "Plug 'tpope/vim-markdown'
-"Plug 'godlygeek/tabular'
 "Plug 'w0rp/ale' "Drags down vim when used with elixir
 
 
@@ -499,6 +502,9 @@ nnoremap <silent> <localleader>r :RainbowParentheses!!<CR>
 "plasticboy/vim-markdown {{{2
 "Enable fenced code syntax highlighting for following languages
 let g:vim_markdown_fenced_languages = []
+"Disable conceal for markdown only (seperate from vim conealleavel)
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 "neoterm {{{2
 nnoremap <leader>nn :<c-u>rightbelow Tnew<cr>
