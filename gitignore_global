@@ -36,7 +36,6 @@
 _site
 .sass-cache
 
-
 # OS generated files #
 ######################
 .DS_Store
@@ -46,3 +45,10 @@ _site
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Tags #
+######################
+tags
+/tags
+/ctags
+/etags
