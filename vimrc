@@ -47,6 +47,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'majutsushi/tagbar'
 Plug 'craigemery/vim-autotag'
+Plug 'mmorearty/elixir-ctags'
 
 "NERDTree. Save order.
 Plug 'scrooloose/nerdtree'
