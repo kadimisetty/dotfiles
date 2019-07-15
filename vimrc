@@ -569,10 +569,22 @@ augroup pymode_unset_folding_in_insert_mode
     autocmd InsertLeave *.py setlocal foldmethod=expr
 augroup END
 
+"MixFormat {{{2
+"Format elixir files with mix-format
+let g:mix_format_options = '--check-equivalent'
+augroup elixir_mix_format
+    autocmd!
+    autocmd FileType elixir nnoremap <silent> <localleader>f :MixFormat<CR>
+    autocmd FileType elixir nnoremap <silent> <localleader>fd :MixFormatDiff<CR>
+augroup END
+
 "Black {{{2
 let g:black_linelength=79
-"Format with Black
-nnoremap <silent> <localleader>f :Black<CR>
+"Format python files with Black
+augroup python_black_format
+    autocmd!
+    autocmd FileType python nnoremap <silent> <localleader>f :Black<CR>
+augroup END
 
 "Startify {{{2
 let g:startify_files_number = 4
