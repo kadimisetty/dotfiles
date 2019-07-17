@@ -1,25 +1,34 @@
-# zsh Configuration File
+# zsh Configuration {{{1
 # vim: foldmethod=marker:foldlevel=0:nofoldenable:
 
 
-# oh-my-zsh {{{1
-# oh-my-zsh Plugins in ~/.oh-my-zsh/plugins. 
-# Custom plugins in ~/.oh-my-zsh/custom/plugins
-plugins=(git)
+# oh-my-zsh (Plugin, Themes & Customization) {{{1
+# Plugins {{{2
+# oh-my-zsh Plugins: ~/.oh-my-zsh/plugins.
+# Custom Plugins:   ~/.oh-my-zsh/custom/plugins
+plugins=(
+    git
+    fzf
+    mix
+    branch
+    asdf
+    autopep8
+)
 
-# oh-my-zsh themes located in ~/.oh-my-zsh/themes
-# Customised oh-my-zsh themes in ~/.oh-my-zsh/custom/themes
+# Themes {{{2
+# oh-my-zsh themes: ~/.oh-my-zsh/themes
+# Custom Themes:    ~/.oh-my-zsh/custom/themes
 ZSH_THEME="robbyrussell"
 
+# Source oh-my-zsh {{{2
 # oh-my-zsh Configuration Path
 ZSH=$HOME/.oh-my-zsh
-
-# IMPORTANT - Source oh-my-zsh.sh AFTER setting up plugins & themes
+# Do AFTER setting up plugins & themes
 source $ZSH/oh-my-zsh.sh
 
 
 # PREFERENCES {{{1
-# Display red dots while waiting for completion
+# Display red dots while waiting for completion {{{2
 COMPLETION_WAITING_DOTS="true"
 
 # Enable Ctrl-S and Ctrl=P {{{2
@@ -57,3 +66,8 @@ eval "$(rbenv init -)"
 # --smart-case       : Search smart with upper and lower case
 # --glob "!.git/*" : Ignore .git/ folder
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
+
+# asdf (KEEP AT BOTTOM) {{{2
+# Note: asdf has to be sourced after $PATH is set, so keep at bottomn.
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
