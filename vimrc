@@ -1,13 +1,13 @@
-" Vim Configuration File
+" Vim Initialization File {{{1
 " vim: foldmethod=marker:foldlevel=0:nofoldenable:
+" Author: Sri Kadimisetty
 
 
 "PLUGINS {{{1
-"Vim-Plug {{{2
+"Start vim-plug
 call plug#begin('~/.vim/plugged')
 
-"Plugins {{{2
-"Active Plugins {{{3
+"Active Plugins {{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
@@ -74,13 +74,12 @@ Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
 Plug 'ryanoasis/vim-devicons' "Requires encoding utf-8. Set as such elsewhere.
 
 
-"Inactive Plugins {{{3
+"Inactive Plugins {{{2
 "Plug 'tpope/vim-commentary'
 "Plug 'tpope/vim-markdown'
 "Plug 'w0rp/ale' "Drags down vim when used with elixir
 
-
-"Finish Vim-Plug
+"Finish vim-plug
 call plug#end()
 
 
@@ -92,9 +91,15 @@ set smartcase       "Perform case-detection slightly more sensibly
 set wrapscan        "Wrap search scan around the file
 set incsearch       "Match search incrementally
 
-"WILDIGNORE {{{2
+
+"MISC PREFERENCES {{{1
+"Leaders {{{2
+let mapleader = '\'
+let maplocalleader = '\\'
+
+"Wildignore {{{2
 "Ignore these file patterns while completing file/dir names
-"(Also used by plugins like CtrlP etc.)
+"(Also used by plugins like CtrlP, NERDTree etc.)
 
 "Ignoring: Usual culprits
 set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc
@@ -115,10 +120,22 @@ set wildignore+=*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
 "Ignoring: Python Projects
 set wildignore+=.ropeproject,__pycache__,*.egg-info,.DS_Store
 
-"MISC PREFERENCES {{{1
-let mapleader = '\'
-let maplocalleader = '\\'
+"Encodings {{{2
+scriptencoding  utf-8       "Set character encoding in the script. Place before encoding.
+set encoding=utf-8          "Set default file encoding to UTF-8
+set title                   "Enable setting title
 
+"Completions & Ignores {{{2
+set wildmenu                "Perform things like menu completion with wildchar(often tab) etc.
+set iskeyword+=_,$,@,%,#,-  "Treat as keywords
+
+set printoptions=header:0,duplex:long,paper:A4
+
+"Diffs {{{2
+"open diffs in vertical split
+set diffopt+=vertical
+
+"Misc {{{2
 syntax on               "Turn on syntax highlighting
 set hidden              "Unsaved bufers are allowed to move to the background
 set showmode            "Show current modeline
@@ -142,10 +159,6 @@ set completeopt=menu,menuone,noinsert,preview
 " they dont override any vimrc changes made when the session is revoked later.
 set ssop-=options       "Dont store global and local values into session file
 set ssop-=folds         "Dont store folds into session file
-
-"diffs {{{2
-"open diffs in vertical split
-set diffopt+=vertical
 
 
 "FILETYPE PREFERENCES {{{1
@@ -178,6 +191,7 @@ augroup end
 function MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
+
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
@@ -212,7 +226,7 @@ function! NeatFoldText()
 endfunction
 set foldtext=NeatFoldText()
 
-
+"Wraps & Indents {{{2
 "Enables :Wrap to set settings required for soft wrap
 command! -nargs=* Wrap set wrap linebreak nolist
 
@@ -224,23 +238,12 @@ set pastetoggle=<F12>       "Same indentation on pastes
 set cf                      "Allow error files and error jumping
 set timeoutlen=350          "Wait for this long anticipating for a command
 
-scriptencoding  utf-8       "Set character encoding in the script. Place before encoding.
-set encoding=utf-8          "Set default file encoding to UTF-8
-set title                   "Enable setting title
-
-set wildmenu                "Perform things like menu completion with wildchar(often tab) etc.
-set iskeyword+=_,$,@,%,#,-  "Treat as keywords
-
-set printoptions=header:0,duplex:long,paper:A4
-
 "Backup Preferences {{{2
 set backup                  "Make a backup before writing the file
 set backupdir=~/.vim/backup "Use this directory to store backups
 set directory=/tmp/         "List of directory names to create the swp files in
 set backupcopy=yes          "Make a backup and then overwrite orginal file
 set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
-
-
 
 
 "UI CHANGES {{{1
@@ -299,7 +302,7 @@ syntax enable           "Enable Syntax highlighting
 set background=dark
 colorscheme gruvbox
 
-"Whitespace, tabstops etc. {{{2
+"Whitespace & Other Special Characters {{{2
 set scrolloff=1             "Keep cursor these many lines above bottom of screen
 set nowrap                  "Wrap Long lines
 set autoindent              "Indent as previous line
@@ -309,7 +312,7 @@ set shiftround              "Round indent to multiple of 'shiftwidth'
 set tabstop=4               "A tab counts for these many spaces
 set backspace=2             "Make backspace behave more like the popular usage
 
-"Remove trailing whitespaces and ^M characters {{{2
+"Remove trailing whitespaces and ^M characters {{{3
 "TODO - More filetypes
 "TODO - Move into a plugin to support prefs eg. `confirmations` or `conditions`
 augroup whitespace_preferences
@@ -331,6 +334,7 @@ function RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 endfunction
 
+
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
 command! W w
 command! Q q
@@ -343,8 +347,6 @@ nnoremap Y y$
 nnoremap J mzJ`z
 "Toggle spelling mode
 nnoremap <silent> <leader>ss :set spell!<CR>
-"Edit vimrc
-nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 
 "MOVEMENT {{{1
@@ -375,10 +377,49 @@ nnoremap <silent> <leader>sh :split<CR>
 nnoremap <silent> <leader>sv :vsplit<CR>
 
 
+"HANDY FUNCTIONS {{{1
+"Make environment writing friendly {{{2
+func! WriteMode()
+  setlocal formatoptions=1
+  setlocal noexpandtab
+  "gj and gk move with wrapped lines
+  map j gj
+  map k gk
+  "Set spelling dictionry to US
+  setlocal spell spelllang=en_us
+  set complete+=s
+  "Use external program `par` to format paragraph
+  set formatprg=par
+  setlocal wrap
+  setlocal linebreak
+endfu
+com! WP call WriteMode()
+nnoremap <silent> <leader>w :call WriteMode()<CR>
+" TODO - Make ToggleWriteMode
+
+
+" Initialise new files with corresponding skeleton templates {{{2
+augroup skeleton_files
+    autocmd!
+    autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
+augroup end
+
+" Jump to the last known valid cursor position {{{2
+augroup cursor_position
+    autocmd!
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal g`\"" |
+                \ endif
+augroup end
+
+
 "MAPPINGS {{{1
 "Hide Preview window quickly
 nnoremap <leader>z :pclose!<CR>
 
+"Edit vimrc
+nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
@@ -412,48 +453,6 @@ vnoremap <D-0> g^
 "   [ox   ]ox     yox     'cursorline' 'cursorcolumn' (x as in crosshairs)
 "
 "NOTE: The mnemonic for y is that if you tilt it a bit it looks like a switch.
-
-"HANDY FUNCTIONS {{{1
-"Make environment writing friendly {{{2
-func! WriteMode()
-  setlocal formatoptions=1
-  setlocal noexpandtab
-  "gj and gk move with wrapped lines
-  map j gj
-  map k gk
-  "Set spelling dictionry to US
-  setlocal spell spelllang=en_us
-  set complete+=s
-  "Use external program `par` to format paragraph
-  set formatprg=par
-  setlocal wrap
-  setlocal linebreak
-endfu
-com! WP call WriteMode()
-nnoremap <silent> <leader>w :call WriteMode()<CR>
-" TODO - Make ToggleWriteMode
-
-
-" Run current buffer through a python interpreter {{{2
-" <S-e> is Shift-E
-" TODO - Accomodate both 3.x(default) and 2.7
-" TODO - Run only selection
-" map <buffer> <S-e> :w<CR>:!/usr/bin/env python3 % <CR>
-
-" Initialise new files with corresponding skeleton templates {{{2
-augroup skeleton_files
-    autocmd!
-    autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
-augroup end
-
-" Jump to the last known valid cursor position {{{2
-augroup cursor_position
-    autocmd!
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal g`\"" |
-                \ endif
-augroup end
 
 
 "PLUGINS PREFERENCES {{{1
@@ -618,8 +617,7 @@ nmap ga <Plug>(EasyAlign)
 
 
 "CREDITS & INSPIRATION {{{1
-"Author:Sri Kadimisetty
-"External Inspirations:
+"Some External Inspirations:
 "Tim Pope (of course)
 "Ryan Tomayko
 "Drew Neil
