@@ -92,15 +92,28 @@ set smartcase       "Perform case-detection slightly more sensibly
 set wrapscan        "Wrap search scan around the file
 set incsearch       "Match search incrementally
 
+"WILDIGNORE {{{2
 "Ignore these file patterns while completing file/dir names
-"Also used by plugins like CtrlP etc.
-"Ignoring: Usuals, Source Control, CSS Preprocessors, Elixir Mix & Phoenix etc.
-set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,
-            \.svn,.hg,.bzr,.git,.git/*,
-            \.sass-cache,*.class,*.scssc,*.cssc,
-            \*/_build/*,*/cover/*,*/deps/*,*/.fetch/*,erl_crash.dump,mix.lock,
-            \*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
+"(Also used by plugins like CtrlP etc.)
 
+"Ignoring: Usual culprits
+set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc
+
+"Ignoring: Source Control
+set wildignore+=.svn,.hg,.bzr,.git,.git/*
+
+"Ignoring: CSS Preprocessors
+set wildignore+=.sass-cache,*.class,*.scssc,*.cssc,
+
+"Ignoring: JS & Node
+set wildignore+=.sass-cache,*.class,*.scssc,*.cssc,
+
+"Ignoring: Elixir Mix & Phoenix etc.
+set wildignore+=*/_build/*,*/cover/*,*/deps/*,*/.fetch/*,erl_crash.dump,mix.lock
+set wildignore+=*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
+
+"Ignoring: Python Projects
+set wildignore+=.ropeproject,__pycache__,*.egg-info,.DS_Store
 
 "MISC PREFERENCES {{{1
 let mapleader = '\'
@@ -522,11 +535,11 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 nnoremap <C-n><C-f> :NERDTreeFind<CR>
 
 "Show minimal UI(without help-text, bookmark-label etc.)
-let NERDTreeMinimalUI = 1
-let NERDTreeMinimalMenu = 1
-let NERDTreeSortHiddenFirst = 1
-let NERDTreeRespectWildIgnore = 1
-let NERDTreeShowHidden=1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeMinimalMenu = 1
+let g:NERDTreeSortHiddenFirst = 1
+let g:NERDTreeRespectWildIgnore = 1
+let g:NERDTreeShowHidden=1
 
 "Automaticaly close NERDTree when it's a tab's last window left
 augroup nerdtree_close
