@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
+Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
@@ -19,12 +20,16 @@ Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
 Plug 'kassio/neoterm'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-mix-format'
 Plug 'mhinz/vim-startify'
+Plug 'mmorearty/elixir-ctags'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neomake/neomake'
 Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
@@ -42,16 +47,22 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 
-"Tags
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-Plug 'majutsushi/tagbar'
-Plug 'craigemery/vim-autotag'
-Plug 'mmorearty/elixir-ctags'
-
 "NERDTree. Save order.
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+"Deoplete
+if !has('nvim')
+    "Vim 8
+    "Deoplete and dependencies
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+else
+    "Neovim
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+
 
 "vim-prettier installs it's own prettier with npm.
 "Also enable for listed formats
@@ -529,6 +540,10 @@ let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#show_close_button = 0
 
+"airline gutentag extension
+"Enable the airline gutentag extension
+let g:airline#extensions#gutentags#enabled = 1
+
 "pangloss/vim-javascript {{{2
 "Enable Concealing
 set conceallevel=1
@@ -633,6 +648,23 @@ let g:startify_custom_header = 'startify#fortune#boxed()'
 xmap ga <Plug>(EasyAlign)
 "Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+"Alchemist {{{2
+let g:alchemist_tag_disable = 1
+
+"Gutentag {{{2
+"Specify directory to create the tag files. instead of storing at project root
+let g:gutentags_cache_dir = '~/.tags_cache'
+
+"Neomake {{{2
+augroup neomake
+    autocmd!
+    " Execute Neomake after writing buffer
+    autocmd! BufWritePost * Neomake
+augroup end
+
+"Deoplete {{{2
+let g:deoplete#enable_at_startup = 1
 
 
 "CREDITS & INSPIRATION {{{1
