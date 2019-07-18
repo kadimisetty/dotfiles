@@ -247,6 +247,7 @@ set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
 
 
 "UI CHANGES {{{1
+"Misc {{{2
 set number              "Display line numbers
 set ruler               "Display line number and cursor position
 set nostartofline       "Do not shift cursor back to line beginning while scrolling
@@ -259,6 +260,24 @@ set visualbell          "Show a visual indication instead of ringing an annoying
 set formatoptions+=n    "Support lists (numbered, bulleted)
 set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full       "Tab-Completion ala zsh
+
+"Title {{{2
+set title
+set titleold="Terminal"
+if has('statusline')
+    "Clear title string
+    set titlestring=
+    "Show + if file has been modified
+    set titlestring+=%M
+    "Show base filename
+    set titlestring+=%f
+    "Show [help] if help window
+    set titlestring+=%h
+    "Show [RO] if read-only
+    set titlestring+=%r
+    "Show [Preview] if preview window
+    set titlestring+=%w
+endif
 
 "Change Cursor Shape based on Mode {{{2
 "Terminal Escape Sequence Numbers for Cursor Shapes
