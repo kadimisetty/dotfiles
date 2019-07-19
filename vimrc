@@ -445,8 +445,14 @@ augroup end
 
 
 "MAPPINGS {{{1
-"Hide Preview window quickly
-nnoremap <leader>z :pclose!<CR>
+
+"Close helper windows {{{2
+"Close all helper windows
+nnoremap <leader>z  :pclose \| lclose<CR>
+"Close Preview window quickly
+nnoremap <leader>zp :pclose<CR>
+"Close Location close quickly
+nnoremap <leader>zl :lclose<CR>
 
 "Edit vimrc
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
