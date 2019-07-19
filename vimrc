@@ -652,6 +652,10 @@ nmap ga <Plug>(EasyAlign)
 "Alchemist {{{2
 let g:alchemist_tag_disable = 1
 
+"Tagbar {{{2
+nnoremap <silent> <leader>tb :TagbarToggle<CR>
+let g:tagbar_width = 20
+
 "Gutentag {{{2
 "Specify directory to create the tag files. instead of storing at project root
 let g:gutentags_cache_dir = '~/.tags_cache'
