@@ -16,6 +16,7 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
 Plug 'janko/vim-test'
+Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-entire'
@@ -676,6 +677,10 @@ augroup end
 
 "Deoplete {{{2
 let g:deoplete#enable_at_startup = 1
+
+"junegunn/gv.vim {{{2
+"GV to open commit browser
+nnoremap <leader>g :GV<CR>
 
 
 "CREDITS & INSPIRATION {{{1
