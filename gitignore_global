@@ -35,6 +35,7 @@
 .jekyll-metadata
 _site
 .sass-cache
+session.vim
 
 # OS generated files #
 ######################
