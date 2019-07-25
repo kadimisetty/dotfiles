@@ -662,7 +662,7 @@ let g:alchemist_tag_disable = 1
 
 "Tagbar {{{2
 nnoremap <silent> <leader>tb :TagbarToggle<CR>
-let g:tagbar_width = 20
+let g:tagbar_width = 30
 
 "Gutentag {{{2
 "Specify directory to create the tag files. instead of storing at project root
