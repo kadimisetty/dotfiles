@@ -77,7 +77,6 @@ Plug 'junegunn/fzf.vim'
 "Projections. Save order.
 Plug 'tpope/vim-projectionist'
 Plug 'c-brenn/fuzzy-projectionist.vim'
-Plug 'andyl/vim-projectionist-elixir'
 
 "Tabular and Markdown. Save order.
 Plug 'godlygeek/tabular'
