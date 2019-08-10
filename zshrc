@@ -43,6 +43,8 @@ export EDITOR=vim
 alias l="ls -lah"
 alias v="vim"
 
+alias sandbox="cd ~/code/sandbox"
+
 ## Mix {{{2
 alias im="iex -S mix"
 alias mt="mix test --trace"
