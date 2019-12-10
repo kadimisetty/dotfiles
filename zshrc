@@ -43,6 +43,9 @@ export EDITOR=vim
 alias l="ls -lah"
 alias v="vim"
 
+alias v="nvim"
+alias nview="nvim -R"
+
 alias sandbox="cd ~/code/sandbox"
 
 ## Mix {{{2
