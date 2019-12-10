@@ -31,13 +31,13 @@ Plug 'mmorearty/elixir-ctags'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neomake/neomake'
 Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'romainl/vim-cool'
 Plug 'simnalamburt/vim-mundo'
-Plug 'slashmili/alchemist.vim'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
@@ -494,6 +494,13 @@ vnoremap <D-0> g^
 
 
 "PLUGINS PREFERENCES {{{1
+
+"coc.nvim {{{2
+"" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+"" Disable vim-airline integration
+" let g:airline#extensions#coc#enabled = 0
+
 "netrw {{{2
 let g:netrw_banner=0
 
@@ -656,9 +663,6 @@ let g:startify_custom_header = 'startify#fortune#boxed()'
 xmap ga <Plug>(EasyAlign)
 "Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-"Alchemist {{{2
-let g:alchemist_tag_disable = 1
 
 "Tagbar {{{2
 nnoremap <silent> <leader>tb :TagbarToggle<CR>
