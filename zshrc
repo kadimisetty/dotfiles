@@ -51,6 +51,7 @@ alias sandbox="cd ~/code/sandbox"
 ## Mix {{{2
 alias im="iex -S mix"
 alias mt="mix test --trace"
+alias mps="mix phx.server"
 
 
 # MISCELLANEOUS {{{1
