@@ -43,7 +43,7 @@ export EDITOR=vim
 alias l="ls -lah"
 alias v="vim"
 
-alias nv="nvim"
+alias n="nvim"
 alias nview="nvim -R"
 
 alias sandbox="cd ~/code/sandbox"
