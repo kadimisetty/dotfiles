@@ -73,6 +73,10 @@ eval "$(rbenv init -)"
 # --glob "!.git/*" : Ignore .git/ folder
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
 
+# direnv {{{2
+# direnv needs to be hooked into the shell
+eval "$(direnv hook zsh)"
+
 # asdf (KEEP AT BOTTOM) {{{2
 # Note: asdf has to be sourced after $PATH is set, so keep at bottomn.
 . $HOME/.asdf/asdf.sh
