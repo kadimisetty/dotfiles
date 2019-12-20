@@ -15,6 +15,7 @@ Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
+Plug 'fatih/vim-go'
 Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -644,6 +645,13 @@ augroup elixir_mix_format
     autocmd!
     autocmd FileType elixir nnoremap <silent> <localleader>f :MixFormat<CR>
     autocmd FileType elixir nnoremap <silent> <localleader>fd :MixFormatDiff<CR>
+augroup END
+
+"vim-go {{{2
+augroup go_format
+    autocmd!
+    au FileType go nmap <leader>r <Plug>(go-run)
+    autocmd FileType go nnoremap <silent> <localleader>f :GoFmt<CR>
 augroup END
 
 "Black {{{2
