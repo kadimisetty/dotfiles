@@ -47,6 +47,7 @@ alias n="nvim"
 alias nview="nvim -R"
 
 alias sandbox="cd ~/code/sandbox"
+alias dotfiles="cd ~/code/personal/dotfiles"
 
 ## Mix {{{2
 alias im="iex -S mix"
