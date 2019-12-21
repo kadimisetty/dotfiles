@@ -390,6 +390,10 @@ nnoremap <S-Tab>    :tabprevious<CR>
 
 
 "Window Movement {{{2
+nnoremap <Space> <C-d>
+nnoremap <S-Space> <C-u>
+
+"Window Focus {{{2
 "Move focus to window facing h
 nnoremap <silent> <C-h> :wincmd h<CR>
 "Move focus to window facing j
