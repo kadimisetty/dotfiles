@@ -502,10 +502,15 @@ vnoremap <D-0> g^
 "PLUGINS PREFERENCES {{{1
 
 "coc.nvim {{{2
+" Allow installed extension
+let g:coc_global_extensions = ['coc-elixir']
+" Trigger autocompletion with Ctrl-Space
+inoremap <silent><expr> <c-space> coc#refresh()
+
+
 "" Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-"" Disable vim-airline integration
-" let g:airline#extensions#coc#enabled = 0
+
 
 "netrw {{{2
 let g:netrw_banner=0
@@ -564,6 +569,10 @@ let g:airline#extensions#tabline#show_close_button = 0
 "airline gutentag extension
 "Enable the airline gutentag extension
 let g:airline#extensions#gutentags#enabled = 1
+
+"airline coc-nvim exension
+"Enable vim-airline integration. Comes with airline.
+let g:airline#extensions#coc#enabled = 1
 
 "pangloss/vim-javascript {{{2
 "Enable Concealing
