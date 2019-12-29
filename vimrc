@@ -393,8 +393,12 @@ nnoremap <S-Tab>    :tabprevious<CR>
 
 
 "Window Movement {{{2
-nnoremap <Space> <C-d>
-nnoremap <S-Space> <C-u>
+" Disabling Space movement because both <C-u> not <C-b> hinder text editing
+" when they're triggered by mistake in insert mode by <S-Space> which seem to
+" happen to often with me. <C-u> clears line back to input cursor and <C-b>
+" insert a  character into text which confuses me temporarily.
+" nnoremap <Space> <C-d>
+" nnoremap <S-Space> <C-b>
 
 "Window Focus {{{2
 "Move focus to window facing h
