@@ -7,7 +7,7 @@
 "Start vim-plug
 call plug#begin('~/.vim/plugged')
 
-"Active Plugins {{{2
+"Active Plugins (Run :sort! on this contiguous list after insertion){{{2
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
@@ -35,6 +35,7 @@ Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neomake/neomake'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
@@ -709,6 +710,18 @@ let g:deoplete#enable_at_startup = 1
 "GV to open commit browser
 nnoremap <leader>g :GV<CR>
 
+"neovimhaskell/haskell-vim {{{2
+"Indentaion might vary from brittany's preferences. Secede to brottany's.
+"Suggested changes from the README.
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+"Docs contains indentation configuration. Add if required.
+
 "meck/vim-brittany {{{2
 "Trigger brittany when saving (default = 1)
 let g:brittany_on_save = 1
@@ -716,6 +729,7 @@ augroup haskell_brittany_format
     autocmd!
     autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
 augroup END
+
 
 "CREDITS & INSPIRATION {{{1
 "Some External Inspirations:
