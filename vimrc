@@ -15,7 +15,6 @@ Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
 Plug 'elmcast/elm-vim'
-Plug 'rstacruz/vim-closer'
 Plug 'fatih/vim-go'
 Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
@@ -39,6 +38,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'romainl/vim-cool'
+Plug 'rstacruz/vim-closer'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
