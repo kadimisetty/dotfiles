@@ -26,6 +26,7 @@ Plug 'kassio/neoterm'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
+Plug 'meck/vim-brittany'
 Plug 'mhinz/vim-mix-format'
 Plug 'mhinz/vim-startify'
 Plug 'mmorearty/elixir-ctags'
@@ -708,6 +709,13 @@ let g:deoplete#enable_at_startup = 1
 "GV to open commit browser
 nnoremap <leader>g :GV<CR>
 
+"meck/vim-brittany {{{2
+"Trigger brittany when saving (default = 1)
+let g:brittany_on_save = 1
+augroup haskell_brittany_format
+    autocmd!
+    autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
+augroup END
 
 "CREDITS & INSPIRATION {{{1
 "Some External Inspirations:
