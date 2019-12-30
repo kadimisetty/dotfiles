@@ -39,6 +39,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
+Plug 'rizzatti/dash.vim'
 Plug 'romainl/vim-cool'
 Plug 'rstacruz/vim-closer'
 Plug 'simnalamburt/vim-mundo'
@@ -733,6 +734,13 @@ augroup haskell_brittany_format
     autocmd!
     autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
 augroup END
+
+"rizzatti/dash.vim {{{2
+"Lookup word under cursor in Dash.app. Use filetype as keyword unless
+"configured otherwise
+nmap <silent> <localleader>d <Plug>DashSearch
+"TODO Customize keyword map. e.g. dash lookup in an elixir file would search both
+"elixir and phoenix docsets. Consult :help DashConfig_map
 
 
 "CREDITS & INSPIRATION {{{1
