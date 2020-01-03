@@ -580,10 +580,6 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
-" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
 " TODO: Change from :Format etc. to something else to avoid mental mnemonic clash my regular
 " <localLdear>f for formats
 " Use `:Format` to format current buffer
