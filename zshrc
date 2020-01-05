@@ -41,13 +41,15 @@ export EDITOR=vim
 
 # ALIASES {{{1
 alias l="ls -lah"
-alias v="vim"
 
+alias v="vim"
 alias n="nvim"
 alias nview="nvim -R"
 
-alias sandbox="cd ~/code/sandbox"
-alias dotfiles="cd ~/code/personal/dotfiles"
+alias personal="cd ~/code/personal/"
+alias playground="cd ~/code/playground/"
+alias sandbox="cd ~/code/sandbox/"
+alias dotfiles="cd ~/code/personal/dotfiles/"
 
 ## Mix {{{2
 alias im="iex -S mix"
