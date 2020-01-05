@@ -8,13 +8,13 @@
 call plug#begin('~/.vim/plugged')
 
 "Active Plugins (Run :sort! on this contiguous list after insertion){{{2
+Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
 Plug 'elixir-editors/vim-elixir'
-Plug 'elmcast/elm-vim'
 Plug 'fatih/vim-go'
 Plug 'hspec/hspec.vim'
 Plug 'janko/vim-test'
@@ -353,7 +353,7 @@ augroup whitespace_preferences
 augroup end
 augroup whitespace_trailing
     autocmd!
-    autocmd FileType c,cpp,java,php,js,twig,xml,yml autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
+    autocmd FileType c,cpp,java,php,js,twig,xml,yml,elm autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
 augroup end
 function RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
@@ -799,6 +799,7 @@ let g:haskell_backpack = 1                " to enable highlighting of backpack k
 "meck/vim-brittany {{{2
 "Trigger brittany when saving (default = 1)
 let g:brittany_on_save = 1
+
 augroup haskell_brittany_format
     autocmd!
     autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
@@ -810,6 +811,30 @@ augroup END
 nmap <silent> <localleader>d <Plug>DashSearch
 "TODO Customize keyword map. e.g. dash lookup in an elixir file would search both
 "elixir and phoenix docsets. Consult :help DashConfig_map
+
+"Zaptic/elm-vim {{{2
+"Elm default mappings
+"<Leader>m	Compile the current buffer.
+"<Leader>b	Compile the Main.elm file in the project.
+"<Leader>t	Runs the tests of the current buffer or 'tests/TestRunner'.
+"<Leader>r	Opens an elm repl in a subprocess.
+"<Leader>e	Shows the detail of the current error or warning.
+"<Leader>d	Shows the type and docs for the word under the cursor.
+"<Leader>w	Opens the docs web page for the word under the cursor
+"Disable above elm-vim's default mappings
+let g:elm_setup_keybindings = 0
+
+"Format with elm-format
+augroup elm_format
+    autocmd!
+    autocmd FileType elm nnoremap <silent> <localleader>f :ElmFormat<CR>
+augroup END
+
+" Format current buffer on save
+let g:elm_format_autosave = 1
+
+" Display format errors
+let g:elm_format_fail_silently = 1
 
 
 "CREDITS & INSPIRATION {{{1
