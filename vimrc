@@ -837,6 +837,11 @@ let g:elm_format_autosave = 1
 let g:elm_format_fail_silently = 1
 
 
+"EXPERIMENTS {{{1
+"Little experiments placed in a seperate file to avoid tracking by VCSs
+source ~/.vim-experiments.vim
+
+
 "CREDITS & INSPIRATION {{{1
 "Some External Inspirations:
 "Tim Pope (of course)
