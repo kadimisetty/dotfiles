@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins (Run :sort! on this contiguous list after insertion){{{2
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'altercation/vim-colors-solarized'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
@@ -323,10 +322,6 @@ set splitright          "Position newly split windows to the right
 
 syntax enable           "Enable Syntax highlighting
 
-"Use ColorScheme Dark Solarized
-set background=dark
-colorscheme gruvbox
-
 "Whitespace & Other Special Characters {{{2
 set scrolloff=1             "Keep cursor these many lines above bottom of screen
 set nowrap                  "Wrap Long lines
@@ -495,10 +490,16 @@ vnoremap <D-0> g^
 
 
 "PLUGINS PREFERENCES {{{1
+"gruvbox {{{2
+"Enable gruvbox colorscheme
+colorscheme gruvbox
 
 "coc.nvim {{{2
-" These suggestions are from Coc's README:
+" Contrast in CocFloating + gruvox is terrible. 
+" Changing to another highlight group. Needs to be done after loading gruvbox
+hi default link CocFloating Folded
 
+" These suggestions are from Coc's README:
 " Allow installed extensions
 let g:coc_global_extensions = ['coc-elixir', 'coc-snippets']
 
@@ -593,6 +594,7 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 
 "netrw {{{2
 let g:netrw_banner=0
+
 
 "Prettier {{{2
 " max line length that prettier will wrap on
