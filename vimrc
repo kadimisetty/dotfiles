@@ -13,6 +13,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
+Plug 'dense-analysis/ale'
 Plug 'elixir-editors/vim-elixir'
 Plug 'fatih/vim-go'
 Plug 'hspec/hspec.vim'
@@ -78,11 +79,6 @@ Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
 "Vim-Devicons. Load as last plugin
 Plug 'ryanoasis/vim-devicons' "Requires encoding utf-8. Set as such elsewhere.
 
-
-"Inactive Plugins {{{2
-"Plug 'tpope/vim-commentary'
-"Plug 'tpope/vim-markdown'
-"Plug 'w0rp/ale' "Drags down vim when used with elixir
 
 "Finish vim-plug
 call plug#end()
@@ -603,15 +599,23 @@ let g:prettier#config#print_width = 60
 " let g:prettier#quickfix_auto_focus = 1
 
 "ALE {{{2
-"Lint after leaving Insert Mode. Off by Default
-let g:ale_lint_on_insert_leave = 1
-"Lint only on save
-" let g:ale_lint_on_save = 1
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '⚠'
-"Enable ESLint(fixing and linting) only for JavaScript.
-let g:ale_fixers = {'javascript': ['eslint']}
-let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_disable_lsp=1
+"Echo truncated error message when cursor is close to error line
+let g:ale_echo_cursor=1
+
+" Linters
+" Only enable explicitly specified linters
+let g:ale_lint_on_save=1
+let g:ale_lint_on_text_changed=1
+let g:ale_linters_explicit=1
+let g:ale_haskell_hlint_executable="hlint"
+let g:ale_linters = {'haskell': ['hlint']}
+
+" Fixers
+" let g:ale_fix_on_save=0
+" let g:ale_fixers = {'haskell': ['brittany']}
+let g:ale_fixers = []
+
 
 "fzf {{{2
 let g:fzf_command_prefix = 'F'
@@ -650,6 +654,9 @@ let g:airline#extensions#tabline#show_close_button = 0
 "airline gutentag extension
 "Enable the airline gutentag extension
 let g:airline#extensions#gutentags#enabled = 1
+
+"airline ale exension
+let g:airline#extensions#ale#enabled=1
 
 "airline coc-nvim exension
 "Enable vim-airline integration. Comes with airline.
