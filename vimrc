@@ -708,7 +708,12 @@ nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 "Enable persistent undo so that undo history persists across vim sessions
 set undofile
 set undodir=~/.vim/undo
-nnoremap <silent> <leader>m :MundoToggle<CR>
+
+nnoremap <C-m> :MundoToggle<CR>
+"Display short oneline diff to right of graph
+let g:mundo_inline_undo=1
+"Keep focus in the Mundo window after a revert.
+let g:mundo_return_on_revert=0
 
 "vim-projectionist-elixir {{{2
 "Open alternate file
