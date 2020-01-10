@@ -798,8 +798,10 @@ augroup neomake
 augroup end
 
 "junegunn/gv.vim {{{2
-"GV to open commit browser
-nnoremap <leader>g :GV<CR>
+"GV to open commit browser for all commits in repo
+nnoremap <C-g> :GV<CR>
+" Commit briwser for just current file
+" nnoremap <C-g> :GV<CR>
 
 "neovimhaskell/haskell-vim {{{2
 "Indentaion might vary from brittany's preferences. Secede to brottany's.
