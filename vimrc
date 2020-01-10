@@ -536,14 +536,14 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 "TODO: convert this to toggle documentation
@@ -560,24 +560,24 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xnoremap <leader>f  <Plug>(coc-format-selected)
+nnoremap <leader>f  <Plug>(coc-format-selected)
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
+nnoremap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+nnoremap <leader>qf  <Plug>(coc-fix-current)
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
+xnoremap if <Plug>(coc-funcobj-i)
+xnoremap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
@@ -759,7 +759,7 @@ augroup END
 "vim-go {{{2
 augroup go_format
     autocmd!
-    au FileType go nmap <leader>r <Plug>(go-run)
+    au FileType go nnoremap <leader>r <Plug>(go-run)
     autocmd FileType go nnoremap <silent> <localleader>f :GoFmt<CR>
 augroup END
 
@@ -777,9 +777,9 @@ let g:startify_custom_header = 'startify#fortune#boxed()'
 
 "EasyAlign {{{2
 "Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+xnoremap ga <Plug>(EasyAlign)
 "Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+nnoremap ga <Plug>(EasyAlign)
 
 "Tagbar {{{2
 nnoremap <silent> <leader>tb :TagbarToggle<CR>
@@ -835,7 +835,7 @@ nnoremap gT <Plug>TitlecaseLine
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
 "configured otherwise
-nmap <silent> <localleader>d <Plug>DashSearch
+nnoremap <silent> <localleader>d <Plug>DashSearch
 "TODO Customize keyword map. e.g. dash lookup in an elixir file would search both
 "elixir and phoenix docsets. Consult :help DashConfig_map
 
