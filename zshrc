@@ -58,12 +58,12 @@ alias mps="mix phx.server"
 
 
 # MISCELLANEOUS {{{1
-# TODO 
-# Check if this is some homebrew option?
-# Contains nvim & lunatudio apps
-export PATH=/Users/sri/.local/bin:$PATH
+
 
 # PROGRAMS' SETTINGS {{{1
+
+# Used by haskell workspace frameworks, nvim etc.
+export PATH=/Users/sri/.local/bin:$PATH
 
 # Rust Cargo
 export PATH=/Users/sri/.cargo/bin:$PATH
