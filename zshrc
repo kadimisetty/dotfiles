@@ -92,5 +92,8 @@ eval "$(direnv hook zsh)"
 # Haskell ghcup {{{2
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
 
+# Shell function for broot command (shortcut $br)
+source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 # ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
+
