@@ -42,6 +42,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'rizzatti/dash.vim'
+Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
 Plug 'rstacruz/vim-closer'
 Plug 'simnalamburt/vim-mundo'
@@ -862,6 +863,10 @@ let g:elm_format_autosave = 1
 
 " Display format errors
 let g:elm_format_fail_silently = 1
+
+" rob-b/gutenhasktags {{{2
+let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
+let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 
 "EXPERIMENTS {{{1
