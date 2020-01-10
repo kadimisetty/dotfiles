@@ -64,6 +64,10 @@ alias mps="mix phx.server"
 export PATH=/Users/sri/.local/bin:$PATH
 
 # PROGRAMS' SETTINGS {{{1
+
+# Rust Cargo
+export PATH=/Users/sri/.cargo/bin:$PATH
+
 # Ruby rbenv - Use non-system ruby versions{{{2
 # Load rbenv
 eval "$(rbenv init -)"
