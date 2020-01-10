@@ -798,6 +798,7 @@ augroup neomake
 augroup end
 
 "junegunn/gv.vim {{{2
+"TODO Make this into a toggle
 "GV to open commit browser for all commits in repo
 nnoremap <C-g> :GV<CR>
 " Commit briwser for just current file
