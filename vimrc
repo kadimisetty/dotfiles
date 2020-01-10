@@ -823,9 +823,14 @@ augroup END
 
 "christoomey/vim-titlecase {{{2
 "Operators that call Titlecase upon expected text objects
-nmap <leader>gt <Plug>Titlecase
-vmap <leader>gt <Plug>Titlecase
-"TODO Simulate guu/gugu and gUU/gUgU with gtt/gtgt to act gt upon entire line
+" nnoremap <leader>gt <Plug>Titlecase
+" vnoremap <leader>gt <Plug>Titlecase
+" gt and gT are by default mapped to previous/next tabs but I'm using 
+" <Tab> and <S-Tab> for that, so remapping gt and gT is okay.
+nnoremap gt <Plug>Titlecase
+vnoremap gt <Plug>Titlecase
+xnoremap gt <Plug>Titlecase
+nnoremap gT <Plug>TitlecaseLine
 
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
