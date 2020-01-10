@@ -783,8 +783,8 @@ xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
 
 "Tagbar {{{2
-nnoremap <silent> <leader>tb :TagbarToggle<CR>
-let g:tagbar_width = 30
+nnoremap <silent> <C-t> :TagbarToggle<CR>
+let g:tagbar_width = 28
 
 "Gutentag {{{2
 "Specify directory to create the tag files. instead of storing at project root
