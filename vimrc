@@ -13,6 +13,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
+Plug 'christoomey/vim-titlecase'
 Plug 'dense-analysis/ale'
 Plug 'elixir-editors/vim-elixir'
 Plug 'fatih/vim-go'
@@ -55,6 +56,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
+
 
 "NERDTree. Save order.
 Plug 'scrooloose/nerdtree'
@@ -818,6 +820,12 @@ augroup haskell_brittany_format
     autocmd!
     autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
 augroup END
+
+"christoomey/vim-titlecase {{{2
+"Operators that call Titlecase upon expected text objects
+nmap <leader>gt <Plug>Titlecase
+vmap <leader>gt <Plug>Titlecase
+"TODO Simulate guu/gugu and gUU/gUgU with gtt/gtgt to act gt upon entire line
 
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
