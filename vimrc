@@ -35,7 +35,6 @@ Plug 'mmorearty/elixir-ctags'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neomake/neomake'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'pangloss/vim-javascript'
@@ -492,104 +491,6 @@ vnoremap <D-0> g^
 "gruvbox {{{2
 "Enable gruvbox colorscheme
 colorscheme gruvbox
-
-"coc.nvim {{{2
-" Contrast in CocFloating + gruvox is terrible. 
-" Changing to another highlight group. Needs to be done after loading gruvbox
-hi default link CocFloating Folded
-
-" These suggestions are from Coc's README:
-" Allow installed extensions
-let g:coc_global_extensions = ['coc-elixir', 'coc-snippets']
-
-" Use 300 as defauilt 4000 is toos slow for diagnostic messages
-set updatetime=300
-
-" Don't give |ins-completion-menu| messages like match 1 of 2, Pattern not found etc.
-set shortmess+=c
-
-" Map <tab> to trigger completion and navigate to the next item: >
-" (Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin)
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-
-" Map <tab> for trigger completion, completion confirm, snippet expand and jump
-" like VSCode.
-" Note: Needs `coc-snippets` extension
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? coc#_select_confirm() :
-    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
-
-" Use `[g` and `]g` to navigate diagnostics
-nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
-nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-"TODO: convert this to toggle documentation
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nnoremap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xnoremap <leader>f  <Plug>(coc-format-selected)
-nnoremap <leader>f  <Plug>(coc-format-selected)
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nnoremap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nnoremap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xnoremap if <Plug>(coc-funcobj-i)
-xnoremap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" TODO: Change from :Format etc. to something else to avoid mental mnemonic clash my regular
-" <localLdear>f for formats
-" Use `:Format` to format current buffer
-command! -nargs=0 CocFormat :call CocAction('format')
-" Use `:Fold` to fold current buffer
-command! -nargs=? CocFold :call CocAction('fold', <f-args>)
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 "netrw {{{2
 let g:netrw_banner=0
