@@ -798,11 +798,27 @@ augroup neomake
 augroup end
 
 "junegunn/gv.vim {{{2
-"TODO Make this into a toggle
-"GV to open commit browser for all commits in repo
-nnoremap <leader>g :GV<CR>
-" Commit briwser for just current file
-" nnoremap <C-g> :GV<CR>
+function! ToggleGVCommitBrowser(gv_command)
+    let valid_gv_commands = ['GV', 'GV!']
+    if !(index(valid_gv_commands, a:gv_command) >= 0)
+        " Given gv_command is invalid
+        echoerr 'Invalid GV command:' . a:gv_command . ' (Only GV and GV! allowed)'
+    else
+        " Given gv_command is valid
+        if (&filetype == 'GV')
+            " Close GV window if already open
+            execute 'normal gq'
+        else
+            " Open desired kind of GV or GV! window
+            execute a:gv_command
+        endif
+    endif
+endfunction
+"GV - Opens commit browser
+nnoremap <silent> <leader>g :call ToggleGVCommitBrowser('GV')<CR>
+"GV! - Opens commit browser with commits that affected the current file
+nnoremap <silent> <leader>g! :call ToggleGVCommitBrowser('GV!')<CR>
+"Ignoring similar mapping for GV? because that might convolute my muscle memory
 
 "neovimhaskell/haskell-vim {{{2
 "Indentaion might vary from brittany's preferences. Secede to brottany's.
