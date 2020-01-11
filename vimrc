@@ -684,9 +684,9 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
 "NERDTree {{{2
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 "Find and reveal active buffer's file within NERDTree window
-nnoremap <C-n><C-f> :NERDTreeFind<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
 
 "Show minimal UI(without help-text, bookmark-label etc.)
 let g:NERDTreeMinimalUI = 1
@@ -712,7 +712,7 @@ nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 set undofile
 set undodir=~/.vim/undo
 
-nnoremap <C-m> :MundoToggle<CR>
+nnoremap <leader>m :MundoToggle<CR>
 "Display short oneline diff to right of graph
 let g:mundo_inline_undo=1
 "Keep focus in the Mundo window after a revert.
@@ -783,7 +783,7 @@ xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
 
 "Tagbar {{{2
-nnoremap <silent> <C-t> :TagbarToggle<CR>
+nnoremap <silent> <leader>t :TagbarToggle<CR>
 let g:tagbar_width = 28
 
 "Gutentag {{{2
@@ -800,7 +800,7 @@ augroup end
 "junegunn/gv.vim {{{2
 "TODO Make this into a toggle
 "GV to open commit browser for all commits in repo
-nnoremap <C-g> :GV<CR>
+nnoremap <leader>g :GV<CR>
 " Commit briwser for just current file
 " nnoremap <C-g> :GV<CR>
 
