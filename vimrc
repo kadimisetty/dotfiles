@@ -192,7 +192,7 @@ augroup filetype_help
     autocmd FileType help setlocal textwidth=78
     autocmd BufWinEnter *.txt call MoveHelpToNewTab()
 augroup end
-function MoveHelpToNewTab ()
+function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
 
@@ -349,7 +349,7 @@ augroup whitespace_trailing
     autocmd!
     autocmd FileType c,cpp,java,php,js,twig,xml,yml,elm autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
 augroup end
-function RemoveTrailingWhitespace ()
+function! RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 endfunction
 
@@ -406,7 +406,7 @@ nnoremap <silent> <leader>sv :vsplit<CR>
 
 "HANDY FUNCTIONS {{{1
 "Make environment writing friendly {{{2
-func! WriteMode()
+function! WriteMode()
   setlocal formatoptions=1
   setlocal noexpandtab
   "gj and gk move with wrapped lines
