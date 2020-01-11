@@ -84,10 +84,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
 # direnv needs to be hooked into the shell
 eval "$(direnv hook zsh)"
 
-# asdf (KEEP AT BOTTOM) {{{2
-# Note: asdf has to be sourced after $PATH is set, so keep at bottomn.
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
 
 # Haskell ghcup {{{2
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
@@ -95,5 +91,9 @@ eval "$(direnv hook zsh)"
 # Shell function for broot command (shortcut $br)
 source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
-# ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
+# asdf (KEEP AT BOTTOM) {{{2
+# Note: asdf has to be sourced after $PATH is set, so keep at bottomn.
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
 
+# ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
