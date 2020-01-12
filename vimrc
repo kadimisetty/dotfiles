@@ -17,6 +17,7 @@ Plug 'christoomey/vim-titlecase'
 Plug 'dense-analysis/ale'
 Plug 'elixir-editors/vim-elixir'
 Plug 'fatih/vim-go'
+Plug 'gcmt/taboo.vim'
 Plug 'hspec/hspec.vim'
 Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
@@ -163,6 +164,8 @@ set completeopt=menu,menuone,noinsert,preview
 " they dont override any vimrc changes made when the session is revoked later.
 set ssop-=options       "Dont store global and local values into session file
 set ssop-=folds         "Dont store folds into session file
+set sessionoptions+=tabpages
+set sessionoptions+=globals
 
 
 "FILETYPE PREFERENCES {{{1
@@ -589,6 +592,10 @@ let g:airline#extensions#ale#enabled=1
 "Enable vim-airline integration. Comes with airline.
 let g:airline#extensions#coc#enabled = 1
 
+"airline taboo extension
+let g:airline#extensions#taboo#enabled = 1
+
+
 "pangloss/vim-javascript {{{2
 "Enable Concealing
 set conceallevel=1
@@ -815,6 +822,10 @@ let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 let g:lsc_server_commands = {'haskell': 'hie-wrapper'}
 " Use all the defaults
 let g:lsc_auto_map = v:true
+
+" Plug 'gcmt/taboo.vim' {{{2
+let g:taboo_tab_format = "%f%U %d"
+let g:taboo_renamed_tab_format = "·%l%U %d"
 
 
 "EXPERIMENTS {{{1
