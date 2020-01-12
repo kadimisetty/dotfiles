@@ -403,6 +403,14 @@ nnoremap <silent> <leader>sh :split<CR>
 "Split window vertically
 nnoremap <silent> <leader>sv :vsplit<CR>
 
+" Jump to the last known valid cursor position {{{2
+augroup cursor_position
+    autocmd!
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal g`\"" |
+                \ endif
+augroup end
 
 "HANDY FUNCTIONS {{{1
 "Make environment writing friendly {{{2
@@ -431,27 +439,41 @@ augroup skeleton_files
     autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
 augroup end
 
-" Jump to the last known valid cursor position {{{2
-augroup cursor_position
-    autocmd!
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal g`\"" |
-                \ endif
-augroup end
-
 
 "MAPPINGS {{{1
+"Toggle quickfix and location list windows{{{2
+function! ToggleQuickFix()
+    " 1. Check if quickfix is open. 0 for close, 1+ for open
+    let l:quickfix_is_open = len(filter(getwininfo(), 'v:val.quickfix && !v:val.loclist'))
 
-"Close helper windows {{{2
+    " 2. Toggle QuickFix window
+    if l:quickfix_is_open == 0
+        execute 'copen'
+    else
+        execute 'cclose'
+    endif
+endfunction
+nnoremap <silent> <leader>c :call ToggleQuickFix()<CR>
+
+function! ToggleLocationList()
+    " 1. Check if quickfix is open. 0 for close, 1+ for open
+    let l:locationlist_is_open = len(filter(getwininfo(), 'v:val.loclist && !v:val.quickfix'))
+
+    " 2. Toggle QuickFix window
+    if l:locationlist_is_open == 0
+        execute 'lopen'
+    else
+        execute 'lclose'
+    endif
+endfunction
+nnoremap <silent> <leader>l :call ToggleLocationList()<CR>
+
 "Close all helper windows
-nnoremap <leader>z  :pclose \| lclose<CR>
-"Close Preview window quickly
+nnoremap <leader>z  :pclose \| lclose \| cclose<CR>
+"Close preview window only
 nnoremap <leader>zp :pclose<CR>
-"Close Location close quickly
-nnoremap <leader>zl :lclose<CR>
 
-"Edit vimrc
+"Edit vimrc {{{2
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
 "Terminal {{{2
