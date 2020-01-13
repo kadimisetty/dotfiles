@@ -107,7 +107,7 @@ let maplocalleader = '\\'
 "(Also used by plugins like CtrlP, NERDTree etc.)
 
 "Ignoring: Usual culprits
-set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc
+set wildignore+=*.o,*.obj,*.exe,*.so,*.dll,*.pyc,*.lock
 
 "Ignoring: Source Control
 set wildignore+=.svn,.hg,.bzr,.git,.git/*
@@ -124,6 +124,10 @@ set wildignore+=*.ez,*.beam,*/config/*.secret.exs,.elixir_ls/*
 
 "Ignoring: Python Projects
 set wildignore+=.ropeproject,__pycache__,*.egg-info,.DS_Store
+
+"Ignoring: Haskell Projects
+set wildignore+=.stack-work,.stackwork/*
+
 
 "Encodings {{{2
 scriptencoding  utf-8       "Set character encoding in the script. Place before encoding.
