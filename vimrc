@@ -37,8 +37,8 @@ Plug 'mhinz/vim-startify'
 Plug 'mmorearty/elixir-ctags'
 Plug 'morhetz/gruvbox'
 Plug 'mxw/vim-jsx'
-Plug 'natebosch/vim-lsc'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neomake/neomake'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'pangloss/vim-javascript'
@@ -828,10 +828,6 @@ let g:elm_format_fail_silently = 1
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
-"natebosch/vim-lsc {{{2
-let g:lsc_server_commands = {'haskell': 'hie-wrapper'}
-" Use all the defaults
-let g:lsc_auto_map = v:true
 
 " Plug 'gcmt/taboo.vim' {{{2
 let g:taboo_tab_format = "%f%U %d"
