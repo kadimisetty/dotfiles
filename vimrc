@@ -10,6 +10,7 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins (Run :sort! on this contiguous list after insertion){{{2
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'axelf4/vim-strip-trailing-whitespace'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
 Plug 'chrisbra/NrrwRgn'
@@ -353,13 +354,17 @@ augroup whitespace_preferences
     autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
 augroup end
-augroup whitespace_trailing
-    autocmd!
-    autocmd FileType c,cpp,java,php,js,twig,xml,yml,elm autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
-augroup end
-function! RemoveTrailingWhitespace ()
-     call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
-endfunction
+" Disable my whitespace_trailing map/func (removes in entire buffer on save) in favor of 
+" the plugin 'axelf4/vim-strip-trailing-whitespace' that only removes
+" white space on changed lines in buffer. To remove trailing whitespace in
+" entire file use it's provided command :StripTrailingWhitespace instead.
+" augroup whitespace_trailing
+"     autocmd!
+"     autocmd FileType c,cpp,java,php,js,twig,xml,yml,elm autocmd BufWritePre <buffer> call RemoveTrailingWhitespace()
+" augroup end
+" function! RemoveTrailingWhitespace ()
+"      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+" endfunction
 
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
