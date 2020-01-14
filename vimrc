@@ -149,7 +149,7 @@ set diffopt+=vertical
 "Misc {{{2
 syntax on               "Turn on syntax highlighting
 set hidden              "Unsaved bufers are allowed to move to the background
-set showmode            "Show current modeline
+set noshowmode          "Don't print mode changes upon entering a new mode e.g. --INSERT--
 set autoread            "Sync loaded file to changes on disk
 set laststatus=2        "Always display a status line, even with only 1 window
 set mousehide           "Hide mouse pointer while typing
