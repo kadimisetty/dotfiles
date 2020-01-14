@@ -354,7 +354,7 @@ augroup whitespace_preferences
     autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
 augroup end
-" Disable my whitespace_trailing map/func (removes in entire buffer on save) in favor of 
+" Disable my whitespace_trailing map/func (removes in entire buffer on save) in favor of
 " the plugin 'axelf4/vim-strip-trailing-whitespace' that only removes
 " white space on changed lines in buffer. To remove trailing whitespace in
 " entire file use it's provided command :StripTrailingWhitespace instead.
@@ -482,9 +482,7 @@ endfunction
 nnoremap <silent> <leader>l :call ToggleLocationList()<CR>
 
 "Close all helper windows
-nnoremap <leader>z  :pclose \| lclose \| cclose<CR>
-"Close preview window only
-nnoremap <leader>zp :pclose<CR>
+nnoremap <silent><leader>z  :pclose \| lclose \| cclose \| call popup_clear()<CR>
 
 "Edit vimrc {{{2
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
@@ -786,7 +784,7 @@ augroup END
 "Operators that call Titlecase upon expected text objects
 " nnoremap <leader>gt <Plug>Titlecase
 " vnoremap <leader>gt <Plug>Titlecase
-" gt and gT are by default mapped to previous/next tabs but I'm using 
+" gt and gT are by default mapped to previous/next tabs but I'm using
 " <Tab> and <S-Tab> for that, so remapping gt and gT is okay.
 nnoremap gt <Plug>Titlecase
 vnoremap gt <Plug>Titlecase
@@ -832,6 +830,97 @@ let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 " Plug 'gcmt/taboo.vim' {{{2
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "·%l%U %d"
+
+" coc-nvim {{{2
+" Contrast in CocFloating + gruvbox is terrible.
+" Changing to another highlight group.
+" IMPORTANT: Needs to be done after loading gruvbox
+hi default link CocFloating Folded
+
+" Load these extensions (They are activated according to filetype)
+let g:coc_global_extensions = ['coc-elixir', 'coc-snippets', 'coc-vimlsp', 'coc-json']
+
+" Coc recommends faster update time to show diagnostic messages (default is 4000ms)
+set updatetime=300
+
+" Disable ins-completion-menu messages like match 1 of 2, Pattern not found etc.
+set shortmess+=c
+
+"TRIGGER COMPLETION {{{3
+"(Note: Coc trigger completion Requires `coc-snippets` extension to be enabled)
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" TRIGGER COMPLETION STRATEGY 1:
+" Can do Tab/S-Tab in completion but no snippet expansion with <Tab>
+" inoremap <silent><expr> <TAB>
+"         \ pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+" inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" TRIGGER COMPLETION STRATEGY 2:
+" No nice Tab/S-Tab for up/down in completion window but <Tab> does snippet expansion
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? coc#_select_confirm() :
+            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+
+"Trigger keys to go next/prev in snippet insertion positions.
+"Defaults are <C-j> for next and <C-k> for prev
+" let g:coc_snippet_next='<Tab>'
+" let g:coc_snippet_prev='<S-Tab>'
+" Shift-Tab doesn't work for prev
+" let g:coc_snippet_prev='<S-Tab>'
+" }}}3
+
+" Coc Recommended Mappings
+" Navigate diagnostics
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
+" Gotos
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+
+"Use K to show documentation in preview window
+"Note: This can be closed with :pclose which I mapped into <leader>z
+function! s:coc_show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
+
+"Rename current word
+nnoremap <leader>rn <Plug>(coc-rename)
+
+" Function text object (requires document symbols feature of languageserver)
+xnoremap if <Plug>(coc-funcobj-i)
+xnoremap af <Plug>(coc-funcobj-a)
+onoremap if <Plug>(coc-funcobj-i)
+onoremap af <Plug>(coc-funcobj-a)
+
+" Use `:CocFormat` to format current buffer
+" command! -nargs=0 CocFormat :call CocAction('format')
+" Use `:CocFold` to fold current buffer
+" command! -nargs=? CocFold :call CocAction('fold', <f-args>)
+" use `:CocOR` for organize import of current buffer
+" command! -nargs=0 CocOR   :call CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+augroup coc_update_signature_help_on_jump_placeholder
+  autocmd!
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 
 "EXPERIMENTS {{{1
