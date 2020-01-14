@@ -173,6 +173,19 @@ set ssop-=folds         "Dont store folds into session file
 set sessionoptions+=tabpages
 set sessionoptions+=globals
 
+"Close quickfix window if it's the last one left
+"SEE: https://vim.fandom.com/wiki/Automatically_quit_Vim_if_quickfix_window_is_the_last
+augroup quickfix_to_be_closed
+    autocmd!
+    autocmd BufEnter * call CloseQuickfixIfItIsLastOpenWinLeftInTab()
+augroup end
+" close if quickfix is the last window left in this tab
+function! CloseQuickfixIfItIsLastOpenWinLeftInTab()
+  if (&buftype=="quickfix" && winnr('$') < 2)
+      quit
+  endif
+endfunction
+
 
 "FILETYPE PREFERENCES {{{1
 " Filetype settings {{{2
