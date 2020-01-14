@@ -623,9 +623,9 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
 "NERDTree {{{2
-nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 "Find and reveal active buffer's file within NERDTree window
-nnoremap <leader>nf :NERDTreeFind<CR>
+nnoremap <C-n><C-f> :NERDTreeFind<CR>
 
 "Show minimal UI(without help-text, bookmark-label etc.)
 let g:NERDTreeMinimalUI = 1
@@ -651,7 +651,7 @@ nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 set undofile
 set undodir=~/.vim/undo
 
-nnoremap <leader>m :MundoToggle<CR>
+nnoremap <C-u> :MundoToggle<CR>
 "Display short oneline diff to right of graph
 let g:mundo_inline_undo=1
 "Keep focus in the Mundo window after a revert.
@@ -722,7 +722,7 @@ xnoremap ga <Plug>(EasyAlign)
 nnoremap ga <Plug>(EasyAlign)
 
 "Tagbar {{{2
-nnoremap <silent> <leader>t :TagbarToggle<CR>
+nnoremap <silent> <C-t> :TagbarToggle<CR>
 let g:tagbar_width = 28
 
 "Gutentag {{{2
@@ -754,9 +754,9 @@ function! ToggleGVCommitBrowser(gv_command)
     endif
 endfunction
 "GV - Opens commit browser
-nnoremap <silent> <leader>g :call ToggleGVCommitBrowser('GV')<CR>
+nnoremap <silent> <C-g> :call ToggleGVCommitBrowser('GV')<CR>
 "GV! - Opens commit browser with commits that affected the current file
-nnoremap <silent> <leader>g! :call ToggleGVCommitBrowser('GV!')<CR>
+nnoremap <silent> <C-g>! :call ToggleGVCommitBrowser('GV!')<CR>
 "Ignoring similar mapping for GV? because that might convolute my muscle memory
 
 "neovimhaskell/haskell-vim {{{2
