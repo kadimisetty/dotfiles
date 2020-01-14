@@ -855,23 +855,24 @@ function! s:check_back_space() abort
 endfunction
 
 " TRIGGER COMPLETION STRATEGY 1:
-" Can do Tab/S-Tab in completion but no snippet expansion with <Tab>
+" Can do Tab/S-Tab for up/down in completion but <Tab> can't expand snippets.
 " inoremap <silent><expr> <TAB>
-"         \ pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+"         \ pumvisible() ? "\<C-n>" :
+"         \ <SID>check_back_space() ? "\<TAB>" :
+"         \ coc#refresh()
 " inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " TRIGGER COMPLETION STRATEGY 2:
-" No nice Tab/S-Tab for up/down in completion window but <Tab> does snippet expansion
+" No Tab/S-Tab for up/down in completion window but <Tab> does snippet expansion.
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? coc#_select_confirm() :
-            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+    \ pumvisible() ? coc#_select_confirm() :
+    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
 
 "Trigger keys to go next/prev in snippet insertion positions.
 "Defaults are <C-j> for next and <C-k> for prev
 " let g:coc_snippet_next='<Tab>'
-" let g:coc_snippet_prev='<S-Tab>'
 " Shift-Tab doesn't work for prev
 " let g:coc_snippet_prev='<S-Tab>'
 " }}}3
