@@ -133,16 +133,21 @@ function! CustomizeStartupScreen()
 
         " Start a new buffer and make it act like a start screen
         enew
-        setlocal
+        silent! setlocal
                     \ bufhidden=wipe
-                    \ buftype=nofile
+                    \ colorcolumn=
+                    \ foldcolumn=0
+                    \ matchpairs=
                     \ nobuflisted
                     \ nocursorcolumn
                     \ nocursorline
                     \ nolist
                     \ nonumber
                     \ norelativenumber
+                    \ nospell
                     \ noswapfile
+                    \ signcolumn=no
+                    \ synmaxcol&
 
         " Display message
         call append('$', "")
