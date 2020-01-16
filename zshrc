@@ -43,6 +43,9 @@ export EDITOR=vim
 alias l="ls -lah"
 
 alias v="vim"
+alias vc="vim --clean"
+alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
+
 alias n="nvim"
 alias nview="nvim -R"
 
