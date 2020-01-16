@@ -218,6 +218,15 @@ function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
 
+augroup filetype_haskell
+    autocmd!
+    " Requires hindent to installed globally.
+    " Chosing formatprg as hindent because Brittany is used by default anyway
+    " and with formatprg can call upon a second formatter hindent as needed
+    " autocmd FileType haskell setlocal formatprg=stylish-haskell
+    " autocmd FileType haskell setlocal formatprg=brittany
+    autocmd FileType haskell setlocal formatprg=hindent
+augroup end
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
