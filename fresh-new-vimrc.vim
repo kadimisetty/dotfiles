@@ -7,9 +7,13 @@
 " Author: Sri Kadimisetty <https://github.com/kadimisetty>
 
 
+
+
 " APPEARANCE {{{1
+
 " COLORSCHEME {{{2
 set t_Co=256
+" }}}2
 
 " Don't show the status line
 set laststatus=0
@@ -69,6 +73,7 @@ elseif $TERM_PROGRAM =~ "iTerm"
     "Underline in Replace mode
     let &t_SR = "\<esc>]50;CursorShape=2\x7"
 endif
+" }}}2
 
 "Enable Syntax highlighting
 syntax enable
@@ -77,13 +82,18 @@ syntax enable
 set backspace=2
 
 
-" BEHAVIOR {{{1
+
+
+" BEHAVIORS {{{1
+
 " Make W and Q beahve like their lower case counterparts
 command! W w
 command! Q q
 
 
-" MOVEMENT {{{1
+
+
+" MOVEMENTS {{{1
 " Move between tabs with just the <Tab> key
 nnoremap <Tab>      :tabnext<CR>
 nnoremap <S-Tab>    :tabprevious<CR>
@@ -97,7 +107,11 @@ nnoremap <silent> <C-k> :wincmd k<CR>
 "Move focus to window facing l
 nnoremap <silent> <C-l> :wincmd l<CR>
 
-"FUNCTIONS {{{1
+
+
+
+"FUNCTIONS & COMMANDS {{{1
+
 function! RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 endfunction
@@ -108,7 +122,9 @@ function! MoveHelpToNewTab ()
 endfunction
 
 
-" MAPPING {{{1
+
+
+" MAPPINGS {{{1
 " Save with Ctrl-S
 nnoremap <C-S>  :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
@@ -123,13 +139,19 @@ nnoremap Y y$
 nnoremap J mzJ`z
 
 
-" FILETYPE {{{1
+
+
+" FILETYPES {{{1
+
 augroup filetype_help
     autocmd!
     autocmd FileType help setlocal textwidth=80
     autocmd BufWinEnter *.txt call MoveHelpToNewTab()
 augroup end
 
-" OTHER PREFERENCES {{{1
+
+
+
+" MISCELLANEOUS {{{1
 
 
