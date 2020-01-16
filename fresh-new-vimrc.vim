@@ -127,13 +127,14 @@ function! MoveHelpToNewTab ()
 endfunction
 
 " Customizes the Vim startup screen
-function CustomizeStartupScreen()
+function! CustomizeStartupScreen()
     " Verify vim started without arguments
     if (!argc() && line2byte('$') == -1)
 
         " Start a new buffer and make it act like a start screen
         enew
-        setlocal      bufhidden=wipe
+        setlocal
+                    \ bufhidden=wipe
                     \ buftype=nofile
                     \ nobuflisted
                     \ nocursorcolumn
@@ -146,7 +147,8 @@ function CustomizeStartupScreen()
         " Display message
         call append('$', "")
         call append('$', "HELLO " . toupper($USER))
-        call append('$', "Welcome to Vim")
+        call append('$', "Vim v" . v:version)")
+        call append('$', "")
         call append('$', "-------------------------------------------")
         call append('$', "type i                 to start insert mode")
         call append('$', "type :edit <FILENAME>  to edit a file")
