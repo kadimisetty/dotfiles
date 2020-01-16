@@ -53,3 +53,7 @@ tags
 /tags
 /ctags
 /etags
+
+# Tags #
+######################
+*.vim.swp
