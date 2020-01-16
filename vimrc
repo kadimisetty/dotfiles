@@ -226,6 +226,9 @@ augroup filetype_haskell
     " autocmd FileType haskell setlocal formatprg=stylish-haskell
     " autocmd FileType haskell setlocal formatprg=brittany
     autocmd FileType haskell setlocal formatprg=hindent
+
+    "Turn on the sign column as I use it a lot with linters etc.
+    setlocal signcolumn=yes
 augroup end
 
 "INDENTS & FOLDS {{{1
