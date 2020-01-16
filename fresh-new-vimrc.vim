@@ -86,11 +86,14 @@ set backspace=2
 
 " BEHAVIORS {{{1
 
-" Make W and Q beahve like their lower case counterparts
+" Make W and Q behave like their lower case counterparts
 command! W w
 command! Q q
 
-
+" Replace Vim's startup screen
+augroup startup_screen
+    autocmd VimEnter * call CustomizeStartupScreen()
+augroup end
 
 
 " MOVEMENTS {{{1
@@ -112,19 +115,59 @@ nnoremap <silent> <C-l> :wincmd l<CR>
 
 "FUNCTIONS & COMMANDS {{{1
 
+" Removes trailing whitespace in entire buffer
 function! RemoveTrailingWhitespace ()
      call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
 endfunction
 command! -nargs=0 RemoveTrailingWhitespace :call RemoveTrailingWhitespace()
 
+" Moves the help window into it's own tab
 function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
+endfunction
+
+" Customizes the Vim startup screen
+function CustomizeStartupScreen()
+    " Verify vim started without arguments
+    if (!argc() && line2byte('$') == -1)
+
+        " Start a new buffer and make it act like a start screen
+        enew
+        setlocal      bufhidden=wipe
+                    \ buftype=nofile
+                    \ nobuflisted
+                    \ nocursorcolumn
+                    \ nocursorline
+                    \ nolist
+                    \ nonumber
+                    \ norelativenumber
+                    \ noswapfile
+
+        " Display message
+        call append('$', "")
+        call append('$', "HELLO " . toupper($USER))
+        call append('$', "Welcome to Vim")
+        call append('$', "-------------------------------------------")
+        call append('$', "type i                 to start insert mode")
+        call append('$', "type :edit <FILENAME>  to edit a file")
+        call append('$', "type :help             to get help")
+        call append('$', "type :q                to quit")
+
+        " Turn off all modifications to this buffer
+        setlocal nomodifiable nomodified
+
+        " On begiinning insert mode, start a new buffer and business as usual
+        nnoremap <buffer><silent> e :enew<CR>
+        nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
+        nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
+    endif
 endfunction
 
 
 
 
 " MAPPINGS {{{1
+
 " Save with Ctrl-S
 nnoremap <C-S>  :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
