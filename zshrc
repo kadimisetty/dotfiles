@@ -65,10 +65,13 @@ alias mps="mix phx.server"
 
 # PROGRAMS' SETTINGS {{{1
 
-# Used by haskell workspace frameworks, nvim etc.
+# Used to include binaries installed by Go in path
+export PATH=/Users/sri/go/bin:$PATH
+
+# Used by haskell workspace frameworks, nvim etc. {{{2
 export PATH=/Users/sri/.local/bin:$PATH
 
-# Rust Cargo
+# Rust Cargo {{{2
 export PATH=/Users/sri/.cargo/bin:$PATH
 
 # Ruby rbenv - Use non-system ruby versions{{{2
