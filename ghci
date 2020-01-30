@@ -1,0 +1,8 @@
+-- Escape characters to allow strings like [a] -> [b] etc.
+let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'" else [c]) arg ++ "'"
+
+-- Search hoogle for given arguement
+:def! search return . (":! hoogle " ++) . ghciEscapeShellArg
+
+-- Docs from hoogle of given argument
+:def! doc return . (":! hoogle --info " ++) . ghciEscapeShellArg
