@@ -1,8 +1,10 @@
 -- Escape characters to allow strings like [a] -> [b] etc.
 let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'" else [c]) arg ++ "'"
 
+
+-- HOOGLE -- requires hoogle command line program. Get with `$ stack install hoogle`
 -- Search hoogle for given arguement
-:def! search return . (":! hoogle " ++) . ghciEscapeShellArg
+:def! hoogle return . (":! hoogle " ++) . ghciEscapeShellArg
 
 -- Docs from hoogle of given argument
-:def! doc return . (":! hoogle --info " ++) . ghciEscapeShellArg
+:def! hoogledoc return . (":! hoogle --info " ++) . ghciEscapeShellArg
