@@ -27,6 +27,19 @@ ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 
+# ACTIONS {{{1
+# Creates empty file if file doesn't exist {{{2
+function touch_file_if_doesnt_exist() {
+    if [[ ! -f $1 ]]; then
+        touch $1
+    fi
+}
+
+# Disable login messages {{{2
+# ~/.hushlogin file prevents displaying login message
+touch_file_if_doesnt_exist ~/.hushlogin
+
+
 # PREFERENCES {{{1
 # Display red dots while waiting for completion {{{2
 COMPLETION_WAITING_DOTS="true"
@@ -35,6 +48,7 @@ COMPLETION_WAITING_DOTS="true"
 stty start undef
 stty stop undef
 setopt noflowcontrol
+
 # Default Editor
 export EDITOR=vim
 
