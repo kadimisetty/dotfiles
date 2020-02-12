@@ -8,3 +8,7 @@ let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'"
 
 -- Docs from hoogle of given argument
 :def! hoogledoc return . (":! hoogle --info " ++) . ghciEscapeShellArg
+
+
+-- Change prompt
+:set prompt "λ "
