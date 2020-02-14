@@ -7,12 +7,13 @@
 # oh-my-zsh Plugins: ~/.oh-my-zsh/plugins.
 # Custom Plugins:   ~/.oh-my-zsh/custom/plugins
 plugins=(
-    git
-    fzf
-    mix
-    branch
     asdf
     autopep8
+    branch
+    colored-man-pages
+    fzf
+    git
+    mix
 )
 
 # Themes {{{2
