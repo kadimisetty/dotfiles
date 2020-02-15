@@ -738,7 +738,7 @@ augroup END
 
 "Startify {{{2
 let g:startify_files_number = 4
-let g:startify_custom_header = 'startify#fortune#boxed()'
+let g:startify_custom_header = ''
 
 "EasyAlign {{{2
 "Start interactive EasyAlign in visual mode (e.g. vipga)
