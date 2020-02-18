@@ -10,8 +10,13 @@ let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'"
 :def! hoogledoc return . (":! hoogle --info " ++) . ghciEscapeShellArg
 
 -- Customize prompt
-:set prompt "λ "
+-- :set prompt "λ "
+-- Colored prompt
+:set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
 :set prompt-cont "| "
 
 -- Allow Multiline commands to properly display with prompt-cont
 :set +m
+
+-- Better errors
+:set -ferror-spans -freverse-errors -fprint-expanded-synonyms
