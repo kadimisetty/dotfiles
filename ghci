@@ -13,7 +13,7 @@ let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'"
 -- :set prompt "λ "
 -- Colored prompt
 :set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
-:set prompt-cont "| "
+:set prompt-cont "\ESC[38;5;208m\STX|\ESC[m\STX "
 
 -- Allow Multiline commands to properly display with prompt-cont
 :set +m
