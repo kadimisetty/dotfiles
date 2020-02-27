@@ -593,6 +593,31 @@ nnoremap <C-P><C-W> :FWindows<CR>
 "Airline {{{2
 let g:airline_theme='gruvbox'
 
+" Use short symbols to indicate mode
+let g:airline_mode_map = {
+    \ '__'     : '-',
+    \ 'c'      : 'C',
+    \ 'i'      : 'I',
+    \ 'ic'     : 'I',
+    \ 'ix'     : 'I',
+    \ 'n'      : 'N',
+    \ 'multi'  : 'M',
+    \ 'ni'     : 'N',
+    \ 'no'     : 'N',
+    \ 'R'      : 'R',
+    \ 'Rv'     : 'R',
+    \ 's'      : 'S',
+    \ 'S'      : 'S',
+    \ ''     : 'S',
+    \ 't'      : 'T',
+    \ 'v'      : 'V',
+    \ 'V'      : 'V',
+    \ ''     : 'v',
+    \ }
+
+" Skip displaying fileformat if it matches the expected 'utf-8[unix]'
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+
 " Initialize Airline Symbols if not created.
 " Avoid overwriting existing Airline symbols
 if !exists('g:airline_symbols')
