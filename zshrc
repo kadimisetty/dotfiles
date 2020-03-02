@@ -91,7 +91,7 @@ export PATH=/Users/sri/.cargo/bin:$PATH
 
 # Ruby rbenv - Use non-system ruby versions{{{2
 # Load rbenv
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
 # FZF {{{2
 # Use ripgrep(installed via homebrew) to power fzf searches
