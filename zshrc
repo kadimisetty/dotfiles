@@ -89,9 +89,15 @@ export PATH=/Users/sri/.local/bin:$PATH
 # Rust Cargo {{{2
 export PATH=/Users/sri/.cargo/bin:$PATH
 
-# Ruby rbenv - Use non-system ruby versions{{{2
+# RUBY {{{2
+# rbenv - Use non-system ruby versions{{{3
 # Load rbenv
 # eval "$(rbenv init -)"
+
+# Homebrew ruby {{{3
+# Add gems from this version to path
+export PATH=/usr/local/lib/ruby/gems/2.7.0/bin:$PATH
+
 
 # FZF {{{2
 # Use ripgrep(installed via homebrew) to power fzf searches
