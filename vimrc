@@ -512,6 +512,10 @@ nnoremap <silent><leader>z  :pclose \| lclose \| cclose \| call popup_clear()<CR
 "Edit vimrc {{{2
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
+"Buffer Manipulation {{{2
+"Delete buffer in current window
+nnoremap <silent> <localleader>bd :bd %<CR>
+
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
