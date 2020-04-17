@@ -48,6 +48,7 @@ Plug 'rizzatti/dash.vim'
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
 Plug 'rstacruz/vim-closer'
+Plug 'rust-lang/rust.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
