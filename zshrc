@@ -87,9 +87,15 @@ export PATH=/Users/sri/go/bin:$PATH
 # Add homebrew's /usr/local/sbin to path
 export PATH="/usr/local/sbin:$PATH"
 
-
 # Used by haskell workspace frameworks, nvim etc. {{{2
 export PATH=/Users/sri/.local/bin:$PATH
+
+# Add executables produced by haskell's stack to path
+# Note:
+# - These are specific to compiler
+# - Generated with command `stack build --copy-compiler-tool`
+# - Warning - Set only to one(latest) compiler version to prevent confusion if possible
+export PATH=/Users/sri/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH
 
 # Rust Cargo {{{2
 export PATH=/Users/sri/.cargo/bin:$PATH
