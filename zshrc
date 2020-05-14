@@ -69,6 +69,7 @@ alias personal="cd ~/code/personal/"
 alias playground="cd ~/code/playground/"
 alias sandbox="cd ~/code/sandbox/"
 alias dotfiles="cd ~/code/personal/dotfiles/"
+alias external="cd ~/code/external/"
 
 ## Mix {{{2
 alias im="iex -S mix"
