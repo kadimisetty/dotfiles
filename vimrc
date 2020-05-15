@@ -62,6 +62,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
+Plug 'vmchale/dhall-vim'
 
 
 "NERDTree. Save order.
