@@ -381,6 +381,7 @@ augroup whitespace_preferences
     autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
+    autocmd FileType haskell setlocal ts=2 sts=2 sw=2 expandtab
 augroup end
 " Disable my whitespace_trailing map/func (removes in entire buffer on save) in favor of
 " the plugin 'axelf4/vim-strip-trailing-whitespace' that only removes
