@@ -302,6 +302,10 @@ set formatoptions+=n    "Support lists (numbered, bulleted)
 set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full       "Tab-Completion ala zsh
 
+
+" Set vertical window sepertor to pipelike symbol │ with no vertical spaces
+set fillchars+=vert:│
+
 "Title {{{2
 set title
 set titleold="Terminal"
