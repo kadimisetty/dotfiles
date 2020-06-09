@@ -82,6 +82,7 @@ alias sb="stack build"
 alias sc="stack clean"
 alias sg="stack ghci"
 alias sr="stack runhaskell"
+alias se="stack exec"
 
 
 # MISCELLANEOUS {{{1
