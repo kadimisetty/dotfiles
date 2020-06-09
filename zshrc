@@ -77,6 +77,12 @@ alias im="iex -S mix"
 alias mt="mix test --trace"
 alias mps="mix phx.server"
 
+## Stack {{{2
+alias sb="stack build"
+alias sc="stack clean"
+alias sg="stack ghci"
+alias sr="stack runhaskell"
+
 
 # MISCELLANEOUS {{{1
 
