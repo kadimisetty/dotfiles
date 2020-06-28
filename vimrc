@@ -779,6 +779,7 @@ let g:startify_files_number = 4
 let g:startify_custom_header = ''
 
 "EasyAlign {{{2
+"NOTE: xmap and nmap for easyalign should not use the noremap versions
 "Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 "Start interactive EasyAlign for a motion/text object (e.g. gaip)
