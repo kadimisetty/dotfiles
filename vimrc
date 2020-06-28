@@ -82,8 +82,9 @@ Plug 'tpope/vim-projectionist'
 Plug 'c-brenn/fuzzy-projectionist.vim'
 
 "Tabular and Markdown. Save order.
+"(godlygeek/tabular is a dependency for plasticboy/vim-markdown)
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown' "Put after dependency - 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 "Vim-Devicons. Load as last plugin
 Plug 'ryanoasis/vim-devicons' "Requires encoding utf-8. Set as such elsewhere.
@@ -779,9 +780,9 @@ let g:startify_custom_header = ''
 
 "EasyAlign {{{2
 "Start interactive EasyAlign in visual mode (e.g. vipga)
-xnoremap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
 "Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nnoremap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 "Tagbar {{{2
 nnoremap <silent> <C-t> :TagbarToggle<CR>
