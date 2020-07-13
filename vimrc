@@ -636,9 +636,9 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_symbols.branch = 'שׂ'
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
 
 "airline builtin extension - tabline
 let g:airline#extensions#tabline#enabled = 1
