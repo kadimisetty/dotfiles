@@ -910,19 +910,6 @@ set updatetime=300
 " Disable ins-completion-menu messages like match 1 of 2, Pattern not found etc.
 set shortmess+=c
 
-" NOTE for the following jump-to-postion mappings - Keep as nmaps
-" Jump to next diagnostic position
-nmap ] <Plug>(coc-diagnostic-next)
-
-" Jump to previous diagnostic position
-nmap ]d <Plug>(coc-diagnostic-prev)
-
-" Jump to next diagnostic error position
-nmap ]de <Plug>(coc-diagnostic-next-error)
-
-" Jump to previous diagnostic error position
-nmap ]de <Plug>(coc-diagnostic-prev-error)
-
 "TRIGGER COMPLETION {{{3
 "(Note: Coc trigger completion Requires `coc-snippets` extension to be enabled)
 
