@@ -788,6 +788,15 @@ nmap ga <Plug>(EasyAlign)
 "Tagbar {{{2
 nnoremap <silent> <C-t> :TagbarToggle<CR>
 let g:tagbar_width = 28
+let g:tagbar_type_elm = {
+          \   'ctagstype':'elm'
+          \ , 'kinds':['h:header', 'i:import', 't:type', 'f:function', 'e:exposing']
+          \ , 'sro':'&&&'
+          \ , 'kind2scope':{ 'h':'header', 'i':'import'}
+          \ , 'sort':0
+          \ , 'ctagsbin':'~/code/personal/dotfiles/elmtags.py'
+          \ , 'ctagsargs': ''
+          \ }
 
 "Gutentag {{{2
 "Specify directory to create the tag files. instead of storing at project root

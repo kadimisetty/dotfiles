@@ -1,7 +1,10 @@
 #! /usr/bin/env python
 
 """
-https://gist.github.com/MaximeWack/388c393b7db290dd732f0a2d403118c5
+Blog Post:
+    https://www.maximewack.com/post/tagbar/
+Code Gist:
+    https://gist.github.com/MaximeWack/388c393b7db290dd732f0a2d403118c5
 """
 from __future__ import print_function
 
@@ -12,14 +15,27 @@ Usage:
 Install Tagbar (http://majutsushi.github.io/tagbar/). Then, put this file
 anywhere and add the following to your .vimrc:
 
+(SRI's EDITS:
+    NOTE:
+    There are many variations of the following options on the web, but
+    the following options (modified with my location of elmtags.py) seems
+    to be only one to work.
+
+    Also Mac OS seems to prevent runnning executables downloaded over the
+    internet and tagbar fails without any notifications of failure.
+    So turn this script into an executable with `chmod u+x ./elmtags.py`.
+
 let g:tagbar_type_elm = {
           \   'ctagstype':'elm'
-          \ , 'kinds':['h:header', 'i:import', 't:type', 'f:function']
+          \ , 'kinds':['h:header', 'i:import', 't:type', 'f:function', 'e:exposing']
           \ , 'sro':'&&&'
-          \ , 'kind2scope':{'h':'header', 'i:import', 't:type', 'f:function'}
+          \ , 'kind2scope':{ 'h':'header', 'i':'import'}
           \ , 'sort':0
-          \ , 'ctagsbin':'/path/to/elmtags.py'
+          \ , 'ctagsbin':'~/code/personal/dotfiles/elmtags.py'
+          \ , 'ctagsargs': ''
           \ }
+
+ENDOF SRI'S EDITS)
 """
 
 import sys
