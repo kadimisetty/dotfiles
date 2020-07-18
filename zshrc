@@ -116,7 +116,11 @@ export PATH=/Users/sri/.cargo/bin:$PATH
 
 # Homebrew ruby {{{3
 # Add gems from this version to path
-export PATH=/usr/local/lib/ruby/gems/2.7.0/bin:$PATH
+# NOTE:
+#   Stopping adding the following to path, because it conflicts with a proper sass install
+# . This might have been for the sake of a jekyll gem, but this whole ruby gem
+# configuration seems too clunky and should be avoided.
+# export PATH=/usr/local/lib/ruby/gems/2.7.0/bin:$PATH
 
 
 # FZF {{{2
