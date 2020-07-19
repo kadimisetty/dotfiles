@@ -402,6 +402,10 @@ augroup end
 
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
+"Abbreviations & Typos
+"TODO: Move these into after file recommended by Abolish.vim
+iabbrev impoty import
+
 command! W w
 command! Q q
 "Retain visual selection after an indentation shift.
