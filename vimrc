@@ -405,6 +405,7 @@ augroup end
 "Abbreviations & Typos
 "TODO: Move these into after file recommended by Abolish.vim
 iabbrev impoty import
+iabbrev impory import
 
 command! W w
 command! Q q
