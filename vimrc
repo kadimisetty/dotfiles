@@ -694,6 +694,8 @@ let g:vim_markdown_conceal_code_blocks = 0
 nnoremap <C-n> :NERDTreeToggle<CR>
 "Find and reveal active buffer's file within NERDTree window
 nnoremap <C-n><C-f> :NERDTreeFind<CR>
+"Refreshes the NERDTree root node
+nnoremap <C-n><C-r> :NERDTreeRefreshRoot<CR>
 
 "Show minimal UI(without help-text, bookmark-label etc.)
 let g:NERDTreeMinimalUI = 1
