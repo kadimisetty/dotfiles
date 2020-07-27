@@ -916,6 +916,17 @@ nnoremap <silent> <localleader>d <Plug>DashSearch
 "TODO Customize keyword map. e.g. dash lookup in an elixir file would search both
 "elixir and phoenix docsets. Consult :help DashConfig_map
 
+
+"rust-lang/rust.vim {{{2
+"Format with rustfmt
+augroup rust_format
+    autocmd!
+    autocmd FileType rust nnoremap <silent> <localleader>f :RustFmt<CR>
+augroup END
+
+" Format current buffer on save
+let g:rustfmt_autosave = 1
+
 "Zaptic/elm-vim {{{2
 "Elm default mappings
 "<Leader>m	Compile the current buffer.
