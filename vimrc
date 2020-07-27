@@ -918,10 +918,13 @@ nnoremap <silent> <localleader>d <Plug>DashSearch
 
 
 "rust-lang/rust.vim {{{2
-"Format with rustfmt
-augroup rust_format
+augroup rust
     autocmd!
+    "Format with rustfmt
     autocmd FileType rust nnoremap <silent> <localleader>f :RustFmt<CR>
+    "Cargo
+    autocmd FileType rust nnoremap <silent> <localleader>cr :Cargo run<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>cb :Cargo build<CR>
 augroup END
 
 " Format current buffer on save
