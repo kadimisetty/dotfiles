@@ -929,8 +929,10 @@ augroup rust
     "Format with rustfmt
     autocmd FileType rust nnoremap <silent> <localleader>f :RustFmt<CR>
     "Cargo
-    autocmd FileType rust nnoremap <silent> <localleader>cr :Cargo run<CR>
-    autocmd FileType rust nnoremap <silent> <localleader>cb :Cargo build<CR>
+    autocmd FileType rust nnoremap <silent> <leader>rr :Crun<CR>
+    autocmd FileType rust nnoremap <silent> <leader>rb :Cbuild<CR>
+    autocmd FileType rust nnoremap <silent> <leader>rt :Ctest<CR>
+    autocmd FileType rust nnoremap <silent> <leader>rc :Cclean<CR>
 augroup END
 
 " Format current buffer on save
