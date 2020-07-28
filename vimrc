@@ -222,6 +222,12 @@ function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
 
+augroup filetype_rust
+    autocmd!
+    " Append a semicolon to end of line
+    nnoremap <localleader>; A;<esc>
+augroup end
+
 augroup filetype_haskell
     autocmd!
     " Requires hindent to installed globally.
