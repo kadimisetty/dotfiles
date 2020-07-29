@@ -55,7 +55,7 @@ export EDITOR=vim
 
 
 # ALIASES {{{1
-alias l="ls -lah"
+alias l="ls -A"
 
 ## Vim {{{2
 alias v="vim"
