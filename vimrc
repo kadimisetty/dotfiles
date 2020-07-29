@@ -225,7 +225,7 @@ endfunction
 augroup filetype_rust
     autocmd!
     " Append a semicolon to end of line
-    nnoremap <localleader>; A;<esc>
+    nnoremap <localleader>; mmA;<esc>`m
 augroup end
 
 augroup filetype_haskell
@@ -511,7 +511,7 @@ function! ToggleQuickFix()
         execute 'cclose'
     endif
 endfunction
-nnoremap <silent> <leader>c :call ToggleQuickFix()<CR>
+nnoremap <silent> <leader>q :call ToggleQuickFix()<CR>
 
 function! ToggleLocationList()
     " 1. Check if quickfix is open. 0 for close, 1+ for open
@@ -929,10 +929,9 @@ augroup rust
     "Format with rustfmt
     autocmd FileType rust nnoremap <silent> <localleader>f :RustFmt<CR>
     "Cargo
-    autocmd FileType rust nnoremap <silent> <leader>rr :Crun<CR>
-    autocmd FileType rust nnoremap <silent> <leader>rb :Cbuild<CR>
-    autocmd FileType rust nnoremap <silent> <leader>rt :Ctest<CR>
-    autocmd FileType rust nnoremap <silent> <leader>rc :Cclean<CR>
+    autocmd FileType rust nnoremap <silent> <leader>cr :Crun<CR>
+    autocmd FileType rust nnoremap <silent> <leader>cb :Cbuild<CR>
+    autocmd FileType rust nnoremap <silent> <leader>ct :Ctest<CR>
 augroup END
 
 " Format current buffer on save

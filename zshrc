@@ -67,12 +67,10 @@ alias vn='vim -c "NERDTree"'
 alias n="nvim"
 alias nview="nvim -R"
 
-## Rust {{{2
-alias rr="cargo run"
-alias rb="cargo build"
-alias rt="cargo test"
-### TODO: For `rc` decide between `cargo check` and `cargo clean`
-alias rc="cargo clean"
+## Rust Cargo {{{2
+alias cr="cargo run"
+alias cb="cargo build"
+alias ct="cargo test"
 
 ## Dirs {{{2
 alias personal="cd ~/code/personal/"
