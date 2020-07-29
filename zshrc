@@ -57,6 +57,7 @@ export EDITOR=vim
 # ALIASES {{{1
 alias l="ls -lah"
 
+## Vim {{{2
 alias v="vim"
 alias vc="vim --clean"
 alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
@@ -66,6 +67,14 @@ alias vn='vim -c "NERDTree"'
 alias n="nvim"
 alias nview="nvim -R"
 
+## Rust {{{2
+alias rr="cargo run"
+alias rb="cargo build"
+alias rt="cargo test"
+### TODO: For `rc` decide between `cargo check` and `cargo clean`
+alias rc="cargo clean"
+
+## Dirs {{{2
 alias personal="cd ~/code/personal/"
 alias playground="cd ~/code/playground/"
 alias sandbox="cd ~/code/sandbox/"
