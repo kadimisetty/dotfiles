@@ -1,22 +1,30 @@
--- Escape characters to allow strings like [a] -> [b] etc.
+-- ESCAPE CHARACTERS
+-- To allow strings like [a] -> [b] etc.
 let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'" else [c]) arg ++ "'"
 
 
--- HOOGLE -- requires hoogle command line program. Get with `$ stack install hoogle`
+-- HOOGLE
+-- Requires hoogle command line program. Get with `$ stack install hoogle`
 -- Search hoogle for given arguement
 :def! hoogle return . (":! hoogle " ++) . ghciEscapeShellArg
-
 -- Docs from hoogle of given argument
 :def! hoogledoc return . (":! hoogle --info " ++) . ghciEscapeShellArg
 
--- Customize prompt
+
+-- ERRORS
+-- Better errors
+:set -ferror-spans -freverse-errors -fprint-expanded-synonyms
+
+
+-- PROMPT
+-- Customize λ prompt
 -- :set prompt "λ "
--- Colored prompt
-:set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
+-- Colored λ prompt
+-- :set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
+-- Colored  prompt
+:set prompt "\ESC[38;5;208m\STX\ESC[m\STX "
+-- Colored continuation line prompt
 :set prompt-cont "\ESC[38;5;208m\STX|\ESC[m\STX "
 
 -- Allow Multiline commands to properly display with prompt-cont
 :set +m
-
--- Better errors
-:set -ferror-spans -freverse-errors -fprint-expanded-synonyms
