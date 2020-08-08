@@ -88,7 +88,7 @@ alias mps="mix phx.server"
 alias sb="stack build"
 alias sc="stack clean"
 alias sg="stack ghci"
-alias sr="stack runhaskell"
+alias sr="stack run"
 alias se="stack exec"
 
 
