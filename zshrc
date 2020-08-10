@@ -85,6 +85,7 @@ alias mt="mix test --trace"
 alias mps="mix phx.server"
 
 ## Stack {{{2
+alias sn="stack new"
 alias sb="stack build"
 alias sc="stack clean"
 alias sg="stack ghci"
