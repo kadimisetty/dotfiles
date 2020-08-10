@@ -576,6 +576,12 @@ vnoremap <D-0> g^
 "Enable gruvbox colorscheme
 colorscheme gruvbox
 
+" Hide the filler line characters (~) by giving it the smae color as the
+" background
+" TODO: Place this setting in a better location i.e. not under a plugin
+" preference prefereably.
+highlight EndOfBuffer ctermfg=bg guifg=bg
+
 "netrw {{{2
 let g:netrw_banner=0
 
