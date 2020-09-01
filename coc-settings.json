@@ -10,8 +10,6 @@
             "args": [ "" ],
             "rootPatterns": [
                 "*.cabal",
-                ".hie-bios",
-                "BUILD.bazel",
                 "cabal.config",
                 "cabal.project",
                 "package.yaml",
