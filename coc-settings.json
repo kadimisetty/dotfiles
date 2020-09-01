@@ -6,10 +6,8 @@
 
     "languageserver": {
         "haskell": {
-            "command": "ghcide",
-            "args": [
-                "--lsp"
-            ],
+            "command": "ghcide-via-stack-exec",
+            "args": [ "" ],
             "rootPatterns": [
                 "*.cabal",
                 ".hie-bios",

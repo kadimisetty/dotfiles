@@ -97,6 +97,8 @@ alias se="stack exec"
 
 
 # PROGRAMS' SETTINGS {{{1
+# Personal executables bin
+export PATH=/Users/sri/bin:$PATH
 
 # Used to include binaries installed by Go in path
 export PATH=/Users/sri/go/bin:$PATH
