@@ -595,8 +595,6 @@ let g:prettier#config#print_width = 60
 
 "ALE {{{2
 let g:ale_disable_lsp=1
-"Echo truncated error message when cursor is close to error line
-let g:ale_echo_cursor=1
 
 " Linters
 " Only enable explicitly specified linters
@@ -612,6 +610,17 @@ let g:ale_haskell_hlint_executable='stack'
 " let g:ale_fixers = {'haskell': ['brittany']}
 let g:ale_fixers = []
 
+" Visuals
+" Echo truncated error message when cursor is close to error line
+let g:ale_echo_cursor=1
+" Enable line number highlighting
+let g:ale_sign_highlight_linenrs = 1
+
+" Symbols
+" Default g:ale_sign_error is '>>'
+let g:ale_sign_error = '▓▓'
+" Default g:ale_sign_warning is'--'
+let g:ale_sign_warning =  '░░'
 
 "fzf {{{2
 let g:fzf_command_prefix = 'F'
