@@ -784,7 +784,7 @@ augroup END
 "vim-go {{{2
 augroup go_format
     autocmd!
-    au FileType go nnoremap <leader>r <Plug>(go-run)
+    autocmd FileType go nmap <leader>r <Plug>(go-run)
     autocmd FileType go nnoremap <silent> <localleader>f :GoFmt<CR>
 augroup END
 
@@ -915,14 +915,14 @@ augroup END
 
 "christoomey/vim-titlecase {{{2
 "Operators that call Titlecase upon expected text objects
-" nnoremap <leader>gt <Plug>Titlecase
-" vnoremap <leader>gt <Plug>Titlecase
+" nmap <leader>gt <Plug>Titlecase
+" vmap <leader>gt <Plug>Titlecase
 " gt and gT are by default mapped to previous/next tabs but I'm using
 " <Tab> and <S-Tab> for that, so remapping gt and gT is okay.
-nnoremap gt <Plug>Titlecase
-vnoremap gt <Plug>Titlecase
-xnoremap gt <Plug>Titlecase
-nnoremap gT <Plug>TitlecaseLine
+nmap gt <Plug>Titlecase
+vmap gt <Plug>Titlecase
+xmap gt <Plug>Titlecase
+nmap gT <Plug>TitlecaseLine
 
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
@@ -1048,13 +1048,13 @@ endfunction
 nnoremap <silent> K :call <SID>coc_show_documentation()<CR>
 
 "Rename current word
-nnoremap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
 " Function text object (requires document symbols feature of languageserver)
-xnoremap if <Plug>(coc-funcobj-i)
-xnoremap af <Plug>(coc-funcobj-a)
-onoremap if <Plug>(coc-funcobj-i)
-onoremap af <Plug>(coc-funcobj-a)
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
 
 " Use `:CocFormat` to format current buffer
 " command! -nargs=0 CocFormat :call CocAction('format')
