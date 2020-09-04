@@ -603,8 +603,9 @@ let g:ale_echo_cursor=1
 let g:ale_lint_on_save=1
 let g:ale_lint_on_text_changed=1
 let g:ale_linters_explicit=1
-let g:ale_haskell_hlint_executable="hlint"
 let g:ale_linters = {'haskell': ['hlint']}
+" Setting hlint executable to stack makes ALE use `stack exec hlint --`
+let g:ale_haskell_hlint_executable='stack'
 
 " Fixers
 " let g:ale_fix_on_save=0
