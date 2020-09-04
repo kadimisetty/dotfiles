@@ -608,7 +608,7 @@ let g:ale_haskell_hlint_executable='stack'
 " Fixers
 " let g:ale_fix_on_save=0
 " let g:ale_fixers = {'haskell': ['brittany']}
-let g:ale_fixers = []
+let g:ale_fixers = {'haskell' : ['hlint']}
 
 " Visuals
 " Echo truncated error message when cursor is close to error line
@@ -618,9 +618,9 @@ let g:ale_sign_highlight_linenrs = 1
 
 " Symbols
 " Default g:ale_sign_error is '>>'
-let g:ale_sign_error = '▓▓'
+let g:ale_sign_error = ' ▓'
 " Default g:ale_sign_warning is'--'
-let g:ale_sign_warning =  '░░'
+let g:ale_sign_warning =  ' ░'
 
 "fzf {{{2
 let g:fzf_command_prefix = 'F'
