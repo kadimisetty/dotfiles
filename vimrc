@@ -8,6 +8,7 @@
 call plug#begin('~/.vim/plugged')
 
 "Active Plugins (Run :sort! on this contiguous list after insertion){{{2
+
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'axelf4/vim-strip-trailing-whitespace'
@@ -26,6 +27,7 @@ Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'justinmk/vim-sneak'
 Plug 'kadimisetty/dash.vim', {'branch': 'fix-open-flicker'}
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
@@ -573,6 +575,9 @@ vnoremap <D-0> g^
 
 
 "PLUGINS PREFERENCES {{{1
+" justinmk/vim-sneak
+let g:sneak#label = 1
+
 "gruvbox {{{2
 "Enable gruvbox colorscheme
 colorscheme gruvbox
