@@ -27,7 +27,6 @@ Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'justinmk/vim-sneak'
 Plug 'kadimisetty/dash.vim', {'branch': 'fix-open-flicker'}
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
@@ -575,9 +574,6 @@ vnoremap <D-0> g^
 
 
 "PLUGINS PREFERENCES {{{1
-" justinmk/vim-sneak
-let g:sneak#label = 1
-
 "gruvbox {{{2
 "Enable gruvbox colorscheme
 colorscheme gruvbox
