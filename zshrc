@@ -86,6 +86,7 @@ alias lsdt='lsd --tree'
 alias cr="cargo run"
 alias cb="cargo build"
 alias ct="cargo test"
+alias cdo="cargo doc --open"
 
 ## Dirs {{{2
 alias personal="cd ~/code/personal/"
