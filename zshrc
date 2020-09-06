@@ -74,6 +74,13 @@ alias gd='git diff'
 alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
 
+## lsd {{{2
+alias lsda='lsd --almost-all'
+alias lsdl='lsd --long'
+alias lsdo='lsd --oneline'
+alias lsdr='lsd --recursive'
+alias lsdt='lsd --tree'
+
 ## Rust Cargo {{{2
 alias cr="cargo run"
 alias cb="cargo build"
