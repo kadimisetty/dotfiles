@@ -75,9 +75,9 @@ alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
 
 ## lsd {{{2
+alias lsd1='lsd --oneline'
 alias lsda='lsd --almost-all'
 alias lsdl='lsd --long'
-alias lsdo='lsd --oneline'
 alias lsdr='lsd --recursive'
 alias lsdt='lsd --tree'
 
