@@ -70,6 +70,7 @@ alias nview="nvim -R"
 alias ga='git add'
 alias gb='git branch'
 alias gc='git commit'
+alias gca='git commit --amend'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
