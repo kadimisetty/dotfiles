@@ -12,7 +12,6 @@ plugins=(
     branch
     colored-man-pages
     fzf
-    git
     mix
 )
 
@@ -66,6 +65,14 @@ alias vn='vim -c "NERDTree"'
 
 alias n="nvim"
 alias nview="nvim -R"
+
+## git {{{2
+alias ga='git add'
+alias gb='git branch'
+alias gc='git commit'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gl='git log --oneline --decorate --graph'
 
 ## Rust Cargo {{{2
 alias cr="cargo run"
