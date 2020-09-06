@@ -951,6 +951,8 @@ augroup rust
     autocmd FileType rust nnoremap <silent> <leader>cr :Crun<CR>
     autocmd FileType rust nnoremap <silent> <leader>cb :Cbuild<CR>
     autocmd FileType rust nnoremap <silent> <leader>ct :Ctest<CR>
+    " autocmd FileType rust nnoremap <silent> <leader>cc :Cclean<CR>
+    autocmd FileType rust nnoremap <silent> <leader>cc :Ccheck<CR>
 augroup END
 
 " Format current buffer on save
