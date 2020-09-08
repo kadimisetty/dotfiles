@@ -201,10 +201,6 @@ filetype on             "Detect filetypes
 filetype plugin on      "Activate builtin set of filetypes plugins
 filetype indent on      "Activate builtin and computed indentations
 
-"Set Tabs & Spaces for common filetyes {{{2
-"TODO - Use a plugin for this
-" Only do this part when compiled with support for autocommands
-
 augroup filetype_rss
     autocmd!
     " Treat .rss files as XML. Place before encoding.
@@ -244,6 +240,51 @@ augroup filetype_haskell
     "Turn on the sign column as I use it a lot with linters etc.
     autocmd FileType haskell setlocal signcolumn=yes
 augroup end
+
+augroup haskell_stack_helper
+    " TODO
+    " - Make project wide commands run in project root directory
+    "   - https://vi.stackexchange.com/questions/20605/find-project-root-relative-to-the-active-buffer
+    "   - i.e. Use let dir = finddir('.git/..', expand('%:p:h').';')
+    "   - Also add this new project wide name to the term name
+    " - Get feature parity with vim-rust
+    " - Set up fmt
+    " - Create Projections (HOW???)
+    " - extract to plugin
+    " DONE
+    " - Load only on haskell files (hs, lhs, *.cabal, package.yml, stack.yml)
+    " NOT DOING
+    " - Find a rust playground like feature for haskell, ala :RustPlay
+    " - Run build and clean on a preview window with job_Start() ?
+    " - AutoPair plugin support. See how vim-rust does it
+    autocmd!
+
+    " PROJECT WIDE COMMANDS (using <leader>)
+    " i.e. Run `stack` on entire project
+    autocmd FileType haskell nnoremap <silent> <leader>sr :call term_start(
+                \ "stack run",
+                \ { "term_name":"stack run"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sg :call term_start(
+                \ "stack ghci",
+                \ { "term_name":"stack ghci"
+                \ , "term_finish": "close"
+                \ })<CR>
+
+
+    " FILE SPECIFIC COMMANDS (using <localleader>)
+    " i.e. Run `stack` on file in current buffer
+    autocmd FileType haskell nnoremap <silent> <localleader>sr :call term_start(
+                \ "stack runhaskell " . expand('%:~'),
+                \ { "term_name": "stack run " . expand('%:p:t')
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <localleader>sg :call term_start(
+                \ "stack ghci " . expand('%:~'),
+                \ { "term_name":"stack ghci " . expand('%:p:t')
+                \ , "term_finish": "close"
+                \ })<CR>
+augroup END
+
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
