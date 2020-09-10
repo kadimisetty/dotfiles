@@ -265,10 +265,26 @@ augroup haskell_stack_helper
                 \ "stack run",
                 \ { "term_name":"stack run"
                 \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>st :call term_start(
+                \ "stack test",
+                \ { "term_name":"stack test"
+                \ })<CR>
     autocmd FileType haskell nnoremap <silent> <leader>sg :call term_start(
                 \ "stack ghci",
                 \ { "term_name":"stack ghci"
                 \ , "term_finish": "close"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sb :call term_start(
+                \ "stack build",
+                \ { "term_name":"stack build"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sbf :call term_start(
+                \ "stack build --fast",
+                \ { "term_name":"stack build fast"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sbw :call term_start(
+                \ "stack build --fast --file-watch",
+                \ { "term_name":"stack build watch"
                 \ })<CR>
 
 
