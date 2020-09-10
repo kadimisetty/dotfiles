@@ -108,6 +108,7 @@ alias sc="stack clean"
 alias sg="stack ghci"
 alias sr="stack run"
 alias se="stack exec"
+alias st='stack test'
 
 
 # MISCELLANEOUS {{{1
