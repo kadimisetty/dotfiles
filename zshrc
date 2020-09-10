@@ -60,8 +60,8 @@ alias l="ls -A"
 alias v="vim"
 alias vc="vim --clean"
 alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
-alias vs="vim -S ./Session.vim"
 alias vn='vim -c "NERDTree"'
+alias vs="vim -S ./Session.vim"
 
 alias n="nvim"
 alias nview="nvim -R"
@@ -84,30 +84,30 @@ alias lsdr='lsd --recursive'
 alias lsdt='lsd --tree'
 
 ## Rust Cargo {{{2
-alias cr="cargo run"
 alias cb="cargo build"
-alias ct="cargo test"
 alias cdo="cargo doc --open"
+alias cr="cargo run"
+alias ct="cargo test"
 
 ## Dirs {{{2
+alias dotfiles="cd ~/code/personal/dotfiles/"
+alias external="cd ~/code/external/"
 alias personal="cd ~/code/personal/"
 alias playground="cd ~/code/playground/"
 alias sandbox="cd ~/code/sandbox/"
-alias dotfiles="cd ~/code/personal/dotfiles/"
-alias external="cd ~/code/external/"
 
 ## Mix {{{2
 alias im="iex -S mix"
-alias mt="mix test --trace"
 alias mps="mix phx.server"
+alias mt="mix test --trace"
 
 ## Stack {{{2
-alias sn="stack new"
 alias sb="stack build"
 alias sc="stack clean"
-alias sg="stack ghci"
-alias sr="stack run"
 alias se="stack exec"
+alias sg="stack ghci"
+alias sn="stack new"
+alias sr="stack run"
 alias st='stack test'
 
 
