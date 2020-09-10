@@ -285,6 +285,7 @@ augroup haskell_stack_helper
     autocmd FileType haskell nnoremap <silent> <leader>sbw :call term_start(
                 \ "stack build --fast --file-watch",
                 \ { "term_name":"stack build watch"
+                \ , "term_rows":3
                 \ })<CR>
 
 
