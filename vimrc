@@ -242,21 +242,6 @@ augroup filetype_haskell
 augroup end
 
 augroup haskell_stack_helper
-    " TODO
-    " - Make project wide commands run in project root directory
-    "   - https://vi.stackexchange.com/questions/20605/find-project-root-relative-to-the-active-buffer
-    "   - i.e. Use let dir = finddir('.git/..', expand('%:p:h').';')
-    "   - Also add this new project wide name to the term name
-    " - Get feature parity with vim-rust
-    " - Set up fmt
-    " - Create Projections (HOW???)
-    " - extract to plugin
-    " DONE
-    " - Load only on haskell files (hs, lhs, *.cabal, package.yml, stack.yml)
-    " NOT DOING
-    " - Find a rust playground like feature for haskell, ala :RustPlay
-    " - Run build and clean on a preview window with job_Start() ?
-    " - AutoPair plugin support. See how vim-rust does it
     autocmd!
 
     " PROJECT WIDE COMMANDS (using <leader>)
