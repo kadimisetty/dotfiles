@@ -297,6 +297,24 @@ augroup haskell_stack_helper
     autocmd FileType zsh inoremap <silent> <leader>st kadimisetty/basic<esc>ZZ
 augroup END
 
+augroup haskell_stack_helper_package_yaml
+    autocmd!
+    " For package.yaml, only allow:
+    " `stack build`
+    " `stack build --fast`
+
+    " PROJECT WIDE COMMANDS (using <leader>)
+    " i.e. Run `stack` on entire project
+    autocmd BufEnter package.yaml nnoremap <silent> <leader>sb :call term_start(
+                \ "stack build",
+                \ { "term_name":"stack build"
+                \ })<CR>
+    autocmd BufEnter package.yaml nnoremap <silent> <leader>sbf :call term_start(
+                \ "stack build --fast",
+                \ { "term_name":"stack build fast"
+                \ })<CR>
+augroup END
+
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
