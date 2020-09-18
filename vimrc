@@ -285,6 +285,15 @@ augroup haskell_stack_helper
                 \ { "term_name":"stack ghci " . expand('%:p:t')
                 \ , "term_finish": "close"
                 \ })<CR>
+
+    " Makes easier to type the last part of `stack new FOO kadimisetty/basic`
+    " by providing an nmap for appending "kadimisetty/basic" to the end of line.
+    " This is for when opening zsh shell currently being written in $EDITOR
+    " with the shortcut commanbd <C-x><C-e>. See help section
+    " `edit-and-execute-command` in `man bash`. Bash has slighlty different
+    " behavior from zh. Prefer the zsh behavior.
+    " Why `st`? For `stack template`.
+    autocmd FileType zsh nnoremap <silent> <leader>st mzA kadimisetty/basic<esc>`z
 augroup END
 
 
