@@ -226,7 +226,7 @@ endfunction
 augroup filetype_rust
     autocmd!
     " Append a semicolon to end of line
-    nnoremap <localleader>; mmA;<esc>`m
+    autocmd FileType rust nnoremap <localleader>; mmA;<esc>`m
 augroup end
 
 augroup filetype_haskell
