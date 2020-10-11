@@ -608,6 +608,18 @@ nnoremap <silent><leader>z  :pclose \| lclose \| cclose \| call popup_clear()<CR
 "Edit vimrc {{{2
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
 
+"Autocomplete by copying word from line above cursor{{{2
+" TODO:
+" - Move into a function
+" - edge case: letter immediately above is empty
+" - Add space after pasting the word
+" - ISSUE: first word will pase fine, words after when going up with k move
+"   into space and copy that space along with word. If i use a h to just go
+"   back one letter, them the entire mapping fails beause there is no h on the
+"   first word.
+"   FIX: Move into a function and handle this case.
+inoremap <silent> <C-y><Tab> <esc>kyejpa<space>
+
 "Buffer Manipulation {{{2
 "Delete buffer in current window
 nnoremap <silent> <localleader>bd :bd %<CR>
