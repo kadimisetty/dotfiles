@@ -282,7 +282,7 @@ augroup haskell_stack_helper
                 \ { "term_name": "stack run " . expand('%:p:t')
                 \ })<CR>
     autocmd FileType haskell nnoremap <silent> <localleader>sg :call term_start(
-                \ "stack ghci " . expand('%:~'),
+                \ "stack ghci " . expand('%:p:t'),
                 \ { "term_name":"stack ghci " . expand('%:p:t')
                 \ , "term_finish": "close"
                 \ })<CR>
