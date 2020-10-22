@@ -105,6 +105,7 @@ alias mt="mix test --trace"
 
 ## Stack {{{2
 alias sb="stack build"
+alias sbf="stack build --fast"
 alias sc="stack clean"
 alias se="stack exec"
 alias sg="stack ghci"
