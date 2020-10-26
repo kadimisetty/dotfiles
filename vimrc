@@ -488,6 +488,8 @@ augroup end
 "TODO: Move these into after file recommended by Abolish.vim
 iabbrev impoty import
 iabbrev impory import
+iabbrev improt import
+iabbrev impotr import
 
 command! W w
 command! Q q
