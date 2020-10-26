@@ -491,6 +491,11 @@ iabbrev impory import
 iabbrev improt import
 iabbrev impotr import
 
+augroup elm_abbreviations
+    autocmd!
+    autocmd FileType elm abbreviate <buffer> :: :
+augroup END
+
 command! W w
 command! Q q
 "Retain visual selection after an indentation shift.
