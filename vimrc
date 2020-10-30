@@ -80,7 +80,7 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 "Uses external fzf installed via homebrew. Save order.
 Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 "Projections. Save order.
 Plug 'tpope/vim-projectionist'
@@ -716,14 +716,51 @@ let g:ale_sign_error = ' ▓'
 let g:ale_sign_warning =  ' ░'
 
 "fzf {{{2
-let g:fzf_command_prefix = 'F'
-nnoremap <C-P>      :FFiles<CR>
-nnoremap <C-P><C-G> :FGFiles<CR>
-nnoremap <C-P><C-S> :FGFiles?<CR>
-nnoremap <C-P><C-B> :FBuffers<CR>
-nnoremap <C-P><C-R> :FRg<CR>
-nnoremap <C-P><C-L> :FLines<CR>
-nnoremap <C-P><C-W> :FWindows<CR>
+let g:fzf_layout = { 'down': '40%' }
+
+" Search current directory {{{4
+nnoremap <C-P>      :FZF<CR>
+" Search current directory in full screen
+nnoremap <C-P>!     :FZF!<CR>
+
+" Search files tracked in git via `git ls-files` {{{4
+command! FZFGit call fzf#run({
+            \ 'source': 'git ls-files',
+            \ 'sink': 'edit',
+            \ 'down' : '40%'
+            \ })
+nnoremap <C-P><C-G> :FZFGit<CR>
+
+" Search open buffers {{{4
+function! s:fzfBufferList()
+    redir => ls
+    silent ls
+    redir END
+    return split(ls, '\n')
+endfunction
+
+function! s:fzfBufferOpen(e)
+    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+command! FZFBuffers call fzf#run({
+            \   'source':  reverse(<sid>fzfBufferList()),
+            \   'sink':    function('<sid>fzfBufferOpen'),
+            \   'options': '+m',
+            \   'down': '40%'
+            \ })
+
+nnoremap <C-P><C-B> :FZFBuffers<CR>
+
+" TODO Search within files tracked by git {{{4
+" nnoremap <C-P><C-S> :FZFGFiles?<CR>
+
+" TODO Search with ripgrep {{{4
+" nnoremap <C-P><C-R> :FZFRg<CR>
+
+" TODO Search lines in open buffers {{{4
+" nnoremap <C-P><C-L> :FZFBuffersLines<CR>
+
 
 "Airline {{{2
 let g:airline_theme='gruvbox'

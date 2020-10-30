@@ -155,12 +155,17 @@ export PATH=/Users/sri/.cargo/bin:$PATH
 
 
 # FZF {{{2
-# Use ripgrep(installed via homebrew) to power fzf searches
+# Use ripgrep(installed via homebrew) to power fzf searches {{{3
 # --files           : Print files'names but not their content
 # --hidden          : Search hidden files and directories
 # --smart-case       : Search smart with upper and lower case
 # --glob "!.git/*" : Ignore .git/ folder
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
+
+# Enable fuzzy auto-completion and key bindings {{{3
+# NOTE:
+#   (~/.fzf.zsh was added by fzf install script) during `brew upgrade fzf` 0.22.0 -> 0.24.1
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # direnv {{{2
 # direnv needs to be hooked into the shell
