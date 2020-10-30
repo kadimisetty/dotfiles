@@ -78,9 +78,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 "Also enable for listed formats
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
-"Uses external fzf installed via homebrew. Save order.
-Plug '/usr/local/opt/fzf'
+"fzf binary is updated upon fzf plugin upgrade. Save order.
+" fzf is basic integration and fzf.vim is vim plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 "Projections. Save order.
 Plug 'tpope/vim-projectionist'
@@ -715,51 +716,36 @@ let g:ale_sign_error = ' ▓'
 " Default g:ale_sign_warning is'--'
 let g:ale_sign_warning =  ' ░'
 
-"fzf {{{2
+"fzf & fzf.vim {{{2
+" 1. fzf {{{3
+" Layout applies to both fzf and fzf.vim mappings
 let g:fzf_layout = { 'down': '40%' }
 
-" Search current directory {{{4
-nnoremap <C-P>      :FZF<CR>
-" Search current directory in full screen
-nnoremap <C-P>!     :FZF!<CR>
+" Example of custom fzf search
+" let g:fzf_layout = { 'down': '40%' }
+" Search files tracked in git via `git ls-files`:
+"   command! FZFGit call fzf#run(fzf#wrap({
+"               \ 'source': 'git ls-files',
+"               \ 'sink': 'edit',
+"               \ }))
+" nnoremap <C-P><C-G> :FZFGit<CR>
 
-" Search files tracked in git via `git ls-files` {{{4
-command! FZFGit call fzf#run({
-            \ 'source': 'git ls-files',
-            \ 'sink': 'edit',
-            \ 'down' : '40%'
-            \ })
-nnoremap <C-P><C-G> :FZFGit<CR>
+" 2. fzf.vim {{{3
+let g:fzf_command_prefix = 'FZF'
 
-" Search open buffers {{{4
-function! s:fzfBufferList()
-    redir => ls
-    silent ls
-    redir END
-    return split(ls, '\n')
-endfunction
+" Disable preview window
+let g:fzf_preview_window = []
+" Example of customized preview window: [position, toggle key]
+" let g:fzf_preview_window = ['right:40%', 'ctrl-/']
 
-function! s:fzfBufferOpen(e)
-    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-command! FZFBuffers call fzf#run({
-            \   'source':  reverse(<sid>fzfBufferList()),
-            \   'sink':    function('<sid>fzfBufferOpen'),
-            \   'options': '+m',
-            \   'down': '40%'
-            \ })
-
+" Search files
+nnoremap <C-P>      :FZFFiles<CR>
+nnoremap <C-P><C-G> :FZFGFiles<CR>
 nnoremap <C-P><C-B> :FZFBuffers<CR>
+nnoremap <C-P><C-R> :FZFRg<CR>
+nnoremap <C-P><C-L> :FZFLines<CR>
+nnoremap <C-P><C-T> :FZFTags<CR>
 
-" TODO Search within files tracked by git {{{4
-" nnoremap <C-P><C-S> :FZFGFiles?<CR>
-
-" TODO Search with ripgrep {{{4
-" nnoremap <C-P><C-R> :FZFRg<CR>
-
-" TODO Search lines in open buffers {{{4
-" nnoremap <C-P><C-L> :FZFBuffersLines<CR>
 
 
 "Airline {{{2
