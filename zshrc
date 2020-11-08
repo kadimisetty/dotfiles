@@ -180,3 +180,4 @@ source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 . $HOME/.asdf/completions/asdf.bash
 
 # ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
+if [ -e /Users/sri/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sri/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
