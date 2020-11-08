@@ -7,7 +7,6 @@
 # oh-my-zsh Plugins: ~/.oh-my-zsh/plugins.
 # Custom Plugins:   ~/.oh-my-zsh/custom/plugins
 plugins=(
-    asdf
     autopep8
     branch
     colored-man-pages
@@ -174,10 +173,6 @@ eval "$(direnv hook zsh)"
 # Shell function for broot command (shortcut $br)
 source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
-# asdf (KEEP AT BOTTOM) {{{2
-# Note: asdf has to be sourced after $PATH is set, so keep at bottomn.
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
 
 # ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
 if [ -e /Users/sri/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sri/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
