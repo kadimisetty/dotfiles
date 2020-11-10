@@ -9,6 +9,7 @@ call plug#begin('~/.vim/plugged')
 
 "Active Plugins (Run :sort! on this contiguous list after insertion){{{2
 
+Plug 'LnL7/vim-nix'
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'axelf4/vim-strip-trailing-whitespace'
@@ -691,18 +692,24 @@ let g:prettier#config#print_width = 60
 let g:ale_disable_lsp=1
 
 " Linters
-" Only enable explicitly specified linters
 let g:ale_lint_on_save=1
 let g:ale_lint_on_text_changed=1
 let g:ale_linters_explicit=1
-let g:ale_linters = {'haskell': ['hlint']}
+let g:ale_linters = {}
+let g:ale_linters.nix = ['nixpkgs-fmt']
+let g:ale_linters.haskell = ['hlint']
 " Setting hlint executable to stack makes ALE use `stack exec hlint --`
 let g:ale_haskell_hlint_executable='stack'
 
 " Fixers
+nnoremap <silent> <localleader>af :ALEFix<CR>
+let g:ale_fixers_explicit = 1
 " let g:ale_fix_on_save=0
-" let g:ale_fixers = {'haskell': ['brittany']}
-let g:ale_fixers = {'haskell' : ['hlint']}
+" let g:ale_fixers = { '*': ['trim_whitespace', 'remove_trailing_lines'] }
+let g:ale_fixers = {}
+let g:ale_fixers.nix = ['nixpkgs-fmt']
+" let g:ale_fixers.haskell = ['brittany']
+let g:ale_fixers.haskell = ['hlint']
 
 " Visuals
 " Echo truncated error message when cursor is close to error line
@@ -715,6 +722,7 @@ let g:ale_sign_highlight_linenrs = 1
 let g:ale_sign_error = ' ▓'
 " Default g:ale_sign_warning is'--'
 let g:ale_sign_warning =  ' ░'
+
 
 "fzf & fzf.vim {{{2
 " 1. fzf {{{3

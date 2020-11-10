@@ -102,6 +102,19 @@ alias im="iex -S mix"
 alias mps="mix phx.server"
 alias mt="mix test --trace"
 
+## nix {{{2
+# nix-env
+alias ne='nix-env'
+alias neh='nix-env --help'
+alias nei='nix-env --install'
+alias neiattr='nix-env --install --attr'
+alias neuninstall='nix-env --uninstall'
+alias neq='nix-env --query --description'
+alias neqi='nix-env --query --installed --description'
+alias neqa='nix-env --query --available --description'
+# nix-shell
+alias ns='nix-shell'
+
 ## Stack {{{2
 alias sb="stack build"
 alias sbf="stack build --fast"
@@ -173,6 +186,7 @@ eval "$(direnv hook zsh)"
 # Shell function for broot command (shortcut $br)
 source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
-
-# ANYTHING BELOW AUTOMATICALLY ADDED TO PROFILE. NEEDS MANUAL SORTING {{{2
+# nix {{{2
 if [ -e /Users/sri/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sri/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# ANYTHING BELOW THIS LINE WAS AUTOMATICALLY ADDED AND NEEDS TO BE SORTED MANUALLY {{{2
