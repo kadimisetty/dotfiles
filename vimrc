@@ -690,6 +690,8 @@ let g:prettier#config#print_width = 60
 
 "ALE {{{2
 let g:ale_disable_lsp=1
+" Use `nixfmt` instead of` nixpkgs-fmt` in nix files
+let g:ale_nix_nixpkgsfmt_executable = "nixfmt"
 
 " Linters
 let g:ale_lint_on_save=1
