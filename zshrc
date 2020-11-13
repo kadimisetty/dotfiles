@@ -112,6 +112,8 @@ alias neuninstall='nix-env --uninstall'
 alias neq='nix-env --query --description'
 alias neqi='nix-env --query --installed --description'
 alias neqa='nix-env --query --available --description'
+alias nelg='nix-env --list-generations'
+alias nesg='nix-env --switch-generation'
 # nix-shell
 alias ns='nix-shell'
 
