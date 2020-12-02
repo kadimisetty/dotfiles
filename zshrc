@@ -128,6 +128,37 @@ alias sr="stack run"
 alias st='stack test'
 
 
+# FUNCTIONS {{{1
+# iTerm Helpers (only macOS with iTerm) {{{2
+# https://cgamesplay.com/post/2020/11/25/iterm-plugins/
+
+function iterm_notify {
+    # Send a system notification with text provided via argument
+    # Usage example: $ iterm_notify "task completed"
+    printf '\e]9;%s\a' "$@"
+}
+
+function iterm_bounce {
+    # Make iTerm dock icon bounce
+    # Usage example: $ iterm_bounce
+    printf '\e]1337;RequestAttention=yes\a'
+}
+
+function iterm_badge {
+    # Set a text provided as argument as a label in the background
+    # of windows in current iTerm tabpage
+    # Usage example: $ iterm_badge "FRONT END"
+    printf "\e]1337;SetBadgeFormat=%s\a" $(echo "$@" | base64)
+}
+
+function iterm_badge_clear {
+    # Clear iTerm text label set by iterm_badge
+    # Usage example: $ iterm_badge_clear
+    # TODO: Find a cleaner way to reset this than setting it to an empty string
+    iterm_badge ""
+}
+
+
 # MISCELLANEOUS {{{1
 
 
