@@ -62,6 +62,8 @@ alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
 alias vn='vim -c "NERDTree"'
 alias vno='vim -c "NERDTree | normal O"'
 alias vs="vim -S ./Session.vim"
+alias viewn='view -c "NERDTree"'
+alias viewno='vim -c "NERDTree | normal O"'
 
 alias n="nvim"
 alias nview="nvim -R"
