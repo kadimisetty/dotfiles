@@ -84,7 +84,8 @@ alias lsda='lsd --almost-all'
 alias lsdl='lsd --long'
 alias lsdr='lsd --recursive'
 alias lsdt='lsd --tree'
-alias lsdtd='lsd --tree --depth'
+# Instead of `lsdtd` (d for depth), use `lsdtl` (l for level to be similar to `tree -L 1`)
+alias lsdtl='lsd --tree --depth'
 
 ## Rust Cargo {{{2
 alias cb="cargo build"
