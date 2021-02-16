@@ -227,6 +227,7 @@ endfunction
 
 augroup filetype_rust
     autocmd!
+    autocmd FileType rust setlocal formatprg=rustfmt
     " Append a semicolon to end of line
     autocmd FileType rust nnoremap <localleader>; mmA;<esc>`m
 augroup end
