@@ -21,7 +21,6 @@ Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-titlecase'
 Plug 'dense-analysis/ale'
 Plug 'elixir-editors/vim-elixir'
-Plug 'fatih/vim-go'
 Plug 'gcmt/taboo.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hspec/hspec.vim'
@@ -917,12 +916,6 @@ augroup elixir_mix_format
     autocmd FileType elixir nnoremap <silent> <localleader>fd :MixFormatDiff<CR>
 augroup END
 
-"vim-go {{{2
-augroup go_format
-    autocmd!
-    autocmd FileType go nmap <leader>r <Plug>(go-run)
-    autocmd FileType go nnoremap <silent> <localleader>f :GoFmt<CR>
-augroup END
 
 "Black {{{2
 let g:black_linelength=79
