@@ -169,9 +169,6 @@ function iterm_badge_clear {
 # Personal executables bin
 export PATH=/Users/sri/bin:$PATH
 
-# Used to include binaries installed by Go in path
-export PATH=/Users/sri/go/bin:$PATH
-
 # Add homebrew's /usr/local/sbin to path
 export PATH="/usr/local/sbin:$PATH"
 
