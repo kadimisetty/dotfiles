@@ -227,8 +227,10 @@ endfunction
 augroup filetype_rust
     autocmd!
     autocmd FileType rust setlocal formatprg=rustfmt
-    " Append a semicolon to end of line
+    " Append a semicolon, while ensuring cursor remains in the same location
     autocmd FileType rust nnoremap <localleader>; mmA;<esc>`m
+    " Prepend `let`, while ensuring cursor remains in the same location
+    autocmd FileType rust nnoremap <localleader>l mmIlet <esc>`m4l
 augroup end
 
 augroup filetype_haskell
