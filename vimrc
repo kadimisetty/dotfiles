@@ -228,10 +228,20 @@ augroup filetype_rust
     autocmd!
     autocmd FileType rust setlocal formatprg=rustfmt
     " Append a semicolon, while ensuring cursor remains in the same location
-    autocmd FileType rust nnoremap <localleader>; mmA;<esc>`m
+    autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingSemicolonOnLine(line("."))<CR>
     " Prepend `let`, while ensuring cursor remains in the same location
     autocmd FileType rust nnoremap <localleader>l mmIlet <esc>`m4l
 augroup end
+function! ToggleTrailingSemicolonOnLine (line_number)
+    let line_content = getline(a:line_number)
+    if strwidth(line_content) > 0
+        if (line_content[-1:] == ';')
+            call setline(a:line_number, line_content[:-2])
+        else
+            call setline(a:line_number, line_content . ';')
+        endif
+    endif
+endfunction
 
 augroup filetype_haskell
     autocmd!
