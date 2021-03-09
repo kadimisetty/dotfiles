@@ -232,7 +232,7 @@ augroup filetype_rust
     " Toggle trailing comma on current line
     autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
     " Prepend `let`, while ensuring cursor remains in the same location
-    autocmd FileType rust nnoremap <localleader>l mmIlet <esc>`m4l
+    autocmd FileType rust nnoremap <silent> <localleader>l mzIlet <esc>`z4l
 augroup end
 function! ToggleTrailingCharacterOnLine (character, line_number)
     let line_content = getline(a:line_number)
