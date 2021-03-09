@@ -231,8 +231,8 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingCharacterOnLine(";", line("."))<CR>
     " Toggle trailing comma on current line
     autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
-    " Prepend `let`, while ensuring cursor remains in the same location
-    autocmd FileType rust nnoremap <silent> <localleader>l mzIlet <esc>`z4l
+    " Prepend `let` keyword to current line
+    autocmd FileType rust nnoremap <silent> <localleader>l :call PrependLetKeywordToLine(line("."))<CR>
 augroup end
 function! ToggleTrailingCharacterOnLine (character, line_number)
     let line_content = getline(a:line_number)
@@ -243,6 +243,22 @@ function! ToggleTrailingCharacterOnLine (character, line_number)
         else
             call setline(a:line_number, line_content . a:character)
         endif
+    endif
+endfunction
+function! PrependLetKeywordToLine (line_number)
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    " Ensure line doesn't begin with let already
+    if trimmed_line_content[:2] !=# 'let'
+        " Prepend `let` statement if line doesn't already begin with let
+        " Restore relevant cursor position (previous+let statment)
+        " Save cursor position
+        let save_pos = getpos(".")
+        " Prepend `let ` at the first non blank in the line
+        execute 'normal Ilet '
+        " Restore cursor position while accomodating `let `
+        call setpos('.', save_pos)
+        execute 'normal 4l'
     endif
 endfunction
 
