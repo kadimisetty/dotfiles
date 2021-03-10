@@ -232,7 +232,8 @@ augroup filetype_rust
     " Toggle trailing comma on current line
     autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
     " Prepend `let` keyword to current line
-    autocmd FileType rust nnoremap <silent> <localleader>l :call PrependLetKeywordToLine(line("."))<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
 augroup end
 function! ToggleTrailingCharacterOnLine (character, line_number)
     let line_content = getline(a:line_number)
@@ -245,20 +246,96 @@ function! ToggleTrailingCharacterOnLine (character, line_number)
         endif
     endif
 endfunction
-function! PrependLetKeywordToLine (line_number)
-    let line_content = getline(a:line_number)
-    let trimmed_line_content = trim(line_content)
-    " Ensure line doesn't begin with let already
-    if trimmed_line_content[:2] !=# 'let'
-        " Prepend `let` statement if line doesn't already begin with let
-        " Restore relevant cursor position (previous+let statment)
-        " Save cursor position
-        let save_pos = getpos(".")
-        " Prepend `let ` at the first non blank in the line
-        execute 'normal Ilet '
-        " Restore cursor position while accomodating `let `
-        call setpos('.', save_pos)
-        execute 'normal 4l'
+function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
+    "TODO: While this function accepts a line_number, the helpe fucntions within
+    " only act upon the current line to accomodate the current way of restoring
+    " the cursor position. Rewrite them to accept an arbitrary line number.
+
+    " Assert provided toggle_* arguments are mutually exclusive booleans
+    if (a:toggle_let_mut == a:toggle_let)
+        echoerr "Provided arguments make it imposible to decide between exclusive keywords - `let` and `let mut`"
+
+    else
+        let line_content = getline(a:line_number)
+        let trimmed_line_content = trim(line_content)
+
+        " Note whether line begins with `let mut` or `let`
+        " 1. First check for `let mut`
+        if (trimmed_line_content =~# "let mut ")
+            let has_let_mut = 1
+        else
+            let has_let_mut = 0
+
+            " 2. Next check for `let`
+            if (trimmed_line_content =~# "let ")
+                let has_let = 1
+            else
+                let has_let = 0
+            endif
+        endif
+
+        " TOGGLING LOGIC:
+        " +--------------+-------------------------------+-------------------------------+
+        " |              |       a:toggle_let_mut        |         a:toggle_let          |
+        " +==============+===============================+===============================+
+        " | has_let_mut  | RemoveLetMut()                | RemoveLetMut() + PrependLet() |
+        " +--------------+-------------------------------+-------------------------------+
+        " |   has_let    | RemoveLetMut() + PrependLet() | RemoveLet()                   |
+        " +--------------+-------------------------------+-------------------------------+
+        " | !has_let_mut | PrependLetMut()               | PrependLet()                  |
+        " |   !has_let   |                               |                               |
+        " +--------------+-------------------------------+-------------------------------+
+
+        " Helper functions that modify current line:
+        " TODO:
+        " - Cover edge cases while restoring the cursor
+        " - Accept arbitrary line number instead of acting on current line
+        " - Remove the use of normal
+        function! PrependLetMut()
+            let save_pos = getpos(".")
+            execute 'normal Ilet mut '
+            call setpos('.', save_pos)
+            execute 'normal 8l'
+        endfunction
+        function! RemoveLetMut()
+            let save_pos = getpos(".")
+            execute 'normal ^2dw'
+            call setpos('.', save_pos)
+            execute 'normal 8h'
+        endfunction
+        function! PrependLet()
+            echo "PrependLet"
+            let save_pos = getpos(".")
+            execute 'normal Ilet '
+            call setpos('.', save_pos)
+            execute 'normal 4l'
+        endfunction
+        function! RemoveLet()
+            let save_pos = getpos(".")
+            execute 'normal ^dw'
+            call setpos('.', save_pos)
+            execute 'normal 4h'
+        endfunction
+
+        " Run logic
+        if a:toggle_let_mut && has_let_mut
+            call RemoveLetMut()
+        elseif a:toggle_let_mut && has_let
+            call RemoveLet()
+            call PrependLetMut()
+        elseif a:toggle_let_mut && (!has_let_mut && !has_let)
+            call PrependLetMut()
+
+        elseif a:toggle_let && has_let_mut
+            call RemoveLetMut()
+            call PrependLet()
+        elseif a:toggle_let && has_let
+            call RemoveLet()
+        elseif a:toggle_let && (!has_let_mut && !has_let)
+            call PrependLet()
+        else
+            " NoOp
+        endif
     endif
 endfunction
 
