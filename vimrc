@@ -260,14 +260,15 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
         let trimmed_line_content = trim(line_content)
 
         " Note whether line begins with `let mut` or `let`
-        " 1. First check for `let mut`
-        if (trimmed_line_content =~# "let mut ")
+        " 1. First check for leading `let mut`
+        if (trimmed_line_content =~# "^let mut ")
             let has_let_mut = 1
         else
             let has_let_mut = 0
 
-            " 2. Next check for `let`
-            if (trimmed_line_content =~# "let ")
+            " 2. Next check for leading `let`
+            " (Nesting to avoid `let mut` matcfhes)
+            if (trimmed_line_content =~# "^let ")
                 let has_let = 1
             else
                 let has_let = 0
