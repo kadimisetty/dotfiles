@@ -135,6 +135,16 @@ alias st='stack test'
 
 
 # FUNCTIONS {{{1
+# Shell Helpers {{{2
+function mkcd {
+    # mkdir and cd into the directory without using options
+    # USAGE: `$ mkcd foo`
+    # like `mkdir -p` or zsh's `take` which do not suit my workflow
+    # NOTE: Using the function name `mcd` triggers a tab completion error, so
+    # I'm using `mkcd` instead.
+    mkdir "$1" && cd "$1"
+}
+
 # iTerm Helpers (only macOS with iTerm) {{{2
 # https://cgamesplay.com/post/2020/11/25/iterm-plugins/
 
