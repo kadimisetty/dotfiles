@@ -19,11 +19,13 @@ anywhere and add the following to your .vimrc:
     NOTE:
     There are many variations of the following options on the web, but
     the following options (modified with my location of elmtags.py) seems
-    to be only one to work.
+    to be only one to work for me atm.
 
     Also Mac OS seems to prevent runnning executables downloaded over the
-    internet and tagbar fails without any notifications of failure.
-    So turn this script into an executable with `chmod u+x ./elmtags.py`.
+    internet and tagbar fails without any notifications of failure. So
+    instead of investiagting that further, I'm currently settling for using a
+    script.  Since tagbar needs an executable, turn this script into one
+    with `chmod u+x ./elmtags.py`
 
 let g:tagbar_type_elm = {
           \   'ctagstype':'elm'
