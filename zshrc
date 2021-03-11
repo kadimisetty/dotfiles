@@ -136,12 +136,21 @@ alias st='stack test'
 
 # FUNCTIONS {{{1
 # Shell Helpers {{{2
-function mkcd {
-    # mkdir and cd into the directory without using options
-    # USAGE: `$ mkcd foo`
-    # like `mkdir -p` or zsh's `take` which do not suit my workflow
-    # NOTE: Using the function name `mcd` triggers a tab completion error, so
-    # I'm using `mkcd` instead.
+
+# zsh has a built in function that conflicts with the `mcd` name. We need it for function `mcd`
+compdef -d mcd
+
+function mcd {
+    # mkdir and cd into the directory
+    # USAGE: `$ mcd foo`
+    #
+    # NOTES:
+    # 1. Solutions involving `mkdir -p` or zsh's `take` do not suit my workflow.
+    # 2. Using the function name `mcd` triggers a tab completion error
+    # in zsh, because zsh comes with a built-in function that conflicts with that name.
+    # For more info, look in file `/usr/share/zsh/5.8/functions/_mtools` and search for `mcd`
+    # Soution: Right before this function, that conflict was resolved
+    # with the command `compdef -d mcd`.
     mkdir "$1" && cd "$1"
 }
 
