@@ -766,10 +766,10 @@ vnoremap <D-0> g^
 " Toggle modifiable (i.e. Toggle read-only on current buffer) {{{2
 " Mapping `yom` is in the style of tpope/vim-unimpaired
 function! ToggleModifiable()
-    if &modifiable == 1
-        set nomodifiable
+    if &modifiable
+        setlocal nomodifiable
     else
-        set modifiable
+        setlocal modifiable
     endif
 endfunction
 nnoremap <silent> yom :call ToggleModifiable()<CR>
