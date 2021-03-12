@@ -763,7 +763,18 @@ vnoremap <D-4> g$
 vnoremap <D-6> g^
 vnoremap <D-0> g^
 
-"Flip cursorcolumn on demand {{2
+" Toggle modifiable (i.e. Toggle read-only on current buffer) {{{2
+" Mapping `yom` is in the style of tpope/vim-unimpaired
+function! ToggleModifiable()
+    if &modifiable == 1
+        set nomodifiable
+    else
+        set modifiable
+    endif
+endfunction
+nnoremap <silent> yom :call ToggleModifiable()<CR>
+
+"Flip cursorcolumn on demand {{{2
 "nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
 "Use shortcuts from 'tpope/vim-unimpaired' instead
 "
