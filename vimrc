@@ -616,7 +616,7 @@ vnoremap > >gv
 nnoremap Y y$
 "Retain cursor position after done joining two lines
 nnoremap J mzJ`z
-"Toggle spelling mode
+" Toggle spelling mode.
 nnoremap <silent> <leader>ss :set spell!<CR>
 
 
@@ -773,6 +773,28 @@ function! ToggleModifiable()
     endif
 endfunction
 nnoremap <silent> yom :call ToggleModifiable()<CR>
+
+" Toggle signcolumn (gutter) {{{2
+function! ToggleSignColumn()
+    " Note: &`signcolumn` can be `yes/no/auto` but this function only toggles
+    " between `yes/no` but not `auto`, so use at your discretion.
+    echom "IN SIGNCOLUMN"
+    " if (&signcolumn == 'auto' || &signcolumn == 'no')
+    if &signcolumn != 'no' "Using `!= no` instead of `== auto | yes`
+        setlocal signcolumn=no
+    else
+        setlocal signcolumn=yes
+    endif
+endfunction
+" Using `g` instead of `s`:
+" 1. `s` is being used by `spell`
+" 2. `g` for `gutter`
+" 3. I seem to remember it more as gutter than signcolumn anyway.
+nnoremap <silent> yog :call ToggleSignColumn()<CR>
+" This is in the style of `tpope/vim-unimpaired` and since the about
+" mapping/function does not cover `auto` this does;
+" the mnemonic `]oga` is for `turn on the gutter=auto`
+nnoremap <silent> ]oga :setlocal signcolumn=auto<CR>
 
 "Flip cursorcolumn on demand {{{2
 "nnoremap <silent> <leader>c :setlocal cursorcolumn!<CR>
