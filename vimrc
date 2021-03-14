@@ -231,10 +231,21 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingCharacterOnLine(";", line("."))<CR>
     " Toggle trailing comma on current line
     autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
-    " Prepend `let` keyword to current line
+    " Toggle leading `let/let mut` keywords on current line
     autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
     autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
+    " Toggle  leading `pub` keyword on current line
+    autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
 augroup end
+function! TogglePubKeyword(line_number)
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if (trimmed_line_content =~# "^pub ")
+        execute 'normal ^d4l'
+    else
+        execute 'normal Ipub '
+    endif
+endfunction
 function! ToggleTrailingCharacterOnLine (character, line_number)
     let line_content = getline(a:line_number)
     " Ensure line is not empty
