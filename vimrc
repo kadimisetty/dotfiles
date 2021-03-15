@@ -68,6 +68,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'unisonweb/unison', { 'rtp': 'editor-support/vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
+Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
 
 
 "NERDTree. Save order.
@@ -1292,8 +1293,17 @@ let g:elm_format_fail_silently = 1
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
+" wfxr/minimap.vim {{{2
+let g:minimap_auto_start = 1
+let g:minimap_auto_start_win_enter = 0
 
-" Plug 'gcmt/taboo.vim' {{{2
+nnoremap <silent> <C-m> :MinimapToggle<CR>
+
+" Colors (Based on highlight groups which can be viewed with `:highlight`
+let g:minimap_highlight = 'WildMenu'
+let g:minimap_base_highlight = 'VertSplit'
+
+" gcmt/taboo.vim {{{2
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "·%l%U %d"
 
