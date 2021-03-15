@@ -1222,13 +1222,46 @@ augroup rust
     autocmd!
     "Format with rustfmt
     autocmd FileType rust nnoremap <silent> <localleader>f :RustFmt<CR>
-    "Cargo
-    autocmd FileType rust nnoremap <silent> <leader>cr :Crun<CR>
-    autocmd FileType rust nnoremap <silent> <leader>cb :Cbuild<CR>
-    autocmd FileType rust nnoremap <silent> <leader>ct :Ctest<CR>
-    " autocmd FileType rust nnoremap <silent> <leader>cc :Cclean<CR>
-    autocmd FileType rust nnoremap <silent> <leader>cc :Ccheck<CR>
+
+    "CARGO
+    " Direct mappings to 'rust-lang/rust.vim':
+    " autocmd FileType rust nnoremap <silent> <leader>cr :Crun<CR>
+    " autocmd FileType rust nnoremap <silent> <leader>cb :Cbuild<CR>
+    " autocmd FileType rust nnoremap <silent> <leader>ct :Ctest<CR>
+    " autocmd FileType rust nnoremap <silent> <leader>cc :Ccheck<CR>
+    "
+    " InDirect mappings to 'rust-lang/rust.vim' via
+    " ReplaceCargoCommand
+    autocmd FileType rust nnoremap <silent> <leader>cr :call ReplaceCargoCommand('run')<CR>
+    autocmd FileType rust nnoremap <silent> <leader>cb :call ReplaceCargoCommand('build')<CR>
+    autocmd FileType rust nnoremap <silent> <leader>ct :call ReplaceCargoCommand('test')<CR>
+    autocmd FileType rust nnoremap <silent> <leader>cc :call ReplaceCargoCommand('check')<CR>
 augroup END
+function! ReplaceCargoCommand(command)
+    " Runs validated cargo command. If a window already exists from a previous
+    " cargo command, it is replaced i.e. it's buffer(and window) is deleted
+    " and a fresh cargo command via `rust-lang/rust.vim` is run on a new term
+    " window.
+
+    let valid_cargo_commands = ['run', 'build', 'test', 'check']
+    if index(valid_cargo_commands, a:command) < 0
+        " Supplied cargo command is invalid
+        echoerr "Cargo command should be one of: " . string(valid_cargo_commands)
+    else
+        " Get a list of open buffers in current tabpage and close them if
+        " their name matches with the supplied cargo command. Then run the
+        " supplied cargo command
+        let buffers_in_current_tabpage = tabpagebuflist(tabpagenr())
+        for b in buffers_in_current_tabpage
+            " Check if buffer has mathcing name and is of type `terminal`
+            if  (bufname(b) =~# ('^!cargo ' . a:command)) && (getbufvar(b, '&buftype') ==# 'terminal' )
+                execute ('bdelete ' . b)
+            endif
+        endfor
+        " uses the functions provided by vim-rust .e.g `:CRun`
+        execute (':C' . a:command)
+    endif
+endfunction
 
 " Format current buffer on save
 let g:rustfmt_autosave = 1
