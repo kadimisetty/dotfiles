@@ -1212,9 +1212,7 @@ nmap gT <Plug>TitlecaseLine
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
 "configured otherwise
-nmap <silent> <localleader>d <Plug>DashSearch
-"TODO Customize keyword map. e.g. dash lookup in an elixir file would search both
-"elixir and phoenix docsets. Consult :help DashConfig_map
+nmap <silent> <leader>d <Plug>DashSearch
 
 
 "rust-lang/rust.vim {{{2
