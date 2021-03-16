@@ -1299,9 +1299,10 @@ let g:minimap_auto_start_win_enter = 0
 
 nnoremap <silent> <C-m> :MinimapToggle<CR>
 
-" Colors (Based on highlight groups which can be viewed with `:highlight`
-let g:minimap_highlight = 'WildMenu'
-let g:minimap_base_highlight = 'VertSplit'
+hi MinimapBaseHighlight term=reverse  ctermfg=241 ctermbg=236
+hi MinimapHighlight     term=standout cterm=bold  ctermfg=142 ctermbg=238
+let g:minimap_base_highlight = 'MinimapBaseHighlight'
+let g:minimap_highlight = 'MinimapHighlight'
 
 " gcmt/taboo.vim {{{2
 let g:taboo_tab_format = "%f%U %d"
