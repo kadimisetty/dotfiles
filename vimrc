@@ -288,16 +288,18 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
         endif
 
         " TOGGLING LOGIC:
-        " +--------------+-------------------------------+-------------------------------+
-        " |              |       a:toggle_let_mut        |         a:toggle_let          |
-        " +==============+===============================+===============================+
-        " | has_let_mut  | RemoveLetMut()                | RemoveLetMut() + PrependLet() |
-        " +--------------+-------------------------------+-------------------------------+
-        " |   has_let    | RemoveLetMut() + PrependLet() | RemoveLet()                   |
-        " +--------------+-------------------------------+-------------------------------+
-        " | !has_let_mut | PrependLetMut()               | PrependLet()                  |
-        " |   !has_let   |                               |                               |
-        " +--------------+-------------------------------+-------------------------------+
+        " +--------------+------------------+----------------+
+        " |              | a:toggle_let_mut | a:toggle_let   |
+        " +==============+==================+================+
+        " | has_let_mut  | RemoveLetMut()   | RemoveLetMut() |
+        " |              |                  | PrependLet()   |
+        " +--------------+------------------+----------------+
+        " | has_let      | RemoveLetMut()   | RemoveLet()    |
+        " |              | PrependLet()     |                |
+        " +--------------+------------------+----------------+
+        " | !has_let_mut | PrependLetMut()  | PrependLet()   |
+        " | !has_let     |                  |                |
+        " +--------------+------------------+----------------+
 
         " Helper functions that modify current line:
         " TODO:
