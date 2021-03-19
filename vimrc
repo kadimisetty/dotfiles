@@ -637,8 +637,8 @@ nnoremap <silent> <leader>ss :set spell!<CR>
 "MOVEMENT {{{1
 "Tab Pages Movement {{{2
 " Move between tabs with just the <Tab> key
-nnoremap <Tab>      :tabnext<CR>
-nnoremap <S-Tab>    :tabprevious<CR>
+nnoremap <silent> <Tab>      :tabnext<CR>
+nnoremap <silent> <S-Tab>    :tabprevious<CR>
 
 
 "Window Movement {{{2
@@ -760,9 +760,9 @@ nnoremap <silent> <localleader>bd :bd %<CR>
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
 " Save with Ctrl-S {{{2
-nnoremap <C-S>  :update<CR>
-vnoremap <C-S>  <C-C>:update<CR>
-inoremap <C-S>  <C-O>:update<CR>
+nnoremap <silent> <C-S>  :update<CR>
+vnoremap <silent> <C-S>  <C-C>:update<CR>
+inoremap <silent> <C-S>  <C-O>:update<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
@@ -908,12 +908,12 @@ let g:fzf_preview_window = []
 " let g:fzf_preview_window = ['right:40%', 'ctrl-/']
 
 " Search files
-nnoremap <C-P>      :FZFFiles<CR>
-nnoremap <C-P><C-G> :FZFGFiles<CR>
-nnoremap <C-P><C-B> :FZFBuffers<CR>
-nnoremap <C-P><C-R> :FZFRg<CR>
-nnoremap <C-P><C-L> :FZFLines<CR>
-nnoremap <C-P><C-T> :FZFTags<CR>
+nnoremap <silent> <C-P>      :FZFFiles<CR>
+nnoremap <silent> <C-P><C-G> :FZFGFiles<CR>
+nnoremap <silent> <C-P><C-B> :FZFBuffers<CR>
+nnoremap <silent> <C-P><C-R> :FZFRg<CR>
+nnoremap <silent> <C-P><C-L> :FZFLines<CR>
+nnoremap <silent> <C-P><C-T> :FZFTags<CR>
 
 
 
@@ -1000,11 +1000,11 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 
 "NERDTree {{{2
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 "Find and reveal active buffer's file within NERDTree window
-nnoremap <C-n><C-f> :NERDTreeFind<CR>
+nnoremap <silent> <C-n><C-f> :NERDTreeFind<CR>
 "Refreshes the NERDTree root node
-nnoremap <C-n><C-r> :NERDTreeRefreshRoot<CR>
+nnoremap <silent> <C-n><C-r> :NERDTreeRefreshRoot<CR>
 
 "Show minimal UI(without help-text, bookmark-label etc.)
 let g:NERDTreeMinimalUI = 1
@@ -1021,8 +1021,8 @@ augroup END
 
 
 "neoterm {{{2
-nnoremap <leader>nn :<c-u>rightbelow Tnew<cr>
-nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
+nnoremap <silent> <leader>nn :<c-u>rightbelow Tnew<cr>
+nnoremap <silent> <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 
 "Mundo {{{2
 "Undo settings recommended by vim-mundo
@@ -1030,7 +1030,7 @@ nnoremap <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 set undofile
 set undodir=~/.vim/undo
 
-nnoremap <C-u> :MundoToggle<CR>
+nnoremap <silent> <C-u> :MundoToggle<CR>
 "Display short oneline diff to right of graph
 let g:mundo_inline_undo=1
 "Keep focus in the Mundo window after a revert.
