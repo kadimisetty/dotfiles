@@ -1296,7 +1296,7 @@ let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 " wfxr/minimap.vim {{{2
-let g:minimap_auto_start = 1
+let g:minimap_auto_start = 0
 let g:minimap_auto_start_win_enter = 0
 
 nnoremap <silent> <C-m> :MinimapToggle<CR>
