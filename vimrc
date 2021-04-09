@@ -369,6 +369,18 @@ augroup filetype_haskell
 
     "Turn on the sign column as I use it a lot with linters etc.
     autocmd FileType haskell setlocal signcolumn=yes
+
+    " Populate module line on new buffers using the filename
+    " i.e. for a new file named `foo.hs` start buffer with `module Foo where`
+    autocmd BufNewFile *.hs :execute
+                \ "normal! Imodule " . expand("%:r") . " where\<cr>\<cr>\<esc>"
+    " Breakdown:
+    " -------------------------------------------------------------------
+    " | Imodule"         | Switch to insert mode and write module`      |
+    " | expand("%:r")    | Root part of filename to use as module name  |
+    " | where            | Append the remaining part of the line        |
+    " | \<cr>\<cr>\<esc> | Enter 2 newlines and return to nomral mode   |
+    " -------------------------------------------------------------------
 augroup end
 
 augroup haskell_stack_helper
