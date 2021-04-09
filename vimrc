@@ -363,6 +363,10 @@ augroup filetype_haskell
     " autocmd FileType haskell setlocal formatprg=brittany
     autocmd FileType haskell setlocal formatprg=hindent
 
+    " Append current word with a trailing `'`
+    " TODO: Use a function to allow adding and removing trailing `'`
+    autocmd FileType haskell nnoremap <silent> <localleader>'  ea'<Esc>
+
     "Turn on the sign column as I use it a lot with linters etc.
     autocmd FileType haskell setlocal signcolumn=yes
 augroup end
