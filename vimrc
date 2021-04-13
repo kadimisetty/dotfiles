@@ -33,6 +33,7 @@ Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
 Plug 'kassio/neoterm'
 Plug 'kevinoid/vim-jsonc'
+Plug 'lifepillar/pgsql.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
@@ -1303,6 +1304,9 @@ let g:elm_format_fail_silently = 1
 " rob-b/gutenhasktags {{{2
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
+
+" lifepillar/pgsql.vim {{{2
+let g:sql_type_default = 'pgsql'
 
 " wfxr/minimap.vim {{{2
 let g:minimap_auto_start = 0
