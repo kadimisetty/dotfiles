@@ -428,9 +428,9 @@ augroup haskell_stack_helper
     " with the shortcut commanbd <C-x><C-e>. See help section
     " `edit-and-execute-command` in `man bash`. Bash has sligtlty different
     " behavior from zh. Prefer the zsh behavior.
-    " Why `st`? For `stack template`.
+    " Why `kb`? For `kadimisetty basic`.
     " Does: Inserts the text, switches to normal mode and exits to shell.
-    autocmd FileType zsh inoremap <silent> <leader>st kadimisetty/basic<esc>ZZ
+    autocmd FileType zsh inoremap <silent> <leader>kb kadimisetty/basic<esc>ZZ
 augroup END
 
 augroup haskell_stack_helper_package_yaml
