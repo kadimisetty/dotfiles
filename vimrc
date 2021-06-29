@@ -431,6 +431,7 @@ augroup haskell_stack_helper
     " Why `kb`? For `kadimisetty basic`.
     " Does: Inserts the text, switches to normal mode and exits to shell.
     autocmd FileType zsh inoremap <silent> <leader>kb kadimisetty/basic<esc>ZZ
+    autocmd FileType zsh nnoremap <silent> <leader>kb A kadimisetty/basic<esc>ZZ
 augroup END
 
 augroup haskell_stack_helper_package_yaml
