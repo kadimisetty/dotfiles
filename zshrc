@@ -66,6 +66,7 @@ alias vs="vim -S ./Session.vim"
 alias viewn='view -c "NERDTree"'
 alias viewno='vim -c "NERDTree | normal O"'
 alias vg=$'vim -c "call ToggleGVCommitBrowser(\'GV\')"'
+alias vp="vim -c FZFFiles"
 
 alias n="nvim"
 alias nview="nvim -R"
