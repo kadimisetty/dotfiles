@@ -649,7 +649,10 @@ nnoremap <silent> <leader>ss :set spell!<CR>
 " Move between tabs with just the <Tab> key
 nnoremap <silent> <Tab>      :tabnext<CR>
 nnoremap <silent> <S-Tab>    :tabprevious<CR>
-
+" Open a new blank tab page AFTER the current one
+nnoremap <silent> <C-w>t     :tabnew<CR>
+" Open a new blank tab page BEFORE the current one
+nnoremap <silent> <C-w>T     :-tabnew<CR>
 
 "Window Movement {{{2
 " Disabling Space movement because both <C-u> not <C-b> hinder text editing
