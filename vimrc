@@ -1323,6 +1323,20 @@ let g:minimap_highlight = 'MinimapHighlight'
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "·%l%U %d"
 
+function! RenameTabpageWithTaboo()
+    " NOTE: It is desirable to go through the taboo plugin to rename the
+    " tabpage over native commands.
+    if get(g:, 'loaded_taboo', 0)
+        " Taboo plugin is loaded
+        let l:newName = input("NEW NAME: ")
+        execute 'TabooRename ' . newName
+    else
+        " Taboo plugin is not loaded
+        echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
+    endif
+endfunction
+nnoremap <silent> <C-w>r :call RenameTabpageWithTaboo()<CR>
+
 " coc-nvim {{{2
 " Contrast in CocFloating + gruvbox is terrible.
 " Changing to another highlight group.
