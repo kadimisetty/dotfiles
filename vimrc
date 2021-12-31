@@ -1324,7 +1324,7 @@ let g:minimap_highlight = 'MinimapHighlight'
 
 " gcmt/taboo.vim {{{2
 let g:taboo_tab_format = "%f%U %d"
-let g:taboo_renamed_tab_format = "·%l%U %d"
+let g:taboo_renamed_tab_format = "%l%U %d"
 
 function! RenameTabpageWithTaboo()
     " NOTE: It is desirable to go through the taboo plugin to rename the
