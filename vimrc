@@ -559,6 +559,14 @@ elseif $TERM_PROGRAM =~ "iTerm"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" "Vertical bar in Insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" "Steady Block in Normal mode
     let &t_SR = "\<esc>]50;CursorShape=2\x7" "Underline in Replace mode
+elseif $TERM_PROGRAM =~ "tmux"
+    " IMPORTANT NOTE: When `$TERM_PROGRAM`  shows `tmux` it isn't possible to
+    " say whether we are in `terminal.app` or `iTerm.app`, so using the
+    " same settings for `terminal.app` since they work for both `terminal.app`
+    " and `iTerm`, unlike `iTerm's`.
+    let &t_SI="\033[6 q"
+    let &t_SR="\033[4 q"
+    let &t_EI="\033[2 q"
 endif
 
 "Show error messages and throw exceptions
