@@ -1342,7 +1342,9 @@ function! RenameTabpageWithTaboo()
         echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
     endif
 endfunction
-nnoremap <silent> <C-w>r :call RenameTabpageWithTaboo()<CR>
+" NOTE: Using `<C-w>,` instead of <C-w>r` to gel with the tmux equivalent for
+" renaming window which is `<Prefix>,`.
+nnoremap <silent> <C-w>, :call RenameTabpageWithTaboo()<CR>
 
 " coc-nvim {{{2
 " Contrast in CocFloating + gruvbox is terrible.
