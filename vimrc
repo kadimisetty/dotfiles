@@ -553,10 +553,6 @@ if $TERM_PROGRAM =~ "Apple_Terminal"
     let &t_SI="\033[6 q" "Vertical bar in Insert mode
     let &t_SR="\033[4 q" "Underline in Replace mode
     let &t_EI="\033[2 q" "Steady Block in Normal mode
-elseif $TERM_PROGRAM =~ "Hyper"
-    let &t_SI="\033[6 q" "Vertical bar in Insert mode
-    let &t_SR="\033[4 q" "Underline in Replace mode
-    let &t_EI="\033[2 q" "Steady Block in Normal mode
 elseif $TERM_PROGRAM =~ "iTerm"
     "iTerm cursors look much better, especially contrast on hover.
     "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
