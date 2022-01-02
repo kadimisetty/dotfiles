@@ -545,37 +545,33 @@ if has('statusline')
 endif
 
 " Change Cursor Shape based on Mode {{{2
-" Terminal Escape Sequence Numbers for Cursor Shapes) Reference:
-" +--------------+-----------------------+
-" | 0, 1 or none | Blink Block (Default) |
-" +==============+=======================+
-" | 2            | Steady Block          |
-" | 3            | Blink Underline       |
-" | 4            | Steady Underline      |
-" | 6            | Steady Vertical Bar   |
-" +--------------+-----------------------+
 "
-" IF's CONDITION: Check if within iTerm OR within iTerm+tmux
-if (($TERM_PROGRAM =~ "iTerm") || (($TERM_PROGRAM =~ "tmux") && !empty($ITERM_SESSION_ID)))
+" Terminal Escape Sequence Numbers for Cursor Shapes) Reference:
+" +------------+-----------------------+
+" | 0, 1, none | Blink Block (Default) |
+" | 2          | Steady Block          |
+" | 3          | Blink Underline       |
+" | 4          | Steady Underline      |
+" | 6          | Steady Vertical Bar   |
+" +------------+-----------------------+
+if $TERM_PROGRAM =~ "Apple_Terminal"
+    let &t_SI="\033[6 q" "Vertical bar in Insert mode
+    let &t_SR="\033[4 q" "Underline in Replace mode
+    let &t_EI="\033[2 q" "Steady Block in Normal mode
+elseif $TERM_PROGRAM =~ "iTerm"
     "iTerm cursors look much better, especially contrast on hover.
     "https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
-    "Vertical bar in Insert mode
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    "Steady Block in Normal mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    "Underline in Replace mode
-    let &t_SR = "\<esc>]50;CursorShape=2\x7"
-
-" IF's CONDITION: Check if within Apple Terminal.app OR within tmux (NOTE: Cannot
-" find out if within terminal.app+tmux as well, so compromising and assuming if in
-" tmux this is the case.)
-elseif (($TERM_PROGRAM =~ "Apple_Terminal") || ($TERM_PROGRAM =~ "tmux"))
-    "Vertical bar in Insert mode
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" "Vertical bar in Insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" "Steady Block in Normal mode
+    let &t_SR = "\<esc>]50;CursorShape=2\x7" "Underline in Replace mode
+elseif $TERM_PROGRAM =~ "tmux"
+    " NOTE: When `$TERM_PROGRAM`  shows `tmux` it isn't possible to
+    " say whether we are in `terminal.app` or `iTerm.app`, so using the
+    " same settings for `terminal.app` since they work for both `terminal.app`
+    " and `iTerm`, unlike `iTerm's`.
     let &t_SI="\033[6 q"
-    "Steady Block in Normal mode
-    let &t_EI="\033[2 q"
-    "Underline in Replace mode
     let &t_SR="\033[4 q"
+    let &t_EI="\033[2 q"
 endif
 
 "Show error messages and throw exceptions
