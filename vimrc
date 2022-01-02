@@ -28,6 +28,7 @@ Plug 'janko/vim-test'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-peekaboo'
 Plug 'kadimisetty/dash.vim', {'branch': 'fix-open-flicker'}
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
