@@ -58,6 +58,7 @@ Plug 'rstacruz/vim-closer'
 Plug 'rust-lang/rust.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'tmux-plugins/vim-tmux'
 Plug 'tomtom/tcomment_vim' "Does embedded filetypes unlike tpope/vim-commentary
 Plug 'tpope/tpope-vim-abolish'
 Plug 'tpope/vim-endwise'
