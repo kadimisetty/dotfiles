@@ -111,6 +111,11 @@ alias im="iex -S mix"
 alias mps="mix phx.server"
 alias mt="mix test --trace"
 
+## django {{{2
+alias mrs="./manage.py runserver"
+alias mmr="./manage.py makemigrations"
+alias mm="./manage.py migrate"
+
 ## nix {{{2
 # nix-env
 alias ne='nix-env'
