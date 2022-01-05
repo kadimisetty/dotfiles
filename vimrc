@@ -1359,10 +1359,14 @@ let g:taboo_renamed_tab_format = "%l%U %d"
 function! RenameTabpageWithTaboo()
     " NOTE: It is desirable to go through the taboo plugin to rename the
     " tabpage over native commands.
-    if get(g:, 'loaded_taboo', 0)
-        " Taboo plugin is loaded
-        let l:newName = input("NEW NAME: ")
-        execute 'TabooRename ' . newName
+    if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
+        let l:currentTabPageName = TabooTabName(tabpagenr())
+        if (len(l:currentTabPageName) == 0)
+            let l:newName = input("NAME: ")
+        else
+            let l:newName = input("NAME (" . l:currentTabPageName . "): ")
+        endif
+        execute 'TabooRename ' . l:newName
     else
         " Taboo plugin is not loaded
         echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
