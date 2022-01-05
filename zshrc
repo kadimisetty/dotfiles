@@ -82,6 +82,14 @@ alias gd='git diff'
 alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
 
+## tmux + tmuxinator {{{2
+# tmux {{{3
+alias tls="tmux list-sessions"
+# Attach tmux to a running session provided as argument
+alias tat="tmux attach -t"
+# tmuxinator {{{3
+alias tst="tmuxinator start ./.tmuxinator.yml"
+
 ## lsd {{{2
 alias lsd1='lsd --oneline'
 alias lsda='lsd --almost-all'
