@@ -32,7 +32,6 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'kadimisetty/dash.vim', {'branch': 'fix-open-flicker'}
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
-Plug 'kassio/neoterm'
 Plug 'kevinoid/vim-jsonc'
 Plug 'lifepillar/pgsql.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -1041,10 +1040,6 @@ augroup nerdtree_close
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 
-
-"neoterm {{{2
-nnoremap <silent> <leader>nn :<c-u>rightbelow Tnew<cr>
-nnoremap <silent> <leader>nc :<c-u>exec v:count.'Tclear'<cr>
 
 "Mundo {{{2
 "Undo settings recommended by vim-mundo
