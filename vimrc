@@ -781,10 +781,22 @@ nnoremap <silent> <localleader>bd :bd %<CR>
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
-" Save with Ctrl-S {{{2
-nnoremap <silent> <C-S>  :update<CR>
-vnoremap <silent> <C-S>  <C-C>:update<CR>
-inoremap <silent> <C-S>  <C-O>:update<CR>
+" Save with <C-s> {{{2
+" NOTE: Terminals consider <C-s> a legasy flow character.
+" So to use <C-s>, that needs to be disabled with the following
+" within bashrc/zshrc:"
+" # Enable <c-s> and <c-q> in zsh with  ~/.zshrc:
+" #   stty start undef
+" #   stty stop undef
+" #   setopt noflowcontrol
+" # Enable <c-s> and <c-q> in bash with ~/.bash_profile or ~/.bashrc:
+" #   stty -ixon
+"
+" NOTE: Vim cannot differential cases with control characters, so <c-s> and
+" <c-S> are dealt with the same.
+nnoremap <silent> <C-s>  :update<CR>
+vnoremap <silent> <C-s>  <C-C>:update<CR>
+inoremap <silent> <C-s>  <C-O>:update<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key

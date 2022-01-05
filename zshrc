@@ -43,7 +43,8 @@ touch_file_if_doesnt_exist ~/.hushlogin
 # Display red dots while waiting for completion {{{2
 COMPLETION_WAITING_DOTS="true"
 
-# Enable Ctrl-S and Ctrl=P {{{2
+# Enable <C-s> and <C-q> {{{2
+# SEE: https://stackoverflow.com/a/31932467/225903
 stty start undef
 stty stop undef
 setopt noflowcontrol
