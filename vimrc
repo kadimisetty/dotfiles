@@ -754,7 +754,7 @@ function! ToggleLocationList()
         execute 'lclose'
     endif
 endfunction
-nnoremap <silent> <leader>l :call ToggleLocationList()<CR>
+nnoremap <silent> <leader>ll :call ToggleLocationList()<CR>
 
 "Close all helper windows
 nnoremap <silent><leader>z  :pclose \| lclose \| cclose \| call popup_clear()<CR>
@@ -797,6 +797,14 @@ nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 nnoremap <silent> <C-s>  :update<CR>
 vnoremap <silent> <C-s>  <C-C>:update<CR>
 inoremap <silent> <C-s>  <C-O>:update<CR>
+
+" Make and load session using `./Session.vim` {{{2
+" Create a session named `./Session.vim` if it doesn't exist in current directory
+nnoremap <leader>m :mksession<CR>
+" Create/overwrite a session named `./Session.vim` in current directory
+nnoremap <leader>M :mksession!<CR>
+" Load session by sourcing `./Session.vim` in current directory
+nnoremap <leader>l :source ./Session.vim<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
