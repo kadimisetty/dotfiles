@@ -68,6 +68,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
 Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
@@ -734,6 +735,116 @@ nnoremap <silent> <c-w>c        :tabnew<CR>
 nnoremap <silent> <c-w>C        :-tabnew<CR>
 " Close current tab page
 nnoremap <silent> <c-w>x        :tabclose<CR>
+" Move tab page forwards/backward
+function! TabMoveBy1(rightOrLeft, isWrapped)
+    " TODO: Accept user-supplied number of tab page spots to move by.
+    "
+    " Arguments:
+    "   rightOr
+    "       Left="left", Right="right"
+    "   isWrapped
+    "       0=false, 1=true
+    "
+    " TAB MOVING LOGIC:
+    " +---------------+--------------+-----------------+----------------+-----------------+
+    " |               |  IS ONLY TAB | IS FIRST TAB    | IS LAST TAB    | IS MIDDLE TAB   |
+    " +---------------+==============+=================++++++++++++++++++=================+
+    " | TO MOVE LEFT  |  Error(Only) | Error(First)    | Move left by 1 | Move left by 1  |
+    " +---------------+--------------+-----------------+----------------+-----------------+
+    " | TO MOVE LEFT  |  Error(Only) | Move to last    | Move left by 1 | Move left by 1  |
+    " | W/ WRAP       |              |                 |                |                 |
+    " +---------------+--------------+-----------------+----------------+-----------------+
+    " | TO MOVE RIGHT |  Error(Only) | Move right by 1 | Error(Last)    | Move right by 1 |
+    " +---------------+--------------+-----------------+----------------+-----------------+
+    " | TO MOVE RIGHT |  Error(Only) | Move right by 1 | Move to first  | Move right by 1 |
+    " | W/ WRAP       |              |                 |                |                 |
+    " +---------------+--------------+-----------------+----------------+-----------------+
+    "
+    " Collect information required for logic
+    let numberOfTabs=tabpagenr("$")
+    let currentTabNr=tabpagenr()
+    if numberOfTabs == 1 | let isOnlyTab = 1 | else | let isOnlyTab = 0 | endif
+    if currentTabNr == 1 | let isFirstTab = 1 | else | let isFirstTab = 0 | endif
+    if currentTabNr == numberOfTabs | let isLastTab = 1 | else | let isLastTab = 0 | endif
+    if (currentTabNr > 1) && (currentTabNr < numberOfTabs)
+        let isMiddleTab = 1
+    else
+        let isMiddleTab = 0
+    endif
+
+    " Follow logic
+    if (a:rightOrLeft ==? "left") && (a:isWrapped == 0)
+        if isOnlyTab
+            " ERR
+            echo "Only tab page"
+        elseif isFirstTab
+            " ERR
+            echo "Alredy first"
+        elseif isLastTab
+            " MOVE LEFT 1
+            execute "tabmove -1"
+        elseif isMiddleTab
+            " MOVE LEFT 1
+            execute "tabmove -1"
+        endif
+    elseif (a:rightOrLeft ==? "left") && (a:isWrapped == 1)
+        if isOnlyTab
+            " ERR
+            echo "Only tab page"
+        elseif isFirstTab
+            "MOVE TO LAST
+            execute "tabmove"
+        elseif isLastTab
+            "MOVE LEFT 1
+            execute "tabmove -1"
+        elseif isMiddleTab
+            "MOVE LEFT  1
+            execute "tabmove -1"
+        endif
+    elseif (a:rightOrLeft ==? "right") && (a:isWrapped == 0)
+        if isOnlyTab
+            " ERR
+            echo "Only tab page"
+        elseif isFirstTab
+            "MOVE RIGHT 1
+            execute "tabmove +1"
+        elseif isLastTab
+            " ERR
+            echo "Already last"
+        elseif isMiddleTab
+            " MOVE RIGHT 1
+            execute "tabmove +1"
+        endif
+    elseif (a:rightOrLeft ==? "right") && (a:isWrapped == 1)
+        if isOnlyTab
+            " ERR
+            echo "Only tab page"
+        elseif isFirstTab
+            "MOVE RIGHT 1
+            execute "tabmove +1"
+        elseif isLastTab
+            "MOVE TO FIRST
+            execute "0tabmove"
+        elseif isMiddleTab
+            "MOVE RIGHT 1
+            execute "tabmove +1"
+        endif
+    else
+        echoerr "Unrecognized argument(s), expecting: (\"left\"/\"right\", 0/1)"
+    endif
+endfunction
+" WRAPPING OFF
+nnoremap <silent> <c-w><s-left>          :call TabMoveBy1("left", 0)<CR>
+nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 0)<CR>
+"
+" WRAPPING ON
+" nnoremap <silent> <c-w><s-left>          :call TabMoveBy1("left", 1)<CR>
+" nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 1)<CR>
+"
+" Simple Left/Right movement with no wrapping or error reporting.
+" nnoremap <silent> <c-w><s-left>          :execute "tabmove -1"<CR>
+" nnoremap <silent> <c-w><s-right>         :execute "tabmove +1"<CR>
+
 " Rename tab page
 " NOTE: Requires the `gcmt/taboo.vim` plugin
 function! RenameTabpageWithTaboo()
