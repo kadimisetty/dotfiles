@@ -736,7 +736,7 @@ nnoremap <silent> <c-w>C        :-tabnew<CR>
 nnoremap <silent> <c-w>x        :tabclose<CR>
 " Rename tab page
 " NOTE: Requires the `gcmt/taboo.vim` plugin
-function! ReameTabpageWithTaboo()
+function! RenameTabpageWithTaboo()
     " NOTE: It is desirable to go through the taboo plugin to rename the
     " tabpage over native commands.
     if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
@@ -752,9 +752,7 @@ function! ReameTabpageWithTaboo()
         echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
     endif
 endfunction
-" NOTE: Using `<C-w>,` instead of <C-w>r` to gel with the tmux equivalent for
-" renaming window which is `<Prefix>,`.
-nnoremap <silent> <C-w>,        :call RenameTabpageWithTaboo()<CR>
+nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo()<CR>
 
 "Toggle quickfix and location list windows {{{2
 function! ToggleQuickFix()
