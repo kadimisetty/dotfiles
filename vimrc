@@ -654,15 +654,6 @@ nnoremap <silent> <leader>ss :set spell!<CR>
 
 
 "MOVEMENT {{{1
-"Tab Pages Movement {{{2
-" Move between tabs with just the <Tab> key
-nnoremap <silent> <Tab>      :tabnext<CR>
-nnoremap <silent> <S-Tab>    :tabprevious<CR>
-" Open a new blank tab page AFTER the current one
-nnoremap <silent> <C-w>t     :tabnew<CR>
-" Open a new blank tab page BEFORE the current one
-nnoremap <silent> <C-w>T     :-tabnew<CR>
-
 "Window Movement {{{2
 " Disabling Space movement because both <C-u> not <C-b> hinder text editing
 " when they're triggered by mistake in insert mode by <S-Space> which seem to
@@ -684,12 +675,6 @@ nnoremap <silent> <C-l> :wincmd l<CR>
 " nnoremap <silent> <C-p> :wincmd p<CR>
 
 "Window Splits {{{2
-"Equal size windows
-nnoremap <silent> <leader>w= :wincmd =<CR>
-"Split window horizontally
-nnoremap <silent> <leader>sh :split<CR>
-"Split window vertically
-nnoremap <silent> <leader>sv :vsplit<CR>
 
 " Jump to the last known valid cursor position {{{2
 augroup cursor_position
@@ -729,7 +714,49 @@ augroup end
 
 
 "MAPPINGS {{{1
-"Toggle quickfix and location list windows{{{2
+" Windows {{{2
+" NOTE: These are deliberatly identical to my tmux pane mappings
+" Make horizontal split
+nnoremap <silent> <c-w>-        :split<CR>
+" Make vertical split
+nnoremap <silent> <c-w>\|       :vsplit<CR>
+" Equal size windows
+nnoremap <silent> <leader>w=    :wincmd =<CR>
+
+" Tab pages {{{2
+" Move between tabs with just the <Tab> key
+nnoremap <silent> <Tab>         :tabnext<CR>
+nnoremap <silent> <S-Tab>       :tabprevious<CR>
+" NOTE: These are deliberatly identical to my tmux mappings
+" Open a new blank tab page AFTER the current one
+nnoremap <silent> <c-w>c        :tabnew<CR>
+" Open a new blank tab page BEFORE the current one
+nnoremap <silent> <c-w>C        :-tabnew<CR>
+" Close current tab page
+nnoremap <silent> <c-w>x        :tabclose<CR>
+" Rename tab page
+" NOTE: Requires the `gcmt/taboo.vim` plugin
+function! ReameTabpageWithTaboo()
+    " NOTE: It is desirable to go through the taboo plugin to rename the
+    " tabpage over native commands.
+    if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
+        let l:currentTabPageName = TabooTabName(tabpagenr())
+        if (len(l:currentTabPageName) == 0)
+            let l:newName = input("NAME: ")
+        else
+            let l:newName = input("NAME (" . l:currentTabPageName . "): ")
+        endif
+        execute 'TabooRename ' . l:newName
+    else
+        " Taboo plugin is not loaded
+        echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
+    endif
+endfunction
+" NOTE: Using `<C-w>,` instead of <C-w>r` to gel with the tmux equivalent for
+" renaming window which is `<Prefix>,`.
+nnoremap <silent> <C-w>,        :call RenameTabpageWithTaboo()<CR>
+
+"Toggle quickfix and location list windows {{{2
 function! ToggleQuickFix()
     " 1. Check if quickfix is open. 0 for close, 1+ for open
     let l:quickfix_is_open = len(filter(getwininfo(), 'v:val.quickfix && !v:val.loclist'))
@@ -1355,26 +1382,6 @@ let g:minimap_highlight = 'MinimapHighlight'
 " gcmt/taboo.vim {{{2
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "%l%U %d"
-
-function! RenameTabpageWithTaboo()
-    " NOTE: It is desirable to go through the taboo plugin to rename the
-    " tabpage over native commands.
-    if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
-        let l:currentTabPageName = TabooTabName(tabpagenr())
-        if (len(l:currentTabPageName) == 0)
-            let l:newName = input("NAME: ")
-        else
-            let l:newName = input("NAME (" . l:currentTabPageName . "): ")
-        endif
-        execute 'TabooRename ' . l:newName
-    else
-        " Taboo plugin is not loaded
-        echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
-    endif
-endfunction
-" NOTE: Using `<C-w>,` instead of <C-w>r` to gel with the tmux equivalent for
-" renaming window which is `<Prefix>,`.
-nnoremap <silent> <C-w>, :call RenameTabpageWithTaboo()<CR>
 
 " coc-nvim {{{2
 " Contrast in CocFloating + gruvbox is terrible.
