@@ -833,6 +833,21 @@ function! TabMoveBy1(rightOrLeft, isWrapped)
         echoerr "Unrecognized argument(s), expecting: (\"left\"/\"right\", 0/1)"
     endif
 endfunction
+" NOTE: vim and tmux do not use the same codes for <s-left> and <s-right> and
+" so without the following fix, vim cannot properly interpret <s-left> and
+" <s-right>. (SEE: https://superuser.com/a/402084/99601).
+" FIX:
+" 1. Withing tmux do:`set-window-option -g xterm-keys on`
+" 2. Here, in vimrc, do:
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+" 3. Now proceed with <s-left> and <s-right> working as expected, map tab movement
+" to them:
 " WRAPPING OFF
 nnoremap <silent> <c-w><s-left>          :call TabMoveBy1("left", 0)<CR>
 nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 0)<CR>
