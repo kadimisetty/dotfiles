@@ -110,10 +110,13 @@ alias ct="cargo test"
 
 ## Dirs {{{2
 alias dotfiles="cd ~/code/personal/dotfiles/"
-alias external="cd ~/code/external/"
-alias personal="cd ~/code/personal/"
-alias playground="cd ~/code/playground/"
-alias sandbox="cd ~/code/sandbox/"
+
+# This makes it easier to jump to my oft-visited directories within `~/code`
+# AUTO_CD(zsh docs): If a command is issued that can't be run as a normal
+# command, and the command is the name of a directory, then cd to that directory.
+# Example: when we enter `/sandbox` then zsh actually does a `cd /sandbox`
+setopt AUTO_CD
+cdpath=($HOME/code)
 
 ## Mix {{{2
 alias im="iex -S mix"
