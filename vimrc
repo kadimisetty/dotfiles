@@ -630,11 +630,8 @@ augroup end
 
 "ABBREVIATIONS, TYPOS, ALIASES & CONCEALS {{{1
 "Abbreviations & Typos
-"TODO: Move these into after file recommended by Abolish.vim
-iabbrev impoty import
-iabbrev impory import
-iabbrev improt import
-iabbrev impotr import
+" Common `iabbrev`s like `iabbrev improt import` etc. moved to file recommended
+" by `Abolish.vim`: `~/.vim/after/plugin/abolish.vim`
 
 augroup elm_abbreviations
     autocmd!
