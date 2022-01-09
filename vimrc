@@ -720,6 +720,8 @@ nnoremap <silent> <c-w>-        :split<CR>
 nnoremap <silent> <c-w>\|       :vsplit<CR>
 " Equal size windows
 nnoremap <silent> <leader>w=    :wincmd =<CR>
+" Close all windows and exit
+nnoremap <leader>Q              :qa<CR>
 
 " Tab pages {{{2
 " Move between tabs with just the <Tab> key
