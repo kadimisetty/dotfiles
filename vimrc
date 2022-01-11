@@ -907,12 +907,19 @@ endfunction
 nnoremap <silent> <leader>ll :call ToggleLocationList()<CR>
 
 "Close all helper windows
-nnoremap <silent><leader>z  :pclose \| lclose \| cclose \| call popup_clear()<CR>
-"Close all helper windows in all tabs by applying above `<leader>z` on all of them
-"TODO: This normal command is locked to `\` as leader and needs to be
-"generalized to work with any leader. SEE: https://vi.stackexchange.com/a/7780/397
-"TODO: Return to previous position.
-nnoremap <silent><leader>Z  :tabdo windo execute 'normal \z'<CR>
+function! CloseAllHelperWindows()
+    pclose
+    lclose
+    cclose
+    call popup_clear()
+endfunction
+function! CloseAllHelperWindowsInAllTabsAndReturnToPreviousPosition()
+    let current_tab = tabpagenr()
+    tabdo windo execute 'call CloseAllHelperWindows()'
+    execute 'tabnext' current_tab
+endfunction
+nnoremap <silent><leader>z  :call CloseAllHelperWindows()<CR>
+nnoremap <silent><leader>Z  :call CloseAllHelperWindowsInAllTabsAndReturnToPreviousPosition()<CR>
 
 "Edit vimrc {{{2
 nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
