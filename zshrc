@@ -84,6 +84,7 @@ alias gl='git log --oneline --decorate --graph'
 
 ## tmux + tmuxinator {{{2
 # tmux {{{3
+alias t="tmux"
 alias tls="tmux list-sessions"
 # Attach tmux to a running session provided as argument
 alias tat="tmux attach -t"
