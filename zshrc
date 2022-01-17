@@ -89,7 +89,7 @@ alias tls="tmux list-sessions"
 # Attach tmux to a running session provided as argument
 alias tat="tmux attach -t"
 # tmuxinator {{{3
-alias tst="tmuxinator start ./.tmuxinator.yml || tmuxinator start ./tmuxinator.yml"
+alias tst="tmuxinator start ./.tmuxinator.yml"
 
 ## lsd {{{2
 alias lsd1='lsd --oneline'
