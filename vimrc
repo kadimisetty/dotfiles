@@ -12,7 +12,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'LnL7/vim-nix'
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'andymass/vim-matchup'
 Plug 'axelf4/vim-strip-trailing-whitespace'
 Plug 'bps/vim-textobj-python'
 Plug 'c-brenn/phoenix.vim'
