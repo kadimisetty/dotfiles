@@ -125,21 +125,7 @@ alias mps="mix phx.server"
 alias mt="mix test --trace"
 
 ## django {{{2
-alias dcms = './manage.py compilemessages'
-alias dcsu = './manage.py createsuperuser'
-alias ddbs = './manage.py dbshell'
-alias ddd  = './manage.py dumpdata'
-alias dld  = './manage.py loaddata'
-alias dm   = './manage.py migrate'
-alias dmm  = './manage.py makemigrations'
-alias dmms = './manage.py makemessages'
-alias drs  = './manage.py runserver'
-alias ds   = './manage.py shell'
-alias dsa  = './manage.py startapp'
-alias dsm  = './manage.py showmigrations'
-alias dt   = './manage.py test'
-alias dts  = './manage.py testserver'
-
+### Show index of my aliases to django's `./manage.py` sub-commands
 function dalias {
     cat << EOF
 dcms compilemessages
@@ -158,6 +144,30 @@ dt   test
 dts  testserver
 EOF
 }
+### Run only in virtual env
+function run_cmd_only_in_virtual_env {
+    if [[ -v VIRTUAL_ENV ]]
+    then
+        eval $1
+    else
+        echo "ERROR: Not in virtual env" >&2;
+    fi
+}
+alias dcms='run_cmd_only_in_virtual_env "./manage.py compilemessages"'
+alias dcsu='run_cmd_only_in_virtual_env "./manage.py createsuperuser"'
+alias ddbs='run_cmd_only_in_virtual_env "./manage.py dbshell"'
+alias ddd='run_cmd_only_in_virtual_env "./manage.py dumpdata"'
+alias dld='run_cmd_only_in_virtual_env "./manage.py loaddata"'
+alias dm='run_cmd_only_in_virtual_env "./manage.py migrate"'
+alias dmm='run_cmd_only_in_virtual_env "./manage.py makemigrations"'
+alias dmms='run_cmd_only_in_virtual_env "./manage.py makemessages"'
+alias drs='run_cmd_only_in_virtual_env "./manage.py runserver"'
+alias ds='run_cmd_only_in_virtual_env "./manage.py shell"'
+alias dsa='run_cmd_only_in_virtual_env "./manage.py startapp"'
+alias dsm='run_cmd_only_in_virtual_env "./manage.py showmigrations"'
+alias dt='run_cmd_only_in_virtual_env "./manage.py test"'
+alias dts='run_cmd_only_in_virtual_env "./manage.py testserver"'
+
 
 ## nix {{{2
 # nix-env
