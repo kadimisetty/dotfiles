@@ -125,9 +125,57 @@ alias mps="mix phx.server"
 alias mt="mix test --trace"
 
 ## django {{{2
-alias mrs="./manage.py runserver"
-alias mmm="./manage.py makemigrations"
-alias mm="./manage.py migrate"
+alias dj='manage.py'
+alias djcct='manage.py createcachetable'
+alias djcme='manage.py compilemessages'
+alias djcs='manage.py collectstatic'
+alias djcsu='manage.py createsuperuser'
+alias djfs='manage.py findstatic'
+alias djdd='manage.py dumpdata'
+alias djdbs='manage.py dbshell'
+alias djld='manage.py loaddata'
+alias djm='manage.py migrate'
+alias djmme='manage.py makemessages'
+alias djmmi='manage.py makemigrations'
+alias djrs='manage.py runserver'
+alias djrf='manage.py runfcgi'
+alias djs='manage.py shell'
+alias djsa='manage.py startapp'
+alias djsmi='manage.py showmigrations'
+alias djsqmi='manage.py squashmigrations'
+alias djsqlf='manage.py sqlflush'
+alias djsqlm='manage.py sqlmigrate'
+alias djsqlsr='manage.py sqlsequencereset'
+alias djt='manage.py test'
+alias djts='manage.py testserver'
+
+function djalias {
+    cat << EOF
+dj       manage.py
+djcct    manage.py createcachetable
+djcme    manage.py compilemessages
+djcs     manage.py collectstatic
+djcsu    manage.py createsuperuser
+djfs     manage.py findstatic
+djdd     manage.py dumpdata
+djdbs    manage.py dbshell
+djld     manage.py loaddata
+djm      manage.py migrate
+djmme    manage.py makemessages
+djmmi    manage.py makemigrations
+djrs     manage.py runserver
+djrf     manage.py runfcgi
+djs      manage.py shell
+djsa     manage.py startapp
+djsmi    manage.py showmigrations
+djsqmi   manage.py squashmigrations
+djsqlf   manage.py sqlflush
+djsqlm   manage.py sqlmigrate
+djsqlsr  manage.py sqlsequencereset
+djt      manage.py test
+djts     manage.py testserver
+EOF
+}
 
 ## nix {{{2
 # nix-env
