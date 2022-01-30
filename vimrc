@@ -725,15 +725,23 @@ nnoremap <leader>Q              :qa<CR>
 
 " Tab pages {{{2
 " Move between tabs with just the <Tab> key
-nnoremap <silent> <Tab>         :tabnext<CR>
-nnoremap <silent> <S-Tab>       :tabprevious<CR>
-" NOTE: These are deliberatly identical to my tmux mappings
-" Open a new blank tab page AFTER the current one
-nnoremap <silent> <c-w>c        :tabnew<CR>
-" Open a new blank tab page BEFORE the current one
-nnoremap <silent> <c-w>C        :-tabnew<CR>
-" Close current tab page
-nnoremap <silent> <c-w>x        :tabclose<CR>
+nnoremap <silent> <Tab>         :<c-u>tabnext<CR>
+nnoremap <silent> <S-Tab>       :<c-u>tabprevious<CR>
+"
+" ISSUE: `<C-w>c` is used to close a vim window(and a tab if it only has one
+" window) but I want to have parity with the tmux key equivalents, hence
+" sticking with `<C-w>c` mapping. Due to the overlap with `<C-w>c` sometimes
+" vim misunderstands the mapping and closes window/tab instead, which is annoying
+" but the only solution is to stop using `<C-w>c` which I'm not going to do at the moment.
+" NOTE: Doing mappings both with and without `<C-*>` to account for when a
+" control is help onto longer than from the first `<C-w>` key.
+nnoremap <silent> <C-w>c        :<C-u>tabnew<CR>
+nnoremap <silent> <C-w><C-c>    :<C-u>tabnew<CR>
+nnoremap <silent> <C-w>C        :<C-u>-tabnew<CR>
+nnoremap <silent> <C-w><C-C>    :<C-u>-tabnew<CR>
+nnoremap <silent> <C-w>x        :<C-u>tabclose<CR>
+nnoremap <silent> <C-w><C-x>    :<C-u>tabclose<CR>
+
 " Move tab page forwards/backward
 function! TabMoveBy1(rightOrLeft, isWrapped)
     " TODO: Accept user-supplied number of tab page spots to move by.
@@ -836,7 +844,7 @@ endfunction
 " so without the following fix, vim cannot properly interpret <s-left> and
 " <s-right>. (SEE: https://superuser.com/a/402084/99601).
 " FIX:
-" 1. Withing tmux do:`set-window-option -g xterm-keys on`
+" 1. Within tmux do:`set-window-option -g xterm-keys on`
 " 2. Here, in vimrc, do:
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -967,6 +975,7 @@ nnoremap <leader>m :mksession<CR>
 nnoremap <leader>M :mksession!<CR>
 " Load session by sourcing `./Session.vim` in current directory
 nnoremap <leader>l :source ./Session.vim<CR>
+nnoremap <leader>L :source ./Session.vim<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
