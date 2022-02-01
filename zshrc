@@ -153,19 +153,19 @@ function malias {
         /.*manage\.py.*/ {
             if ($4) {
                 # SUBCOMMANDS e.g. `./manage.py createsuperuser`
-                subcommand_arr[get_alias_name($1)] = $4
+                subcommand_arr[get_alias_name($1)] = remove_trailing_backtick($4)
 
             } else {
                 # MAIN COMMAND i.e. `./manage.py`
-                maincommand_arr[get_alias_name($1)] = $3
+                maincommand_arr[get_alias_name($1)] = remove_trailing_backtick($3)
             }
         }
         END {
             print_with_underline("./manage.py ALIASES:")
-            for (k in maincommand_arr) { print k"\t"remove_trailing_backtick(maincommand_arr[k]) }
+            for (k in maincommand_arr) { print k"\t"maincommand_arr[k] }
             printf "\n"
             print_with_underline("./manage.py SUBCOMMAND ALIASES:")
-            for (k in subcommand_arr) { print k"\t"remove_trailing_backtick(subcommand_arr[k]) }
+            for (k in subcommand_arr) { print k"\t"subcommand_arr[k] }
         }
         function print_with_underline(s) {
             print s
