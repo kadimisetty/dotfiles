@@ -144,11 +144,18 @@ alias mt='exit_if_not_in_python_virtual_env && ./manage.py test'
 alias mts='exit_if_not_in_python_virtual_env && ./manage.py testserver'
 alias m='exit_if_not_in_python_virtual_env && ./manage.py'
 
+# [django-extension](https://github.com/django-extensions/django-extensions):
+alias msu="exit_if_not_in_python_virtual_env && ./manage.py show_urls"
+alias mvt="exit_if_not_in_python_virtual_env && ./manage.py validate_templates"
+alias msp="exit_if_not_in_python_virtual_env && ./manage.py shell_plus"
+alias mrsp="exit_if_not_in_python_virtual_env && ./manage.py runserver_plus"
+
 function malias {
     # Print all current `manage.py` aliases.
     # Expecting aliases created in this format:
     #   alias m='exit_if_not_in_python_virtual_env && ./manage.py'
     #   alias mcsu='exit_if_not_in_python_virtual_env && ./manage.py createsuperuser'
+    #   alias msp="exit_if_not_in_python_virtual_env && ./manage.py shell_plus"
     alias | awk '
         /.*manage\.py.*/ {
             if ($4) {
