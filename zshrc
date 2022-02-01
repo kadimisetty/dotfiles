@@ -146,42 +146,39 @@ alias m='exit_if_not_in_python_virtual_env && ./manage.py'
 
 function malias {
     # Print all current `manage.py` aliases.
+    # Expecting aliases created in this format:
+    #   alias m='exit_if_not_in_python_virtual_env && ./manage.py'
+    #   alias mcsu='exit_if_not_in_python_virtual_env && ./manage.py createsuperuser'
     alias | awk '
-/.*manage\.py.*/ {
-    if ($4) {
-        # SUBCOMMANDS e.g. `./manage.py createsuperuser`
-        subcommand_arr[get_alias_name($1)] = $4
+        /.*manage\.py.*/ {
+            if ($4) {
+                # SUBCOMMANDS e.g. `./manage.py createsuperuser`
+                subcommand_arr[get_alias_name($1)] = $4
 
-    } else {
-        # MAIN COMMAND e.g. `./manage.py`
-        maincommand_arr[get_alias_name($1)] = $3
-    }
-}
-
-END {
-    print_with_underline("./manage.py ALIASES:")
-    for (k in maincommand_arr)
-        print k"\t"remove_trailing_backtick(maincommand_arr[k])
-    print ""
-    print_with_underline("./manage.py SUBCOMMAND ALIASES:")
-    for (k in subcommand_arr)
-        print k"\t"remove_trailing_backtick(subcommand_arr[k])
-}
-function print_with_underline(s) {
-    print s
-    for (i=0;i<length(s);i++)
-        printf "-"
-    print ""
-}
-function get_alias_name(s) {
-    split(s, delimited_s, "=")
-    return delimited_s[1]
-}
-
-function remove_trailing_backtick(s) {
-    return substr(s, 1, length(s)-1)
-}
-    '
+            } else {
+                # MAIN COMMAND i.e. `./manage.py`
+                maincommand_arr[get_alias_name($1)] = $3
+            }
+        }
+        END {
+            print_with_underline("./manage.py ALIASES:")
+            for (k in maincommand_arr) { print k"\t"remove_trailing_backtick(maincommand_arr[k]) }
+            printf "\n"
+            print_with_underline("./manage.py SUBCOMMAND ALIASES:")
+            for (k in subcommand_arr) { print k"\t"remove_trailing_backtick(subcommand_arr[k]) }
+        }
+        function print_with_underline(s) {
+            print s
+            for (i=0;i<length(s);i++) { printf "-" }
+            printf "\n"
+        }
+        function get_alias_name(s) {
+            split(s, delimited_s, "=")
+            return delimited_s[1]
+        }
+        function remove_trailing_backtick(s) {
+            return substr(s, 1, length(s)-1)
+        }'
 }
 
 ## nix {{{2
