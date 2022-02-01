@@ -144,17 +144,16 @@ alias mt='exit_if_not_in_python_virtual_env && ./manage.py test'
 alias mts='exit_if_not_in_python_virtual_env && ./manage.py testserver'
 alias m='exit_if_not_in_python_virtual_env && ./manage.py'
 
-
 function malias {
     # Print all current `manage.py` aliases.
     alias | awk '
 /.*manage\.py.*/ {
     if ($4) {
-        # SUBCOMMANDS e.g. `./manage.py`
+        # SUBCOMMANDS e.g. `./manage.py createsuperuser`
         subcommand_arr[get_alias_name($1)] = $4
 
     } else {
-        # MAIN COMMAND e.g. `./manage.py createsuperuser`
+        # MAIN COMMAND e.g. `./manage.py`
         maincommand_arr[get_alias_name($1)] = $3
     }
 }
