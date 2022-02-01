@@ -252,7 +252,6 @@ function iterm_badge {
 function iterm_badge_clear {
     # Clear iTerm text label set by iterm_badge
     # Usage example: $ iterm_badge_clear
-    # TODO: Find a cleaner way to reset this than setting it to an empty string
     iterm_badge ""
 }
 
