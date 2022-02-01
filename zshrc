@@ -121,53 +121,69 @@ cdpath=($HOME/code)
 
 ## Mix {{{2
 alias im="iex -S mix"
-alias mps="mix phx.server"
-alias mt="mix test --trace"
+alias mxps="mix phx.server"
+alias mxt="mix test --trace"
 
 ## django {{{2
-### Show index of my aliases to django's `./manage.py` sub-commands
-function dalias {
-    cat << EOF
-dcms compilemessages
-dcsu createsuperuser
-ddbs dbshell
-ddd  dumpdata
-dld  loaddata
-dm   migrate
-dmm  makemigrations
-dmms makemessages
-drs  runserver
-ds   shell
-dsa  startapp
-dsm  showmigrations
-dt   test
-dts  testserver
-EOF
-}
-### Run only in virtual env
-function run_cmd_only_in_virtual_env {
-    if [[ -v VIRTUAL_ENV ]]
-    then
-        eval $1
-    else
+# Using `m` for `manage.py` instead of `d` for django because `m` composes better.
+function exit_if_not_in_python_virtual_env {
+    # Show index of my aliases to django's `./manage.py` sub-commands
+    if ! [[ -v VIRTUAL_ENV ]] then
         echo "ERROR: Not in virtual env" >&2;
+        return 1
     fi
 }
-alias dcms='run_cmd_only_in_virtual_env "./manage.py compilemessages"'
-alias dcsu='run_cmd_only_in_virtual_env "./manage.py createsuperuser"'
-alias ddbs='run_cmd_only_in_virtual_env "./manage.py dbshell"'
-alias ddd='run_cmd_only_in_virtual_env "./manage.py dumpdata"'
-alias dld='run_cmd_only_in_virtual_env "./manage.py loaddata"'
-alias dm='run_cmd_only_in_virtual_env "./manage.py migrate"'
-alias dmm='run_cmd_only_in_virtual_env "./manage.py makemigrations"'
-alias dmms='run_cmd_only_in_virtual_env "./manage.py makemessages"'
-alias drs='run_cmd_only_in_virtual_env "./manage.py runserver"'
-alias ds='run_cmd_only_in_virtual_env "./manage.py shell"'
-alias dsa='run_cmd_only_in_virtual_env "./manage.py startapp"'
-alias dsm='run_cmd_only_in_virtual_env "./manage.py showmigrations"'
-alias dt='run_cmd_only_in_virtual_env "./manage.py test"'
-alias dts='run_cmd_only_in_virtual_env "./manage.py testserver"'
 
+alias mcsu='exit_if_not_in_python_virtual_env && ./manage.py createsuperuser'
+alias mm='exit_if_not_in_python_virtual_env && ./manage.py migrate'
+alias mmm='exit_if_not_in_python_virtual_env && ./manage.py makemigrations'
+alias mrs='exit_if_not_in_python_virtual_env && ./manage.py runserver'
+alias ms='exit_if_not_in_python_virtual_env && ./manage.py shell'
+alias msa='exit_if_not_in_python_virtual_env && ./manage.py startapp'
+alias mt='exit_if_not_in_python_virtual_env && ./manage.py test'
+alias mts='exit_if_not_in_python_virtual_env && ./manage.py testserver'
+alias m='exit_if_not_in_python_virtual_env && ./manage.py'
+
+
+function malias {
+    # Print all current `manage.py` aliases.
+    alias | awk '
+/.*manage\.py.*/ {
+    if ($4) {
+        # SUBCOMMANDS e.g. `./manage.py`
+        subcommand_arr[get_alias_name($1)] = $4
+
+    } else {
+        # MAIN COMMAND e.g. `./manage.py createsuperuser`
+        maincommand_arr[get_alias_name($1)] = $3
+    }
+}
+
+END {
+    print_with_underline("./manage.py ALIASES:")
+    for (k in maincommand_arr)
+        print k"\t"remove_trailing_backtick(maincommand_arr[k])
+    print ""
+    print_with_underline("./manage.py SUBCOMMAND ALIASES:")
+    for (k in subcommand_arr)
+        print k"\t"remove_trailing_backtick(subcommand_arr[k])
+}
+function print_with_underline(s) {
+    print s
+    for (i=0;i<length(s);i++)
+        printf "-"
+    print ""
+}
+function get_alias_name(s) {
+    split(s, delimited_s, "=")
+    return delimited_s[1]
+}
+
+function remove_trailing_backtick(s) {
+    return substr(s, 1, length(s)-1)
+}
+    '
+}
 
 ## nix {{{2
 # nix-env
