@@ -714,10 +714,14 @@ augroup end
 "MAPPINGS {{{1
 " Windows {{{2
 " NOTE: These are deliberatly identical to my tmux pane mappings
-" Make horizontal split
-nnoremap <silent> <c-w>-        :split<CR>
-" Make vertical split
-nnoremap <silent> <c-w>\|       :vsplit<CR>
+"
+" TODO: `-` is too important as a window resizer to be repurposed. Find
+" other mappings.
+" " Make horizontal split
+" nnoremap <silent> <c-w>-        :split<CR>
+" " Make vertical split
+" nnoremap <silent> <c-w>\|       :vsplit<CR>
+"
 " Equal size windows
 nnoremap <silent> <leader>w=    :wincmd =<CR>
 " Close all windows and exit
