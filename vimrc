@@ -873,23 +873,38 @@ nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 0)<CR>
 
 " Rename tab page
 " NOTE: Requires the `gcmt/taboo.vim` plugin
-function! RenameTabpageWithTaboo()
+function! RenameTabpageWithTaboo(prefillCurrentTabpageName)
+    " Renames current tab page name using a `Taboo.vim` plugin helper.
+    " Arguments: prefillCurrentTabpageName (0 is False, 1 is True)
     " NOTE: It is desirable to go through the taboo plugin to rename the
     " tabpage over native commands.
-    if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
-        let l:currentTabPageName = TabooTabName(tabpagenr())
-        if (len(l:currentTabPageName) == 0)
-            let l:newName = input("NAME: ")
-        else
-            let l:newName = input("NAME (" . l:currentTabPageName . "): ")
-        endif
-        execute 'TabooRename ' . l:newName
+
+    " Assert supplied argument values are valid first
+    if !(index([0, 1], a:prefillCurrentTabpageName) >= 0)
+        " Invalid a:prefillCurrentTabpageName:
+        echoerr 'Invalid a:prefillCurrentTabpageName given. Should be `0` for False or `1` for True'
     else
-        " Taboo plugin is not loaded
-        echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
+        " Valid a:prefillCurrentTabpageName:
+        if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
+            let l:currentTabPageName = TabooTabName(tabpagenr())
+            if (len(l:currentTabPageName) == 0)
+                let l:newName = input("NAME: ")
+            else
+                if (a:prefillCurrentTabpageName == 0)
+                    let l:newName = input("NAME (" . l:currentTabPageName . "): ")
+                else
+                    let l:newName = input("NAME (" . l:currentTabPageName . "): ", l:currentTabPageName)
+                endif
+            endif
+            execute 'TabooRename ' . l:newName
+        else
+            " Taboo plugin is not loaded
+            echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
+        endif
     endif
 endfunction
-nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo()<CR>
+nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
+nnoremap <silent> <C-w><    :call RenameTabpageWithTaboo(1)<CR>
 
 "Toggle quickfix and location list windows {{{2
 function! ToggleQuickFix()
