@@ -748,10 +748,16 @@ nnoremap <silent> <C-w><C-x>    :<C-u>tabclose<CR>
 
 " Move tab page forwards/backward
 function! TabMoveBy1(rightOrLeft, isWrapped)
-    " TODO: Accept user-supplied number of tab page spots to move by.
+    " Moves tab page right or left by 1 and allows wrapping
+    "
+    " NOTE:
+    "   1. There are quivalent commands like `:-tabmove` to move tab page left
+    "       but in sitautions when already first, those commands' errors are too
+    "       jarring for me.
+    "   2. This function allows wrapping across the tab page list.
     "
     " Arguments:
-    "   rightOr
+    "   rightOrLeft
     "       Left="left", Right="right"
     "   isWrapped
     "       0=false, 1=true
