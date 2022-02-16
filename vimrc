@@ -707,7 +707,7 @@ nnoremap <silent> <leader>w :call WriteMode()<CR>
 " Initialise new files with corresponding skeleton templates {{{2
 augroup skeleton_files
     autocmd!
-    autocmd BufNewFile * silent! 0r ~/.vim/templates/skeleton.%:e
+    autocmd BufNewFile * silent! 0r ~/.vim/skeletons/skeleton.%:e
 augroup end
 
 
