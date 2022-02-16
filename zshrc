@@ -69,6 +69,9 @@ alias viewno='vim -c "NERDTree | normal O"'
 alias vg=$'vim -c "call ToggleGVCommitBrowser(\'GV\')"'
 alias vp="vim -c FZFFiles"
 alias vpr="vim -c FZFRg"
+alias vo='vim -o'
+alias vO='vim -O'
+alias vt='vim -p'
 
 alias n="nvim"
 alias nview="nvim -R"
@@ -122,6 +125,12 @@ alias ctq="cargo test --quiet"
 alias ctreed1="cargo tree --depth 1"
 alias cw="cargo watch"
 alias cwq="cargo watch --quiet"
+
+function cncd {
+    # Shortcut to do `cargo new` and `cd` into that new directory
+    cargo new $1
+    cd $1
+}
 
 function calias {
     # Print all current `cargo` aliases.
