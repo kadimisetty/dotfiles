@@ -119,6 +119,7 @@ alias cr="cargo run"
 alias crq="cargo run --quiet"
 alias ct="cargo test"
 alias ctq="cargo test --quiet"
+alias ctreed1="cargo tree --depth 1"
 alias cw="cargo watch"
 alias cwq="cargo watch --quiet"
 
