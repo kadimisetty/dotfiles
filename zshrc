@@ -105,10 +105,70 @@ alias lsdtl2='lsd --tree --depth 2'
 alias lsdtl3='lsd --tree --depth 3'
 
 ## Rust Cargo {{{2
+alias c="cargo"
+alias ca="cargo add"
 alias cb="cargo build"
+alias ccheck="cargo check"
+alias cclippy="cargo clippy"
 alias cdo="cargo doc --open"
+alias cfix="cargo fix"
+alias cfmt="cargo fmt"
+alias cn="cargo new"
+alias cnl="cargo new --lib"
 alias cr="cargo run"
+alias crq="cargo run --quiet"
 alias ct="cargo test"
+alias ctq="cargo test --quiet"
+alias cw="cargo watch"
+alias cwq="cargo watch --quiet"
+
+function calias {
+    # Print all current `cargo` aliases.
+    # Expecting aliases created in this format:
+    # alias c="cargo"
+    # alias cr="cargo run"
+    # alias crq="cargo run --quiet"
+    alias | awk '
+        /.*cargo.*/ {
+            if ($2) {
+                # SUBCOMMANDS e.g. `./cargo run`
+                subcommand_arr[get_alias_name($1)] = remove_surrounding_backtick(get_alias_content($0))
+
+            } else {
+                # MAIN COMMAND i.e. `cargo`
+                maincommand_arr[get_alias_name($1)] = get_alias_content($1)
+            }
+        }
+        END {
+            print_with_underline("cargo ALIASES:")
+            for (k in maincommand_arr) { print k"\t"maincommand_arr[k] }
+            printf "\n"
+            print_with_underline("cargo SUBCOMMAND ALIASES:")
+            for (k in subcommand_arr) { print k"\t"subcommand_arr[k] }
+        }
+        function print_with_underline(s) {
+            print s
+            for (i=0;i<length(s);i++) { printf "-" }
+            printf "\n"
+        }
+        function get_alias_name(s) {
+            # NOTES:
+            # For one word aliases like `alias c="cargo"`, zsh cmd `alias` returns:
+            #   c=cargo
+            # For multiple word aliases like `alias c="cargo run"`, zsh surrounds
+            # the alias content with a backtick, which Im not typing here to avoid
+            # breaking the awk input string
+            split(s, delimited_s, "=")
+            return delimited_s[1]
+        }
+        function get_alias_content(s) {
+            split(s, delimited_s, "=")
+            return delimited_s[2]
+        }
+        function remove_surrounding_backtick(s) {
+            return substr(s, 2, length(s)-2)
+        }'
+}
 
 ## Dirs {{{2
 alias dotfiles="cd ~/code/personal/dotfiles/"
