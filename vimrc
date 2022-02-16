@@ -872,8 +872,11 @@ nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 0)<CR>
 " nnoremap <silent> <c-w><s-left>          :call TabMoveBy1("left", 1)<CR>
 " nnoremap <silent> <c-w><s-right>         :call TabMoveBy1("right", 1)<CR>
 " TO FIRST OR LAST: (`:tabmove 0` moves to the first position and `:tabmove` to the last)
+" NOTE: Doing both gx and xg variations, because I forget otherwise.
 nnoremap <silent> <c-w>g<s-left>          :<c-u>tabmove 0<CR>
+nnoremap <silent> g<c-w><s-left>          :<c-u>tabmove 0<CR>
 nnoremap <silent> <c-w>g<s-right>         :<c-u>tabmove<CR>
+nnoremap <silent> g<c-w><s-right>         :<c-u>tabmove<CR>
 "
 " Simple Left/Right movement with no wrapping or error reporting.
 " nnoremap <silent> <c-w><s-left>          :execute "tabmove -1"<CR>
