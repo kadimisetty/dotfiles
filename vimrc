@@ -1068,6 +1068,37 @@ nnoremap <silent> ]oga :setlocal signcolumn=auto<CR>
 "
 "NOTE: The mnemonic for y is that if you tilt it a bit it looks like a switch.
 
+" Make heading lines above/below current line with `[` & `]` {{{2
+function DrawHeadingLineWithCharacter(character, aboveOrBelow)
+    " Arguments:
+    "   character: Character to use to draw in heading line
+    "   aboveOrBelow: ['above', 'below']
+
+    if !(index(['above', 'below'], a:aboveOrBelow) >= 0)
+        " Invalid a:aboveOrBelow
+        echoerr 'Invalid a:aboveOrBelow given. Should be `above` or `below`'
+
+    elseif (strlen(a:character) != 1)
+        "Invalid a:character length. Should be 1.
+        echoerr 'Currently only supports a sigle character.'
+
+    else
+        let current_line_length = strdisplaywidth(getline('.'))
+        let line_content = repeat(a:character, current_line_length)
+        if a:aboveOrBelow == 'above'
+            call append(line('.')-1, line_content)
+        else " belo
+            call append(line('.'), line_content)
+        endif
+    endif
+endfunction
+nnoremap <silent> [- :<c-u>call DrawHeadingLineWithCharacter('-', 'above')<CR>
+nnoremap <silent> ]- :<c-u>call DrawHeadingLineWithCharacter('-', 'below')<CR>
+nnoremap <silent> [_ :<c-u>call DrawHeadingLineWithCharacter('_', 'above')<CR>
+nnoremap <silent> ]_ :<c-u>call DrawHeadingLineWithCharacter('_', 'below')<CR>
+nnoremap <silent> [= :<c-u>call DrawHeadingLineWithCharacter('=', 'above')<CR>
+nnoremap <silent> ]= :<c-u>call DrawHeadingLineWithCharacter('=', 'below')<CR>
+
 
 "PLUGINS PREFERENCES {{{1
 "gruvbox {{{2
