@@ -1033,6 +1033,13 @@ nnoremap <silent> yom :call ToggleModifiable()<CR>
 nnoremap <silent> ]om :setlocal modifiable<CR>
 nnoremap <silent> [om :setlocal nomodifiable<CR>
 
+" Search and replace {{{2
+" [Idea](https://www.reddit.com/r/vim/comments/t1qoma/what_are_some_of_the_unique_functions_you_use_in/hyhpre6/)
+" Vim's search interface: {{{3
+" nnoremap <Space><Space> :%s/\<<C-r>=expand("<cword>")<CR>\>/
+" abolish.vim interface using `:Subvert`: {{{3
+nnoremap <Space><Space> :%Subvert/<C-r>=expand("<cword>")<CR>/
+
 " Toggle signcolumn (gutter) {{{2
 function! ToggleSignColumn()
     " Note: &`signcolumn` can be `yes/no/auto` but this function only toggles
