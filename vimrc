@@ -1000,6 +1000,8 @@ vnoremap <silent> <C-s>  <C-C>:update<CR>
 inoremap <silent> <C-s>  <C-O>:update<CR>
 
 " Make and load session using `./Session.vim` {{{2
+" Notify after a session is loaded
+autocmd SessionLoadPost * echo "Session Loaded"
 " Create a session named `./Session.vim` if it doesn't exist in current directory
 nnoremap <leader>m :mksession<CR>
 " Create/overwrite a session named `./Session.vim` in current directory
