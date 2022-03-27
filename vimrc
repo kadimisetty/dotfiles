@@ -79,7 +79,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
-Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'}
+Plug 'wfxr/minimap.vim' "Requires `code-minimap` available via cargo, nix etc.
 
 
 "NERDTree. Save order.
