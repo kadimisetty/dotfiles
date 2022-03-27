@@ -1707,9 +1707,9 @@ augroup end
 " EXPERIMENTS & TEMPORARY PREFERENCES {{{1
 " Placed in a seperate file(s) to avoid tracking by VCSs
 " Little experiments placed in a seperate file to avoid tracking by VCSs {{{2
-source ~/.vim-experiments.vim
+"source ~/.vim-experiments.vim
 " Temporary Preferences {{{2
-source ~/.vim-temporary-preferences.vim
+"source ~/.vim-temporary-preferences.vim
 
 "CREDITS & INSPIRATION {{{1
 "Some External Inspirations:
