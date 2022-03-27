@@ -531,6 +531,7 @@ set formatoptions+=n    "Support lists (numbered, bulleted)
 set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full       "Tab-Completion ala zsh
 
+set background=dark
 
 " Set vertical window sepertor to pipelike symbol │ with no vertical spaces
 set fillchars+=vert:│
