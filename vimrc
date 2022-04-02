@@ -92,7 +92,7 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 "fzf binary is updated upon fzf plugin upgrade. Save order.
 " fzf is basic integration and fzf.vim is vim plugin
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 "Projections. Save order.
