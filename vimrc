@@ -1584,6 +1584,10 @@ let g:elm_format_fail_silently = 1
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
+
+" fatih/vim-go {{{2
+let g:go_def_mapping_enabled=0
+
 " lifepillar/pgsql.vim {{{2
 let g:sql_type_default = 'pgsql'
 
