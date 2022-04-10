@@ -32,7 +32,8 @@ import           XMonad.Actions.CopyWindow      ( copyToAll
                                                 , killAllOtherCopies
                                                 )
 import           XMonad.Actions.CycleWS         ( Direction1D(Next, Prev)
-                                                , WSType(NonEmptyWS)
+                                                , WSType(Not)
+                                                , emptyWS
                                                 , moveTo
                                                 , nextWS
                                                 , prevWS
@@ -106,26 +107,37 @@ myFocusedBorderColor = "#9F0DFF"
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- MOUSE BINDINGS ------------------------------------------------------ {{{1
-
 myMouseBindings (XConfig { XMonad.modMask = modm }) =
   M.fromList
-    $
-    -- left click (mod-button1)
+    $ [
     -- set the window to floating mode and move by dragging
-      [ ( (modm, button1)
+    -- (mod-button1 i.e. mod-left-click)
+        ( (modm, button1)
         , (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
         )
-      ,
-      -- mod-button2
-      -- raise the window to the top of the stack
-        ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
-      ,
-      -- right click (mod-button3)
       -- set the window to floating mode and resize by dragging
-        ( (modm, button3)
+      -- (mod-button1 i.e. mod-right-click)
+      , ( (modm, button3)
         , (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)
         )
+      -- raise the window to the top of the stack
+      -- (mod-button2 i.e. mod-middle/scroll-wheel-click)
+      , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+      -- switch to next workpace
+      -- (mod-button4 i.e. mod-scroll-up)
+      , ((modm, button4)              , (\_ -> nextWS))
+      -- switch to prev workpace
+      -- (mod-button5 i.e. mod-scroll-down)
+      , ((modm, button5)              , (\_ -> prevWS))
+      -- switch to next non-empty workpace
+      -- (mod-alt-button4 i.e. mod-scroll-up)
+      , ((modm .|. myAltMask, button4), (\_ -> moveTo Next (Not emptyWS)))
+      -- switch to prev non-empty workpace
+      -- (mod-alt-button5 i.e. mod-scroll-down)
+      , ((modm .|. myAltMask, button5), (\_ -> moveTo Prev (Not emptyWS)))
       ]
+
+
 
 -- LAYOUTS ------------------------------------------------------------- {{{1
 
@@ -388,9 +400,9 @@ myKeys conf@(XConfig { XMonad.modMask = modm }) =
        ]
     ++ [
 -- 1. switch to next non-empty workspace
-         ((modm .|. myAltMask, xK_Right), moveTo Next NonEmptyWS)
+         ((modm .|. myAltMask, xK_Right), moveTo Next (Not emptyWS))
 -- 2. switch to previous non-empty workspace
-       , ((modm .|. myAltMask, xK_Left) , moveTo Prev NonEmptyWS)
+       , ((modm .|. myAltMask, xK_Left) , moveTo Prev (Not emptyWS))
        ]
 
       --
