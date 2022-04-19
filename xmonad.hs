@@ -123,18 +123,12 @@ myMouseBindings (XConfig { XMonad.modMask = modm }) =
       -- raise the window to the top of the stack
       -- (mod-button2 i.e. mod-middle/scroll-wheel-click)
       , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
-      -- switch to next workpace
-      -- (mod-button4 i.e. mod-scroll-up)
-      , ((modm, button4)              , (\_ -> nextWS))
-      -- switch to prev workpace
-      -- (mod-button5 i.e. mod-scroll-down)
-      , ((modm, button5)              , (\_ -> prevWS))
       -- switch to next non-empty workpace
-      -- (mod-alt-button4 i.e. mod-scroll-up)
-      , ((modm .|. myAltMask, button4), (\_ -> moveTo Next (Not emptyWS)))
+      -- (mod-button4 i.e. mod-scroll-up)
+      , ((modm, button4), (\_ -> moveTo Next (Not emptyWS)))
       -- switch to prev non-empty workpace
-      -- (mod-alt-button5 i.e. mod-scroll-down)
-      , ((modm .|. myAltMask, button5), (\_ -> moveTo Prev (Not emptyWS)))
+      -- (mod-button5 i.e. mod-scroll-down)
+      , ((modm, button5), (\_ -> moveTo Prev (Not emptyWS)))
       ]
 
 
