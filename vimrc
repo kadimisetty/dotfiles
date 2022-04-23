@@ -33,6 +33,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hspec/hspec.vim'
 Plug 'janko/vim-test'
+Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
@@ -1584,6 +1585,46 @@ let g:elm_format_fail_silently = 1
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
+
+" junegunn/goyo.vim {{{2
+let g:goyo_width = 50
+nnoremap <silent> <leader>g :Goyo<CR>
+nnoremap <silent> <leader>G :Goyo<CR>
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+function! s:goyo_enter()
+    set shortmess+=w
+    set wrap linebreak
+    nnoremap j gj
+    nnoremap k gk
+    nnoremap 0 g0
+    nnoremap ^ g^
+    nnoremap $ g$
+    vnoremap j gj
+    vnoremap k gk
+    vnoremap 0 g0
+    vnoremap ^ g^
+    vnoremap $ g$
+  if exists('$TMUX')
+    silent !tmux set status off
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  endif
+endfunction
+
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+function! s:goyo_leave()
+    set shortmess-=w
+    set nowrap nolinebreak
+    unmap j
+    unmap k
+    unmap 0
+    unmap ^
+    unmap $
+  if exists('$TMUX')
+    silent !tmux set status on
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  endif
+endfunction
 
 " fatih/vim-go {{{2
 let g:go_def_mapping_enabled=0
