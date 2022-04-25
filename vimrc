@@ -1647,24 +1647,79 @@ let g:minimap_highlight = 'MinimapHighlight'
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "%l%U %d"
 
-" coc-nvim {{{2
-" Contrast in CocFloating + gruvbox is terrible.
-" Changing to another highlight group.
-" IMPORTANT: Needs to be done after loading gruvbox
+" neoclide/coc.nvim {{{2
+" Coc Mappings {{{3
+" NOTE: Using `l` for lsp as a mnemonic
+" TODO: Change `l` if possible.
+" NOTE: Keep these mappings as nmaps and not nnoremaps
+" Navigate all diagnostics
+nmap <silent> [l <Plug>(coc-diagnostic-prev)
+nmap <silent> ]l <Plug>(coc-diagnostic-next)
+" Navigate only error diagnostics
+nmap <silent> [L <Plug>(coc-diagnostic-prev-error)
+nmap <silent> ]L <Plug>(coc-diagnostic-next-error)
+
+nmap <silent> ld <Plug>(coc-definition)
+nmap <silent> ly <Plug>(coc-type-definition)
+nmap <silent> lr <Plug>(coc-rename)
+nmap <silent> ln <Plug>(coc-references)
+nmap <silent> lt <Plug>(coc-refactor)
+nmap <silent> li <Plug>(coc-implementation)
+nmap <silent> <localleader>x <Plug>(coc-fix-current)
+" nmap <silent> lr <Plug>(coc-references)
+nmap <silent> l. <plug>(coc-command-repeat)
+vmap <silent> l. <plug>(coc-command-repeat)
+" codeactions on current line
+nmap <silent> la <Plug>(coc-codeaction-line)
+vmap <silent> la <Plug>(coc-codeaction-selected)
+" codeaction on entire file
+nmap <silent> lA <Plug>(coc-codeaction)
+
+" Format selected range (visual and normal)
+" NOTE: In normal mode, the selection works on the motion object e.g.`gfip`
+vmap lf  <Plug>(coc-format-selected)
+nmap lf  <Plug>(coc-format-selected)
+" Run format action on entire buffer
+nmap lF  <Plug>(coc-format)
+
+" Run `:CocFix` and choose fix
+nnoremap <silent> lx :<c-u>CocFix<cr>
+" Try fix on current line
+nmap <silent> lX <Plug>(coc-fix-current)
+
+" Show Documentation
+nnoremap <silent> lk :call <SID>coc_show_documentation()<CR>
+function! s:coc_show_documentation()
+    "Note: This can be closed with :pclose which I mapped into <leader>z
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+
+" Coc Text Objects {{{3
+" NOTE: Text objects require 'textDocument.documentSymbol' lsp support
+" Functions
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+" Structs/Classes
+xmap is <Plug>(coc-classobj-i)
+omap is <Plug>(coc-classobj-i)
+xmap as <Plug>(coc-classobj-a)
+omap as <Plug>(coc-classobj-a)
+
+" Contrast Fix {{{3
+" Contrast in CocFloating + gruvbox is terrible, so changing highlight group.
+" IMPORTANT: Needs to be done AFTER loading gruvbox
 hi default link CocFloating Folded
 
-" Load these extensions (They are activated according to filetype)
-let g:coc_global_extensions = ['coc-elixir', 'coc-snippets', 'coc-vimlsp', 'coc-json']
+" Coc trigger completion {{{3
+" Note: Coc trigger completion requires enabling `coc-snippets` extension.
 
-" Coc recommends faster update time to show diagnostic messages (default is 4000ms)
-set updatetime=300
-
-" Disable ins-completion-menu messages like match 1 of 2, Pattern not found etc.
-set shortmess+=c
-
-"TRIGGER COMPLETION {{{3
-"(Note: Coc trigger completion Requires `coc-snippets` extension to be enabled)
-
+" Helper function used in trigger completion functions
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
@@ -1695,51 +1750,23 @@ inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
 " let g:coc_snippet_next='<Tab>'
 " Shift-Tab doesn't work for prev
 " let g:coc_snippet_prev='<S-Tab>'
-" }}}3
 
-" Mappings {{{3
-" NOTE: Keep these mappings as nmaps and not nnoremaps
-" Navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-" Show Documentation
-nnoremap <silent> <localleader>k :call <SID>coc_show_documentation()<CR>
-function! s:coc_show_documentation()
-    "Note: This can be closed with :pclose which I mapped into <leader>z
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
-
-" Actions {{{4
-nmap <silent> <localleader>ca <Plug>(coc-codeaction-line)
-vmap <silent> <localleader>ca <Plug>(coc-codeaction-selected)
-" Fix on current line
-nmap <silent> <localleader>x <Plug>(coc-fix-current)
-" Rename current word
-nmap <silent> <localleader>rn <Plug>(coc-rename)
-
-" Text Objects (requires document symbolds in LS) {{{3
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-"  Misc Coc Settings {{{3
-
+" Coc Misc Preferences {{{3
 " Use `:CocFormat` to format current buffer
-" command! -nargs=0 CocFormat :call CocAction('format')
+command! -nargs=0 CocFormat :call CocAction('format')
 " Use `:CocFold` to fold current buffer
-" command! -nargs=? CocFold :call CocAction('fold', <f-args>)
+command! -nargs=? CocFold :call CocAction('fold', <f-args>)
 " use `:CocOR` for organize import of current buffer
-" command! -nargs=0 CocOR   :call CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 CocOR   :call CocAction('runCommand', 'editor.action.organizeImport')
+
+" Load these extensions (They are activated according to filetype)
+let g:coc_global_extensions = ['coc-elixir', 'coc-snippets', 'coc-vimlsp', 'coc-json', 'coc-rust-analyzer', 'coc-go']
+
+" Coc recommends faster update time to show diagnostic messages (default is 4000ms)
+set updatetime=300
+
+" Disable ins-completion-menu messages like match 1 of 2, Pattern not found etc.
+set shortmess+=c
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -1749,6 +1776,7 @@ augroup coc_update_signature_help_on_jump_placeholder
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
 
 
 " EXPERIMENTS & TEMPORARY PREFERENCES {{{1
