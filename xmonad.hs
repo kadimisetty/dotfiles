@@ -17,6 +17,7 @@
 --	nitrogen: wallpaper setter
 --	xmobar: statusbar
 --	dmenu: runner for apps etc.
+--	zeal: offline docs browser
 --
 
 -- IMPORTS ------------------------------------------------------------- {{{1
@@ -84,9 +85,11 @@ main = do
 
 myTerminal = "alacritty"
 
-myBrowser = "google-chrome-stable"
+myWebBrowser = "google-chrome-stable"
 
 myFileBrowser = "nautilus"
+
+myDocsBrowser = "zeal"
 
 myFocusFollowsMouse = True
 
@@ -253,10 +256,13 @@ myKeys conf@(XConfig { XMonad.modMask = modm }) =
          ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
        ,
       -- launch web browser
-         ((modm .|. myAltMask, xK_Return)           , spawn myBrowser)
+         ((modm .|. myAltMask, xK_Return)           , spawn myWebBrowser)
        ,
       -- launch file browser
          ((myAltMask .|. shiftMask, xK_Return)      , spawn myFileBrowser)
+       ,
+      -- launch docs browser
+         ((modm .|. myAltMask, xK_space)            , spawn myDocsBrowser)
        ,
       -- launch primary app runner
          ((modm, xK_o)                              , spawn "rofi -show run")
