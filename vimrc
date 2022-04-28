@@ -1687,6 +1687,12 @@ nnoremap <silent> lx :<c-u>CocFix<cr>
 " Try fix on current line
 nmap <silent> lX <Plug>(coc-fix-current)
 
+" Enable/Disable/Toggle Coc with unimpaired-style mappings
+" Clash with unimpaired's `l` for line endings
+nnoremap <silent> ]ol :<c-u>CocDisable<CR>
+nnoremap <silent> [ol :<c-u>CocEnable<CR>
+nnoremap <silent> yol :call CocAction('diagnosticToggle')<CR>
+
 " Show Documentation
 nnoremap <silent> lk :call <SID>coc_show_documentation()<CR>
 function! s:coc_show_documentation()
@@ -1697,6 +1703,13 @@ function! s:coc_show_documentation()
         call CocAction('doHover')
     endif
 endfunction
+
+"-----------------------------
+
+
+"-----------------------------
+
+
 
 " Coc Text Objects {{{3
 " NOTE: Text objects require 'textDocument.documentSymbol' lsp support
