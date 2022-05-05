@@ -250,7 +250,49 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
     " Toggle  leading `pub` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
+    " Toggle trailing question mark on current line
+    autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
 augroup end
+function ToggleTrailingQuestionMark(line_number)
+    " Toggles trailing `?` character in both `?` and `?;` forms
+    " TODO: Adapt and use ToggleTrailingCharacterOnLine
+    " LOGIC:
+    "   1. Ensure non-empty trimmed line
+    "   2. Check if there is a trailing `?`
+    "       YES: Remove trailing `?`
+    "       NO:  Check if there is a trailing `;`
+    "               NO:  Add trailing `?`
+    "               YES: Check if there is `?` behind trailing `;`
+    "                       YES: Remove that `?` before trailing `;`
+    "                       NO:  Add `?` before trailing `;`
+
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+
+    " Ensure trimmed line is not empty
+    if strwidth(trimmed_line_content) > 0
+        " Check if there is a trailing `?`
+        if (line_content[-1:] == '?' )
+            " Remove trailing `?`
+            call setline(a:line_number, line_content[:-2])
+        else
+            " Check if there is a trailing `;`
+            if (line_content[-1:] == ';' )
+                " Check if there is `?` behind trailing `;`
+                if (line_content[-2:-1] == '?;' )
+                    " Remove that `?` before trailing `;`
+                    call setline(a:line_number, line_content[:-3] . ';')
+                else
+                    " Add `?` before trailing `;`
+                    call setline(a:line_number, line_content[:-2] . '?;')
+                endif
+            else
+                " Add trailing `?`
+                call setline(a:line_number, line_content . '?')
+            endif
+        endif
+    endif
+endfunction
 function! TogglePubKeyword(line_number)
     let line_content = getline(a:line_number)
     let trimmed_line_content = trim(line_content)
@@ -261,6 +303,7 @@ function! TogglePubKeyword(line_number)
     endif
 endfunction
 function! ToggleTrailingCharacterOnLine (character, line_number)
+    " TODO: Accept more than a single character
     let line_content = getline(a:line_number)
     " Ensure line is not empty
     if strwidth(line_content) > 0
