@@ -971,6 +971,18 @@ endfunction
 nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
 nnoremap <silent> <C-w><    :call RenameTabpageWithTaboo(1)<CR>
 
+"Move through jump list {{{2
+"ISSUE: By default `<c-o>` and `<c-i>` move backward and forward in jumplist.
+"   but `<c-i>` is generally the same code as `Tab` which I use in tab page
+"   navigation mappings, hence `<c-i>/Tab` is not available for this use.
+"FIX: Use unimpaired-style mappings `[j` and `]j` to navigate the jump list.
+" 1. Move backward/forward through jump list by 1 step
+nnoremap <silent> [j :<c-u>execute "normal! \<c-o>"<CR>
+nnoremap <silent> ]j :<c-u>execute "normal! 1\<c-i>"<CR>
+" TODO: 2. Move to backward-most/forward-most position in jump list
+" nnoremap <silent> [J
+" nnoremap <silent> ]J
+
 "Toggle quickfix and location list windows {{{2
 function! ToggleQuickFix()
     " 1. Check if quickfix is open. 0 for close, 1+ for open
