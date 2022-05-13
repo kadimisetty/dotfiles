@@ -389,7 +389,7 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
 eval "$(direnv hook zsh)"
 
 # Shell function for broot command (shortcut $br)
-source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
+# source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 # nix {{{2
 if [ -e /Users/sri/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sri/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
