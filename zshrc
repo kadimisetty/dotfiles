@@ -26,6 +26,14 @@ ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 
+# NIX INIT {{{1
+# NOTE: Place as close to top as possible to initialize nix fast,
+# so all packages referenced via nix are ready to be called.
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+    source $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
+
+
 # ACTIONS {{{1
 # Creates empty file if file doesn't exist {{{2
 function touch_file_if_doesnt_exist() {
@@ -391,7 +399,5 @@ eval "$(direnv hook zsh)"
 # Shell function for broot command (shortcut $br)
 # source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
-# nix {{{2
-if [ -e /Users/sri/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/sri/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # ANYTHING BELOW THIS LINE WAS AUTOMATICALLY ADDED AND NEEDS TO BE SORTED MANUALLY {{{2
