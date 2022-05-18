@@ -2,8 +2,7 @@
     "diagnostic.errorSign" : "▓▓",
     "diagnostic.warningSign": "░░",
     "diagnostic.infoSign":"•",
-    "diagnostic.hintSign":"ﯦ",
-
+    "diagnostic.hintSign":"•",
     "languageserver": {
         "haskell": {
             "command": "ghcide-via-stack-exec",
