@@ -1,24 +1,12 @@
 -- xmonad configuration file {{{1
 -- vim: foldmethod=marker:foldlevel=0:nofoldenable:
 --
--- PATH:
--- ~/.xmonad/xmonad.hs
---
 -- AUTHOR:
 -- 	Sri Kadimisetty
 -- 	https://github.com/kadimisetty
 --
--- BINARIES USED IN THIS FILE: (TODO: Review occasionally)
---	light: brightness control
---	xmessage: display messages like help etc.
---	gxmessage: display messages like help etc. with gtk
---	google-chrome-stable: web
---	gmrun: app runner with name completion
---	nitrogen: wallpaper setter
---	xmobar: statusbar
---	dmenu: runner for apps etc.
---	zeal: offline docs browser
---
+-- FINAL LOCATION:
+-- ~/.xmonad/xmonad.hs
 
 -- IMPORTS ------------------------------------------------------------- {{{1
 
@@ -82,6 +70,7 @@ main = do
                  }
 
 -- CUSTOMIZATIONS ------------------------------------------------------ {{{1
+-- BINARIES {{{2
 
 myTerminal = "alacritty"
 
@@ -92,6 +81,12 @@ myFileBrowser = "nautilus"
 myDocsBrowser = "zeal"
 
 myFocusFollowsMouse = True
+
+myPrimaryAppRunner = "rofi -show run"
+
+mySecondaryAppRunner = "gmrun"
+
+-- PREFERENCES {{{2
 
 -- Whether clicking on a window to focus also passes the click to the window
 myClickJustFocuses = False
@@ -265,10 +260,10 @@ myKeys conf@(XConfig { XMonad.modMask = modm }) =
          ((modm .|. myAltMask, xK_space)            , spawn myDocsBrowser)
        ,
       -- launch primary app runner
-         ((modm, xK_o)                              , spawn "rofi -show run")
+         ((modm, xK_o)                              , spawn myPrimaryAppRunner)
        ,
       -- launch secondary app runner
-         ((modm .|. shiftMask, xK_o)                , spawn "gmrun")
+         ((modm .|. shiftMask, xK_o)                , spawn mySecondaryAppRunner)
        ,
       -- close focused window
          ((modm .|. shiftMask, xK_c)                , kill)
