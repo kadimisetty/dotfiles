@@ -1072,8 +1072,8 @@ nnoremap <leader>m :mksession<CR>
 " Create/overwrite a session named `./Session.vim` in current directory
 nnoremap <leader>M :mksession!<CR>
 " Load session by sourcing `./Session.vim` in current directory
-nnoremap <leader>l :source ./Session.vim<CR>
-nnoremap <leader>L :source ./Session.vim<CR>
+" nnoremap <leader>l :source ./Session.vim<CR>
+" nnoremap <leader>L :source ./Session.vim<CR>
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
@@ -1640,6 +1640,11 @@ let g:elm_format_fail_silently = 1
 let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
+" janko/vim-test {{{2
+nnoremap <silent> <localleader>t :<c-u>TestNearest<CR>
+nnoremap <silent> <localleader>T :<c-u>TestFile<CR>
+nnoremap <silent> <leader>T      :<c-u>TestSuite<CR>
+nnoremap <silent> <leader>l      :<c-u>TestLast<CR>
 
 " junegunn/goyo.vim {{{2
 let g:goyo_width = 50
