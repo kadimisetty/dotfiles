@@ -1641,9 +1641,9 @@ let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
 let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 " janko/vim-test {{{2
-nnoremap <silent> <localleader>t :<c-u>TestNearest<CR>
-nnoremap <silent> <localleader>T :<c-u>TestFile<CR>
-nnoremap <silent> <leader>T      :<c-u>TestSuite<CR>
+nnoremap <silent> <leader>t      :<c-u>TestSuite<CR>
+nnoremap <silent> <localleader>t :<c-u>TestFile<CR>
+nnoremap <silent> <localleader>n :<c-u>TestNearest<CR>
 nnoremap <silent> <leader>l      :<c-u>TestLast<CR>
 
 " junegunn/goyo.vim {{{2
