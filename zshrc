@@ -115,6 +115,12 @@ alias lsdtl1='lsd --tree --depth 1'
 alias lsdtl2='lsd --tree --depth 2'
 alias lsdtl3='lsd --tree --depth 3'
 
+## Go {{{2
+alias gor="go run"
+alias gomt="go mod tidy"
+alias gob='go build'
+alias gof='go fmt'
+
 ## Rust Cargo {{{2
 alias c="cargo"
 alias ca="cargo add"
@@ -399,5 +405,7 @@ eval "$(direnv hook zsh)"
 # Shell function for broot command (shortcut $br)
 # source /Users/sri/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
+# go bin {{{2
+export PATH=$HOME/go/bin:$PATH
 
 # ANYTHING BELOW THIS LINE WAS AUTOMATICALLY ADDED AND NEEDS TO BE SORTED MANUALLY {{{2
