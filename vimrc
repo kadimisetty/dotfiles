@@ -1688,6 +1688,37 @@ endfunction
 
 " fatih/vim-go {{{2
 let g:go_def_mapping_enabled=0
+augroup golang
+    autocmd!
+
+    " File specific
+    autocmd FileType go nnoremap <silent> <localleader>f :GoFmt<CR>
+
+    " Project specific
+    autocmd FileType go nnoremap <silent> <leader>gb :GoBuild<CR>
+    autocmd FileType go nnoremap <silent> <leader>gt :GoTest<CR>
+    autocmd FileType go nnoremap <silent> <leader>gv :GoVet<CR>
+    " autocmd FileType go nnoremap <silent> <leader>gr :GoRun<CR>
+    autocmd FileType go nnoremap <silent> <leader>gr :call RunGoRunOnCurrentDirectoryInTerminal()<CR>
+    function! RunGoRunOnCurrentDirectoryInTerminal()
+        " Run `go run .` in a terminal window. If a similar window already
+        " exists from a previous run, that window is replaces. i.e.
+        " i.e. it's buffer(and window) is deleted
+        " and a fresh `go run .` command is run on a new term window
+
+        " Get a list of open buffers in current tabpage and close them if
+        " their name matches with the supplied go command. Then run the
+        " desired command
+        let buffers_in_current_tabpage = tabpagebuflist(tabpagenr())
+        for b in buffers_in_current_tabpage
+            " Check if buffer has matching name and is of type `terminal`
+            if  (bufname(b) =~# ('^!go run .' )) && (getbufvar(b, '&buftype') ==# 'terminal' )
+                execute ('bdelete ' . b)
+            endif
+        endfor
+        execute (':terminal go run .')
+    endfunction
+augroup END
 
 " lifepillar/pgsql.vim {{{2
 let g:sql_type_default = 'pgsql'
