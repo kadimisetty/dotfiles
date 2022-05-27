@@ -116,10 +116,12 @@ alias lsdtl2='lsd --tree --depth 2'
 alias lsdtl3='lsd --tree --depth 3'
 
 ## Go {{{2
-alias gor="go run"
-alias gomt="go mod tidy"
-alias gob='go build'
-alias gof='go fmt'
+alias gr='go run'
+alias gr.='go run .'
+alias gmt="go mod tidy"
+alias gb='go build'
+alias gf='go fmt'
+alias gt='go test'
 
 ## Rust Cargo {{{2
 alias c="cargo"
