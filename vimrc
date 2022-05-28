@@ -1575,39 +1575,42 @@ augroup rust
     " autocmd FileType rust nnoremap <silent> <leader>cb :Cbuild<CR>
     " autocmd FileType rust nnoremap <silent> <leader>ct :Ctest<CR>
     " autocmd FileType rust nnoremap <silent> <leader>cc :Ccheck<CR>
-    "
-    " InDirect mappings to 'rust-lang/rust.vim' via
-    " ReplaceCargoCommand
+
+    " InDirect mappings to 'rust-lang/rust.vim' via `ReplaceCargoCommand`
     autocmd FileType rust nnoremap <silent> <leader>cr :call ReplaceCargoCommand('run')<CR>
     autocmd FileType rust nnoremap <silent> <leader>cb :call ReplaceCargoCommand('build')<CR>
     autocmd FileType rust nnoremap <silent> <leader>ct :call ReplaceCargoCommand('test')<CR>
     autocmd FileType rust nnoremap <silent> <leader>cc :call ReplaceCargoCommand('check')<CR>
-augroup END
-function! ReplaceCargoCommand(command)
-    " Runs validated cargo command. If a window already exists from a previous
-    " cargo command, it is replaced i.e. it's buffer(and window) is deleted
-    " and a fresh cargo command via `rust-lang/rust.vim` is run on a new term
-    " window.
 
-    let valid_cargo_commands = ['run', 'build', 'test', 'check']
-    if index(valid_cargo_commands, a:command) < 0
-        " Supplied cargo command is invalid
-        echoerr "Cargo command should be one of: " . string(valid_cargo_commands)
-    else
-        " Get a list of open buffers in current tabpage and close them if
-        " their name matches with the supplied cargo command. Then run the
-        " supplied cargo command
-        let buffers_in_current_tabpage = tabpagebuflist(tabpagenr())
-        for b in buffers_in_current_tabpage
-            " Check if buffer has mathcing name and is of type `terminal`
-            if  (bufname(b) =~# ('^!cargo ' . a:command)) && (getbufvar(b, '&buftype') ==# 'terminal' )
-                execute ('bdelete ' . b)
-            endif
-        endfor
-        " uses the functions provided by vim-rust .e.g `:CRun`
-        execute (':C' . a:command)
-    endif
-endfunction
+    " Project specific Run Command
+    autocmd FileType rust nnoremap <silent> <leader>r :call ReplaceCargoCommand('run')<CR>
+
+    function! ReplaceCargoCommand(command)
+        " Runs validated cargo command. If a window already exists from a previous
+        " cargo command, it is replaced i.e. it's buffer(and window) is deleted
+        " and a fresh cargo command via `rust-lang/rust.vim` is run on a new term
+        " window.
+
+        let valid_cargo_commands = ['run', 'build', 'test', 'check']
+        if index(valid_cargo_commands, a:command) < 0
+            " Supplied cargo command is invalid
+            echoerr "Cargo command should be one of: " . string(valid_cargo_commands)
+        else
+            " Get a list of open buffers in current tabpage and close them if
+            " their name matches with the supplied cargo command. Then run the
+            " supplied cargo command
+            let buffers_in_current_tabpage = tabpagebuflist(tabpagenr())
+            for b in buffers_in_current_tabpage
+                " Check if buffer has mathcing name and is of type `terminal`
+                if  (bufname(b) =~# ('^!cargo ' . a:command)) && (getbufvar(b, '&buftype') ==# 'terminal' )
+                    execute ('bdelete ' . b)
+                endif
+            endfor
+            " uses the functions provided by vim-rust .e.g `:CRun`
+            execute (':C' . a:command)
+        endif
+    endfunction
+augroup END
 
 " Format current buffer on save
 let g:rustfmt_autosave = 1
@@ -1698,8 +1701,10 @@ augroup golang
     autocmd FileType go nnoremap <silent> <leader>gb :GoBuild<CR>
     autocmd FileType go nnoremap <silent> <leader>gt :GoTest<CR>
     autocmd FileType go nnoremap <silent> <leader>gv :GoVet<CR>
-    " autocmd FileType go nnoremap <silent> <leader>gr :GoRun<CR>
-    autocmd FileType go nnoremap <silent> <leader>gr :call RunGoRunOnCurrentDirectoryInTerminal()<CR>
+    autocmd FileType go nnoremap <silent> <leader>gr :GoRun<CR>
+
+    " Project specific Run Command
+    autocmd FileType go nnoremap <silent> <leader>r :call RunGoRunOnCurrentDirectoryInTerminal()<CR>
     function! RunGoRunOnCurrentDirectoryInTerminal()
         " Run `go run .` in a terminal window. If a similar window already
         " exists from a previous run, that window is replaces. i.e.
