@@ -1887,13 +1887,18 @@ augroup coc_update_signature_help_on_jump_placeholder
 augroup end
 
 
+" TRANSIENT PREFERENCES {{{1
+function! SourceFileIfExists(filename)
+    " SourceFileIfExists checks wheether file with supplied filename exists
+    " before sourcing it
+    if filereadable(expand(a:filename))
+        execute 'source ' . fnameescape(a:filename)
+    endif
+endfunction
+call SourceFileIfExists('~/.vim-local-preferences.vim')
+call SourceFileIfExists('~/.vim-transient-preferences.vim')
+call SourceFileIfExists('~/.vim-experiments.vim')
 
-" EXPERIMENTS & TEMPORARY PREFERENCES {{{1
-" Placed in a seperate file(s) to avoid tracking by VCSs
-" Little experiments placed in a seperate file to avoid tracking by VCSs {{{2
-"source ~/.vim-experiments.vim
-" Temporary Preferences {{{2
-"source ~/.vim-temporary-preferences.vim
 
 "CREDITS & INSPIRATION {{{1
 "Some External Inspirations:
