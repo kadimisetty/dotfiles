@@ -1337,9 +1337,19 @@ set conceallevel=1
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
-"Rainbow Parenthesis (junegunn) {{{2
-"Toggle Rainbow
-nnoremap <silent> <localleader>r :RainbowParentheses!!<CR>
+"junegunn/rainbow_parentheses.vim {{{2
+" Default is just `()`. Include `[]` and `<>` as well.
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['<', '>']]
+
+" NOTE: Place after any vim-unimpaired preferences because I'm overriding the
+" default `r` for `relativenumber` using in vim-unimpaired.
+" Toggle
+nnoremap <silent> yor :<c-u>RainbowParentheses!!<CR>
+" Deactivate
+nnoremap <silent> ]or :<c-u>RainbowParentheses!<CR>
+" Activate
+nnoremap <silent> [or :<c-u>RainbowParentheses<CR>
+
 
 "plasticboy/vim-markdown {{{2
 "Enable fenced code syntax highlighting for following languages
