@@ -1529,11 +1529,12 @@ function! ToggleGVCommitBrowser(gv_command)
         endif
     endif
 endfunction
-"GV - Opens commit browser
-nnoremap <silent> <C-g> :call ToggleGVCommitBrowser('GV')<CR>
-"GV! - Opens commit browser with commits that affected the current file
-nnoremap <silent> <C-g>! :call ToggleGVCommitBrowser('GV!')<CR>
-"Ignoring similar mapping for GV? because that might convolute my muscle memory
+" Open GV commit browser
+nnoremap <silent> <leader>g :call ToggleGVCommitBrowser('GV')<CR>
+" Open GV commit browser with commits that affect current file only
+nnoremap <silent> <localleader>g :call ToggleGVCommitBrowser('GV!')<CR>
+" Note: Ignoring similar mapping for GV? because that might convolute
+" my muscle memory
 
 "neovimhaskell/haskell-vim {{{2
 "Indentaion might vary from brittany's preferences. Secede to brottany's.
@@ -1660,9 +1661,8 @@ nnoremap <silent> <localleader>n :<c-u>TestNearest<CR>
 nnoremap <silent> <leader>l      :<c-u>TestLast<CR>
 
 " junegunn/goyo.vim {{{2
-let g:goyo_width = 50
-nnoremap <silent> <leader>g :Goyo<CR>
-nnoremap <silent> <leader>G :Goyo<CR>
+let g:goyo_width = 80
+nnoremap <silent> <c-g> :Goyo<CR>
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 function! s:goyo_enter()
