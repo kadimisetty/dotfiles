@@ -144,9 +144,10 @@ alias cw="cargo watch"
 alias cwq="cargo watch --quiet"
 
 function cncd {
-    # Shortcut to do `cargo new` and `cd` into that new directory
-    cargo new $1
-    cd $1
+    # `cd` into new `$` directory only if `cargo new` succeeded
+    if cargo new $1; then
+        cd $1
+    fi
 }
 
 function calias {
