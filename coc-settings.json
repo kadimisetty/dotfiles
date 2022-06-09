@@ -5,25 +5,10 @@
     "diagnostic.hintSign":"•",
     "languageserver": {
         "haskell": {
-            "command": "ghcide-via-stack-exec",
-            "args": [ "" ],
-            "rootPatterns": [
-                "*.cabal",
-                "cabal.config",
-                "cabal.project",
-                "package.yaml",
-                "stack.yaml"
-            ],
-            "filetypes": [
-                "hs",
-                "lhs",
-                "haskell"
-            ],
-            "initializationOptions": {
-                "languageServerHaskell": {
-                    "hlintOn": true
-                }
-            }
+            "command": "haskell-language-server-wrapper",
+            "args": ["--lsp"],
+            "filetypes": ["haskell", "lhaskell"],
+            "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"]
         },
         "purescript": {
             "command": "purescript-language-server",
