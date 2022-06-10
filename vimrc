@@ -251,6 +251,8 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
     " Toggle  leading `pub` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
+    " Toggle  leading `async` keyword on current line
+    autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeyword(".")<CR>
     " Toggle trailing question mark on current line
     autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
 augroup end
@@ -292,6 +294,15 @@ function ToggleTrailingQuestionMark(line_number)
                 call setline(a:line_number, line_content . '?')
             endif
         endif
+    endif
+endfunction
+function! ToggleAsyncKeyword(line_number)
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if (trimmed_line_content =~# "^async ")
+        execute 'normal ^d6l'
+    else
+        execute 'normal Iasync '
     endif
 endfunction
 function! TogglePubKeyword(line_number)
