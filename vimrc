@@ -33,6 +33,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hspec/hspec.vim'
 Plug 'janko/vim-test'
+Plug 'joukevandermaas/vim-ember-hbs'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -1567,6 +1568,12 @@ nmap gt <Plug>Titlecase
 vmap gt <Plug>Titlecase
 xmap gt <Plug>Titlecase
 nmap gT <Plug>TitlecaseLine
+
+" joukevandermaas/vim-ember-hbs {{{2
+" Apply Error highlight to unescaped html inside `{{{` expressions
+hi link hbsUnescapedIdentifier Error
+" Apply Error highlight to the `{{{` and `}}}` tags themselves
+hi link hbsUnescapedHandles Error
 
 "rizzatti/dash.vim {{{2
 "Lookup word under cursor in Dash.app. Use filetype as keyword unless
