@@ -1843,10 +1843,10 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 " Structs/Classes
-xmap is <Plug>(coc-classobj-i)
-omap is <Plug>(coc-classobj-i)
-xmap as <Plug>(coc-classobj-a)
-omap as <Plug>(coc-classobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
 " Contrast Fix {{{3
 " Contrast in CocFloating + gruvbox is terrible, so changing highlight group.
