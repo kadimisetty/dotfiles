@@ -7,9 +7,9 @@ window:
   decorations: none
   startup_mode: Maximized
   dynamic_title: true
-  padding:
-    x: 0
-    y: 4
+  # padding:
+  #   x: 0
+  #   y: 4
 
 key_bindings:
   - { key: N,   mods: Control|Shift, action: SpawnNewInstance }
