@@ -357,13 +357,12 @@ function iterm_badge_clear {
 
 # PROGRAMS' SETTINGS {{{1
 # Personal executables bin
-export PATH=/Users/sri/bin:$PATH
+export PATH=$HOME/bin:$PATH
 
 # Add homebrew's /usr/local/sbin to path
 export PATH="/usr/local/sbin:$PATH"
 
 # Used by haskell workspace frameworks, nvim etc. {{{2
-# export PATH=/Users/sri/.local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 # Add executables produced by haskell's stack to path
@@ -375,7 +374,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH
 
 # Rust Cargo {{{2
-export PATH=/Users/sri/.cargo/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 
 # RUBY {{{2
 # rbenv - Use non-system ruby versions{{{3
