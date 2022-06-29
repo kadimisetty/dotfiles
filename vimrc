@@ -46,6 +46,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'kevinoid/vim-jsonc'
 Plug 'lifepillar/pgsql.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'machakann/vim-highlightedyank'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'meck/vim-brittany'
@@ -1717,6 +1718,9 @@ function! s:goyo_leave()
     silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
   endif
 endfunction
+
+" machakann/vim-highlightedyank {{{2
+let g:highlightedyank_highlight_duration = 250
 
 " fatih/vim-go {{{2
 let g:go_def_mapping_enabled=0
