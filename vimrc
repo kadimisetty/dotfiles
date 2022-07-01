@@ -1804,6 +1804,17 @@ vmap <silent> la <Plug>(coc-codeaction-selected)
 " codeaction on entire file
 nmap <silent> lA <Plug>(coc-codeaction)
 
+" Toggle outlin
+nnoremap <silent><nowait> lo  :call ToggleOutline()<CR>
+function! ToggleOutline() abort
+let winid = coc#window#find('cocViewId', 'OUTLINE')
+if winid == -1
+    call CocActionAsync('showOutline', 1)
+else
+    call coc#window#close(winid)
+endif
+endfunction
+
 " Format selected range (visual and normal)
 " NOTE: In normal mode, the selection works on the motion object e.g.`gfip`
 vmap lf  <Plug>(coc-format-selected)
