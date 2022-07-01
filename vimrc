@@ -267,10 +267,8 @@ function! ToggleWrappingTagOnCurrentLine(tag)
 
     let trimmed_line_content = trim(getline("."))
     if len(trimmed_line_content) == 0
-        " Empty line: Produce tag with `()` as content. e.g. Ok(())
-        execute 'normal I' . a:tag . '(())'
-        " Place cursor right after first `(`
-        execute 'normal 2h'
+        " Empty line: Produce empty tag e.g. Ok(())
+        execute 'normal I' . a:tag . '()'
     else
         " Non-empty line: Toggle tag around current line content. e.g. `Ok("x") and `"x"`
 
