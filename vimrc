@@ -257,7 +257,49 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeyword(".")<CR>
     " Toggle trailing question mark on current line
     autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
+    " Toggle wrapping `Ok()` and `Err()` on current line
+    autocmd FileType rust nnoremap <silent> <localleader>o  :call ToggleWrappingTagOnCurrentLine("Ok")<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>e  :call ToggleWrappingTagOnCurrentLine("Err")<CR>
 augroup end
+
+function! ToggleWrappingTagOnCurrentLine(tag)
+    " Toggles wrapping line content with supplied tag e.g. `Ok()` or `Err()`
+
+    let trimmed_line_content = trim(getline("."))
+    if len(trimmed_line_content) == 0
+        " Empty line: Produce tag with `()` as content. e.g. Ok(())
+        execute 'normal I' . a:tag . '(())'
+        " Place cursor right after first `(`
+        execute 'normal 2h'
+    else
+        " Non-empty line: Toggle tag around current line content. e.g. `Ok("x") and `"x"`
+
+        " Check if line begins with tag name e.g. `Ok` or `Err`
+        if trimmed_line_content =~#  '^' . a:tag
+            " Remove leading tag and `(`
+            execute 'normal ^d' . (len(a:tag)+1) . 'l'
+            " Check if trailing semicolon
+            if trimmed_line_content =~ ';$'
+                " Remove `)` before trailing semicolon
+                execute 'normal $h"_x'
+            else
+                " Remove trailing semicolon
+                execute 'normal $"_x'
+            endif
+        else
+            " Add leading tag and `(`
+            execute 'normal I' . a:tag . '('
+            " Check if trailing semicolon
+            if trimmed_line_content =~ ';$'
+                " Add `)` before trailing semicolon
+                execute 'normal $i)'
+            else
+                " Add trailing `)`
+                execute 'normal A)'
+            endif
+        endif
+    endif
+endfunction
 function ToggleTrailingQuestionMark(line_number)
     " Toggles trailing `?` character in both `?` and `?;` forms
     " TODO: Adapt and use ToggleTrailingCharacterOnLine
