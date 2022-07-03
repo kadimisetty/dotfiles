@@ -1155,13 +1155,6 @@ nnoremap <silent> yom :call ToggleModifiable()<CR>
 nnoremap <silent> ]om :setlocal modifiable<CR>
 nnoremap <silent> [om :setlocal nomodifiable<CR>
 
-" Search and replace {{{2
-" [Idea](https://www.reddit.com/r/vim/comments/t1qoma/what_are_some_of_the_unique_functions_you_use_in/hyhpre6/)
-" Vim's search interface: {{{3
-" nnoremap <Space><Space> :%s/\<<C-r>=expand("<cword>")<CR>\>/
-" abolish.vim interface using `:Subvert`: {{{3
-nnoremap <Space><Space> :%Subvert/<C-r>=expand("<cword>")<CR>/
-
 " Toggle signcolumn (gutter) {{{2
 function! ToggleSignColumn()
     " Note: &`signcolumn` can be `yes/no/auto` but this function only toggles
@@ -1287,6 +1280,10 @@ let g:ale_sign_error = ' ▓'
 " Default g:ale_sign_warning is'--'
 let g:ale_sign_warning =  ' ░'
 
+" tpope/tpope-vim-abolish {{{2
+" NOTE: Subvert is an abolish command
+" NOTE: Temporarily disabled beacuse I'm using the <space><space> mapping for fzf search.
+" nnoremap <Space> :%Subvert/<C-r>=expand("<cword>")<CR>
 
 "fzf & fzf.vim {{{2
 " 1. fzf {{{3
@@ -1311,12 +1308,15 @@ let g:fzf_preview_window = []
 " let g:fzf_preview_window = ['right:40%', 'ctrl-/']
 
 " Search files
-nnoremap <silent> <C-P>      :FZFFiles<CR>
-nnoremap <silent> <C-P><C-G> :FZFGFiles<CR>
-nnoremap <silent> <C-P><C-B> :FZFBuffers<CR>
-nnoremap <silent> <C-P><C-R> :FZFRg<CR>
-nnoremap <silent> <C-P><C-L> :FZFLines<CR>
-nnoremap <silent> <C-P><C-T> :FZFTags<CR>
+" NOTE: I'm using <spacE> instead of <c-p> now
+nnoremap <silent> <nowait> <space><space>    :FZFFiles<CR>
+nnoremap <silent> <nowait> <space>b          :FZFBuffers<CR>
+nnoremap <silent> <nowait> <space>g          :FZFGFiles<CR>
+nnoremap <silent> <nowait> <space>l          :FZFLines<CR>
+nnoremap <silent> <nowait> <space>m          :FZFMaps<CR>
+nnoremap <silent> <nowait> <space>r          :FZFRg<CR>
+nnoremap <silent> <nowait> <space>t          :FZFTags<CR>
+nnoremap <silent> <nowait> <space>w          :FZFWindows<CR>
 
 
 
