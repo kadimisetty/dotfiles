@@ -5,16 +5,10 @@
 
 "PLUGINS {{{1
 "Initialize  vim-plug {{{2
-"Install vim-plug if necessary
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-"Start vim-plug
 call plug#begin('~/.vim/plugged')
 
-"Active Plugins (Run :sort! on this contiguous list after insertion){{{2
+"Active Plugins {{{2
+" NOTE: Keep this list sorted
 
 Plug 'LnL7/vim-nix'
 Plug 'Zaptic/elm-vim'
