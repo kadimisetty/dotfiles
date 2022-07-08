@@ -997,12 +997,12 @@ function! RenameTabpageWithTaboo(prefillCurrentTabpageName)
         if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
             let l:currentTabPageName = TabooTabName(tabpagenr())
             if (len(l:currentTabPageName) == 0)
-                let l:newName = input("NAME: ")
+                let l:newName = input("TAB NAME: ")
             else
                 if (a:prefillCurrentTabpageName == 0)
-                    let l:newName = input("NAME (" . l:currentTabPageName . "): ")
+                    let l:newName = input("TAB NAME (" . l:currentTabPageName . "): ")
                 else
-                    let l:newName = input("NAME (" . l:currentTabPageName . "): ", l:currentTabPageName)
+                    let l:newName = input("TAB NAME (" . l:currentTabPageName . "): ", l:currentTabPageName)
                 endif
             endif
             execute 'TabooRename ' . l:newName
