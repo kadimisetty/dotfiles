@@ -36,6 +36,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-peekaboo'
 Plug 'kadimisetty/dash.vim', {'branch': 'fix-open-flicker'}
 Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
 Plug 'kevinoid/vim-jsonc'
 Plug 'lifepillar/pgsql.vim'
