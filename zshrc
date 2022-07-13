@@ -223,6 +223,8 @@ function exit_if_not_in_python_virtual_env {
     fi
 }
 
+alias m='exit_if_not_in_python_virtual_env && ./manage.py'
+alias mcs='exit_if_not_in_python_virtual_env && ./manage.py collectstatic'
 alias mcsu='exit_if_not_in_python_virtual_env && ./manage.py createsuperuser'
 alias mm='exit_if_not_in_python_virtual_env && ./manage.py migrate'
 alias mmm='exit_if_not_in_python_virtual_env && ./manage.py makemigrations'
@@ -231,7 +233,6 @@ alias ms='exit_if_not_in_python_virtual_env && ./manage.py shell'
 alias msa='exit_if_not_in_python_virtual_env && ./manage.py startapp'
 alias mt='exit_if_not_in_python_virtual_env && ./manage.py test'
 alias mts='exit_if_not_in_python_virtual_env && ./manage.py testserver'
-alias m='exit_if_not_in_python_virtual_env && ./manage.py'
 
 # [django-extension](https://github.com/django-extensions/django-extensions):
 alias msu="exit_if_not_in_python_virtual_env && ./manage.py show_urls"
