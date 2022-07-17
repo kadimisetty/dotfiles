@@ -60,7 +60,7 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
-Plug 'rstacruz/vim-closer'
+" Plug 'rstacruz/vim-closer'
 Plug 'rust-lang/rust.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
