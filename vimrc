@@ -830,11 +830,13 @@ nnoremap <leader>Q              :qa<CR>
 
 " Tab pages {{{2
 
-" Quick jump to tab {{{3
+" Quick jumps  {{{3
+" Jump to last accessed tab page
+nnoremap <silent> <C-w>`         :tabnext #<CR>
 " Jump to first and last tab pages using `1` and `0` ala my xmonad
 nnoremap <silent> <C-w>1         :<c-u>tabfirst<CR>
 nnoremap <silent> <C-w>0         :<c-u>tablast<CR>
-" Jump to tab pages `1-9`
+" Jump to tab pages at positions `1-9`
 nnoremap <silent> <C-w>2         :<c-u>execute "normal! 2gt"<CR>
 nnoremap <silent> <C-w>3         :<c-u>execute "normal! 3gt"<CR>
 nnoremap <silent> <C-w>4         :<c-u>execute "normal! 4gt"<CR>
@@ -843,12 +845,11 @@ nnoremap <silent> <C-w>6         :<c-u>execute "normal! 6gt"<CR>
 nnoremap <silent> <C-w>7         :<c-u>execute "normal! 7gt"<CR>
 nnoremap <silent> <C-w>8         :<c-u>execute "normal! 8gt"<CR>
 nnoremap <silent> <C-w>9         :<c-u>execute "normal! 9gt"<CR>
-"3}}}
-
-" Move between tabs with just the <Tab> key
+" Jump to next/previous tab page with `<Tab>`
 nnoremap <silent> <Tab>         :<c-u>tabnext<CR>
 nnoremap <silent> <S-Tab>       :<c-u>tabprevious<CR>
-"
+"3}}}
+
 " ISSUE: `<C-w>c` is used to close a vim window(and a tab if it only has one
 " window) but I want to have parity with the tmux key equivalents, hence
 " sticking with `<C-w>c` mapping. Due to the overlap with `<C-w>c` sometimes
