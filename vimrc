@@ -10,6 +10,7 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins {{{2
 " NOTE: Keep this list sorted
 
+" Plug 'rstacruz/vim-closer'
 Plug 'LnL7/vim-nix'
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
@@ -28,6 +29,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'hspec/hspec.vim'
 Plug 'janko/vim-test'
+Plug 'jiangmiao/auto-pairs'
 Plug 'joukevandermaas/vim-ember-hbs'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/gv.vim'
@@ -60,7 +62,6 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
-" Plug 'rstacruz/vim-closer'
 Plug 'rust-lang/rust.vim'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -80,6 +81,7 @@ Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
 Plug 'wfxr/minimap.vim' "Requires `code-minimap` available via cargo, nix etc.
+
 
 
 "NERDTree. Save order.
