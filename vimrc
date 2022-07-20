@@ -832,11 +832,14 @@ nnoremap <leader>Q              :qa<CR>
 
 " Quick jumps  {{{3
 " Jump to last accessed tab page
-nnoremap <silent> <C-w>`         :tabnext #<CR>
+nnoremap <silent> <C-w><C-w>     :tabnext #<CR>
 " Jump to first and last tab pages using `1` and `0` ala my xmonad
-nnoremap <silent> <C-w>1         :<c-u>tabfirst<CR>
+nnoremap <silent> <C-w>`         :<c-u>tabfirst<CR>
 nnoremap <silent> <C-w>0         :<c-u>tablast<CR>
 " Jump to tab pages at positions `1-9`
+" TODO: Make it so when a position isn't present, jump to largest tab position
+"       i.e. if only `1-4` positions are present, on say `7` go to `4`.
+nnoremap <silent> <C-w>1         :<c-u>tabfirst<CR>
 nnoremap <silent> <C-w>2         :<c-u>execute "normal! 2gt"<CR>
 nnoremap <silent> <C-w>3         :<c-u>execute "normal! 3gt"<CR>
 nnoremap <silent> <C-w>4         :<c-u>execute "normal! 4gt"<CR>
