@@ -214,6 +214,83 @@ alias mxps="mix phx.server"
 alias mxt="mix test --trace"
 
 ## django {{{2
+function djangonew () (
+    # Sets up a django and git project in current directory, granted the shell is not
+    # currently in an active virtal environment and the current directory is
+    # empty.
+
+    # Ensure not in an active virtual environment or exit with error
+    if [[ -v VIRTUAL_ENV ]]
+    then
+        echo "ERROR: In active virtual env" >&2;
+        return 1
+    fi
+
+    # Ensure current directory is empty or exit with error
+    if [ "$(ls -A ./)" ]
+    then
+        echo "ERROR: Current directory is not empty" >&2;
+        return 1
+    fi
+
+    echo ">>>> DJANGO NEW"
+
+    # Setup virtual environment
+    echo
+    echo ">>>> SETTING UP VIRTUAL ENVIRONMENT"
+    python -m venv ./venv
+    source ./venv/bin/activate
+    echo "DONE SETTING UP VIRTUAL ENVIRONMENT"
+
+    # Setup django
+    echo
+    echo ">>>> INSTALLING DJANGO"
+    pip install django
+    echo "DONE INSTALLING DJANGO"
+    echo
+    echo ">>>> START DJANGO PROJECT"
+    # Start a django project into the current directory
+    # Use current directory name as name of django project
+    # django-admin startproject $(basename $PWD) .
+    # Use `core` as name of django project
+    django-admin startproject core .
+    echo "DONE START DJANGO PROJECT"
+
+    # Setup django-extensions
+    echo
+    echo ">>>> INSTALLING DJANGO EXTENSIONS"
+    pip install django-extensions werkzeug
+    echo "DONE INSTALLING DJANGO EXTENSIONS"
+
+    echo
+    echo ">>>> SETUP DJANGO EXTENSIONS"
+    # TODO: Add `django_extensions` programmatically (awk/sed/custom parser?)
+    # TODO: Add comments `3rd party apps` and `Local` to `INSTALLED_APPS`
+    echo "Todo: Add django_extensions to INSTALLED_APPS in ./settings.py"
+    echo "TODO SETUP DJANGO EXTENSIONS"
+
+    # Setup git
+    echo
+    echo ">>>> SETUP GIT"
+    git-ignore django >> .gitignore
+    git-ignore python >> .gitignore
+    git init
+    echo "DONE SETUP GIT"
+
+    # Commit current git state
+    echo
+    echo ">>>> FIRST COMMIT"
+    # git add --all
+    # git commit --message="django init"
+    echo "TODO: git add --all && git commit --message=\"django init\""
+    echo "TODO FIRST COMMIT"
+
+    # De-activate virtual environment
+    deactivate
+    echo
+    echo "DONE DJANGO NEW"
+)
+
 # Using `m` for `manage.py` instead of `d` for django because `m` composes better.
 function exit_if_not_in_python_virtual_env {
     # Show index of my aliases to django's `./manage.py` sub-commands
