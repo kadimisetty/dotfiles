@@ -1401,6 +1401,12 @@ set conceallevel=1
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
+"jiangmiao/auto-pairs {{{2
+augroup django_template_tag_pairs
+    autocmd!
+    autocmd Filetype htmldjango let b:AutoPairs = {"{%": "%}", "{{": "}}"}
+augroup end
+
 "junegunn/rainbow_parentheses.vim {{{2
 " Default is just `()`. Include `[]` and `<>` as well.
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['<', '>']]
