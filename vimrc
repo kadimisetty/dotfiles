@@ -1857,7 +1857,7 @@ nmap <silent> <localleader>x <Plug>(coc-fix-current)
 " nmap <silent> lr <Plug>(coc-references)
 nmap <silent> l. <plug>(coc-command-repeat)
 vmap <silent> l. <plug>(coc-command-repeat)
-"`s` mnemonic for `sort import`
+"`s` mnemonic for `sort import`. TODO: Make this use a plug.
 nmap <silent> ls :<c-u>call CocAction('organizeImport')<CR>
 
 " codeactions on current line
