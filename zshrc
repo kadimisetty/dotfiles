@@ -214,7 +214,7 @@ alias mxps="mix phx.server"
 alias mxt="mix test --trace"
 
 ## django {{{2
-function djangonew () (
+function djangoinit () (
     # Sets up a django and git project in current directory, granted the shell is not
     # currently in an active virtal environment and the current directory is
     # empty.
@@ -233,62 +233,69 @@ function djangonew () (
         return 1
     fi
 
-    echo ">>>> DJANGO NEW"
+    # Ensure `git-ignore` is available in path
+    if ! command -v git-ignore &> /dev/null
+    then
+        echo "ERROR: \`git-ignore\` is not available in \$PATH" >&2;
+        return 1
+    fi
+
+    echo ">>>> DJANGO INIT"
 
     # Setup virtual environment
-    echo
+    echo "\n"
     echo ">>>> SETTING UP VIRTUAL ENVIRONMENT"
     python -m venv ./venv
     source ./venv/bin/activate
     echo "DONE SETTING UP VIRTUAL ENVIRONMENT"
 
     # Setup django
-    echo
-    echo ">>>> INSTALLING DJANGO"
-    pip install django
-    echo "DONE INSTALLING DJANGO"
-    echo
-    echo ">>>> START DJANGO PROJECT"
+    echo "\n"
+    echo ">>>> INSTALLING LATEST DJANGO 4"
+    pip install --upgrade 'django==4.*'
+    echo "DONE INSTALLING LATEST DJANGO 4"
+    echo "\n"
+    echo ">>>> STARTING DJANGO PROJECT"
     # Start a django project into the current directory
     # Use current directory name as name of django project
     # django-admin startproject $(basename $PWD) .
     # Use `core` as name of django project
     django-admin startproject core .
-    echo "DONE START DJANGO PROJECT"
+    echo "DONE STARTING DJANGO PROJECT"
 
     # Setup django-extensions
-    echo
+    echo "\n"
     echo ">>>> INSTALLING DJANGO EXTENSIONS"
-    pip install django-extensions werkzeug
+    pip install --upgrade django-extensions werkzeug
     echo "DONE INSTALLING DJANGO EXTENSIONS"
-
-    echo
-    echo ">>>> SETUP DJANGO EXTENSIONS"
-    # TODO: Add `django_extensions` programmatically (awk/sed/custom parser?)
-    # TODO: Add comments `3rd party apps` and `Local` to `INSTALLED_APPS`
-    echo "Todo: Add django_extensions to INSTALLED_APPS in ./settings.py"
-    echo "TODO SETUP DJANGO EXTENSIONS"
+    echo "\n"
+    echo ">>>> SETTING UP DJANGO EXTENSIONS"
+    TMP_FILE=$(mktemp)
+    sed --expression="/^INSTALLED_APPS = \[$/a\   # VENDOR\n\    \"django_extensions\"\n\n\    # LOCAL\n\n\    # DEFAULT" ./core/settings.py > $TMP_FILE
+    mv $TMP_FILE ./core/settings.py
+    echo "TODO Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
+    echo "DONE SETTING UP DJANGO EXTENSIONS"
 
     # Setup git
-    echo
-    echo ">>>> SETUP GIT"
-    git-ignore django >> .gitignore
-    git-ignore python >> .gitignore
+    echo "\n"
+    echo ">>>> SETTING UP GIT"
+    git-ignore --update django >> .gitignore
+    git-ignore --update python >> .gitignore
     git init
-    echo "DONE SETUP GIT"
+    echo "DONE SETTING UP GIT"
 
     # Commit current git state
-    echo
-    echo ">>>> FIRST COMMIT"
-    # git add --all
-    # git commit --message="django init"
-    echo "TODO: git add --all && git commit --message=\"django init\""
-    echo "TODO FIRST COMMIT"
+    echo "\n"
+    echo ">>>> COMMITTING TO GIT"
+    git add --all
+    git commit --message="django init"
+    echo "DONE COMMITTING TO GIT"
 
-    # De-activate virtual environment
+    # Deactivate virtual environment
     deactivate
-    echo
-    echo "DONE DJANGO NEW"
+
+    echo "\n"
+    echo "DONE DJANGO INIT"
 )
 
 # Using `m` for `manage.py` instead of `d` for django because `m` composes better.
