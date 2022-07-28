@@ -251,9 +251,9 @@ function djangoinit () (
 
     # Setup django
     echo "\n"
-    echo ">>>> INSTALLING LATEST DJANGO 4"
+    echo ">>>> INSTALLING LATEST DJANGO v4.*"
     pip install --upgrade 'django==4.*'
-    echo "DONE INSTALLING LATEST DJANGO 4"
+    echo "DONE INSTALLING LATEST DJANGO v4.*"
     echo "\n"
     echo ">>>> STARTING DJANGO PROJECT"
     # Start a django project into the current directory
@@ -265,16 +265,23 @@ function djangoinit () (
 
     # Setup django-extensions
     echo "\n"
-    echo ">>>> INSTALLING DJANGO EXTENSIONS"
-    pip install --upgrade django-extensions werkzeug
-    echo "DONE INSTALLING DJANGO EXTENSIONS"
-    echo "\n"
     echo ">>>> SETTING UP DJANGO EXTENSIONS"
+    # Install django_extensions with dependencies
+    pip install --upgrade django-extensions werkzeug
+    # Insert django_extensions inside settings.py/INSTALLED_APPS with markers for VENDOR and LOCAL apps.
     TMP_FILE=$(mktemp)
-    sed --expression="/^INSTALLED_APPS = \[$/a\   # VENDOR\n\    \"django_extensions\"\n\n\    # LOCAL\n\n\    # DEFAULT" ./core/settings.py > $TMP_FILE
+    sed --expression="/'django.contrib.staticfiles',$/a\    # 3RD PARTY\n\    'django_extensions',\n\    # LOCAL" ./core/settings.py > $TMP_FILE
     mv $TMP_FILE ./core/settings.py
     echo "TODO Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
     echo "DONE SETTING UP DJANGO EXTENSIONS"
+
+    # Format with black using 79 as preferred line length
+    echo "\n"
+    echo ">>>> FORMATTING WITH BLACK (linelength = 79)"
+    pip install --upgrade black
+    black --line-length 79 .
+    pip uninstall black --yes
+    echo "DONE FORMATTING WITH BLACK (linelength = 79)"
 
     # Setup git
     echo "\n"
