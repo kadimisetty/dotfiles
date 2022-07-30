@@ -1405,11 +1405,26 @@ set conceallevel=1
 let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
+
+" elixir-editors/vim-elixir {{{2
+augroup eelixir_filetypes
+    " TODO: Move to a seperate elixir/phoenix section
+    autocmd BufNewFile,BufRead *.html.heex   set filetype=heex
+    autocmd BufNewFile,BufRead *.html.eex    set filetype=eex
+
+    autocmd BufNewFile,BufRead *.html.heex   set syntax=eelixir
+    autocmd BufNewFile,BufRead *.html.eex    set syntax=eelixir
+augroup END
+
 "jiangmiao/auto-pairs {{{2
 augroup django_template_tag_pairs
     autocmd!
     autocmd Filetype htmldjango let b:AutoPairs = {"{%": "%}", "{{": "}}"}
 augroup end
+augroup eelixir_template_tag_pairs
+    autocmd Filetype heex let b:AutoPairs = {"<%": "%>","<%=": "%>"}
+    autocmd Filetype eex let b:AutoPairs = {"<%": "%>","<%=": "%>"}
+augroup END
 
 "junegunn/rainbow_parentheses.vim {{{2
 " Default is just `()`. Include `[]` and `<>` as well.
