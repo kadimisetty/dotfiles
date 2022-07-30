@@ -63,6 +63,7 @@ Plug 'python/black'
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
 Plug 'rust-lang/rust.vim'
+Plug 'sgur/vim-textobj-parameter'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'tmux-plugins/vim-tmux'
