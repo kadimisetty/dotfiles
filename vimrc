@@ -1417,6 +1417,14 @@ augroup eelixir_filetypes
 augroup END
 
 "jiangmiao/auto-pairs {{{2
+augroup rust_pairs
+    autocmd!
+    " TODO:
+    " Investigate why `{}` & `()` aren't being included in g:AutoPairs. Should be:
+    "   autocmd Filetype rust  let b:AutoPairs = {'|': '|', '<': '>'}
+    " But have to explicitly include them all instead; for now just doing `{}` & `()`:
+    autocmd Filetype rust  let b:AutoPairs = {"|": "|", "<": ">", "{": "}", "(": ")", "[]" }
+augroup END
 augroup django_template_tag_pairs
     autocmd!
     autocmd Filetype htmldjango let b:AutoPairs = {"{%": "%}", "{{": "}}"}
