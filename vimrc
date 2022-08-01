@@ -239,6 +239,33 @@ function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
 
+augroup filetype_python
+    autocmd!
+    " Toggle trailing colon on current line
+    autocmd FileType python nnoremap <silent> <localleader>:  :call ToggleTrailingCharacterOnLine(":", line("."))<CR>
+    " Toggle trailing comma on current line
+    autocmd FileType python nnoremap <silent> <localleader>,  :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
+    " Toggle leading `async`/`await` keywords on current line
+    autocmd FileType python nnoremap <silent> <localleader>a  :call ToggleAsyncOrAwaitKeywordPython(".")<CR>
+augroup END
+function! ToggleAsyncOrAwaitKeywordPython(line_number)
+    " Toggles leading keywords `async` or `await` on given line.
+    " NOTE: This is bound to python's async grammar i.e. if line
+    " begins with `def`(function) then `async` is toggled, else `await` (not
+    " function) is toggled.
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if ((trimmed_line_content =~# "^async ") || (trimmed_line_content =~# "^await "))
+        execute 'normal ^d6l'
+    else
+        if (trimmed_line_content =~# "^def ")
+            execute 'normal Iasync '
+        else
+            execute 'normal Iawait '
+        endif
+    endif
+endfunction
+
 augroup filetype_rust
     autocmd!
     autocmd FileType rust setlocal formatprg=rustfmt
@@ -252,7 +279,7 @@ augroup filetype_rust
     " Toggle  leading `pub` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
     " Toggle  leading `async` keyword on current line
-    autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeyword(".")<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeywordRust(".")<CR>
     " Toggle trailing question mark on current line
     autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
     " Toggle wrapping `Ok()` and `Err()` on current line
@@ -336,7 +363,7 @@ function ToggleTrailingQuestionMark(line_number)
         endif
     endif
 endfunction
-function! ToggleAsyncKeyword(line_number)
+function! ToggleAsyncKeywordRust(line_number)
     let line_content = getline(a:line_number)
     let trimmed_line_content = trim(line_content)
     if (trimmed_line_content =~# "^async ")
