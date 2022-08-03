@@ -1462,17 +1462,16 @@ augroup eelixir_template_tag_pairs
 augroup END
 
 "junegunn/rainbow_parentheses.vim {{{2
-" Default is just `()`. Include `[]` and `<>` as well.
-let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['<', '>']]
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], [ '{', '}'], ['<', '>']]
 
 " NOTE: Place after any vim-unimpaired preferences because I'm overriding the
 " default `r` for `relativenumber` using in vim-unimpaired.
 " Toggle
 nnoremap <silent> yor :<c-u>RainbowParentheses!!<CR>
-" Deactivate
-nnoremap <silent> ]or :<c-u>RainbowParentheses!<CR>
 " Activate
 nnoremap <silent> [or :<c-u>RainbowParentheses<CR>
+" Deactivate
+nnoremap <silent> ]or :<c-u>RainbowParentheses!<CR>
 
 
 "plasticboy/vim-markdown {{{2
