@@ -265,15 +265,15 @@ function djangoinit () (
 
     # Setup django-extensions
     echo "\n"
-    echo ">>>> SETTING UP DJANGO EXTENSIONS"
+    echo ">>>> SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
     # Install django_extensions with dependencies
-    pip install --upgrade django-extensions werkzeug
+    pip install --upgrade django-extensions werkzeug djangorestframework
     # Insert django_extensions inside settings.py/INSTALLED_APPS with markers for VENDOR and LOCAL apps.
     TMP_FILE=$(mktemp)
-    sed --expression="/'django.contrib.staticfiles',$/a\    # 3RD PARTY\n\    'django_extensions',\n\    # LOCAL" ./core/settings.py > $TMP_FILE
+    sed --expression="/'django.contrib.staticfiles',$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py > $TMP_FILE
     mv $TMP_FILE ./core/settings.py
     echo "TODO Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
-    echo "DONE SETTING UP DJANGO EXTENSIONS"
+    echo "DONE SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
 
     # Format with black using 79 as preferred line length
     echo "\n"
