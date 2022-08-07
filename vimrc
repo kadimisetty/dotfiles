@@ -1160,16 +1160,25 @@ nnoremap <silent> <C-s>  :update<CR>
 vnoremap <silent> <C-s>  <C-C>:update<CR>
 inoremap <silent> <C-s>  <C-O>:update<CR>
 
-" Make and load session using `./Session.vim` {{{2
-" Notify after a session is loaded
-autocmd SessionLoadPost * echo "Session Loaded"
-" Create a session named `./Session.vim` if it doesn't exist in current directory
-nnoremap <leader>m :mksession<CR>
-" Create/overwrite a session named `./Session.vim` in current directory
-nnoremap <leader>M :mksession!<CR>
-" Load session by sourcing `./Session.vim` in current directory
-" nnoremap <leader>l :source ./Session.vim<CR>
-" nnoremap <leader>L :source ./Session.vim<CR>
+" Save session to global directory {{{2
+" NOTE: Choosing global directory, i.e. directory where vim launched from, so
+"   the `Session.vim` file will always exist in that directory as it will be
+"   treated as project root directory. This is safe for instances when there is
+"   a tabpage with a different working directory set with `:tcd` present.
+
+" Create session file `./Session.vim` in global directory
+nnoremap <leader>m :call MakeSessionInGlobalDirectory()<CR>
+function! MakeSessionInGlobalDirectory()
+    let path_sep = execute('version') =~# 'Windows' ? '\' : '/'
+    execute 'mksession' fnameescape(getcwd(-1) . path_sep . "Session.vim")
+endfunction
+
+" Create/overwrite session file `./Session.vim` in global directory
+nnoremap <leader>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
+function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
+    let path_sep = execute('version') =~# 'Windows' ? '\' : '/'
+    execute 'mksession!' fnameescape(getcwd(-1) . path_sep . "Session.vim")
+endfunction
 
 "Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
