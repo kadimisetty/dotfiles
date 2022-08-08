@@ -1169,15 +1169,28 @@ inoremap <silent> <C-s>  <C-O>:update<CR>
 " Create session file `./Session.vim` in global directory
 nnoremap <leader>m :call MakeSessionInGlobalDirectory()<CR>
 function! MakeSessionInGlobalDirectory()
-    let path_sep = execute('version') =~# 'Windows' ? '\' : '/'
-    execute 'mksession' fnameescape(getcwd(-1) . path_sep . "Session.vim")
+    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
+    try
+        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+    catch /E189/ "Session already exists
+        echoerr "ERROR E189: A `Session.vim` file already exists at this location."
+        return
+    endtry
+    echo "Session.vim saved in global directory."
 endfunction
 
 " Create/overwrite session file `./Session.vim` in global directory
 nnoremap <leader>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
 function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
-    let path_sep = execute('version') =~# 'Windows' ? '\' : '/'
-    execute 'mksession!' fnameescape(getcwd(-1) . path_sep . "Session.vim")
+    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
+    try
+        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+    catch /E189/ "Session already exists
+        execute 'mksession!' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+        echo "Session.vim overwritten in global directory."
+        return
+    endtry
+    echo "Session.vim saved in global directory."
 endfunction
 
 "Move across "softly-wrapped" lines {{{2
