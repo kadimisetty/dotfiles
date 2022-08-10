@@ -1065,7 +1065,6 @@ function! RenameTabpageWithTaboo(prefillCurrentTabpageName)
     endif
 endfunction
 nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
-nnoremap <silent> <C-w><    :call RenameTabpageWithTaboo(1)<CR>
 
 "Move through jump list {{{2
 "ISSUE: By default `<c-o>` and `<c-i>` move backward and forward in jumplist.
