@@ -849,9 +849,12 @@ augroup end
 " Windows {{{2
 " NOTE: These are deliberately identical to my tmux pane mappings
 " Make horizontal split
-nnoremap <silent> <c-w>-        :split<CR>
+" NOTE: Regretfully `<c-w>-` just doesn't fit into my vim mapping system..
+" So temporarily relying on good ol' `<c-w>v` and `<c-w>s` for the splits.
+" and freeing up `<c-w>-`. `vim-vinegar` can use it in the meantime.
+" nnoremap <silent> <c-w>-        :split<CR>
 " Make vertical split
-nnoremap <silent> <c-w>\|       :vsplit<CR>
+" nnoremap <silent> <c-w>\|       :vsplit<CR>
 " Equal size windows
 nnoremap <silent> <leader>w=    :wincmd =<CR>
 " Close all windows and exit
