@@ -1195,7 +1195,12 @@ function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
     echo "Session.vim saved in global directory."
 endfunction
 
-"Move across "softly-wrapped" lines {{{2
+" Start insert on new line from indent of existing text (i.e. `normal jS`) {{{2
+" NOTE: `jS` doesn't work well, so using `j^C` to acheive the same effect
+nnoremap go   :execute 'normal j^C'<CR>
+nnoremap gO   :execute 'normal k^C'<CR>
+
+" Move across "softly-wrapped" lines {{{2
 "<D> is the OSX Command Key
 nnoremap <D-j> gj
 nnoremap <D-k> gk
