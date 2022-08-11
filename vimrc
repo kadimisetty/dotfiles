@@ -248,7 +248,31 @@ augroup filetype_python
     autocmd FileType python nnoremap <silent> <localleader>,  :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
     " Toggle leading `async`/`await` keywords on current line
     autocmd FileType python nnoremap <silent> <localleader>a  :call ToggleAsyncOrAwaitKeywordPython(".")<CR>
-augroup END
+    " Toggle `pass` keywork on current line
+    autocmd FileType python nnoremap <silent> <localleader>p  :call TogglePassKeywordPython(".")<CR>
+    " Toggle `pass` keywork on current line, replacing any existing content
+    autocmd FileType python nnoremap <silent> <localleader>P  :call TogglePassKeywordReplacingContentPython(".")<CR>
+augroup end
+function! TogglePassKeywordReplacingContentPython(line_number)
+    " Toggles leading keywords `pass`
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if (trimmed_line_content =~# "^pass")
+        execute 'normal ^d4l'
+    else
+        execute 'normal Spass'
+    endif
+endfunction
+function! TogglePassKeywordPython(line_number)
+    " Toggles leading keywords `pass`
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if (trimmed_line_content =~# "^pass")
+        execute 'normal ^d4l'
+    else
+        execute 'normal Ipass'
+    endif
+endfunction
 function! ToggleAsyncOrAwaitKeywordPython(line_number)
     " Toggles leading keywords `async` or `await` on given line.
     " NOTE: This is bound to python's async grammar i.e. if line
