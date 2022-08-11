@@ -1939,10 +1939,10 @@ let g:minimap_highlight = 'MinimapHighlight'
 let g:taboo_tab_format = "%f%U %d"
 let g:taboo_renamed_tab_format = "%l%U %d"
 
+
 " neoclide/coc.nvim {{{2
 " Coc Mappings {{{3
 " NOTE: Using `l` for lsp as a mnemonic
-" TODO: Change `l` if possible.
 " NOTE: Keep these mappings as nmaps and not nnoremaps
 " Navigate all diagnostics
 nmap <silent> [l <Plug>(coc-diagnostic-prev)
@@ -1970,10 +1970,10 @@ vmap <silent> la <Plug>(coc-codeaction-selected)
 " codeaction on entire file
 nmap <silent> lA <Plug>(coc-codeaction)
 
-" Toggle outlin
+" Toggle outline
 nnoremap <silent><nowait> lo  :call ToggleOutline()<CR>
 function! ToggleOutline() abort
-let winid = coc#window#find('cocViewId', 'OUTLINE')
+let winid = coc#window#find('cocViewId', 'Outline')
 if winid == -1
     call CocActionAsync('showOutline', 1)
 else
@@ -2010,13 +2010,6 @@ function! s:coc_show_documentation()
     endif
 endfunction
 
-"-----------------------------
-
-
-"-----------------------------
-
-
-
 " Coc Text Objects {{{3
 " NOTE: Text objects require 'textDocument.documentSymbol' lsp support
 " Functions
@@ -2030,47 +2023,62 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Contrast Fix {{{3
-" Contrast in CocFloating + gruvbox is terrible, so changing highlight group.
-" IMPORTANT: Needs to be done AFTER loading gruvbox
-hi default link CocFloating Folded
+" Coc Completions {{{3
+" Use <c-space> to trigger completion:
+if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
+else
+    inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
-" Coc trigger completion {{{3
-" Note: Coc trigger completion requires enabling `coc-snippets` extension.
+" To make <CR> confirm selection of selected complete item or notify coc.nvim
+" to format on enter:
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm()
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Helper function used in trigger completion functions
+" Helper function for trigger completion
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" TRIGGER COMPLETION STRATEGY 1:
-" Can do <Tab>/<S-Tab> for up/down in completion
-" Compromise: <Tab> can't be mapped to snippet expansion.
-" inoremap <silent><expr> <TAB>
-"         \ pumvisible() ? "\<C-n>" :
-"         \ <SID>check_back_space() ? "\<TAB>" :
-"         \ coc#refresh()
-" inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" TRIGGER COMPLETION STRATEGY 2:
-" <Tab> is mapped to snippet expansion (This is highly desired)
-" Compromise: <S-Tab> goes up in completion list, but since <Tab> is already mapped,
-" it cannot be mapped to go up in the completion list, slightly marring the completion experience
+" Trigger Completion Strategy:
+" Make <tab> behave like in VSCode i.e. for:
+"  1. Trigger completion
+"  2. Completion confirm
+"  3. Snippet expand
+"  4. Jump
+" NOTE: `coc-snippets` extension required for this to work
+" NOTE: With this strategy, cannot utilize <S-Tab>
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? coc#_select_confirm() :
-    \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<C-h>"
+  \ coc#pum#visible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ?
+  \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
-"Trigger keys to go next/prev in snippet insertion positions.
-"Defaults are <C-j> for next and <C-k> for prev
-" let g:coc_snippet_next='<Tab>'
-" Shift-Tab doesn't work for prev
-" let g:coc_snippet_prev='<S-Tab>'
+" Trigger keys to go next/prev in snippet insertion positions:
+" Defaults are <C-j> for next and <C-k> for prev
+" let g:coc_snippet_next='<C-j>'
+" let g:coc_snippet_prev='<C-k>'
 
-" Coc Misc Preferences {{{3
+" Coc Highlights {{{3
+" Contrast in CocFloating + gruvbox is terrible, so changing highlight group.
+" IMPORTANT: Needs to be done AFTER loading gruvbox
+" TODO: `CocFloating` links to `Pmenu`, so configure `Pmenu` directly
+highlight CocDisabled ctermbg=237 ctermfg=240
+highlight CocFloating term=standout ctermbg=237 ctermfg=250
+" NOTE: CocMenuSel can only accomodate `bg` not `fg`
+highlight CocMenuSel ctermbg=238
+
+" TODO: Configure these Notification window/popup related highlights:
+" *CocNotificationProgress* for progress line in progress notification.
+" *CocNotificationButton* for action buttons in notification window.
+" *CocNotificationError* for highlight border of error notification.
+" *CocNotificationWarning* for highlight border of warning notification.
+" *CocNotificationInfo* for highlight border of info notification.
+
+" Coc Miscellaneous {{{3
 " Use `:CocFormat` to format current buffer
 command! -nargs=0 CocFormat :call CocAction('format')
 " Use `:CocFold` to fold current buffer
