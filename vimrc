@@ -1482,6 +1482,17 @@ let g:airline#extensions#coc#enabled = 1
 "airline taboo extension
 let g:airline#extensions#taboo#enabled = 1
 
+"airline fzf extension
+let g:airline#extensions#fzf#enabled = 1
+
+" airline NerdTree extension
+let g:airline#extensions#nerdtree_statusline = 1
+
+" airline NrrwRgn integration
+let g:airline#extensions#nrrwrgn#enabled = 1
+
+" airline terminal integration
+let g:airline#extensions#term#enabled = 1
 
 "pangloss/vim-javascript {{{2
 "Enable Concealing
