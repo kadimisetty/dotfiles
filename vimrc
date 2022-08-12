@@ -1325,6 +1325,7 @@ nnoremap <silent> ]= :<c-u>call DrawHeadingLineWithCharacter('=', 'below')<CR>
 "gruvbox {{{2
 "Enable gruvbox colorscheme
 colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
 
 " Hide the filler line characters (~) by giving it the smae color as the
 " background
