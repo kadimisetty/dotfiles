@@ -703,9 +703,9 @@ if has('statusline')
     set titlestring+=%w
 endif
 
-" Change Cursor Shape based on Mode {{{2
+" Change cursor shapes for different modes {{{2
 "
-" Terminal Escape Sequence Numbers for Cursor Shapes) Reference:
+" Reference for Terminal Escape Sequence Numbers for Cursor Shapes:
 " +------------+-----------------------+
 " | 0, 1, none | Blink Block (Default) |
 " | 2          | Steady Block          |
@@ -713,7 +713,11 @@ endif
 " | 4          | Steady Underline      |
 " | 6          | Steady Vertical Bar   |
 " +------------+-----------------------+
-if $TERM_PROGRAM =~ "Apple_Terminal"
+if $TERM =~ "xterm-kitty"
+    let &t_SI="\033[6 q"
+    let &t_SR="\033[4 q"
+    let &t_EI="\033[2 q"
+elseif $TERM_PROGRAM =~ "Apple_Terminal"
     let &t_SI="\033[6 q" "Vertical bar in Insert mode
     let &t_SR="\033[4 q" "Underline in Replace mode
     let &t_EI="\033[2 q" "Steady Block in Normal mode
