@@ -1,4 +1,7 @@
 {
+    "notification.border": false,
+    "notification.marginRight": 3,
+    "dialog.rounded": false,
     "diagnostic.errorSign" : "▓▓",
     "diagnostic.warningSign": "░░",
     "diagnostic.infoSign":"•",

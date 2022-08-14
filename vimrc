@@ -2104,13 +2104,6 @@ highlight CocFloating term=standout ctermbg=237 ctermfg=250
 " NOTE: CocMenuSel can only accomodate `bg` not `fg`
 highlight CocMenuSel ctermbg=238
 
-" TODO: Configure these Notification window/popup related highlights:
-" *CocNotificationProgress* for progress line in progress notification.
-" *CocNotificationButton* for action buttons in notification window.
-" *CocNotificationError* for highlight border of error notification.
-" *CocNotificationWarning* for highlight border of warning notification.
-" *CocNotificationInfo* for highlight border of info notification.
-
 " Coc Miscellaneous {{{3
 " Use `:CocFormat` to format current buffer
 command! -nargs=0 CocFormat :call CocAction('format')
