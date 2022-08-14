@@ -1173,6 +1173,22 @@ nnoremap <silent> <localleader>bd :bd %<CR>
 "Terminal {{{2
 nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 
+" Start from first considering comments {{{2
+" `S`(synonym of `cc`) deletes content of line and starts insert linewise
+" preserving indent. With `gS` do the same but leave preceding(/ending)
+" comment markers intact i.e, for a line denoting `>` as indent level, doing
+" `gS` at cursor position `|` will result in:
+" 1. BEFORE: `>>>># Some comment|`
+"    AFTER : `>>>>#|`
+" 2. BEFORE: `>>>>Some line|`
+"    AFTER : `>>>>|`
+" 3. BEFORE: `>>>>/*Some line/*`
+"    AFTER : `>>>>/*|*/`
+" 3. BEFORE: `>>>>/* Some line /*`
+"    AFTER : `>>>>/* | */`
+" 4. BEFORE: `>>>>/*Some line|...`
+"    AFTER : `>>>>/*|`
+
 " Save with <C-s> {{{2
 " NOTE: Terminals consider <C-s> a legasy flow character.
 " So to use <C-s>, that needs to be disabled with the following
