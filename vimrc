@@ -1695,8 +1695,8 @@ let g:tagbar_type_elm = {
           \ }
 
 "Gutentag {{{2
-"Specify directory to create the tag files. instead of storing at project root
-# TODO: Clean this cache directory occasionally it can get very large over time.
+" Specify directory to create the tag files. instead of storing at project root
+" TODO: Clean this cache directory occasionally it can get very large over time.
 let g:gutentags_cache_dir = '~/.tags_cache'
 
 "Neomake {{{2
