@@ -1,26 +1,26 @@
 # sri's dotfiles
 
-**Index**
+**Alphabetical Index**
 
-| Name (alphabetical)       | Program       | Destination | Description               |
-| ---                       | ---           | ---         | ---                       |
-| `./abolish.vim`           | abolish.vim   | TODO        | abolish.vim substitutions |
-| `./alacritty.yml`         | alacritty     |             | alacritty conf            |
-| `./bat.config`            | bat           |             | bat conf                  |
-| `./coc-settings.json`     | coc.nvim      |             | coc.nvim conf             |
-| `./elmtags.py`            | elm           |             | elm tag generator         |
-| `./fresh-new-vimrc.vim`   | vim           |             | alternate vim conf        |
-| `./ghci`                  | haskell repl  |             | ghci conf                 |
-| `./ghcide-via-stack-exec` | haskell stack |             | haskell stack LSP helper  |
-| `./gitconfig`             | git           |             | global git settings       |
-| `./gitignore-global`      | git           |             | global gitignores         |
-| `./hawk`                  | haskell       |             | haskell shell prelude     |
-| `./kitty.conf`            | kitty         |             | kitty conf                |
-| `./skeletons/`            | vim           |             | filetype templates        |
-| `./tmux.conf`             | tmux          |             | tmux conf                 |
-| `./vimrc`                 | vim           |             | vim conf                  |
-| `./xmonad.hs`             | xmonad        |             | xmonad conf               |
-| `./zshrc`                 | zsh           |             | zsh conf                  |
+| filename                  | program       | destination on local machine |
+| ---                       | ---           | ---                          |
+| `./abolish.vim`           | abolish.vim   | `vim:help abolish`           |
+| `./alacritty.yml`         | alacritty     | `$XDG_CONFIG_HOME`           |
+| `./bat.config`            | bat           | `bat --config-file`          |
+| `./coc-settings.json`     | coc.nvim      | `vim:CocConfig`              |
+| `./elmtags.py`            | elm           | `$HOME`                      |
+| `./fresh-new-vimrc.vim`   | vim           | `$HOME`                      |
+| `./ghci`                  | haskell repl  | `$HOME`                      |
+| `./ghcide-via-stack-exec` | haskell stack | `$HOME`                      |
+| `./gitconfig`             | git           | `$HOME`                      |
+| `./gitignore-global`      | git           | `$HOME`                      |
+| `./hawk`                  | haskell       | `$HOME`                      |
+| `./kitty.conf`            | kitty         | `$XDG_CONFIG_HOME`           |
+| `./skeletons/`            | vim           | `$HOME/.vim/skeletons/`      |
+| `./tmux.conf`             | tmux          | `$HOME`                      |
+| `./vimrc`                 | vim           | `$HOME`                      |
+| `./xmonad.hs`             | xmonad        | `$HOME/xmonad/xmonad.hs`     |
+| `./zshrc`                 | zsh           | `$HOME`                      |
 
 ### Content advisory
 - This repo is a subset of my dotfiles.
