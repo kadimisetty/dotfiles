@@ -2,7 +2,7 @@
 
 **Alphabetical Index**
 
-| filename                  | related program                                           | local destination                                         |
+| filename                  | program                                           | local destination                                         |
 | ---                       | ---                                                       | ---                                                       |
 | `./abolish.vim`           | [abolish.vim](https://github.com/tpope/vim-abolish)       | `vim:help abolish`                                        |
 | `./alacritty.yml`         | [alacritty](https://github.com/alacritty/alacritty)       | `$XDG_CONFIG_HOME`                                        |
@@ -23,10 +23,10 @@
 | `./zshrc`                 | [zsh](https://www.zsh.org)                                | `$HOME`                                                   |
 
 ### Content advisory
-- This repo is a subset of my dotfiles.
-- The index might not reflect current state of repo.
-- All content in repo is in a constant state of flux
-- Unless noted otherwise, you are not granted a license.
-- There is partial content aplenty as some files refer to local machine state.
+- All content here is in a constant state of flux.
+- Unless noted otherwise, there is no special license granted.
+- This index might not be updated to reflect current state of repo.
+- This repo is a subset of my dotfiles; as such there are multiple missing spots.
+- There are also multiple references to local machine state, so expect partial content aplenty. 
 
 Thanks for browsing ✌️
