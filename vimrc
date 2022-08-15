@@ -1515,7 +1515,6 @@ let g:airline#extensions#term#enabled = 1
 "Enable Concealing
 set conceallevel=1
 "Conceal corresponding keywords with symbols
-let g:javascript_conceal_arrow_function = "⇒"
 let g:javascript_conceal_function = "ƒ"
 
 
