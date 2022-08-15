@@ -2,25 +2,25 @@
 
 **Index**
 
-| Name (alphabetical)   | Program     | Category   | Description               | Destination (TODO) |
-| ---                   | ---         | ---        | ---                       | ---                |
-| abolish.vim           | abolish.vim | vim plugin | abolish.vim substitutions |                    |
-| alacritty.yml         | alacritty   | term       | alacritty conf            |                    |
-| bat.config            | bat         | shell      | bat conf                  |                    |
-| coc-settings.json     | coc.nvim    | vim plugin | coc.nvim conf             |                    |
-| elmtags.py            | elm         | elm        | elm tag generator         |                    |
-| fresh-new-vimrc.vim   | vim         | vim        | alternate vim conf        |                    |
-| ghci                  | ghc         | haskell    | ghci conf                 |                    |
-| ghcide-via-stack-exec | stack       | haskell    | haskell stack LSP helper  |                    |
-| gitconfig             | git         | git        | global git settings       |                    |
-| gitignore-global      | git         | git        | global gitignores         |                    |
-| hawk                  | haskell     | haskell    | haskell shell prelude     |                    |
-| kitty.conf            | kitty       | term       | kitty conf                |                    |
-| skeletons/            | vim         | vim        | filetype templates        |                    |
-| tmux.conf             | tmux        | term       | tmux conf                 |                    |
-| vimrc                 | vim         | vim        | vim conf                  |                    |
-| xmonad.hs             | xmonad      | xmonad     | xmonad conf               |                    |
-| zshrc                 | zsh         | zsh        | zsh conf                  |                    |
+| Name (alphabetical)       | Program       | Destination | Description               |
+| ---                       | ---           | ---         | ---                       |
+| `./abolish.vim`           | abolish.vim   | TODO        | abolish.vim substitutions |
+| `./alacritty.yml`         | alacritty     |             | alacritty conf            |
+| `./bat.config`            | bat           |             | bat conf                  |
+| `./coc-settings.json`     | coc.nvim      |             | coc.nvim conf             |
+| `./elmtags.py`            | elm           |             | elm tag generator         |
+| `./fresh-new-vimrc.vim`   | vim           |             | alternate vim conf        |
+| `./ghci`                  | haskell repl  |             | ghci conf                 |
+| `./ghcide-via-stack-exec` | haskell stack |             | haskell stack LSP helper  |
+| `./gitconfig`             | git           |             | global git settings       |
+| `./gitignore-global`      | git           |             | global gitignores         |
+| `./hawk`                  | haskell       |             | haskell shell prelude     |
+| `./kitty.conf`            | kitty         |             | kitty conf                |
+| `./skeletons/`            | vim           |             | filetype templates        |
+| `./tmux.conf`             | tmux          |             | tmux conf                 |
+| `./vimrc`                 | vim           |             | vim conf                  |
+| `./xmonad.hs`             | xmonad        |             | xmonad conf               |
+| `./zshrc`                 | zsh           |             | zsh conf                  |
 
 ### Content advisory
 - This repo is a subset of my dotfiles.
