@@ -1,6 +1,6 @@
-# personal dotfiles
+# sri's dotfiles
 
-## Content Index
+**Index**
 
 | Name (alphabetical)   | Program     | Category   | Description               |
 | ---                   | ---         | ---        | ---                       |
@@ -21,11 +21,11 @@
 | xmonad.hs             | xmonad      | xmonad     | xmonad conf               |
 | zshrc                 | zsh         | zsh        | zsh conf                  |
 
-### Advisory
-- Subset of my dotfiles
-- Partial content aplenty
-- Might not reflect current state of repo
-- All content here is in a constant state of flux
-- Unless noted otherwise, you are not granted a license to use this content.
+### Content advisory
+- This repo is a subset of my dotfiles.
+- The index might not reflect current state of repo.
+- All content in repo is in a constant state of flux
+- Unless noted otherwise, you are not granted a license.
+- There is partial content aplenty; and many files do refer to local machine locations.
 
-✌️
+Thanks for browsing ✌️
