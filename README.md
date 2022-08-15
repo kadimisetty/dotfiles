@@ -26,6 +26,6 @@
 - The index might not reflect current state of repo.
 - All content in repo is in a constant state of flux
 - Unless noted otherwise, you are not granted a license.
-- There is partial content aplenty; and many files do refer to local machine locations.
+- There is partial content aplenty as some files refer to local machine state.
 
 Thanks for browsing ✌️
