@@ -2,11 +2,10 @@
 -- vim: foldmethod=marker:foldlevel=0:nofoldenable:
 --
 -- AUTHOR:
--- 	Sri Kadimisetty
--- 	https://github.com/kadimisetty
+-- 	[Sri Kadimisetty](https://github.com/kadimisetty)
 --
 -- FINAL LOCATION:
--- ~/.xmonad/xmonad.hs
+--  `~/.xmonad/xmonad.hs`
 
 -- IMPORTS ------------------------------------------------------------- {{{1
 
@@ -21,13 +20,14 @@ import           XMonad.Actions.CopyWindow      ( copyToAll
                                                 , killAllOtherCopies
                                                 )
 import           XMonad.Actions.CycleWS         ( Direction1D(Next, Prev)
-                                                , WSType(Not)
-                                                , emptyWS
+                                                , WSType(NonEmptyWS)
                                                 , moveTo
                                                 , nextWS
                                                 , prevWS
                                                 , shiftToNext
                                                 , shiftToPrev
+                                                -- xmonad v17.0: WSType(Not), emptyWS
+                                                -- xmonad v15: NonEmptyWS
                                                 )
 -- https://hackage.haskell.org/package/xmonad-extras-0.17.0
 import           XMonad.Actions.Volume          ( lowerVolume
@@ -72,9 +72,13 @@ main = do
 -- CUSTOMIZATIONS ------------------------------------------------------ {{{1
 -- BINARIES {{{2
 
-myTerminal = "alacritty"
+myTerminal =
+  -- "alacritty"
+  "kitty --start-as fullscreen --directory ~/code/sandbox"
 
-myWebBrowser = "google-chrome-stable"
+myWebBrowser =
+  -- "google-chrome-stable"
+  "vivaldi-stable"
 
 myFileBrowser = "nautilus"
 
@@ -105,6 +109,7 @@ myFocusedBorderColor = "#9F0DFF"
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- MOUSE BINDINGS ------------------------------------------------------ {{{1
+--
 myMouseBindings (XConfig { XMonad.modMask = modm }) =
   M.fromList
     $ [
@@ -121,37 +126,32 @@ myMouseBindings (XConfig { XMonad.modMask = modm }) =
       -- raise the window to the top of the stack
       -- (mod-button2 i.e. mod-middle/scroll-wheel-click)
       , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+
       -- switch to next non-empty workpace
       -- (mod-button4 i.e. mod-scroll-up)
-      , ((modm, button4), (\_ -> moveTo Next (Not emptyWS)))
+      , ((modm, button4), (\_ -> moveTo Next NonEmptyWS))
       -- switch to prev non-empty workpace
       -- (mod-button5 i.e. mod-scroll-down)
-      , ((modm, button5), (\_ -> moveTo Prev (Not emptyWS)))
+      , ((modm, button5), (\_ -> moveTo Prev NonEmptyWS))
       ]
 
 
 
 -- LAYOUTS ------------------------------------------------------------- {{{1
 
--- You can specify and transform your layouts by modifying these values.
--- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
---
--- The available layouts.  Note that each layout is separated by |||,
--- which denotes layout choice.
+-- NOTE: Use `mod-shift-space` (default) to reload current layout. This is
+-- important to mention here beause xmonad preserves layout after restarting
+-- (default `mod-q`) by default and any changes made to the layout would not
+-- apply unless the layout is reloaded manually.
 --
 myLayout = avoidStruts $ tiled ||| Mirror tiled ||| Full
  where
     -- default tiling algorithm partitions the screen into two panes
   tiled   = Tall nmaster delta ratio
-
   -- default number of windows in the master pane
   nmaster = 1
-
   -- default proportion of screen occupied by master pane
   ratio   = 52 / 100
-
   -- percent of screen to increment by when resizing panes
   delta   = 3 / 100
 
@@ -178,9 +178,6 @@ myManageHook = composeAll
 
 -- EVENT HANDLING ------------------------------------------------------ {{{1
 
--- * EwmhDesktops users should change this to ewmhDesktopsEventHook
-
---
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
@@ -200,9 +197,13 @@ myLogHook = return ()
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 --
--- By default, do nothing.
 myStartupHook = do
+  -- Set wallpaper etc. via `nitrogen`
   spawnOnce "nitrogen --restore &"
+  -- `<caps-lock>` to `<escape>` via `setxkbmap`
+  spawnOnce "setxkbmap -option caps:escape"
+  -- TODO: Natural Scrolling via `xmodmap`. The following is too buggy.
+  -- spawnOnce "echo \"pointer = 1 2 3 5 4 7 6 8 9 10 11 12\" > ~/.Xmodmap && xmodmap ~/.Xmodmap"
 
 -- XMOBAR -------------------------------------------------------------- {{{1
 myXmobarCommand :: String
@@ -263,7 +264,7 @@ myKeys conf@(XConfig { XMonad.modMask = modm }) =
          ((modm, xK_o)                              , spawn myPrimaryAppRunner)
        ,
       -- launch secondary app runner
-         ((modm .|. shiftMask, xK_o)                , spawn mySecondaryAppRunner)
+         ((modm .|. shiftMask, xK_o), spawn mySecondaryAppRunner)
        ,
       -- close focused window
          ((modm .|. shiftMask, xK_c)                , kill)
@@ -394,10 +395,10 @@ myKeys conf@(XConfig { XMonad.modMask = modm }) =
          ]
        ]
     ++ [
--- 1. switch to next non-empty workspace
-         ((modm .|. myAltMask, xK_Right), moveTo Next (Not emptyWS))
--- 2. switch to previous non-empty workspace
-       , ((modm .|. myAltMask, xK_Left) , moveTo Prev (Not emptyWS))
+      -- 1. switch to next non-empty workspace
+         ((modm .|. myAltMask, xK_Right), moveTo Next NonEmptyWS)
+      -- 2. switch to previous non-empty workspace
+       , ((modm .|. myAltMask, xK_Left) , moveTo Prev NonEmptyWS)
        ]
 
       --
