@@ -512,5 +512,13 @@ export NVM_DIR="$HOME/.config/nvm"
 # This loads nvm bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# luarocks {{{2
+# Setup luarocks locally
+# 1. Install luarocks (e.g. via nix-env)
+# 2. export `$ luarocks` as `luarocsk --local`
+export luarocks="luarocks --local"
+# 3. Include `$HOME/.luarocks/bin` in $PATH
+export PATH=$HOME/.luarocks/bin:$PATH
+
 
 # ANYTHING BELOW THIS LINE WAS AUTOMATICALLY ADDED AND NEEDS TO BE SORTED MANUALLY {{{1

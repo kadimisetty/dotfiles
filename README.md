@@ -2,7 +2,7 @@
 
 **Alphabetical Index**
 
-| filename                  | program                                           | local destination                                         |
+| filename                  | program                                                   | local destination                                         |
 | ---                       | ---                                                       | ---                                                       |
 | `./abolish.vim`           | [abolish.vim](https://github.com/tpope/vim-abolish)       | `vim:help abolish`                                        |
 | `./alacritty.yml`         | [alacritty](https://github.com/alacritty/alacritty)       | `$XDG_CONFIG_HOME`                                        |
@@ -16,6 +16,7 @@
 | `./gitignore-global`      | [git](https://git-scm.com/docs/gitignore)                 | `$HOME`                                                   |
 | `./hawk`                  | [haskell text processor](https://github.com/gelisam/hawk) | `$HOME`                                                   |
 | `./kitty.conf`            | [kitty](https://sw.kovidgoyal.net/kitty/)                 | `$XDG_CONFIG_HOME`                                        |
+| `./luacheckrc`            | [luacheck](https://github.com/mpeterv/luacheck/)          | `$HOME/.luacheckrc`                                       |
 | `./skeletons/`            | vim                                                       | `$HOME/.vim/skeletons/`                                   |
 | `./tmux.conf`             | [tmux](https://github.com/tmux/tmux)                      | `$HOME`                                                   |
 | `./vimrc`                 | vim                                                       | `$HOME`                                                   |
