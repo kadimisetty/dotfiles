@@ -1474,17 +1474,34 @@ let g:airline_symbols.branch = 'שׂ'
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ' '
 
-"airline builtin extension - tabline
+" airline builtin extension - tabline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#tab_min_count = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tab_nr = 1
-let g:airline#extensions#tabline#tab_nr_type = 1 "Just tab number
+let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#tab_min_count = 1
+" let g:airline#extensions#tabline#show_tab_nr = 1
+" let g:airline#extensions#tabline#tab_nr_type = 1 " Just tab number
+
+" TODO: Use a taller separator with no gaps at top/bottom.
+" than the default pipe `|`
+" let g:airline#extensions#tabline#left_sep = 'l'
+" let g:airline#extensions#tabline#left_alt_sep = 'L'
+" let g:airline#extensions#tabline#right_sep = 'r'
+" let g:airline#extensions#tabline#right_alt_sep = 'R'
+
+" Make airline theme modifications here
+autocmd User AirlineAfterTheme call s:update_highlights()
+function! s:update_highlights()
+    " Subtle tabline bg
+    " TODO: Uncouple from gruvbox theme look. Link to another highlight
+    highlight airline_tabfill ctermfg=236 ctermbg=236
+endfunction
 
 "airline gutentag extension
 "Enable the airline gutentag extension
@@ -1979,8 +1996,8 @@ let g:minimap_base_highlight = 'MinimapBaseHighlight'
 let g:minimap_highlight = 'MinimapHighlight'
 
 " gcmt/taboo.vim {{{2
-let g:taboo_tab_format = "%f%U %d"
-let g:taboo_renamed_tab_format = "%l%U %d"
+let g:taboo_tab_format = "%d %f"
+let g:taboo_renamed_tab_format = "%d %l"
 
 
 " neoclide/coc.nvim {{{2
