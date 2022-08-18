@@ -1530,6 +1530,16 @@ augroup eelixir_filetypes
 augroup END
 
 "jiangmiao/auto-pairs {{{2
+" Toggle autopairs (default: '<M-p>')
+" TODO: Find replacement that works in insert-mode, or just stay with `<M-p>`
+let g:AutoPairsShortcutToggle = 'yoa'
+
+" Fast wrap word. All pairs, including `<>`, considered a block (default: `<M-e>`)
+" TODO: Find a better shortcut. Ideal would have been a `<c-e>` variant like
+" `<c-E>` but `<c-e>` is taken by `vim-rsi`, so look up what's using `<c-E>`
+" Since I plan to use all `<M-*>` for overlays, I'm shunning default `<M-e>`
+" let g:AutoPairsShortcutFastWrap = '<c-E>'
+
 augroup rust_pairs
     autocmd!
     " TODO:
