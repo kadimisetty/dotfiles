@@ -1488,12 +1488,9 @@ let g:airline#extensions#tabline#tab_min_count = 1
 " let g:airline#extensions#tabline#show_tab_nr = 1
 " let g:airline#extensions#tabline#tab_nr_type = 1 " Just tab number
 
-" TODO: Use a taller separator with no gaps at top/bottom.
-" than the default pipe `|`
-" let g:airline#extensions#tabline#left_sep = 'l'
-" let g:airline#extensions#tabline#left_alt_sep = 'L'
-" let g:airline#extensions#tabline#right_sep = 'r'
-" let g:airline#extensions#tabline#right_alt_sep = 'R'
+" Change alt seperators(ones away from active tab) to a taller glyph:
+let g:airline#extensions#tabline#left_alt_sep = '│'
+let g:airline#extensions#tabline#right_alt_sep = '│'
 
 " Make airline theme modifications here
 autocmd User AirlineAfterTheme call s:update_highlights()
