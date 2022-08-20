@@ -62,6 +62,7 @@ Plug 'pest-parser/pest.vim'
 Plug 'purescript-contrib/purescript-vim'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'python/black'
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
 Plug 'rust-lang/rust.vim'
