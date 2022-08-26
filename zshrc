@@ -209,9 +209,26 @@ setopt AUTO_CD
 cdpath=($HOME/code)
 
 ## Mix {{{2
-alias im="iex -S mix"
-alias mxps="mix phx.server"
-alias mxt="mix test --trace"
+alias x="mix"
+alias ix="iex -S mix"
+alias xt="mix test --trace"
+alias xc="mix compile"
+alias xpn="mix phx.new"
+alias xps="mix phx.server"
+
+alias mixalias=xalias
+function xalias () (
+    echo "mix(\`x\`) ALIASES:"
+    echo "----------------"
+    echo "x\tmix"
+    echo ""
+    echo "ix\tiex -S mix"
+    echo "xt\tmix test --trace"
+    echo "xc\tmix compile"
+    echo ""
+    echo "xpn\tmix phx.new"
+    echo "xps\tmix phx.server"
+)
 
 ## django {{{2
 function djangoinit () (
