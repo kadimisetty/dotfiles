@@ -210,9 +210,10 @@ cdpath=($HOME/code)
 
 ## Mix {{{2
 alias x="mix"
-alias ix="iex -S mix"
-alias xt="mix test --trace"
 alias xc="mix compile"
+alias ix="iex -S mix"
+alias xt="mix test"
+alias xtt="mix test --trace" # run tests synchronously
 alias xpn="mix phx.new"
 alias xps="mix phx.server"
 
@@ -223,8 +224,9 @@ function xalias () (
     echo "x\tmix"
     echo ""
     echo "ix\tiex -S mix"
-    echo "xt\tmix test --trace"
     echo "xc\tmix compile"
+    echo "xt\tmix test"
+    echo "xtt\tmix test --trace # (run synchronously)"
     echo ""
     echo "xpn\tmix phx.new"
     echo "xps\tmix phx.server"
