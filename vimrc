@@ -47,7 +47,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
-Plug 'meck/vim-brittany'
 Plug 'mhinz/vim-mix-format'
 Plug 'mhinz/vim-startify'
 Plug 'mmorearty/elixir-ctags'
@@ -66,6 +65,7 @@ Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'rob-b/gutenhasktags'
 Plug 'romainl/vim-cool'
 Plug 'rust-lang/rust.vim'
+Plug 'sdiehl/vim-ormolu'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'simnalamburt/vim-mundo'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -518,19 +518,14 @@ endfunction
 
 augroup filetype_haskell
     autocmd!
-    " Requires hindent to installed globally.
-    " Chosing formatprg as hindent because Brittany is used by default anyway
-    " and with formatprg can call upon a second formatter hindent as needed
-    " autocmd FileType haskell setlocal formatprg=stylish-haskell
-    " autocmd FileType haskell setlocal formatprg=brittany
+    " Chosing formatprg as hindent to keep a secondary formatprg at hand
+    " NOTE: Requires `hindent` in `$PATH`
+    " TODO: Call via `stack` (like `ALE` does for `hlint`)
     autocmd FileType haskell setlocal formatprg=hindent
 
     " Append current word with a trailing `'`
     " TODO: Use a function to allow adding and removing trailing `'`
     autocmd FileType haskell nnoremap <silent> <localleader>'  ea'<Esc>
-
-    "Turn on the sign column as I use it a lot with linters etc.
-    autocmd FileType haskell setlocal signcolumn=yes
 
     " Insert module line on new buffers
     " i.e. for a new buffer named `Foo.hs` add the module line `module Foo where`
@@ -1383,7 +1378,6 @@ let g:ale_fixers_explicit = 1
 " let g:ale_fixers = { '*': ['trim_whitespace', 'remove_trailing_lines'] }
 let g:ale_fixers = {}
 let g:ale_fixers.nix = ['nixpkgs-fmt']
-" let g:ale_fixers.haskell = ['brittany']
 let g:ale_fixers.haskell = ['hlint']
 
 " Visuals
@@ -1772,7 +1766,6 @@ nnoremap <silent> <localleader>g :call ToggleGVCommitBrowser('GV!')<CR>
 " my muscle memory
 
 "neovimhaskell/haskell-vim {{{2
-"Indentaion might vary from brittany's preferences. Secede to brottany's.
 "Suggested changes from the README.
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
@@ -1782,15 +1775,6 @@ let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
 let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 "Docs contains indentation configuration. Add if required.
-
-"meck/vim-brittany {{{2
-"Trigger brittany when saving (default = 1)
-let g:brittany_on_save = 1
-
-augroup haskell_brittany_format
-    autocmd!
-    autocmd FileType haskell nnoremap <silent> <localleader>f :Brittany<CR>
-augroup END
 
 "christoomey/vim-titlecase {{{2
 "Operators that call Titlecase upon expected text objects
