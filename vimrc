@@ -303,9 +303,11 @@ augroup filetype_rust
     " Toggle leading `let/let mut` keywords on current line
     autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
     autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
-    " Toggle  leading `pub` keyword on current line
+    " Toggle leading `pub` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
-    " Toggle  leading `async` keyword on current line
+    " Toggle trailing `into()` on content of current line
+    autocmd FileType rust nnoremap <silent> <localleader>i  :call ToggleTrailingInto(".")<CR>
+    " Toggle leading `async` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeywordRust(".")<CR>
     " Toggle trailing question mark on current line
     autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
@@ -386,6 +388,40 @@ function ToggleTrailingQuestionMark(line_number)
             else
                 " Add trailing `?`
                 call setline(a:line_number, line_content . '?')
+            endif
+        endif
+    endif
+endfunction
+function! ToggleTrailingInto(line_number)
+    " Toggles the into keyword on last word of a non-empty line.
+    " TODO: Make more flexible i.e. remove hardocded positions.
+    " LOGIC:
+    "   line has trailing `;`?
+    "       YES: line has `.into()` before trailing `;`?
+    "               YES: remove `.into()` before trailing `;`
+    "               NO: insert `.into()` before trailing `;`
+    "       NO: line ends with `.into()`
+    "               YES: remove .into()
+    "               NO: append `.into()`
+
+    let line_content = getline(a:line_number)
+    let trimmed_line_content = trim(line_content)
+    if len(trimmed_line_content) == 0
+        " Ensure non-empty line
+        return
+    else
+        if trimmed_line_content =~# ';$'
+            if trimmed_line_content =~# 'into();$'
+                execute 'normal $d7h'
+            else
+                execute 'normal $i.into()'
+            endif
+        else
+            if trimmed_line_content =~# 'into()$'
+                execute 'normal $d6hx'
+            else
+                echomsg "into()$"
+                execute 'normal A.into()'
             endif
         endif
     endif
