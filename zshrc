@@ -525,7 +525,7 @@ eval "$(direnv hook zsh)"
 export PATH=$HOME/go/bin:$PATH
 
 # nvm {{{2
-export NVM_DIR="$HOME/.config/nvm"
+export NVM_DIR="$HOME/.nvm"
 # This loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 # This loads nvm bash_completion
