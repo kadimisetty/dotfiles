@@ -403,11 +403,11 @@ end
 
 
 # RUST/CARGO {{{1
+fish_add_path $HOME/.cargo/bin/
 function cncd --description "Does `cargo new` and `cd`s into the new dir"
     if cargo new $argv;
         cd $argv
     end
-fish_add_path $HOME/.cargo/bin/
 end
 alias c="cargo"
 alias ca="cargo add"
