@@ -17,11 +17,15 @@
 #   7. Periodically update fundle itself with `fundle self-update`.
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
+fundle plugin 'Markcial/upto'
+fundle plugin 'decors/fish-colored-man'
 fundle plugin 'edc/bass'
 fundle plugin 'oh-my-fish/plugin-bang-bang'
 fundle plugin 'oh-my-fish/plugin-gi'
+fundle plugin 'oh-my-fish/plugin-license'
 fundle plugin 'oh-my-fish/plugin-pbcopy'
 fundle plugin 'paysonwallach/fish-you-should-use'
+fundle plugin 'tuvistavie/fish-fastdir'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
