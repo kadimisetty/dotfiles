@@ -12,9 +12,10 @@
 #   2. List fish plugins as `fundle plugin ph-my-fish/plugin` in lines at top of file.
 #   3. Initiate fundle with `fundle init` after packages list.
 #   4. In a new/reloaded shell run `fundle install` and the plugins are now available.
-#   5. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
-#   6. To update all plugins, run `fundle update`.
-#   7. Periodically update fundle itself with `fundle self-update`.
+#   5. Configure and add bindings to plugins as necessary.
+#   6. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
+#   7. To update all plugins, run `fundle update`.
+#   8. Periodically update fundle itself with `fundle self-update`.
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'Markcial/upto'
@@ -26,9 +27,19 @@ fundle plugin 'oh-my-fish/plugin-license'
 fundle plugin 'oh-my-fish/plugin-pbcopy'
 fundle plugin 'paysonwallach/fish-you-should-use'
 fundle plugin 'tuvistavie/fish-fastdir'
+fundle plugin 'oh-my-fish/plugin-thefuck'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
+
+# CONFIGURE PLUGINS:
+# oh-my-fish/plugin-thefuck {{{2
+# Avoid using swear words when possible
+alias f="fuck"
+
+# paysonwallach/fish-you-should-use {{{2
+# Show message after command's own output (default: before)
+set YSU_MESSAGE_POSITION "after"
 
 
 
