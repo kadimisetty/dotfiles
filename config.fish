@@ -265,7 +265,9 @@ function _fzf_search_history --description "Search command history with `fzf`"
             # Not fullscreen but w/ this height under cursor
             --height=10 \
             # Strategy to use when scores are tied
-            --tiebreak=index |
+            --tiebreak=index \
+            # Prompt string
+            --prompt=" " |
         # Split string received on null byte
         string split0 |
         # Remove trailing newlines on string received.
