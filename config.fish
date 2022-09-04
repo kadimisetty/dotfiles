@@ -4,6 +4,31 @@
 
 
 
+
+# FISH PLUGINS {{{1
+# FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
+# DIRECITONS:
+#   1. Install [fundle itself](https://github.com/danhper/fundle).
+#   2. List fish plugins as `fundle plugin ph-my-fish/plugin` in lines at top of file.
+#   3. Initiate fundle with `fundle init` after packages list.
+#   4. In a new/reloaded shell run `fundle install` and the plugins are now available.
+#   5. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
+#   6. To update all plugins, run `fundle update`.
+#   7. Periodically update fundle itself with `fundle self-update`.
+
+# LIST PLUGINS (KEEP SORTED):
+fundle plugin edc/bass
+fundle plugin oh-my-fish/plugin-bang-bang
+fundle plugin oh-my-fish/plugin-gi
+fundle plugin oh-my-fish/plugin-pbcopy
+fundle plugin paysonwallach/fish-you-should-use
+
+# START FUNDLE (PLACE AFTER PLUGIN LIST):
+fundle init
+
+
+
+
 # NIX {{{1
 # NOTE: Place as close to top as possible to make nix pkgs available immediately.
 if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
