@@ -16,12 +16,12 @@
 #   6. To update all plugins, run `fundle update`.
 #   7. Periodically update fundle itself with `fundle self-update`.
 
-# LIST PLUGINS (KEEP SORTED):
-fundle plugin edc/bass
-fundle plugin oh-my-fish/plugin-bang-bang
-fundle plugin oh-my-fish/plugin-gi
-fundle plugin oh-my-fish/plugin-pbcopy
-fundle plugin paysonwallach/fish-you-should-use
+# LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
+fundle plugin 'edc/bass'
+fundle plugin 'oh-my-fish/plugin-bang-bang'
+fundle plugin 'oh-my-fish/plugin-gi'
+fundle plugin 'oh-my-fish/plugin-pbcopy'
+fundle plugin 'paysonwallach/fish-you-should-use'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
