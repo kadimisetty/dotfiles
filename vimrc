@@ -2182,8 +2182,14 @@ command! -nargs=? CocFold :call CocAction('fold', <f-args>)
 " use `:CocOR` for organize import of current buffer
 command! -nargs=0 CocOR   :call CocAction('runCommand', 'editor.action.organizeImport')
 
-" Load these extensions (They are activated according to filetype)
-let g:coc_global_extensions = ['coc-elixir', 'coc-snippets', 'coc-vimlsp', 'coc-json', 'coc-rust-analyzer', 'coc-go']
+" Load coc extensions (activated by filetype)
+let g:coc_global_extensions = [
+            \ 'coc-vimlsp',
+            \ 'coc-snippets',
+            \ 'coc-json',
+            \ 'coc-elixir',
+            \ 'coc-rust-analyzer'
+            \ ]
 
 " Coc recommends faster update time to show diagnostic messages (default is 4000ms)
 set updatetime=300
