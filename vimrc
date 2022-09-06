@@ -309,6 +309,8 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>i  :call ToggleTrailingInto(".")<CR>
     " Toggle leading `async` keyword on current line
     autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeywordRust(".")<CR>
+    " Toggle trailing `await` on content of current line
+    autocmd FileType rust nnoremap <silent> <localleader>A  :call ToggleTrailingAwaitKeyword(".")<CR>
     " Toggle trailing question mark on current line
     autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
     " Toggle wrapping `Ok()` and `Err()` on current line
@@ -318,6 +320,49 @@ augroup filetype_rust
     autocmd FileType rust nnoremap <silent> <localleader>_  :call ToggleLeadingUnderscoreOnWordUnderCursor()<CR>
 augroup end
 
+function! ToggleTrailingAwaitKeyword(line_number)
+    " Toggles trailing `await` keyword on line of provided line number
+
+    let trimmed_line_content = getline(a:line_number)->trim()
+
+    " Ensure trimmed line is not empty
+    if strchars(trimmed_line_content) > 0
+
+        " TRAILING `?;`
+        if trimmed_line_content =~# '?;$'
+            " TRAILING `.await` BEHIND `?;`?
+            if trimmed_line_content =~# '.await?;$'
+                " YES: Remove trailing `.await`
+                execute "normal mm$hd6h`m"
+            else
+                " NO: Insert `.await` behind trailing `?;`
+                execute "normal mm$hi.await\e`m"
+            endif
+
+        " TRAILING `;`
+        elseif trimmed_line_content =~# ';$'
+            " TRAILING `.await` BEHIND `;`?
+            if trimmed_line_content =~# '.await;$'
+                " YES: Remove trailing `.await`
+                execute "normal mm$d6h`m"
+            else
+                " NO: Insert `.await` behind trailing `;`
+                execute "normal mm$i.await\e`m"
+            endif
+
+        " NO TRAILING `?;` OR `;`
+        else
+            " TRAILING `.await`?
+            if trimmed_line_content =~# '.await$'
+                " YES: Remove trailing `.await`
+                execute "normal mm$d5hx`m"
+            else
+                " NO: Insert trailing `.await`
+                execute "normal mmA.await\e`m"
+            endif
+        endif
+    endif
+endfunction
 function! ToggleLeadingUnderscoreOnWordUnderCursor()
     " Toggles `_` on word under cursor
     "
