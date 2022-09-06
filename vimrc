@@ -314,8 +314,33 @@ augroup filetype_rust
     " Toggle wrapping `Ok()` and `Err()` on current line
     autocmd FileType rust nnoremap <silent> <localleader>o  :call ToggleWrappingTagOnCurrentLine("Ok")<CR>
     autocmd FileType rust nnoremap <silent> <localleader>e  :call ToggleWrappingTagOnCurrentLine("Err")<CR>
+    " Toggle leading `_` on current word
+    autocmd FileType rust nnoremap <silent> <localleader>_  :call ToggleLeadingUnderscoreOnWordUnderCursor()<CR>
 augroup end
 
+function! ToggleLeadingUnderscoreOnWordUnderCursor()
+    " Toggles `_` on word under cursor
+    "
+    " NOTE: Uses `wb` to jump to first letter of word.
+    " TODO:
+    "   Fix bug where while `wb` always lands cursor at beginning of word,
+    "   it has a catch where it can't work if cursor is on last letter of last
+    "   word in file (and thereby also single letter words at end of file).
+
+    " Get current word
+    let word_under_cursor = expand("<cword>")
+
+    " Act only if cursor is on top of a word that is at least 1 letter long
+    if len(word_under_cursor) > 0
+        if word_under_cursor =~# "^_"
+            " Remove leading underscore on word under cursor
+            execute 'normal mmwb"_x`mh'
+        else
+            " Insert leading underscore on word under cursor
+            execute "normal mmwbi_\e`ml"
+        endif
+    endif
+endfunction
 function! ToggleWrappingTagOnCurrentLine(tag)
     " Toggles wrapping line content with supplied tag e.g. `Ok()` or `Err()`
 
