@@ -69,8 +69,10 @@ alias ns='nix-shell'
 set fish_greeting ""
 # THEME:
 fish_config theme choose Dracula
-# RELOAD `config.fish` WITH `rf`:
-abbr --add --global rf 'source ~/.config/fish/config.fish'
+# RELOAD `config.fish` SHORTCUT:
+function rf --description "Reload fish configuration"
+    source "$__fish_config_dir/config.fish"
+end
 # DEFAULT EDITOR:
 set --export EDITOR vim
 set --export VISUAL vim
@@ -80,11 +82,15 @@ fish_vi_key_bindings
 set fish_cursor_default block   # `default` includes normal and visual modes
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
-# PUT PERSONAL EXECUTABLES ON PATH (Create `~/bin/` if not present):
-mkdir -p $HOME/bin
+# PUT PERSONAL EXECUTABLES ON PATH (Create dir if not present):
+if ! test -e "$HOME/bin"
+    mkdir $HOME/bin
+end
 fish_add_path $HOME/bin/
-# PUT COMMONLY USED BIN PATH ON PATH (used by `stack` etc.):
-mkdir -p $HOME/.local/bin
+# PUT COMMONLY USED BIN PATH ON PATH (used by `stack` etc. Create dir if not present.):
+if ! test -e "$HOME/.local/bin"
+    mkdir $HOME/.local/bin
+end
 fish_add_path $HOME/.local/bin
 
 
@@ -118,7 +124,7 @@ function fish_mode_prompt
         case default
             echo -s                                                 \
             (set_color yellow)                              " "    \
-            (set_color --background yellow black --bold)    "N"     \
+            (set_color --background yellow black --bold)    "n"     \
             (set_color yellow --background normal)          " "
         case replace_one
             echo -s                                                 \
@@ -381,14 +387,21 @@ alias mxps="mix phx.server"
 function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failure if not in python virtual environment"
     if ! test -n "$VIRTUAL_ENV"
         set_color $fish_color_error
-        echo "ERROR: Not in virtual env" >&2
+        echo "ERROR: Not in active python virtual environment." >&2
         set_color $fish_color_normal
         and false # return with failure code
     end
 end
 # MANAGE.PY ALIASES:
 function activate  --description "activate python virtual environment in `./venv`"
-    source ./venv/bin/activate.fish
+    if test -e "./venv/bin/activate.fish"
+        source ./venv/bin/activate.fish
+    else
+        set_color $fish_color_error
+        echo -e "ERROR:\tCouldn't activate python virtual environment." >&2
+        echo -e "\tFile `./venv/bin/activate.fish` not found."          >&2
+        set_color $fish_color_normal
+    end
 end
 function mp     --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
