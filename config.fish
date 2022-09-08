@@ -149,7 +149,7 @@ function fish_prompt --description "Left prompt"
     set --local _previous_command_status $status
 
     # If not sudo calculate prompt symbol based on success/failure.
-    if test $_previous_command_status = 0
+    if test $_previous_command_status -eq 0
         # `$status` is SUCESS i.e. 0
         set _prompt_symbol ""
     else
@@ -159,7 +159,7 @@ function fish_prompt --description "Left prompt"
     # Override prompt if root
     fish_is_root_user; and set _prompt_symbol '#'
 
-    if test $_previous_command_status = 0
+    if test $_previous_command_status -eq 0
         # `$status` is SUCESS i.e. 0
         # (set_color $fish_color_operator) $_prompt_symbol   \
         echo -s                                                 \
@@ -178,7 +178,7 @@ end
 function fish_right_prompt --description "Right prompt"
     # When previous command fails show the error code
     set --local _previous_command_status $status
-    if test $_previous_command_status != 0
+    if test $_previous_command_status -ne 0
         echo -s (set_color brblack) "E" $_previous_command_status
     end
 
