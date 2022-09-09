@@ -123,7 +123,7 @@ function fish_mode_prompt
 
     switch $fish_bind_mode
         case insert
-            echo (set_color brblack --bold --dim)		    "🅸  "
+            echo (set_color brblack --bold --dim)		    "🄸  "
         case default
             echo (set_color brblue --bold)					"🅽  "
         case replace_one
@@ -176,7 +176,7 @@ function fish_right_prompt --description "Right prompt"
 
     if test $_previous_command_status -ne 0
         set_color brblack --bold --dim
-        echo "🅴" $_previous_command_status
+        echo "🅔" $_previous_command_status
         set_color $fish_color_normal
     end
 
