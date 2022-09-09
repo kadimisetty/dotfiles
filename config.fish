@@ -185,7 +185,9 @@ function fish_right_prompt --description "Right prompt"
     # When previous command fails show the error code
     set --local _previous_command_status $status
     if test $_previous_command_status -ne 0
-        echo -s (set_color brblack) "E" $_previous_command_status
+        set_color brblack --bold
+        echo "🅴" $_previous_command_status
+        set_color $fish_color_normal
     end
 
     # Always show git prompt
