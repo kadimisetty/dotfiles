@@ -117,35 +117,24 @@ alias dotfiles="cd $HOME/code/personal/dotfiles/"
 # PROMPT {{{1
 # VIM MODE PROMPT:
 function fish_mode_prompt
+		# NOTE: 
+		#		This function uses specific unicode symbols. Intended display font is Jetpack Mono.
+		#		[Enclosed Alphanumeric Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
+
     switch $fish_bind_mode
         case insert
-            echo -s                                                 \
-            (set_color --bold brblack --dim)                "  I  "
+            echo (set_color brblack --bold --dim)		    "🅸  "
         case default
-            echo -s                                                 \
-            (set_color yellow)                              " "    \
-            (set_color --background yellow black --bold)    "n"     \
-            (set_color yellow --background normal)          " "
+            echo (set_color brblue --bold)					"🅽  "
         case replace_one
-            echo -s                                                 \
-            (set_color brgreen)                             " "    \
-            (set_color --background brgreen black --bold)   "r"     \
-            (set_color brgreen --background normal)         " "
+            echo (set_color magenta --bold)					"🆁  "
         case replace
-            echo -s                                                 \
-            (set_color brgreen)                             " "    \
-            (set_color --background brgreen black --bold)   "R"     \
-            (set_color brgreen --background normal)         " "
+            echo (set_color brmagenta --bold)				"🆁  "
         case visual
-            echo -s                                                 \
-            (set_color brmagenta)                           " "    \
-            (set_color --background brmagenta black --bold) "v"     \
-            (set_color brmagenta --background normal)       " "
+            echo (set_color bryellow --bold)				"🆅  "
         case "*"
-            echo -s                                                 \
-            (set_color brred)                               " "    \
-            (set_color --background brred black --bold)     "?"     \
-            (set_color brred --background normal)           " "
+						# TODO: Look into this mode.
+            echo (set_color brred --bold)						"? "
     end
     set_color normal
 end
