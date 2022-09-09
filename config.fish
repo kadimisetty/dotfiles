@@ -173,8 +173,9 @@ end
 function fish_right_prompt --description "Right prompt"
     # When previous command fails show the error code
     set --local _previous_command_status $status
+
     if test $_previous_command_status -ne 0
-        set_color brblack --bold
+        set_color brblack --bold --dim
         echo "🅴" $_previous_command_status
         set_color $fish_color_normal
     end
