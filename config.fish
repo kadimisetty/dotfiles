@@ -413,11 +413,11 @@ function mpcsu  --description "./manage.py createsuperuser"
 end
 function mpm    --description "./manage.py migrate"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py migrate
+    and ./manage.py migrate $argv
 end
 function mpmm   --description "./manage.py makemigrations"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py makemigrations
+    and ./manage.py makemigrations $argv
 end
 function mps    --description "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
@@ -425,11 +425,11 @@ function mps    --description "./manage.py shell"
 end
 function mpsa   --description "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py startapp
+    and ./manage.py startapp $argv
 end
 function mpt    --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py test
+    and ./manage.py test $argv
 end
 function mpts   --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
@@ -438,7 +438,7 @@ end
 # [django-extension](https://github.com/django-extensions/django-extensions):
 function mpsu   --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py show_urls
+    and ./manage.py show_urls $argv
 end
 function mpvt   --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
