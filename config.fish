@@ -397,7 +397,7 @@ function activate  --description "activate python virtual environment in `./venv
 end
 function mp     --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py
+    and ./manage.py $argv
 end
 function mprs   --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
