@@ -375,6 +375,13 @@ alias mxps="mix phx.server"
 
 
 
+# FLY {{{1
+set --export FLYCTL_INSTALL "$HOME/.fly"
+fish_add_path $FLYCTL_INSTALL/bin/
+
+
+
+
 # DJANGO {{{1
 function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failure if not in python virtual environment"
     if ! test -n "$VIRTUAL_ENV"
