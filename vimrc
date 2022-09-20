@@ -636,7 +636,7 @@ augroup filetype_haskell
     " Insert module line on new buffers
     " i.e. for a new buffer named `Foo.hs` add the module line `module Foo where`
     autocmd BufNewFile *.hs :execute
-                \ "normal! Imodule " . expand("%:r") . " where\<cr>\<cr>\<esc>"
+                \ "normal! Imodule " . expand("%:t:r") . " where\<cr>\<cr>\<esc>"
 augroup end
 
 augroup haskell_stack_helper
