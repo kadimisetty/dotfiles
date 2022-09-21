@@ -2111,7 +2111,8 @@ nmap <silent> l. <plug>(coc-command-repeat)
 vmap <silent> l. <plug>(coc-command-repeat)
 "`s` mnemonic for `sort import`. TODO: Make this use a plug.
 nmap <silent> ls :<c-u>call CocAction('organizeImport')<CR>
-
+" search workspace symbols (use space like rest of my search mappings)
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " codeactions on current line
 nmap <silent> la <Plug>(coc-codeaction-line)
 vmap <silent> la <Plug>(coc-codeaction-selected)
