@@ -392,6 +392,7 @@ function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failur
     end
 end
 # MANAGE.PY ALIASES:
+# TODO: Print all `manage.py` aliases with a cmd such as `malias`
 function activate  --description "activate python virtual environment in `./venv`"
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
@@ -402,60 +403,60 @@ function activate  --description "activate python virtual environment in `./venv
         set_color $fish_color_normal
     end
 end
-function mp     --description "./manage.py"
+function m      --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py $argv
 end
-function mprs   --description "./manage.py runserver"
+function mrs    --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver
 end
-function mpcs   --description "./manage.py collectstatic"
+function mcs    --description "./manage.py collectstatic"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py collectstatic
 end
-function mpcsu  --description "./manage.py createsuperuser"
+function mcsu   --description "./manage.py createsuperuser"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py createsuperuser
 end
-function mpm    --description "./manage.py migrate"
+function mm     --description "./manage.py migrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py migrate $argv
 end
-function mpmm   --description "./manage.py makemigrations"
+function mmm    --description "./manage.py makemigrations"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py makemigrations $argv
 end
-function mps    --description "./manage.py shell"
+function ms     --description "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell
 end
-function mpsa   --description "./manage.py startapp"
+function msa    --description "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py startapp $argv
 end
-function mpt    --description "./manage.py test"
+function mt     --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py test $argv
 end
-function mpts   --description "./manage.py testserver"
+function mts    --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py testserver
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
-function mpsu   --description "./manage.py show_urls"
+function msu    --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py show_urls $argv
 end
-function mpvt   --description "./manage.py validate_templates"
+function mvt    --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py validate_templates
 end
-function mpsp   --description "./manage.py shell_plus"
+function msp    --description "./manage.py shell_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell_plus
 end
-function mprsp  --description "./manage.py runserver_plus"
+function mrsp   --description "./manage.py runserver_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver_plus
 end
