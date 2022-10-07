@@ -564,6 +564,8 @@ fish_add_path $HOME/.luarocks/bin/
 set --export luarocks "luarocks --local"
 
 
-
+# MISC {{{1
+alias grepi="grep -i"
+alias rgi="rg -i"
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
