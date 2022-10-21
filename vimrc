@@ -778,7 +778,8 @@ set ch=2                "Command line height(1 is default)
 set nolazyredraw        "Redraw screen while executing macros, registers, untyped commands etc.
 set showmatch           "When cursor is on bracket, briefly jump to coupled bracket
 set mat=5               "Spend this much time switching the cursor to the coupled bracket
-set visualbell          "Show a visual indication instead of ringing an annoying bell.
+set novisualbell        "Don't show visual bell (enabled when audio bell is turned off)
+set belloff=all         "Stop all error bellsof
 set formatoptions+=n    "Support lists (numbered, bulleted)
 set virtualedit=block   "Allow cursor to go to invalid places only in visually selected blocks
 set wildmode=full       "Tab-Completion ala zsh
