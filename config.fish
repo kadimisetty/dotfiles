@@ -435,6 +435,10 @@ function msa    --description "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py startapp $argv
 end
+function msm    --description "./manage.py sqlmigrate"
+    _exit_if_not_in_active_python_virtual_env
+    and ./manage.py sqlmigrate $argv
+end
 function mt     --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py test $argv
