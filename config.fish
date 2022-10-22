@@ -569,7 +569,26 @@ set --export luarocks "luarocks --local"
 
 
 # MISC {{{1
+# GREP & RG {{{2
 alias grepi="grep -i"
 alias rgi="rg -i"
+
+# WC {{{2
+alias wcw="wc --words"
+alias wcl="wc --lines"
+# NOTE:
+#   Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
+#   I still want to use `wcc` for `--chars` and `wcb` for `--bytes` in the alias for
+#   mnemonic sake.
+alias wcc="wc --chars"
+alias wcb="wc --bytes"
+
+# CURL {{{2
+alias curls="curl --silent"
+
+# SQLITE-UTILS {{{2
+alias sqm="sqlite-utils memory"
+alias sqmt="sqlite-utils memory --table"
+
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
