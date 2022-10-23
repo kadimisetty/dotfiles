@@ -1664,6 +1664,10 @@ augroup rust_pairs
     " But have to explicitly include them all instead; for now just doing `{}` & `()`:
     autocmd Filetype rust  let b:AutoPairs = {"|": "|", "<": ">", "{": "}", "(": ")", "[": "]", '"': '"', "'": "'"}
 augroup END
+augroup python_template_tag_pairs
+    autocmd!
+    autocmd Filetype python let b:AutoPairs = extend(g:AutoPairs, {"__": "__"})
+augroup end
 augroup django_template_tag_pairs
     autocmd!
     autocmd Filetype htmldjango let b:AutoPairs = {"{%": "%}", "{{": "}}"}
