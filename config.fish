@@ -585,10 +585,12 @@ alias wcb="wc --bytes"
 
 # CURL {{{2
 alias curls="curl --silent"
+alias curlO="curl --remote-name" # `-O` is short of `--remote-name`
 
 # SQLITE-UTILS {{{2
 alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
+alias sqms="sqlite-utils memory --schema"
 
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
