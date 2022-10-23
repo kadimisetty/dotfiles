@@ -1658,23 +1658,18 @@ let g:AutoPairsShortcutToggle = 'yoa'
 
 augroup rust_pairs
     autocmd!
-    " TODO:
-    " Investigate why `{}` & `()` aren't being included in g:AutoPairs. Should be:
-    "   autocmd Filetype rust  let b:AutoPairs = {'|': '|', '<': '>'}
-    " But have to explicitly include them all instead; for now just doing `{}` & `()`:
-    autocmd Filetype rust  let b:AutoPairs = {"|": "|", "<": ">", "{": "}", "(": ")", "[": "]", '"': '"', "'": "'"}
+    autocmd Filetype rust  let b:AutoPairs = extend(g:AutoPairs, {"|": "|", "<": ">"})
 augroup END
-augroup python_template_tag_pairs
+augroup python_pairs
     autocmd!
     autocmd Filetype python let b:AutoPairs = extend(g:AutoPairs, {"__": "__"})
 augroup end
 augroup django_template_tag_pairs
     autocmd!
-    autocmd Filetype htmldjango let b:AutoPairs = {"{%": "%}", "{{": "}}"}
+    autocmd Filetype htmldjango let b:AutoPairs = extend(g:AutoPairs, {"{%": "%}", "{{": "}}"})
 augroup end
-augroup eelixir_template_tag_pairs
-    autocmd Filetype heex let b:AutoPairs = {"<%": "%>","<%=": "%>"}
-    autocmd Filetype eex let b:AutoPairs = {"<%": "%>","<%=": "%>"}
+augroup elixir_template_tag_pairs
+    autocmd Filetype heex, eex let b:AutoPairs = extend(g:AutoPairs, {"<%": "%>","<%=": "%>"})
 augroup END
 
 "junegunn/rainbow_parentheses.vim {{{2
