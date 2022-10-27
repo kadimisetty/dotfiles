@@ -1658,7 +1658,9 @@ let g:AutoPairsShortcutToggle = 'yoa'
 
 augroup rust_pairs
     autocmd!
-    autocmd Filetype rust  let b:AutoPairs = extend(g:AutoPairs, {"|": "|", "<": ">"})
+    autocmd Filetype rust  let b:AutoPairs =
+                \ extendnew(g:AutoPairs, {"|": "|", "<": ">"})
+                \ ->filter({_idx, val -> val != "'"})
 augroup END
 augroup python_pairs
     autocmd!
