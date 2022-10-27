@@ -1664,14 +1664,17 @@ augroup rust_pairs
 augroup END
 augroup python_pairs
     autocmd!
-    autocmd Filetype python let b:AutoPairs = extend(g:AutoPairs, {"__": "__"})
+    autocmd Filetype python let b:AutoPairs =
+                \ extendnew(g:AutoPairs, {"__": "__"})
 augroup end
 augroup django_template_tag_pairs
     autocmd!
-    autocmd Filetype htmldjango let b:AutoPairs = extend(g:AutoPairs, {"{%": "%}", "{{": "}}"})
+    autocmd Filetype htmldjango let b:AutoPairs =
+                \ extendnew(g:AutoPairs, {"{%": "%}", "{{": "}}"})
 augroup end
 augroup elixir_template_tag_pairs
-    autocmd Filetype heex, eex let b:AutoPairs = extend(g:AutoPairs, {"<%": "%>","<%=": "%>"})
+    autocmd Filetype heex,eex let b:AutoPairs =
+                \ extendnew(g:AutoPairs, {"<%": "%>","<%=": "%>"})
 augroup END
 
 "junegunn/rainbow_parentheses.vim {{{2
