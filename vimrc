@@ -2153,6 +2153,10 @@ nnoremap <silent> ]ol :<c-u>CocDisable<CR>
 nnoremap <silent> [ol :<c-u>CocEnable<CR>
 nnoremap <silent> yol :call CocAction('diagnosticToggle')<CR>
 
+" Toggle `inlay hints` (implemented via virtual text in vim9)
+" NOTE: Enable/disable actions aren't available in coc-nvim yet.
+nnoremap <silent> yoh :CocCommand document.toggleInlayHint<CR>
+
 " Show Documentation
 nnoremap <silent> lk :call <SID>coc_show_documentation()<CR>
 function! s:coc_show_documentation()
