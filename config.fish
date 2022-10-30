@@ -592,5 +592,8 @@ alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
 alias sqms="sqlite-utils memory --schema"
 
+# FISH
+alias fp="fish --private"
+
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
