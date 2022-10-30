@@ -498,9 +498,24 @@ alias cwq="cargo watch --quiet"
 # HASKELL/STACK/CABAL {{{1
 # TODO: Automatically add relevant stack/ghci compiler tool location.
 #       e.g. `export PATH=$HOME/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH`
+
 function stncd --description "Does `stack new` and `cd`s into the new dir"
-    if stack new $argv;
-        cd $argv
+    # TODO:
+    #   1. Use a descriptive name for function arguments
+    #   2. Make template customizable and with a default
+    #   3. Check for number of function arguments
+
+    # Exit if path with that name exists in current dir
+    if test -e $argv
+        set_color $fish_color_error
+        echo "ERROR: Path with given name exists." >&2
+        set_color $fish_color_normal
+        and false # return with failure code
+    else
+        # Run `stack new` using the `kadimisetty/basic` stack template
+        stack new $argv kadimisetty/basic;
+        # `cd` into the newly created directory
+        and cd $argv
     end
 end
 alias stb="stack build"
@@ -591,6 +606,9 @@ alias curlO="curl --remote-name" # `-O` is short of `--remote-name`
 alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
 alias sqms="sqlite-utils memory --schema"
+
+# FISH
+alias fp="fish --private"
 
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
