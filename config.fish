@@ -499,7 +499,7 @@ alias cwq="cargo watch --quiet"
 # TODO: Automatically add relevant stack/ghci compiler tool location.
 #       e.g. `export PATH=$HOME/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH`
 
-function stncd --description "Does `stack new` and `cd`s into the new dir"
+function sncd --description "Does `stack new` and `cd`s into the new dir"
     # TODO:
     #   1. Use a descriptive name for function arguments
     #   2. Make template customizable and with a default
@@ -518,14 +518,14 @@ function stncd --description "Does `stack new` and `cd`s into the new dir"
         and cd $argv
     end
 end
-alias stb="stack build"
-alias stbf="stack build --fast"
-alias stc="stack clean"
-alias ste="stack exec"
-alias stg="stack ghci"
-alias stn="stack new"
-alias str="stack run"
-alias stt='stack test'
+alias sb="stack build"
+alias sbf="stack build --fast"
+alias sc="stack clean"
+alias se="stack exec"
+alias sg="stack ghci"
+alias sn="stack new"
+alias sr="stack run"
+alias st='stack test'
 
 
 
