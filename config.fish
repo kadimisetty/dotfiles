@@ -176,7 +176,7 @@ function fish_right_prompt --description "Right prompt"
 
     if test $_previous_command_status -ne 0
         set_color brblack --bold --dim
-        echo "🅔" $_previous_command_status
+        echo "🅔" (fish_status_to_signal $_previous_command_status)
         set_color $fish_color_normal
     end
 
