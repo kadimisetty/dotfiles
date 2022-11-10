@@ -64,15 +64,11 @@ alias ns='nix-shell'
 
 
 
-# COMMON PREFERENCES {{{1
+# COMMON FISH SPECIFIC PREFERENCES {{{1
 # DISABLE WELCOME GREETING:
 set fish_greeting ""
 # THEME:
 fish_config theme choose Dracula
-# RELOAD `config.fish` SHORTCUT:
-function rf --description "Reload fish configuration"
-    source "$__fish_config_dir/config.fish"
-end
 # DEFAULT EDITOR:
 set --export EDITOR vim
 set --export VISUAL vim
@@ -96,7 +92,7 @@ fish_add_path $HOME/.local/bin
 
 
 
-# COMMON ALIASES {{{1
+# COMMON SHELL SPECIFIC ALIASES {{{1
 alias l="ls --almost-all"
 alias rmi="rm -i"
 function mcd  --description "`mkdir` and `cd` into new directory"
@@ -607,8 +603,13 @@ alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
 alias sqms="sqlite-utils memory --schema"
 
-# FISH
+# FISH ALIASES {{{2
+# OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED
 alias fp="fish --private"
+# RELOAD CONFIG
+function fr --description "Reload fish configuration"
+    source "$__fish_config_dir/config.fish"
+end
 
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
