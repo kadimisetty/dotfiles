@@ -193,7 +193,7 @@ set __fish_git_prompt_color_bare "blue"
 set __fish_git_prompt_color_prefix "black"
 set __fish_git_prompt_color_suffix "black"
 # GIT PROMPT CLEAN STATE:
-set __fish_git_prompt_char_cleanstate "●"
+set __fish_git_prompt_char_cleanstate ""
 set __fish_git_prompt_color_cleanstate "brblack"
 # GIT PROMPT DIRTY STATE (UNSTAGED FILES) WITH CHANGES EXIST:
 set __fish_git_prompt_showdirtystate
