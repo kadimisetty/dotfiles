@@ -490,11 +490,12 @@ alias cwq="cargo watch --quiet"
 
 
 
-
-# HASKELL/STACK/CABAL {{{1
-# TODO: Automatically add relevant stack/ghci compiler tool location.
-#       e.g. `export PATH=$HOME/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH`
-
+# HASKELL {{{1
+# GHCUP {{{2
+if test -e "$HOME/.ghcup/env"
+  bass source "$HOME/.ghcup/env"
+end
+# STACK {{{2
 function sncd --description "Does `stack new` and `cd`s into the new dir"
     # TODO:
     #   1. Use a descriptive name for function arguments

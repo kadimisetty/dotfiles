@@ -484,6 +484,9 @@ export PATH=$HOME/.local/bin:$PATH
 # TODO: Walk bins from all compiler version dirs in `compiler-tools`
 export PATH=$HOME/.stack/compiler-tools/x86_64-osx/ghc-8.8.3/bin:$PATH
 
+# Haskell ghcup {{{2
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
 # Rust Cargo {{{2
 export PATH=$HOME/.cargo/bin:$PATH
 
