@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 "Active Plugins {{{2
 " NOTE: Keep this list sorted
 
-" Plug 'rstacruz/vim-closer'
 Plug 'LnL7/vim-nix'
 Plug 'Zaptic/elm-vim'
 Plug 'airblade/vim-gitgutter'
@@ -85,6 +84,7 @@ Plug 'tweekmonster/django-plus.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
 Plug 'wfxr/minimap.vim' "Requires `code-minimap` available via cargo, nix etc.
+Plug 'wsdjeg/vim-fetch'
 
 
 
