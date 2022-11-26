@@ -105,6 +105,7 @@ set CDPATH $HOME/code/
 alias sandbox="cd ~/code/sandbox"
 alias playground="cd ~/code/playground/"
 alias personal="cd ~/code/personal"
+alias external="cd $HOME/code/external/"
 alias dotfiles="cd $HOME/code/personal/dotfiles/"
 
 
