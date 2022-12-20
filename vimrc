@@ -81,6 +81,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tweekmonster/django-plus.vim'
+Plug 'vale1410/vim-minizinc'
 Plug 'vim-airline/vim-airline'
 Plug 'vmchale/dhall-vim'
 Plug 'wfxr/minimap.vim' "Requires `code-minimap` available via cargo, nix etc.
