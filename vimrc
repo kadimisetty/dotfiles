@@ -1845,6 +1845,10 @@ let g:tagbar_type_elm = {
 " Specify directory to create the tag files. instead of storing at project root
 " TODO: Clean this cache directory occasionally it can get very large over time.
 let g:gutentags_cache_dir = '~/.tags_cache'
+let g:gutentags_project_info = [{'type': 'haskell', 'glob': '*.cabal'} ]
+" Using `rob-b/gutenhasktags`:
+" NOTE: See my private clone at: `kadimisetty/gutenhasktags`.
+let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 "Neomake {{{2
 augroup neomake
@@ -1987,9 +1991,6 @@ let g:elm_format_autosave = 1
 " Display format errors
 let g:elm_format_fail_silently = 1
 
-" rob-b/gutenhasktags {{{2
-let g:gutentags_project_info = [{'type': 'haskell', 'file': 'Setup.hs'} ]
-let g:gutentags_ctags_executable_haskell = 'gutenhasktags'
 
 " janko/vim-test {{{2
 nnoremap <silent> <leader>t      :<c-u>TestSuite<CR>
