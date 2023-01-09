@@ -2136,12 +2136,11 @@ else
 endif
 endfunction
 
-" Format selected range (visual and normal)
-" NOTE: In normal mode, the selection works on the motion object e.g.`gfip`
+" Format visual selection
 vmap lf  <Plug>(coc-format-selected)
-nmap lf  <Plug>(coc-format-selected)
-" Run format action on entire buffer
-nmap lF  <Plug>(coc-format)
+" Format entire buffer
+nmap lf  <Plug>(coc-format)
+" TODO: Make `coc-format` action work on motions for e.g. `gfip`
 
 " Run `:CocFix` and choose fix
 nnoremap <silent> lx :<c-u>CocFix<cr>
