@@ -867,21 +867,28 @@ set shiftround              "Round indent to multiple of 'shiftwidth'
 set tabstop=4               "A tab counts for these many spaces
 set backspace=2             "Make backspace behave more like the popular usage
 
-"Remove trailing whitespaces and ^M characters {{{3
+"Whitespace {{{3
 "TODO - More filetypes
 "TODO - Move into a plugin to support prefs eg. `confirmations` or `conditions`
 augroup whitespace_preferences
     autocmd!
     filetype on
-    " make and yaml files are particular about whitespace syntax
-    autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-    " Customisations based on preferences
-    autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-    autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
-    autocmd FileType haskell setlocal ts=2 sts=2 sw=2 expandtab
+
+    " NOTE:
+    "   `softtabstop` set to 0 disables it.
+    "   `shiftwidth` set to 0 makes it use `tabstop` value.
+
+    autocmd FileType make setlocal tabstop=4 softtabstop=0 shiftwidth=0 noexpandtab
+    autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=0 expandtab
+
+    autocmd FileType html,css,javascript,haskell
+                \ setlocal
+                \ tabstop=2
+                \ softtabstop=2
+                \ shiftwidth=2
+                \ expandtab
 augroup end
+
 " Disable my whitespace_trailing map/func (removes in entire buffer on save) in favor of
 " the plugin 'axelf4/vim-strip-trailing-whitespace' that only removes
 " white space on changed lines in buffer. To remove trailing whitespace in
