@@ -874,7 +874,7 @@ augroup whitespace_preferences
     autocmd!
     filetype on
     " make and yaml files are particular about whitespace syntax
-    autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+    autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
     " Customisations based on preferences
     autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
