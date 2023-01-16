@@ -1450,6 +1450,12 @@ nnoremap <silent> ]= :<c-u>call DrawHeadingLineWithCharacter('=', 'below')<CR>
 
 
 "PLUGINS PREFERENCES {{{1
+"tpope/vim-surround {{{2
+"NOTE: There was a change made to use `S` in stead of `s` in visual mode, to
+"not interfere with muscle memory but I don't use `v_s`, so going to to just
+"`s` with `vim-surround` as I prefer that more than `v_s`.
+vmap s S
+
 "gruvbox {{{2
 "Enable gruvbox colorscheme
 colorscheme gruvbox
