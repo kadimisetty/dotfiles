@@ -2,13 +2,14 @@
 
 **Alphabetical Index**
 
-| filename                  | program                                                   | local destination                                         |
+| Filename                  | Program/Script                                            | Local Destination                                         |
 | ---                       | ---                                                       | ---                                                       |
 | `./abolish.vim`           | [abolish.vim](https://github.com/tpope/vim-abolish)       | `vim:help abolish`                                        |
 | `./alacritty.yml`         | [alacritty](https://github.com/alacritty/alacritty)       | `$XDG_CONFIG_HOME`                                        |
 | `./bat.config`            | [bat](https://github.com/sharkdp/bat)                     | `bat --config-file`                                       |
 | `./coc-settings.json`     | [coc.nvim](https://github.com/neoclide/coc.nvim)          | `vim:CocConfig`                                           |
 | `./config.fish`           | [fish](https://fishshell.com)                             | `$XDG_CONFIG_HOME/fish/config.fish`                       |
+| `./djangoinit.fish`       | [django](https://www.djangoproject.com)                   | `$HOME/bin/djangoinit.fish`                               |
 | `./elmtags.py`            | [elm](https://elm-lang.org)                               | `$HOME`                                                   |
 | `./fresh-new-vimrc.vim`   | vim                                                       | `$HOME`                                                   |
 | `./ghci`                  | [haskell ghci]()                                          | `$HOME`                                                   |
