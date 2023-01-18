@@ -9,13 +9,14 @@
 # FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
 # DIRECITONS:
 #   1. Install [fundle itself](https://github.com/danhper/fundle).
-#   2. List fish plugins as `fundle plugin ph-my-fish/plugin` in lines at top of file.
-#   3. Initiate fundle with `fundle init` after packages list.
-#   4. In a new/reloaded shell run `fundle install` and the plugins are now available.
-#   5. Configure and add bindings to plugins as necessary.
-#   6. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
-#   7. To update all plugins, run `fundle update`.
-#   8. Periodically update fundle itself with `fundle self-update`.
+#   2. Install [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish#installation).
+#   3. List fish plugins`fundle plugin ph-my-fish/plugin` in lines at top of file.
+#   4. Initiate fundle with `fundle init` after packages list.
+#   5. In a new/reloaded shell run `fundle install` and the plugins are now available.
+#   6. Configure and add bindings to plugins as necessary.
+#   7. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
+#   8. To update all plugins, run `fundle update`.
+#   9. Periodically update fundle itself with `fundle self-update`.
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'Markcial/upto'
