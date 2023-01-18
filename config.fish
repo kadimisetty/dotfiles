@@ -27,16 +27,11 @@ fundle plugin 'oh-my-fish/plugin-license'
 fundle plugin 'oh-my-fish/plugin-pbcopy'
 fundle plugin 'paysonwallach/fish-you-should-use'
 fundle plugin 'tuvistavie/fish-fastdir'
-fundle plugin 'oh-my-fish/plugin-thefuck'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
 
 # CONFIGURE PLUGINS:
-# oh-my-fish/plugin-thefuck {{{2
-# Avoid using swear words when possible
-alias f="fuck"
-
 # paysonwallach/fish-you-should-use {{{2
 # Show message after command's own output (default: before)
 set YSU_MESSAGE_POSITION "after"
