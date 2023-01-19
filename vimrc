@@ -715,6 +715,14 @@ augroup haskell_stack_helper_package_yaml
                 \ })<CR>
 augroup END
 
+augroup filetype_elm
+    " Insert module line on new buffers  i.e. for a new buffer named `Foo.elm`
+    " add the module line at the top:
+    "   `module Foo exposing (..)`
+    autocmd BufNewFile *.elm :execute
+                \ "normal! Imodule " . expand("%:t:r") . " exposing (..)\<cr>\<cr>\<esc>"
+augroup end
+
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
