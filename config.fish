@@ -26,17 +26,13 @@ fundle plugin 'oh-my-fish/plugin-bang-bang'
 fundle plugin 'oh-my-fish/plugin-gi'
 fundle plugin 'oh-my-fish/plugin-license'
 fundle plugin 'oh-my-fish/plugin-pbcopy'
-fundle plugin 'paysonwallach/fish-you-should-use'
 fundle plugin 'tuvistavie/fish-fastdir'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
 
 # CONFIGURE PLUGINS:
-# paysonwallach/fish-you-should-use {{{2
-# Show message after command's own output (default: before)
-set YSU_MESSAGE_POSITION "after"
-
+# TODO
 
 
 
