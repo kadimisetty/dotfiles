@@ -80,6 +80,15 @@ if ! test -e "$HOME/.local/bin"
     mkdir $HOME/.local/bin
 end
 fish_add_path $HOME/.local/bin
+function fish_command_not_found
+    echo -s                                                     \
+        (set_color $fish_color_error --dim)  "ERROR: Command `" \
+        (set_color normal)                                      \
+        (set_color $fish_color_error --bold ) "$argv[1]"        \
+        (set_color normal)                                      \
+        (set_color $fish_color_error --dim)  "` not found."     >&2
+    set_color normal
+end
 
 
 
