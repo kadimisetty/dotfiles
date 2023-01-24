@@ -41,9 +41,9 @@ set YSU_MESSAGE_POSITION "after"
 
 
 # NIX {{{1
-# NOTE: Place as close to top as possible to make nix pkgs available immediately.
-if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
-  eval (bash -c "source $HOME/.nix-profile/etc/profile.d/nix.sh; echo export NIX_PATH=\"\$NIX_PATH\"; echo export PATH=\"\$PATH\"")
+# NOTE: Place as close to top as possible to make nix available immediately.
+if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
+  source $HOME/.nix-profile/etc/profile.d/nix.fish
 end
 alias ne='nix-env'
 alias neh='nix-env --help'
