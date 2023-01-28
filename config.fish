@@ -469,7 +469,7 @@ end
 fish_add_path $HOME/.cargo/bin/
 function cncd --description "Does `cargo new` and `cd`s into the new dir"
     if cargo new $argv;
-        cd $argv
+        cd $argv[1]
     end
 end
 alias c="cargo"
