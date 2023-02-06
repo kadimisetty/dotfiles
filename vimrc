@@ -854,7 +854,11 @@ endif
 " set debug=msg,throw
 
 "Show ellipsis on a soft break
-set showbreak=…
+" NOTE:
+"   1. This previous used to be `…` but in 9.x version,
+"      so using `> ` in the meantime.
+"   2. The trailing space required a backslash.
+set showbreak=>\
 
 set synmaxcol=2048      "For performance, only do syntax highlight upto these columns
 set nocursorline        "Highlight the screen line of cursor
