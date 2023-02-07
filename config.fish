@@ -112,6 +112,17 @@ alias dotfiles="cd $HOME/code/personal/dotfiles/"
 
 
 
+# KITTY {{{1
+if test -n "$KITTY_WINDOW_ID"
+    function icat --description "Display image(s) inline"
+        # NOTE: icat is a kitten(kitty plugin)
+        kitty +kitten icat --align=left $argv
+    end
+end
+
+
+
+
 # PROMPT {{{1
 # VIM MODE PROMPT:
 function fish_mode_prompt
