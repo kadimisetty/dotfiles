@@ -37,10 +37,22 @@ fundle init
 
 
 # NIX {{{1
+# SETUP {{{2
 # NOTE: Place as close to top as possible to make nix available immediately.
 if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
   source $HOME/.nix-profile/etc/profile.d/nix.fish
 end
+# LOCALE {{{2
+if test $(uname) = "Linux"
+    # NOTE:
+    #   1. READ: [Troubleshooting when using nix on non-NixOS linux
+    #      distributions](https://nixos.wiki/wiki/Locales)
+    #   2. TODO: Currently only checking for linux but as noted in the link,
+    #      this issue and fix is only applicable for Debian, Red Hat, and Arch
+    #      derivatives.
+    set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
+end
+# ALIASES {{{2
 alias ne='nix-env'
 alias neh='nix-env --help'
 alias nei='nix-env --install'
