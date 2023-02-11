@@ -64,6 +64,7 @@ alias neqa='nix-env --query --available --description'
 alias nelg='nix-env --list-generations'
 alias nesg='nix-env --switch-generation'
 alias ns='nix-shell'
+alias nixx='nix --extra-experimental-features nix-command'
 
 
 
