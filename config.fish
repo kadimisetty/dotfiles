@@ -252,9 +252,9 @@ set __fish_git_prompt_color_stashstate "brblack"
 alias lsdll='lsd --long'
 alias lsdt='lsd --tree'
 alias lsdl='lsd --tree --depth'
-alias lsd1='lsd --tree --depth 1'
-alias lsd2='lsd --tree --depth 2'
-alias lsd3='lsd --tree --depth 3'
+alias lsdl1='lsd --tree --depth 1'
+alias lsdl2='lsd --tree --depth 2'
+alias lsdl3='lsd --tree --depth 3'
 
 
 
