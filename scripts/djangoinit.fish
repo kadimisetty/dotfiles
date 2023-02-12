@@ -59,7 +59,7 @@ function djangoinit
     _echo_header "SETTING UP VIRTUAL ENVIRONMENT"
     python -m venv ./venv
     source ./venv/bin/activate.fish
-    _echo_footer "Setting up virtual environment"
+    _echo_footer "SETTING UP VIRTUAL ENVIRONMENT"
 
     # DJANGO
     _echo_header "INSTALLING LATEST DJANGO v4.*"
