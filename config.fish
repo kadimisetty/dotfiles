@@ -43,14 +43,30 @@ if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
   source $HOME/.nix-profile/etc/profile.d/nix.fish
 end
 # LOCALE {{{2
-if test $(uname) = "Linux"
-    # NOTE:
-    #   1. READ: [Troubleshooting when using nix on non-NixOS linux
+if type -q "nix" && test $(uname) = "Linux"
+    # TODO: See if there's a better way to check for nix presence than `type -q "nix"`.
+    # TODO: Check if applicable to macOS.
+    # SETTING LOCALE:
+    # 	ISSUE: When using Nix(OS/pkg-manager) there is an issue where environmental 
+    # 	variable LOCALE_ACHIVE doen't point to the desired system's locale-achive.
+    #   READ: [Troubleshooting when using nix on non-NixOS linux
     #      distributions](https://nixos.wiki/wiki/Locales)
-    #   2. TODO: Currently only checking for linux but as noted in the link,
-    #      this issue and fix is only applicable for Debian, Red Hat, and Arch
-    #      derivatives.
-    set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
+
+    if test -e /etc/NIXOS
+      # On NixOS
+      # Applying this on NixOS as well, because the issue exists on non-bash shells 
+      # like `fish` etc.
+      if test -e /run/current-system/sw/lib/locale/locale-archive
+        set --export LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive
+      end
+    else
+      # TODO: Narrow down this conditional block further. Currently only checking 
+      # for (non-NixOS) linux here but as noted in the link, this issue and fix 
+      # is documented as applicable only to Debian, Red Hat, and Arch derivatives. 
+      if test -e /usr/lib/locale/locale-archive
+        set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
+      end
+    end
 end
 # ALIASES {{{2
 alias ne='nix-env'
