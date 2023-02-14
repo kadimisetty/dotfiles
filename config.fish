@@ -218,6 +218,14 @@ function fish_right_prompt --description "Right prompt"
         set_color $fish_color_normal
     end
 
+    # Indicate private mode
+    if test -n "$fish_private_mode"
+        echo -s (set_color brblack --bold --dim)
+        set_color brblack --bold --dim
+        echo "PRIVATE"
+        set_color $fish_color_normal
+    end
+
     # Always show git prompt
     echo -s (set_color brblack) (fish_git_prompt)
 end
