@@ -59,6 +59,7 @@ Plug 'pbrisbin/vim-syntax-shakespeare'
 Plug 'pest-parser/pest.vim'
 Plug 'purescript-contrib/purescript-vim'
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'idris-hackers/idris-vim'
 Plug 'psf/black', { 'branch': 'stable' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 Plug 'rob-b/gutenhasktags'
