@@ -81,6 +81,9 @@ alias nelg='nix-env --list-generations'
 alias nesg='nix-env --switch-generation'
 alias ns='nix-shell'
 alias nixx='nix --extra-experimental-features nix-command'
+function noption --description "value of given config option"
+    nix-instantiate --eval --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
+end
 
 
 
