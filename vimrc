@@ -2302,14 +2302,4 @@ call SourceFileIfExists('~/.vim-transient-preferences.vim')
 call SourceFileIfExists('~/.vim-experiments.vim')
 
 
-"CREDITS & INSPIRATION {{{1
-"Some External Inspirations:
-"Tim Pope (of course)
-"Ryan Tomayko
-"Drew Neil
-"Derek Wyatt
-"Gary Bernhardt
-"http://vim.spf13.com/
-"github.com/joshcom/vimconfig/
-"blog.sanctum.geek.nz/page/2/
-"http://dhruvasagar.com/2013/03/28/vim-better-foldtext
+" ANYTHING BELOW THIS LINE WAS ADDED IN HASTE AND NEEDS TO BE SORTED {{{1
