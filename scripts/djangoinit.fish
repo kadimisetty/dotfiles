@@ -26,13 +26,13 @@ function djangoinit
     function _echo_header --description "Print section header"
         echo
         set_color $fish_color_operator
-        echo ">>>> INIT:" $argv
+        echo ">>> INIT:" $argv
         set_color $fish_color_normal
     end
 
     function _echo_footer --description "Print section footer"
         set_color $fish_color_operator
-        echo ">>>> DONE:" $argv
+        echo ">>> DONE:" $argv
         set_color $fish_color_normal
         echo
     end
