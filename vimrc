@@ -1015,11 +1015,18 @@ nnoremap <leader>Q              :qa<CR>
 " (`<c-w>o` for window, `<c-w>O` for tab page)
 nnoremap <silent> <C-w>o        :<C-u>only<CR>
 
-" TODO: make shortcut that duplicates current window/tab in another
-" window/tab, the shortcut could be similar to <c-w>o/O and be something like
-" <c-w>d/D.
+" Duplicate current window
+" - Preferably the new window should be at the same cursor position
+" - It's not really duplicated, but same as a regular `:split` but is a good
+"   mnemonic and pairs well with my equivalent tab page operation
+" - For windows it is `<c-w>d` and for tab pages it's `<c-w>D`
+" - doing a `:split` and not a `:vsplit`
+nnoremap <silent> <C-w>d        :<C-u>split<CR>
 
 " Tab pages {{{2
+
+" Duplicate current buffer in a new tab page and keep cursor position
+nnoremap <silent> <C-w>D        :<C-u>tab split<CR>
 
 " Quick jumps  {{{3
 " Jump to last accessed tab page
