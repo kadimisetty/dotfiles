@@ -1028,6 +1028,9 @@ nnoremap <silent> <C-w>d        :<C-u>split<CR>
 " Duplicate current buffer in a new tab page and keep cursor position
 nnoremap <silent> <C-w>D        :<C-u>tab split<CR>
 
+" Open all buffers in tab pages
+nnoremap <silent> <c-w>a        :<C-u>tab sball<CR>
+
 " Quick jumps  {{{3
 " Jump to last accessed tab page
 nnoremap <silent> <C-w><C-w>     :tabnext #<CR>
