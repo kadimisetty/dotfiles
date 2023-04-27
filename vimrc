@@ -1029,7 +1029,7 @@ nnoremap <silent> <C-w>d        :<C-u>split<CR>
 nnoremap <silent> <C-w>D        :<C-u>tab split<CR>
 
 " Open all buffers in tab pages
-nnoremap <silent> <c-w>a        :<C-u>tab sball<CR>
+nnoremap <silent> <c-w>b        :<C-u>tab sball<CR>
 
 " Quick jumps  {{{3
 " Jump to last accessed tab page
