@@ -211,7 +211,7 @@ cdpath=($HOME/code)
 ## Mix {{{2
 alias x="mix"
 alias xc="mix compile"
-alias ix="iex -S mix"
+alias isx="iex -S mix"
 alias xt="mix test"
 alias xtt="mix test --trace" # run tests synchronously
 alias xpn="mix phx.new"

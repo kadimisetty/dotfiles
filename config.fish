@@ -409,7 +409,7 @@ function mxpncd --description "Does `mix phx.new` and `cd`s into the new dir"
     end
 end
 alias ix="iex"
-alias ixm="iex -S mix"
+alias ixsm="iex -S mix"
 alias mx="mix"
 alias mxn="mix new"
 alias mxb="mix build"
