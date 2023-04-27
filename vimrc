@@ -1015,6 +1015,10 @@ nnoremap <leader>Q              :qa<CR>
 " (`<c-w>o` for window, `<c-w>O` for tab page)
 nnoremap <silent> <C-w>o        :<C-u>only<CR>
 
+" TODO: make shortcut that duplicates current window/tab in another
+" window/tab, the shortcut could be similar to <c-w>o/O and be something like
+" <c-w>d/D.
+
 " Tab pages {{{2
 
 " Quick jumps  {{{3
@@ -1040,17 +1044,34 @@ nnoremap <silent> <Tab>         :<c-u>tabnext<CR>
 nnoremap <silent> <S-Tab>       :<c-u>tabprevious<CR>
 "3}}}
 
-" ISSUE: `<C-w>c` is used to close a vim window(and a tab if it only has one
-" window) but I want to have parity with the tmux key equivalents, hence
-" sticking with `<C-w>c` mapping. Due to the overlap with `<C-w>c` sometimes
-" vim misunderstands the mapping and closes window/tab instead, which is annoying
-" but the only solution is to stop using `<C-w>c` which I'm not going to do at the moment.
-" NOTE: Doing mappings both with and without `<C-*>` to account for when a
-" control is help onto longer than from the first `<C-w>` key.
-nnoremap <silent> <C-w>c        :<C-u>tabnew<CR>
-nnoremap <silent> <C-w><C-c>    :<C-u>tabnew<CR>
-nnoremap <silent> <C-w>C        :<C-u>-tabnew<CR>
-nnoremap <silent> <C-w><C-C>    :<C-u>-tabnew<CR>
+" NOTE:
+"   Doing the second part of the `<c-w>*` mappings both with and
+"   without `<C-*>` to account for when a control is help onto longer
+"   than from the first `<C-w>` key.
+
+" Opening new tab pages
+" OPTION 1 USING `<c-w>c/C`:
+"   REASON: Matches with the tmux equivalent.
+"   CONS: `<C-w>c` is used to close a vim window(and a tab if it only has one
+"   window) but I want to have parity with the tmux key equivalents, hence
+"   sticking with `<C-w>c` mapping. Due to the overlap with `<C-w>c` sometimes
+"   vim misunderstands the mapping and closes window/tab instead, which is annoying
+"   but the only solution is to stop using `<C-w>c` which I'm not going to do at the moment.
+"
+"   nnoremap <silent> <C-w>c        :<C-u>tabnew<CR>
+"   nnoremap <silent> <C-w><C-c>    :<C-u>tabnew<CR>
+"   nnoremap <silent> <C-w>C        :<C-u>-tabnew<CR>
+"   nnoremap <silent> <C-w><C-C>    :<C-u>-tabnew<CR>
+"
+" OPTION 2 USING `<c-w>N`:
+"   REASON: Matches with the vim new window shortcut `<c-w>n`.
+"   CONS: `<c-w>N` is very close to my current kitty term's
+"   meta key `Ctrl-Shift` because of the uppercase `N`. This is a con because
+"   `META+W` closes current open tabpage in kitty, but it does ask to cofirm,
+"   so there's that at least. Because of this, I'm not doing `<c-w><c-N>` here.
+nnoremap <silent> <C-w>N        :<C-u>tabnew<CR>
+
+" Closing tab pages
 nnoremap <silent> <C-w>x        :<C-u>tabclose<CR>
 nnoremap <silent> <C-w><C-x>    :<C-u>tabclose<CR>
 " Close all other tab pages (`<c-w>o` for window, `<c-w>O` for tab page)
