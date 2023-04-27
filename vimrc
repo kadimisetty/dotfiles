@@ -1011,6 +1011,9 @@ augroup end
 nnoremap <silent> <leader>w=    :wincmd =<CR>
 " Close all windows and exit
 nnoremap <leader>Q              :qa<CR>
+" Close all other windows(in current tab page)
+" (`<c-w>o` for window, `<c-w>O` for tab page)
+nnoremap <silent> <C-w>o        :<C-u>only<CR>
 
 " Tab pages {{{2
 
@@ -1050,6 +1053,8 @@ nnoremap <silent> <C-w>C        :<C-u>-tabnew<CR>
 nnoremap <silent> <C-w><C-C>    :<C-u>-tabnew<CR>
 nnoremap <silent> <C-w>x        :<C-u>tabclose<CR>
 nnoremap <silent> <C-w><C-x>    :<C-u>tabclose<CR>
+" Close all other tab pages (`<c-w>o` for window, `<c-w>O` for tab page)
+nnoremap <silent> <C-w>O        :<C-u>tabonly<CR>
 
 " Move tab page forwards/backward
 function! TabMoveBy1(rightOrLeft, isWrapped)
