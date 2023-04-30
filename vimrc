@@ -1020,8 +1020,8 @@ nnoremap <silent> <C-w>o        :<C-u>only<CR>
 " - It's not really duplicated, but same as a regular `:split` but is a good
 "   mnemonic and pairs well with my equivalent tab page operation
 " - For windows it is `<c-w>d` and for tab pages it's `<c-w>D`
-" - doing a `:split` and not a `:vsplit`
-nnoremap <silent> <C-w>d        :<C-u>split<CR>
+" - doing a `:vsplit` and not a `:split`
+nnoremap <silent> <C-w>d        :<C-u>vsplit<CR>
 
 " Tab pages {{{2
 
