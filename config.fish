@@ -417,6 +417,7 @@ alias mxc="mix compile"
 alias mxdg="mix deps.get"
 alias mxec="mix ecto.create"
 alias mxem="mix ecto.migrate"
+alias mxer="mix ecto.reset"
 alias mxt="mix test"
 alias mxtt="mix test --trace" # run tests synchronously
 alias mxpn="mix phx.new"
