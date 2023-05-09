@@ -650,8 +650,14 @@ alias wcc="wc --chars"
 alias wcb="wc --bytes"
 
 # CURL {{{2
+# [-s|--silent]: Silent mode
 alias curls="curl --silent"
-alias curlO="curl --remote-name" # `-O` is short of `--remote-name`
+# [-O|--remote-name]: Write output to a file named as the remote file
+alias curlO="curl --remote-name"
+# [[-o|--output] <file>]: Write to <file> instead of stdout
+alias curlo="curl --output"
+# [-i|--include]: Include protocol response headers in the output
+alias curli="curl --include"
 
 # SQLITE-UTILS {{{2
 alias sqm="sqlite-utils memory"
