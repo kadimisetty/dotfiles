@@ -659,6 +659,13 @@ alias curlo="curl --output"
 # [-i|--include]: Include protocol response headers in the output
 alias curli="curl --include"
 
+# BAT {{{2
+# [[-l|--language] <language>]:
+#   Explicitly set the language for syntax highlighting.
+#   Available languages can be listed with `bat --list-languages`
+#   Example: `json`
+alias batl="bat --language"
+
 # SQLITE-UTILS {{{2
 alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
