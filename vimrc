@@ -1265,6 +1265,77 @@ function! RenameTabpageWithTaboo(prefillCurrentTabpageName)
 endfunction
 nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
 
+" SAVE/LOAD VIEWS/SESSIONS {{{2
+" NOTE:
+" 1. I want to use `<c-w>` as prefix key to gel with the rest of my window/tab
+"    page mappings and since views act on windows and sessions can be
+"    considered to include tabpages.
+" 2. The perfect mapping set for views/sessions would have been `<c-w>s/S` for
+"    saving and `<c-w>l/L` for loading view/sessions. However `<c-w>l` is used
+"    to navigate split views and is too important to sacrifice, hence the
+"    alternate mappings.
+" 3. Preferring overwrite variants (`mkview!` and `mksession!`) to keep the
+"    mappings few. Tthose are the one's I use most of the time anyway.
+"    Where there is a conflict, I'd prefer to be notificed but still be
+"    overwritten.
+"
+" VIEWS {{{3
+" +----------+-------------+--------------------------------+
+" | `<c-w>m` | `:mkview!`  | Save view                      |
+" | `<c-w>v` | `:loadview` | Load view saved with `mkview`  |
+" +----------+-------------+--------------------------------+
+"  TODO:
+"  1. Use numbered variants for saving and loading views i.e `<c-w>m1` for
+"     `:mkview 1` and `<c-w>v` for `:loadview 1` and for numbers 1..10 to
+"     support numbered views.  See `:help  mkview`.
+"  2. Use *silent*?? like nnoremap <silent> <C-w>m  :<c-u>mkview!<CR>
+"  3. Use a function here that can report save/overwrite like the sessions.
+nnoremap <C-w>m :<c-u>mkview!<CR>
+nnoremap <C-w>v :<c-u>loadview<CR>
+
+" SESSIONS {{{3
+" +---------+--------------------------------------------------+
+" |`<c-w>M` | Save/overwrite `Session.vim` to global directory |
+" |`<c-w>S` | Load session in global directory's `Session.vim` |
+" +---------+--------------------------------------------------+
+" NOTE:
+" 1. *Global directory* in this section refers to the directory vim was
+"    launched from and which can be considered to be the *project root
+"    directory*. Working on this global directory comes especially handy when
+"    working with sessions with a tabpage that used `:tcd` to a different
+"    working directory.
+" 2. By default I want to save/source `Session.vim` in global directory, but
+"    also allow using a current directory as well with `g*` mappings.
+" TODO:
+" 1. Add `g*` mappings that use current directory instead of global
+"    directory.
+" 2. FIX: Make `<c-w>S` source `Session.vims`from global directory not
+"    current directory.
+nnoremap <c-w>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
+nnoremap <c-w>S :source ./Session.vim<CR>
+
+function! MakeSessionInGlobalDirectory()
+    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
+    try
+        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+    catch /E189/ "Session already exists
+        echoerr "ERROR E189: A `Session.vim` file already exists at this location."
+        return
+    endtry
+    echo "Session.vim saved in global directory."
+endfunction
+function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
+    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
+    try
+        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+    catch /E189/ "Session already exists
+        execute 'mksession!' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+        echo "Session.vim overwritten in global directory."
+        return
+    endtry
+    echo "Session.vim saved in global directory."
+endfunction
+
 "Move through jump list {{{2
 "ISSUE: By default `<c-o>` and `<c-i>` move backward and forward in jumplist.
 "   but `<c-i>` is generally the same code as `Tab` which I use in tab page
@@ -1373,39 +1444,6 @@ nnoremap <leader>tn :<c-u>rightbelow terminal<cr>
 nnoremap <silent> <C-s>  :update<CR>
 vnoremap <silent> <C-s>  <C-C>:update<CR>
 inoremap <silent> <C-s>  <C-O>:update<CR>
-
-" Save session to global directory {{{2
-" NOTE: Choosing global directory, i.e. directory where vim launched from, so
-"   the `Session.vim` file will always exist in that directory as it will be
-"   treated as project root directory. This is safe for instances when there is
-"   a tabpage with a different working directory set with `:tcd` present.
-
-" Create session file `./Session.vim` in global directory
-nnoremap <leader>m :call MakeSessionInGlobalDirectory()<CR>
-function! MakeSessionInGlobalDirectory()
-    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
-    try
-        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-    catch /E189/ "Session already exists
-        echoerr "ERROR E189: A `Session.vim` file already exists at this location."
-        return
-    endtry
-    echo "Session.vim saved in global directory."
-endfunction
-
-" Create/overwrite session file `./Session.vim` in global directory
-nnoremap <leader>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
-function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
-    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
-    try
-        execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-    catch /E189/ "Session already exists
-        execute 'mksession!' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-        echo "Session.vim overwritten in global directory."
-        return
-    endtry
-    echo "Session.vim saved in global directory."
-endfunction
 
 " Start insert on new line from indent of existing text (i.e. `normal jS`) {{{2
 " NOTE: `jS` doesn't work well, so using `j^C` to acheive the same effect
