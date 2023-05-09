@@ -175,6 +175,19 @@ set printoptions=header:0,duplex:long,paper:A4
 "open diffs in vertical split
 set diffopt+=vertical
 
+" Session options {{{2
+" DEFAULT: `blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal`
+" DESIRED: `blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals`
+set sessionoptions+=tabpages
+set sessionoptions+=globals
+" `options`: all options and mappings (also global values for local options)
+" TODO:
+"   Figure out why I removed `options` and kept `globals`.
+"   (INDECIPHERABLE PREVIOUS NOTES ON REASON: Do not save some options into
+"   the sessions file, so they dont override any vimrc changes made when the
+"   session is revoked later.)
+set sessionoptions-=options
+
 "Misc {{{2
 syntax on               "Turn on syntax highlighting
 set hidden              "Unsaved bufers are allowed to move to the background
@@ -195,12 +208,7 @@ set modeline
 set modelines=3
 
 set completeopt=menu,menuone,noinsert,preview
-" Session preferences. Do not save some options into the sessions file, so
-" they dont override any vimrc changes made when the session is revoked later.
-set ssop-=options       "Dont store global and local values into session file
-set ssop-=folds         "Dont store folds into session file
-set sessionoptions+=tabpages
-set sessionoptions+=globals
+
 
 "Close quickfix window if it's the last one left
 "SEE: https://vim.fandom.com/wiki/Automatically_quit_Vim_if_quickfix_window_is_the_last
