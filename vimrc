@@ -177,15 +177,17 @@ set diffopt+=vertical
 
 " Session options {{{2
 " DEFAULT: `blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal`
-" DESIRED: `blank,buffers,curdir,folds,help,tabpages,winsize,terminal,globals`
+" DESIRED: `blank,buffers,curdir,folds,help,tabpages,winsize,globals`
 set sessionoptions+=tabpages
 set sessionoptions+=globals
+set sessionoptions-=terminal
 " `options`: all options and mappings (also global values for local options)
 " TODO:
 "   Figure out why I removed `options` and kept `globals`.
 "   (INDECIPHERABLE PREVIOUS NOTES ON REASON: Do not save some options into
 "   the sessions file, so they dont override any vimrc changes made when the
-"   session is revoked later.)
+"   session is revoked later.). Is it related to this link?
+"   [stack overflow answer](https://stackoverflow.com/a/1651061/225903)
 set sessionoptions-=options
 
 "Misc {{{2
