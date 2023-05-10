@@ -1276,24 +1276,40 @@ nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
 "    saving and `<c-w>l/L` for loading view/sessions. However `<c-w>l` is used
 "    to navigate split views and is too important to sacrifice, hence the
 "    alternate mappings.
-" 3. Preferring overwrite variants (`mkview!` and `mksession!`) to keep the
-"    mappings few. Tthose are the one's I use most of the time anyway.
-"    Where there is a conflict, I'd prefer to be notificed but still be
-"    overwritten.
 "
 " VIEWS {{{3
 " +----------+-------------+--------------------------------+
-" | `<c-w>m` | `:mkview!`  | Save view                      |
+" | `<c-w>m` | `:mkview`   | Save view                      |
 " | `<c-w>v` | `:loadview` | Load view saved with `mkview`  |
 " +----------+-------------+--------------------------------+
-"  TODO:
-"  1. Use numbered variants for saving and loading views i.e `<c-w>m1` for
-"     `:mkview 1` and `<c-w>v` for `:loadview 1` and for numbers 1..10 to
-"     support numbered views.  See `:help  mkview`.
-"  2. Use *silent*?? like nnoremap <silent> <C-w>m  :<c-u>mkview!<CR>
-"  3. Use a function here that can report save/overwrite like the sessions.
-nnoremap <C-w>m :<c-u>mkview!<CR>
-nnoremap <C-w>v :<c-u>loadview<CR>
+" NOTE:
+" 1. Using the overwriting variant `mkview!` isn't necssary because AFAICT
+"    it only applies to manually named view files.
+" TODO:
+" 1. Use *silent* like `nnoremap <silent> <C-w>m  :<c-u>mkview<CR>` ??
+" 2. Use a function here that can report save/overwrite like the session
+"    counterparts do.
+nnoremap <C-w>m  :<c-u>mkview<CR>
+nnoremap <C-w>m1 :<c-u>mkview 1<CR>
+nnoremap <C-w>m2 :<c-u>mkview 2<CR>
+nnoremap <C-w>m3 :<c-u>mkview 3<CR>
+nnoremap <C-w>m4 :<c-u>mkview 4<CR>
+nnoremap <C-w>m5 :<c-u>mkview 5<CR>
+nnoremap <C-w>m6 :<c-u>mkview 6<CR>
+nnoremap <C-w>m7 :<c-u>mkview 7<CR>
+nnoremap <C-w>m8 :<c-u>mkview 8<CR>
+nnoremap <C-w>m9 :<c-u>mkview 9<CR>
+"
+nnoremap <C-w>v  :<c-u>loadview<CR>
+nnoremap <C-w>v1 :<c-u>loadview 1<CR>
+nnoremap <C-w>v2 :<c-u>loadview 2<CR>
+nnoremap <C-w>v3 :<c-u>loadview 3<CR>
+nnoremap <C-w>v4 :<c-u>loadview 4<CR>
+nnoremap <C-w>v5 :<c-u>loadview 5<CR>
+nnoremap <C-w>v6 :<c-u>loadview 6<CR>
+nnoremap <C-w>v7 :<c-u>loadview 7<CR>
+nnoremap <C-w>v8 :<c-u>loadview 8<CR>
+nnoremap <C-w>v9 :<c-u>loadview 9<CR>
 
 " SESSIONS {{{3
 " +---------+--------------------------------------------------+
@@ -1308,6 +1324,9 @@ nnoremap <C-w>v :<c-u>loadview<CR>
 "    working directory.
 " 2. By default I want to save/source `Session.vim` in global directory, but
 "    also allow using a current directory as well with `g*` mappings.
+" 3. Preferring overwrite variant - `mksession!` because if I have only
+"    mapping to spend the overwrite one seems easier and the notification
+"    indicates waht happened anyway.
 " TODO:
 " 1. Add `g*` mappings that use current directory instead of global
 "    directory.
@@ -1317,6 +1336,9 @@ nnoremap <c-w>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
 nnoremap <c-w>S :source ./Session.vim<CR>
 
 function! MakeSessionInGlobalDirectory()
+    " TODO: DATED 11MAY23: This function is not being called anymore. Keep for a
+    " while just in case and then remove it.
+
     let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
     try
         execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
