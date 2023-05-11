@@ -1333,8 +1333,19 @@ nnoremap <C-w>v9 :<c-u>loadview 9<CR>
 " 2. FIX: Make `<c-w>S` source `Session.vims`from global directory not
 "    current directory.
 nnoremap <c-w>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
-nnoremap <c-w>S :source ./Session.vim<CR>
+nnoremap <c-w>S :call SourceSessionFileInGlobalDirectory()<CR>
 
+" HELPERS {{{3
+function! SourceSessionFileInGlobalDirectory()
+    let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
+    try
+        execute 'source' fnameescape(getcwd(-1) . path_separator . "Session.vim")
+    catch /E484/ "Can't open `Session.vim``because it likely doesn't exist
+        echoerr "ERROR E484: A `Session.vim` cannot be opened from the global directory."
+        return
+    endtry
+    echo "Sourced `Session.vim` from global directory."
+endfunction
 function! MakeSessionInGlobalDirectory()
     " TODO: DATED 11MAY23: This function is not being called anymore. Keep for a
     " while just in case and then remove it.
