@@ -1278,17 +1278,22 @@ nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
 "    alternate mappings.
 "
 " VIEWS {{{3
-" +----------+-------------+--------------------------------+
-" | `<c-w>m` | `:mkview`   | Save view                      |
-" | `<c-w>v` | `:loadview` | Load view saved with `mkview`  |
-" +----------+-------------+--------------------------------+
+" +-----------+---------------+-------------------------------------------------+
+" | `<c-w>m`  | `:mkview`     | Save view                                       |
+" | `<c-w>v`  | `:loadview`   | Load view saved with `mkview`                   |
+" +-----------+---------------+-------------------------------------------------+
+" | `<c-w>m1` | `:mkview 1`   | Save *view no. 1*                               |
+" | `<c-w>v1` | `:loadview 1` | Load view saved with `mkview 1` i.e *view no.1* |
+" |                                                                             |
+" | (... applies for view numbers 1.9)                                          |
+" +-----------+---------------+-------------------------------------------------+
 " NOTE:
 " 1. Using the overwriting variant `mkview!` isn't necssary because AFAICT
 "    it only applies to manually named view files.
 " TODO:
 " 1. Use *silent* like `nnoremap <silent> <C-w>m  :<c-u>mkview<CR>` ??
-" 2. Use a function here that can report save/overwrite like the session
-"    counterparts do.
+" 2. Use a function here that can report save/overwrite information like their
+"    session counterparts do.
 nnoremap <C-w>m  :<c-u>mkview<CR>
 nnoremap <C-w>m1 :<c-u>mkview 1<CR>
 nnoremap <C-w>m2 :<c-u>mkview 2<CR>
@@ -1312,36 +1317,47 @@ nnoremap <C-w>v8 :<c-u>loadview 8<CR>
 nnoremap <C-w>v9 :<c-u>loadview 9<CR>
 
 " SESSIONS {{{3
-" +---------+--------------------------------------------------+
-" |`<c-w>M` | Save/overwrite `Session.vim` to global directory |
-" |`<c-w>S` | Load session in global directory's `Session.vim` |
-" +---------+--------------------------------------------------+
+" +---------+----------------------------------------------------+
+" |`g<c-w>M` | Save/overwrite `Session.vim` to current directory |
+" |`g<c-w>S` | Load `Session.vim` in current directory           |
+" +---------+----------------------------------------------------+
+" |`<c-w>M`  | Save/overwrite `Session.vim` to global directory  |
+" |`<c-w>S`  | Load `Session.vim` in global directory            |
+" +---------+----------------------------------------------------+
 " NOTE:
 " 1. *Global directory* in this section refers to the directory vim was
 "    launched from and which can be considered to be the *project root
 "    directory*. Working on this global directory comes especially handy when
-"    working with sessions with a tabpage that used `:tcd` to a different
-"    working directory.
-" 2. By default I want to save/source `Session.vim` in global directory, but
-"    also allow using a current directory as well with `g*` mappings.
-" 3. Preferring overwrite variant - `mksession!` because if I have only
-"    mapping to spend the overwrite one seems easier and the notification
-"    indicates waht happened anyway.
-" TODO:
-" 1. Add `g*` mappings that use current directory instead of global
-"    directory.
-" 2. FIX: Make `<c-w>S` source `Session.vims`from global directory not
-"    current directory.
+"    working with sessions with one *rogue* tabpage that used `:tcd` to a
+"    different working directory.
+" 2. By default I want to save/load `Session.vim` to/frpm global directory,
+"    but also allow using a current directory with the `g*` prefix.
+" 3. Preferring overwrite variants (i.e. `mksession!`) because if I have only
+"    mapping to spend for this, the overwriting one seems more useful.
+"
+" Make g`<c-w>S` source `Session.vims`from current directory.
+nnoremap g<c-w>M :call MakeSessionInCurrentDirectoryOverwriteIfNeeded()<CR>
+nnoremap g<c-w>S :call SourceSessionFileInCurrentDirectory()<CR>
+" Make `<c-w>S` (without `g` prefix) source `Session.vims`from global directory.
 nnoremap <c-w>M :call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<CR>
 nnoremap <c-w>S :call SourceSessionFileInGlobalDirectory()<CR>
 
 " HELPERS {{{3
+function! SourceSessionFileInCurrentDirectory()
+    try
+        execute 'source Session.vim'
+    catch /E484/ "Can't open `Session.vim``because it likely doesn't exist
+        echoerr "ERROR E484: A `Session.vim` cannot be opened from current directory."
+        return
+    endtry
+    echo "Sourced `Session.vim` from current directory."
+endfunction
 function! SourceSessionFileInGlobalDirectory()
     let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
     try
         execute 'source' fnameescape(getcwd(-1) . path_separator . "Session.vim")
     catch /E484/ "Can't open `Session.vim``because it likely doesn't exist
-        echoerr "ERROR E484: A `Session.vim` cannot be opened from the global directory."
+        echoerr "ERROR E484: A `Session.vim` cannot be opened from global directory."
         return
     endtry
     echo "Sourced `Session.vim` from global directory."
@@ -1369,6 +1385,16 @@ function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
         return
     endtry
     echo "Session.vim saved in global directory."
+endfunction
+function! MakeSessionInCurrentDirectoryOverwriteIfNeeded()
+    try
+        execute 'mksession Session.vim'
+    catch /E189/ "Session already exists
+        execute 'mksession! Session.vim'
+        echo "Session.vim overwritten in current directory."
+        return
+    endtry
+    echo "Session.vim saved in current directory."
 endfunction
 
 "Move through jump list {{{2
