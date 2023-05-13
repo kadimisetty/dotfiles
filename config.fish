@@ -286,6 +286,14 @@ alias lsdl3='lsd --tree --depth 3'
 
 
 
+# EXA {{{1
+alias exat="exa --tree"
+alias exatg="exa --tree --git-ignore --git"
+alias exagt="exa --tree --git-ignore --git"
+
+
+
+
 # GIT {{{1
 alias ga='git add'
 alias gb='git branch'
