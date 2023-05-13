@@ -1285,11 +1285,13 @@ nnoremap <silent> <C-w>,    :call RenameTabpageWithTaboo(0)<CR>
 " | `<c-w>m1` | `:mkview 1`   | Save *view no. 1*                               |
 " | `<c-w>v1` | `:loadview 1` | Load view saved with `mkview 1` i.e *view no.1* |
 " |                                                                             |
-" | (... applies for view numbers 1.9)                                          |
+" | (... applies for view numbers 1..9)                                          |
 " +-----------+---------------+-------------------------------------------------+
 " NOTE:
 " 1. Using the overwriting variant `mkview!` isn't necssary because AFAICT
 "    it only applies to manually named view files.
+" 2. Unlike sessions, views created via `:mkview` (with no filename as
+"    argument) aren't saved in the local direcinry but in vim's `viewdir`.
 " TODO:
 " 1. Use *silent* like `nnoremap <silent> <C-w>m  :<c-u>mkview<CR>` ??
 " 2. Use a function here that can report save/overwrite information like their
