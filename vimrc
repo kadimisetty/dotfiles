@@ -256,9 +256,9 @@ endfunction
 augroup filetype_python
     autocmd!
     " Toggle trailing colon on current line
-    autocmd FileType python nnoremap <silent> <localleader>:  :call ToggleTrailingCharacterOnLine(":", line("."))<CR>
+    autocmd FileType python nnoremap <silent> <localleader>:  :call ToggleTrailingStringOnLine(":", line("."))<CR>
     " Toggle trailing comma on current line
-    autocmd FileType python nnoremap <silent> <localleader>,  :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
+    autocmd FileType python nnoremap <silent> <localleader>,  :call ToggleTrailingStringOnLine(",", line("."))<CR>
     " Toggle leading `async`/`await` keywords on current line
     autocmd FileType python nnoremap <silent> <localleader>a  :call ToggleAsyncOrAwaitKeywordPython(".")<CR>
     " Toggle `pass` keywork on current line
@@ -310,9 +310,9 @@ augroup filetype_rust
     autocmd!
     autocmd FileType rust setlocal formatprg=rustfmt
     " Toggle trailing semicolon on current line
-    autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingCharacterOnLine(";", line("."))<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingStringOnLine(";", line("."))<CR>
     " Toggle trailing comma on current line
-    autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingCharacterOnLine(",", line("."))<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingStringOnLine(",", line("."))<CR>
     " Toggle leading `let/let mut` keywords on current line
     autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
     autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
@@ -437,7 +437,7 @@ function! ToggleWrappingTagOnCurrentLine(tag)
 endfunction
 function ToggleTrailingQuestionMark(line_number)
     " Toggles trailing `?` character in both `?` and `?;` forms
-    " TODO: Adapt and use ToggleTrailingCharacterOnLine
+    " TODO: Adapt to use `ToggleTrailingStringOnLine`
     " LOGIC:
     "   1. Ensure non-empty trimmed line
     "   2. Check if there is a trailing `?`
@@ -525,19 +525,6 @@ function! TogglePubKeyword(line_number)
         execute 'normal ^d4l'
     else
         execute 'normal Ipub '
-    endif
-endfunction
-function! ToggleTrailingCharacterOnLine(character, line_number)
-    " TODO: Switch over to `ToggleTrailingStringOnLine`
-
-    let line_content = getline(a:line_number)
-    " Ensure line is not empty
-    if strwidth(line_content) > 0
-        if (line_content[-1:] == a:character)
-            call setline(a:line_number, line_content[:-2])
-        else
-            call setline(a:line_number, line_content . a:character)
-        endif
     endif
 endfunction
 function! ToggleTrailingStringOnLine(string, line_number)
