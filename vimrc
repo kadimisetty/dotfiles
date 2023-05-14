@@ -265,6 +265,8 @@ augroup filetype_python
     autocmd FileType python nnoremap <silent> <localleader>p  :call TogglePassKeywordPython(".")<CR>
     " Toggle `pass` keywork on current line, replacing any existing content
     autocmd FileType python nnoremap <silent> <localleader>P  :call TogglePassKeywordReplacingContentPython(".")<CR>
+    " Toggle trailing pyright ignore label ` # type: ignore` on current line
+    autocmd FileType python nnoremap <silent> <localleader>i  :call ToggleTrailingStringOnLine(" # type: ignore", line("."))<CR>
 augroup end
 function! TogglePassKeywordReplacingContentPython(line_number)
     " Toggles leading keywords `pass`
@@ -525,8 +527,9 @@ function! TogglePubKeyword(line_number)
         execute 'normal Ipub '
     endif
 endfunction
-function! ToggleTrailingCharacterOnLine (character, line_number)
-    " TODO: Accept more than a single character
+function! ToggleTrailingCharacterOnLine(character, line_number)
+    " TODO: Switch over to `ToggleTrailingStringOnLine`
+
     let line_content = getline(a:line_number)
     " Ensure line is not empty
     if strwidth(line_content) > 0
@@ -534,6 +537,27 @@ function! ToggleTrailingCharacterOnLine (character, line_number)
             call setline(a:line_number, line_content[:-2])
         else
             call setline(a:line_number, line_content . a:character)
+        endif
+    endif
+endfunction
+function! ToggleTrailingStringOnLine(string, line_number)
+    " Toggles trailing given string on line at given line number
+
+    " TODO: Check which builtin string length function to use from:
+    "       len/strlen/strdisplaywidth/strwidth erc.
+
+    let line_content = getline(a:line_number)
+    let string_length= strwidth(a:string)
+
+    " TODO: Also check if line length is > than given string_length?
+    " Ensure line is not empty
+    if strwidth(line_content) > 0
+        if (line_content[-(string_length):] == a:string)
+            " Append given string if not present at end of line
+            call setline(a:line_number, line_content[:-(string_length+1)])
+        else
+            " Remove trailing given string if present at end of line
+            call setline(a:line_number, line_content . a:string)
         endif
     endif
 endfunction
