@@ -2421,12 +2421,13 @@ command! -nargs=0 CocOR   :call CocAction('runCommand', 'editor.action.organizeI
 
 " Load coc extensions (activated by filetype)
 let g:coc_global_extensions = [
-            \ 'coc-vimlsp',
-            \ 'coc-snippets',
+            \ 'coc-elixir',
+            \ 'coc-go',
             \ 'coc-json',
             \ 'coc-pyright',
-            \ 'coc-elixir',
-            \ 'coc-rust-analyzer'
+            \ 'coc-rust-analyzer',
+            \ 'coc-snippets',
+            \ 'coc-vimlsp',
             \ ]
 
 " Coc recommends faster update time to show diagnostic messages (default is 4000ms)

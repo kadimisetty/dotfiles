@@ -592,6 +592,7 @@ alias st='stack test'
 # GO {{{1
 fish_add_path $HOME/go/bin
 alias gb='go build'
+alias gb.='go build .'
 alias gf='go fmt'
 alias gm="go mod"
 alias gmi="go mod init"
