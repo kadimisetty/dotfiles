@@ -227,7 +227,7 @@ endfunction
 
 
 "FILETYPE PREFERENCES {{{1
-" Filetype settings {{{2
+" FILETYPE SETTINGS {{{2
 filetype on             "Detect filetypes
 filetype plugin on      "Activate builtin set of filetypes plugins
 filetype indent on      "Activate builtin and computed indentations
@@ -253,7 +253,134 @@ function! MoveHelpToNewTab ()
     if &buftype ==# 'help' | wincmd T | endif
 endfunction
 
-augroup filetype_python
+" MISC FILETYPE HELPERS {{{2
+augroup filetype_haskell
+    autocmd!
+    " Chosing formatprg as hindent to keep a secondary formatprg at hand
+    " NOTE: Requires `hindent` in `$PATH`
+    " TODO: Call via `stack` (like `ALE` does for `hlint`)
+    autocmd FileType haskell setlocal formatprg=hindent
+
+    " Append current word with a trailing `'`
+    " TODO: Use a function to allow adding and removing trailing `'`
+    autocmd FileType haskell nnoremap <silent> <localleader>'  ea'<Esc>
+
+    " Insert module line on new buffers
+    " i.e. for a new buffer named `Foo.hs` add the module line `module Foo where`
+    autocmd BufNewFile *.hs :execute
+                \ "normal! Imodule " . expand("%:t:r") . " where\<cr>\<cr>\<esc>"
+augroup end
+
+augroup haskell_stack_helper
+    autocmd!
+
+    " PROJECT WIDE COMMANDS (using <leader>)
+    " i.e. Run `stack` on entire project
+    autocmd FileType haskell nnoremap <silent> <leader>sr :call term_start(
+                \ "stack run",
+                \ { "term_name":"stack run"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>st :call term_start(
+                \ "stack test",
+                \ { "term_name":"stack test"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sg :call term_start(
+                \ "stack ghci",
+                \ { "term_name":"stack ghci"
+                \ , "term_finish": "close"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sb :call term_start(
+                \ "stack build",
+                \ { "term_name":"stack build"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sbf :call term_start(
+                \ "stack build --fast",
+                \ { "term_name":"stack build fast"
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <leader>sbw :call term_start(
+                \ "stack build --fast --file-watch",
+                \ { "term_name":"stack build watch"
+                \ , "term_rows":3
+                \ })<CR>
+
+
+    " FILE SPECIFIC COMMANDS (using <localleader>)
+    " i.e. Run `stack` on file in current buffer
+    autocmd FileType haskell nnoremap <silent> <localleader>sr :call term_start(
+                \ "stack runhaskell " . expand('%:~'),
+                \ { "term_name": "stack run " . expand('%:p:t')
+                \ })<CR>
+    autocmd FileType haskell nnoremap <silent> <localleader>sg :call term_start(
+                \ "stack ghci " . expand('%:p:t'),
+                \ { "term_name":"stack ghci " . expand('%:p:t')
+                \ , "term_finish": "close"
+                \ })<CR>
+
+    " Makes easier to type the last part of `stack new FOO kadimisetty/basic`
+    " by providing an imap for appending "kadimisetty/basic" to the end of line.
+    " This is for when opening zsh shell currently being written in $EDITOR
+    " with the shortcut commanbd <C-x><C-e>. See help section
+    " `edit-and-execute-command` in `man bash`. Bash has sligtlty different
+    " behavior from zh. Prefer the zsh behavior.
+    " Why `kb`? For `kadimisetty basic`.
+    " Does: Inserts the text, switches to normal mode and exits to shell.
+    autocmd FileType zsh inoremap <silent> <leader>kb kadimisetty/basic<esc>ZZ
+    autocmd FileType zsh nnoremap <silent> <leader>kb A kadimisetty/basic<esc>ZZ
+augroup END
+
+augroup haskell_stack_helper_package_yaml
+    autocmd!
+    " For package.yaml, only allow:
+    " `stack build`
+    " `stack build --fast`
+
+    " PROJECT WIDE COMMANDS (using <leader>)
+    " i.e. Run `stack` on entire project
+    autocmd BufEnter package.yaml nnoremap <silent> <leader>sb :call term_start(
+                \ "stack build",
+                \ { "term_name":"stack build"
+                \ })<CR>
+    autocmd BufEnter package.yaml nnoremap <silent> <leader>sbf :call term_start(
+                \ "stack build --fast",
+                \ { "term_name":"stack build fast"
+                \ })<CR>
+augroup END
+
+augroup filetype_elm
+    " Insert module line on new buffers  i.e. for a new buffer named `Foo.elm`
+    " add the module line at the top:
+    "   `module Foo exposing (..)`
+    autocmd BufNewFile *.elm :execute
+                \ "normal! Imodule " . expand("%:t:r") . " exposing (..)\<cr>\<cr>\<esc>"
+augroup end
+
+
+" FILETYPE-SPECIFIC TOGGLES {{{2
+" Toggle filetype specific elements, usually on current line.
+" e.g.: `<local-leader>,` toggles a trailing comma on current line.
+"
+" NOTES:
+" 1. Using `<localleader>` as prefix for the toggle keys.
+" 2. Keep the toggles small, preferably to acted on elements on current
+"    line or word under cursor.
+" 3. WARNING: A toggle that makes sense in one filetype might not be able to
+"    use the same login in anither filetype, so keep that in mind.
+" TODO:
+" 1. Group together commonly applicable toggles, .e.g. trailing comma toggle.
+" 2. Get common toggles for common programming languages.
+" 3. Consider an alternate prefix(other than `<localleader>`).
+" 4. Refine the helper functions.
+
+" TOGGLE MAPPINGS: {{{3
+augroup toggles_elixir
+    autocmd!
+    " Toggle trailing comma on current line
+    autocmd FileType elixir nnoremap <silent> <localleader>,  :call ToggleTrailingStringOnLine(",", line("."))<CR>
+    " Toggle leading `_` on current word
+    autocmd FileType elixir nnoremap <silent> <localleader>_  :call ToggleLeadingUnderscoreOnWordUnderCursor()<CR>
+augroup end
+
+augroup toggles_python
     autocmd!
     " Toggle trailing colon on current line
     autocmd FileType python nnoremap <silent> <localleader>:  :call ToggleTrailingStringOnLine(":", line("."))<CR>
@@ -268,6 +395,37 @@ augroup filetype_python
     " Toggle trailing pyright ignore label ` # type: ignore` on current line
     autocmd FileType python nnoremap <silent> <localleader>i  :call ToggleTrailingStringOnLine(" # type: ignore", line("."))<CR>
 augroup end
+
+augroup toggles_rust
+    autocmd!
+    autocmd FileType rust setlocal formatprg=rustfmt
+    " Toggle trailing semicolon on current line
+    autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingStringOnLine(";", line("."))<CR>
+    " Toggle trailing comma on current line
+    autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingStringOnLine(",", line("."))<CR>
+    " Toggle leading `let/let mut` keywords on current line
+    autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
+    " Toggle leading `pub` keyword on current line
+    autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
+    " Toggle trailing `into()` on content of current line
+    autocmd FileType rust nnoremap <silent> <localleader>i  :call ToggleTrailingInto(".")<CR>
+    " Toggle leading `async` keyword on current line
+    autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeywordRust(".")<CR>
+    " Toggle trailing `await` on content of current line
+    autocmd FileType rust nnoremap <silent> <localleader>A  :call ToggleTrailingAwaitKeyword(".")<CR>
+    " Toggle trailing question mark on current line
+    autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
+    " Toggle wrapping `Ok()` and `Err()` on current line
+    autocmd FileType rust nnoremap <silent> <localleader>o  :call ToggleWrappingTagOnCurrentLine("Ok")<CR>
+    autocmd FileType rust nnoremap <silent> <localleader>e  :call ToggleWrappingTagOnCurrentLine("Err")<CR>
+    " Toggle leading `_` on current word
+    autocmd FileType rust nnoremap <silent> <localleader>_  :call ToggleLeadingUnderscoreOnWordUnderCursor()<CR>
+    " TODO: Toggle attribute `[allow(dead_code)]` on current line
+    " autocmd FileType rust nnoremap <silent> <localleader>d  :call ToggleAttributeOnLine("[allow(dead_code)]" , ".")<CR>
+augroup end
+
+" TOGGLE HELPERS: {{{3
 function! TogglePassKeywordReplacingContentPython(line_number)
     " Toggles leading keywords `pass`
     let line_content = getline(a:line_number)
@@ -306,33 +464,27 @@ function! ToggleAsyncOrAwaitKeywordPython(line_number)
     endif
 endfunction
 
-augroup filetype_rust
-    autocmd!
-    autocmd FileType rust setlocal formatprg=rustfmt
-    " Toggle trailing semicolon on current line
-    autocmd FileType rust nnoremap <silent> <localleader>; :call ToggleTrailingStringOnLine(";", line("."))<CR>
-    " Toggle trailing comma on current line
-    autocmd FileType rust nnoremap <silent> <localleader>, :call ToggleTrailingStringOnLine(",", line("."))<CR>
-    " Toggle leading `let/let mut` keywords on current line
-    autocmd FileType rust nnoremap <silent> <localleader>l  :call ToggleLetKeyword(".", 0, 1)<CR>
-    autocmd FileType rust nnoremap <silent> <localleader>lm :call ToggleLetKeyword(".", 1, 0)<CR>
-    " Toggle leading `pub` keyword on current line
-    autocmd FileType rust nnoremap <silent> <localleader>p  :call TogglePubKeyword(".")<CR>
-    " Toggle trailing `into()` on content of current line
-    autocmd FileType rust nnoremap <silent> <localleader>i  :call ToggleTrailingInto(".")<CR>
-    " Toggle leading `async` keyword on current line
-    autocmd FileType rust nnoremap <silent> <localleader>a  :call ToggleAsyncKeywordRust(".")<CR>
-    " Toggle trailing `await` on content of current line
-    autocmd FileType rust nnoremap <silent> <localleader>A  :call ToggleTrailingAwaitKeyword(".")<CR>
-    " Toggle trailing question mark on current line
-    autocmd Filetype rust nnoremap <silent> <localleader>?  :call ToggleTrailingQuestionMark(".")<CR>
-    " Toggle wrapping `Ok()` and `Err()` on current line
-    autocmd FileType rust nnoremap <silent> <localleader>o  :call ToggleWrappingTagOnCurrentLine("Ok")<CR>
-    autocmd FileType rust nnoremap <silent> <localleader>e  :call ToggleWrappingTagOnCurrentLine("Err")<CR>
-    " Toggle leading `_` on current word
-    autocmd FileType rust nnoremap <silent> <localleader>_  :call ToggleLeadingUnderscoreOnWordUnderCursor()<CR>
-augroup end
+function! ToggleAttributeOnLine(string, line_number)
+    " TODO:
+    "   - Multiple attributes?
+    "   - Preserve indentation
+    "   - Attributes acting on a statement can be stacked on multiple lines,
+    "   so check for that.
+    "   - Sometimes one of the stacked attributes can span multiple lines with
+    "   a comma in between and so the check for multiple attributes would have
+    "   to take that into account.
 
+    " GIVEN ATTRIBUTE ON ABOVE LINE? YES
+    "   REMOVE GIVEN ATTRIBUTE LINE ABOVE CURRENT LINE
+    " GIVEN ATTRIBUTE ON ABOVE LINE? NO
+    "   DIFFERENT ATTRIBUTE ON ABOVE LINE? YES
+    "       GIVEN ATTRIBUTE ON ANY STACKED ATTRIBUTES ABOVE LINE? YES
+    "           REMOVE THE GIVEN ATTRIBUTE LINE
+    "       GIVEN ATTRIBUTE ON ANY STACKED ATTRIBUTES ABOVE LINE? NO
+    "           ADD GIVEN ATTRIBUTE IN LINE ABOVE CURRENT LINE
+    "   DIFFERENT ATTRIBUTE ON ABOVE LINE? NO
+    "       ADD GIVEN ATTRIBUTE IN LINE ABOVE CURRENT LINE
+endfunction
 function! ToggleTrailingAwaitKeyword(line_number)
     " Toggles trailing `await` keyword on line of provided line number
 
@@ -643,107 +795,6 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
         endif
     endif
 endfunction
-
-augroup filetype_haskell
-    autocmd!
-    " Chosing formatprg as hindent to keep a secondary formatprg at hand
-    " NOTE: Requires `hindent` in `$PATH`
-    " TODO: Call via `stack` (like `ALE` does for `hlint`)
-    autocmd FileType haskell setlocal formatprg=hindent
-
-    " Append current word with a trailing `'`
-    " TODO: Use a function to allow adding and removing trailing `'`
-    autocmd FileType haskell nnoremap <silent> <localleader>'  ea'<Esc>
-
-    " Insert module line on new buffers
-    " i.e. for a new buffer named `Foo.hs` add the module line `module Foo where`
-    autocmd BufNewFile *.hs :execute
-                \ "normal! Imodule " . expand("%:t:r") . " where\<cr>\<cr>\<esc>"
-augroup end
-
-augroup haskell_stack_helper
-    autocmd!
-
-    " PROJECT WIDE COMMANDS (using <leader>)
-    " i.e. Run `stack` on entire project
-    autocmd FileType haskell nnoremap <silent> <leader>sr :call term_start(
-                \ "stack run",
-                \ { "term_name":"stack run"
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <leader>st :call term_start(
-                \ "stack test",
-                \ { "term_name":"stack test"
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <leader>sg :call term_start(
-                \ "stack ghci",
-                \ { "term_name":"stack ghci"
-                \ , "term_finish": "close"
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <leader>sb :call term_start(
-                \ "stack build",
-                \ { "term_name":"stack build"
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <leader>sbf :call term_start(
-                \ "stack build --fast",
-                \ { "term_name":"stack build fast"
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <leader>sbw :call term_start(
-                \ "stack build --fast --file-watch",
-                \ { "term_name":"stack build watch"
-                \ , "term_rows":3
-                \ })<CR>
-
-
-    " FILE SPECIFIC COMMANDS (using <localleader>)
-    " i.e. Run `stack` on file in current buffer
-    autocmd FileType haskell nnoremap <silent> <localleader>sr :call term_start(
-                \ "stack runhaskell " . expand('%:~'),
-                \ { "term_name": "stack run " . expand('%:p:t')
-                \ })<CR>
-    autocmd FileType haskell nnoremap <silent> <localleader>sg :call term_start(
-                \ "stack ghci " . expand('%:p:t'),
-                \ { "term_name":"stack ghci " . expand('%:p:t')
-                \ , "term_finish": "close"
-                \ })<CR>
-
-    " Makes easier to type the last part of `stack new FOO kadimisetty/basic`
-    " by providing an imap for appending "kadimisetty/basic" to the end of line.
-    " This is for when opening zsh shell currently being written in $EDITOR
-    " with the shortcut commanbd <C-x><C-e>. See help section
-    " `edit-and-execute-command` in `man bash`. Bash has sligtlty different
-    " behavior from zh. Prefer the zsh behavior.
-    " Why `kb`? For `kadimisetty basic`.
-    " Does: Inserts the text, switches to normal mode and exits to shell.
-    autocmd FileType zsh inoremap <silent> <leader>kb kadimisetty/basic<esc>ZZ
-    autocmd FileType zsh nnoremap <silent> <leader>kb A kadimisetty/basic<esc>ZZ
-augroup END
-
-augroup haskell_stack_helper_package_yaml
-    autocmd!
-    " For package.yaml, only allow:
-    " `stack build`
-    " `stack build --fast`
-
-    " PROJECT WIDE COMMANDS (using <leader>)
-    " i.e. Run `stack` on entire project
-    autocmd BufEnter package.yaml nnoremap <silent> <leader>sb :call term_start(
-                \ "stack build",
-                \ { "term_name":"stack build"
-                \ })<CR>
-    autocmd BufEnter package.yaml nnoremap <silent> <leader>sbf :call term_start(
-                \ "stack build --fast",
-                \ { "term_name":"stack build fast"
-                \ })<CR>
-augroup END
-
-augroup filetype_elm
-    " Insert module line on new buffers  i.e. for a new buffer named `Foo.elm`
-    " add the module line at the top:
-    "   `module Foo exposing (..)`
-    autocmd BufNewFile *.elm :execute
-                \ "normal! Imodule " . expand("%:t:r") . " exposing (..)\<cr>\<cr>\<esc>"
-augroup end
-
 
 "INDENTS & FOLDS {{{1
 "Vi Folding Specifics {{{2
