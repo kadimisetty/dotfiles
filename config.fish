@@ -296,6 +296,7 @@ alias exagt="exa --tree --git-ignore --git"
 
 # GIT {{{1
 alias ga='git add'
+alias ga.='git add .'
 alias gb='git branch'
 alias gc='git commit'
 alias gca='git commit --amend'
