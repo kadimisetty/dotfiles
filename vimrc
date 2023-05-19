@@ -326,8 +326,16 @@ augroup haskell_stack_helper
     " Does: Inserts the text, switches to normal mode and exits to shell.
     autocmd FileType zsh inoremap <silent> <leader>kb kadimisetty/basic<esc>ZZ
     autocmd FileType zsh nnoremap <silent> <leader>kb A kadimisetty/basic<esc>ZZ
-augroup END
 
+    " Add an `undefined` implementation for function whose type signature is on current line
+    autocmd FileType haskell nnoremap <silent> <localleader>u :<c-u>call HaskellAddUndefinedImplForFuntionTypeSignOnCurrentLine()<CR>
+augroup END
+function HaskellAddUndefinedImplForFuntionTypeSignOnCurrentLine()
+    " TODO:
+    " 1. Match indentation.
+    " 2. Do not use up registers being used here to record position and function name.
+    execute "normal! mn^yiwo\<esc>pA = undefined\<esc>`n"
+endfunction
 augroup haskell_stack_helper_package_yaml
     autocmd!
     " For package.yaml, only allow:
