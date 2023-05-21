@@ -601,6 +601,39 @@ alias gmt="go mod tidy"
 alias gr.='go run .'
 alias gr='go run'
 alias gt='go test'
+function gmi \
+    --description "Run `go mod init` with given arg (default: \$PWD)" \
+    --argument module_path
+
+    # If no `module_path` argument passed in, use current directory name.
+    if not test -n "$module_path"
+        set module_path (basename $PWD)
+    end
+
+    go mod init $module_path
+end
+function gncd \
+    --description "`mcd`s into given dir name and runs `go mod init` there" \
+    --argument module_path
+
+    # Exit if no `module_path` argument passed in
+    if test -z "$module_path"
+        set_color $fish_color_error
+        echo "ERROR: No module path name given." >&2
+        set_color $fish_color_normal
+        and false # return with failure code
+    # Exit if path with given name exists in current dir
+    else if test -e "$module_path"
+        set_color $fish_color_error
+        echo "ERROR: Path with given name exists." >&2
+        set_color $fish_color_normal
+        and false # return with failure code
+    else
+        # Create a new directory with the name, move into it and run `go mod init` there
+        mcd "$module_path"
+        and gmi "$module_path"
+    end
+end
 
 
 
