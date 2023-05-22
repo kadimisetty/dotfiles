@@ -558,6 +558,8 @@ alias cwq="cargo watch --quiet"
 if test -e "$HOME/.ghcup/env"
   bass source "$HOME/.ghcup/env"
 end
+# CABAL {{{2
+fish_add_path $HOME/.cabal/bin
 # STACK {{{2
 function sncd --description "Does `stack new` and `cd`s into the new dir"
     # TODO:
