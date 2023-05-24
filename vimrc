@@ -161,8 +161,10 @@ set wildignore+=.stack-work,.stackwork/*
 
 
 "Encodings {{{2
-scriptencoding  utf-8       "Set character encoding in the script. Place before encoding.
 set encoding=utf-8          "Set default file encoding to UTF-8
+"Set character encoding in the script.
+"NOTE: Place after setting encoding, see `:help scriptencoding`
+scriptencoding  utf-8
 set title                   "Enable setting title
 
 "Completions & Ignores {{{2
