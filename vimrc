@@ -473,7 +473,6 @@ function! ToggleAsyncOrAwaitKeywordPython(line_number)
         endif
     endif
 endfunction
-
 function! ToggleAttributeOnLine(string, line_number)
     " TODO:
     "   - Multiple attributes?
@@ -483,7 +482,7 @@ function! ToggleAttributeOnLine(string, line_number)
     "   - Sometimes one of the stacked attributes can span multiple lines with
     "   a comma in between and so the check for multiple attributes would have
     "   to take that into account.
-
+    "   
     " GIVEN ATTRIBUTE ON ABOVE LINE? YES
     "   REMOVE GIVEN ATTRIBUTE LINE ABOVE CURRENT LINE
     " GIVEN ATTRIBUTE ON ABOVE LINE? NO
@@ -497,12 +496,11 @@ function! ToggleAttributeOnLine(string, line_number)
 endfunction
 function! ToggleTrailingAwaitKeyword(line_number)
     " Toggles trailing `await` keyword on line of provided line number
-
+    " 
     let trimmed_line_content = getline(a:line_number)->trim()
-
+    " 
     " Ensure trimmed line is not empty
     if strchars(trimmed_line_content) > 0
-
         " TRAILING `?;`
         if trimmed_line_content =~# '?;$'
             " TRAILING `.await` BEHIND `?;`?
@@ -513,7 +511,6 @@ function! ToggleTrailingAwaitKeyword(line_number)
                 " NO: Insert `.await` behind trailing `?;`
                 execute "normal mm$hi.await\e`m"
             endif
-
         " TRAILING `;`
         elseif trimmed_line_content =~# ';$'
             " TRAILING `.await` BEHIND `;`?
@@ -524,7 +521,6 @@ function! ToggleTrailingAwaitKeyword(line_number)
                 " NO: Insert `.await` behind trailing `;`
                 execute "normal mm$i.await\e`m"
             endif
-
         " NO TRAILING `?;` OR `;`
         else
             " TRAILING `.await`?
@@ -546,10 +542,10 @@ function! ToggleLeadingUnderscoreOnWordUnderCursor()
     "   Fix bug where while `wb` always lands cursor at beginning of word,
     "   it has a catch where it can't work if cursor is on last letter of last
     "   word in file (and thereby also single letter words at end of file).
-
+    "   
     " Get current word
     let word_under_cursor = expand("<cword>")
-
+    "   
     " Act only if cursor is on top of a word that is at least 1 letter long
     if len(word_under_cursor) > 0
         if word_under_cursor =~# "^_"
@@ -563,14 +559,13 @@ function! ToggleLeadingUnderscoreOnWordUnderCursor()
 endfunction
 function! ToggleWrappingTagOnCurrentLine(tag)
     " Toggles wrapping line content with supplied tag e.g. `Ok()` or `Err()`
-
+    "   
     let trimmed_line_content = trim(getline("."))
     if len(trimmed_line_content) == 0
         " Empty line: Produce empty tag e.g. Ok(())
         execute 'normal I' . a:tag . '()'
     else
         " Non-empty line: Toggle tag around current line content. e.g. `Ok("x") and `"x"`
-
         " Check if line begins with tag name e.g. `Ok` or `Err`
         if trimmed_line_content =~#  '^' . a:tag
             " Remove leading tag and `(`
@@ -609,10 +604,10 @@ function ToggleTrailingQuestionMark(line_number)
     "               YES: Check if there is `?` behind trailing `;`
     "                       YES: Remove that `?` before trailing `;`
     "                       NO:  Add `?` before trailing `;`
-
+    "
     let line_content = getline(a:line_number)
     let trimmed_line_content = trim(line_content)
-
+    "
     " Ensure trimmed line is not empty
     if strwidth(trimmed_line_content) > 0
         " Check if there is a trailing `?`
@@ -648,7 +643,7 @@ function! ToggleTrailingInto(line_number)
     "       NO: line ends with `.into()`
     "               YES: remove .into()
     "               NO: append `.into()`
-
+    "
     let line_content = getline(a:line_number)
     let trimmed_line_content = trim(line_content)
     if len(trimmed_line_content) == 0
@@ -691,13 +686,13 @@ function! TogglePubKeyword(line_number)
 endfunction
 function! ToggleTrailingStringOnLine(string, line_number)
     " Toggles trailing given string on line at given line number
-
+    "
     " TODO: Check which builtin string length function to use from:
     "       len/strlen/strdisplaywidth/strwidth erc.
-
+    "
     let line_content = getline(a:line_number)
     let string_length= strwidth(a:string)
-
+    "
     " TODO: Also check if line length is > than given string_length?
     " Ensure line is not empty
     if strwidth(line_content) > 0
@@ -714,22 +709,19 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
     "TODO: While this function accepts a line_number, the helpe fucntions within
     " only act upon the current line to accomodate the current way of restoring
     " the cursor position. Rewrite them to accept an arbitrary line number.
-
+    "
     " Assert provided toggle_* arguments are mutually exclusive booleans
     if (a:toggle_let_mut == a:toggle_let)
         echoerr "Provided arguments make it imposible to decide between exclusive keywords - `let` and `let mut`"
-
     else
         let line_content = getline(a:line_number)
         let trimmed_line_content = trim(line_content)
-
         " Note whether line begins with `let mut` or `let`
         " 1. First check for leading `let mut`
         if (trimmed_line_content =~# "^let mut ")
             let has_let_mut = 1
         else
             let has_let_mut = 0
-
             " 2. Next check for leading `let`
             " (Nesting to avoid `let mut` matcfhes)
             if (trimmed_line_content =~# "^let ")
@@ -738,7 +730,7 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
                 let has_let = 0
             endif
         endif
-
+        "
         " TOGGLING LOGIC:
         " +--------------+------------------+----------------+
         " |              | a:toggle_let_mut | a:toggle_let   |
@@ -752,7 +744,7 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
         " | !has_let_mut | PrependLetMut()  | PrependLet()   |
         " | !has_let     |                  |                |
         " +--------------+------------------+----------------+
-
+        "
         " Helper functions that modify current line:
         " TODO:
         " - Cover edge cases while restoring the cursor
@@ -783,7 +775,7 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
             call setpos('.', save_pos)
             execute 'normal 4h'
         endfunction
-
+        "
         " Run logic
         if a:toggle_let_mut && has_let_mut
             call RemoveLetMut()
@@ -792,7 +784,7 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
             call PrependLetMut()
         elseif a:toggle_let_mut && (!has_let_mut && !has_let)
             call PrependLetMut()
-
+        "
         elseif a:toggle_let && has_let_mut
             call RemoveLetMut()
             call PrependLet()
