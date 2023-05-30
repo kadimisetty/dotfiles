@@ -92,7 +92,15 @@ end
 # DISABLE WELCOME GREETING:
 set fish_greeting ""
 # THEME:
-fish_config theme choose Dracula
+# Dracula
+# fish_config theme choose Dracula
+
+# Tokyo Night:
+# fish_config theme choose tokyonight_day
+# fish_config theme choose tokyonight_moon
+fish_config theme choose tokyonight_night
+# fish_config theme choose tokyonight_storm
+
 # DEFAULT EDITOR:
 set --export EDITOR vim
 set --export VISUAL vim
