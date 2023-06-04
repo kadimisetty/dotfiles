@@ -312,6 +312,29 @@ alias gco='git checkout'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
+function gccd \
+    --description "`git clone`s given repo url and `cd`s inside" \
+    --argument repo_url
+
+    # Exit if no `repo_url` argument passed in
+    if test -z $repo_url
+        set_color $fish_color_error
+        echo "ERROR: No repo url given." >&2
+        set_color $fish_color_normal
+        and false # return with failure code
+    else
+        # NOTE: If a directory with the repo name already exists in current
+        # directory, let `git clone` handle that error-reporting.
+
+        # Clone given repo url into current directory
+        git clone $repo_url;
+        # If `git clone` succeeds, `cd` into the cloned directory
+        and cd (echo $repo_url |
+        tr --delete '[:space:]' | 
+        string split '/' --right --field 2 |
+        string split '.git' --right --field 1)
+    end
+end
 
 
 
