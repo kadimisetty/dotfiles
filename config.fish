@@ -27,6 +27,7 @@ fundle plugin 'oh-my-fish/plugin-gi'
 fundle plugin 'oh-my-fish/plugin-license'
 fundle plugin 'oh-my-fish/plugin-pbcopy'
 fundle plugin 'tuvistavie/fish-fastdir'
+fundle plugin 'jorgebucaran/autopair.fish'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
@@ -314,25 +315,38 @@ alias gds='git diff --staged'
 alias gl='git log --oneline --decorate --graph'
 function gccd \
     --description "`git clone`s given repo url and `cd`s inside" \
-    --argument repo_url
+    --argument repo_url \
+    --argument target_directory_name
 
-    # Exit if no `repo_url` argument passed in
+    # Exit if no `repo_url` argument passed in:
     if test -z $repo_url
         set_color $fish_color_error
         echo "ERROR: No repo url given." >&2
         set_color $fish_color_normal
         and false # return with failure code
+    # `repo_url` was passed in:
     else
-        # NOTE: If a directory with the repo name already exists in current
-        # directory, let `git clone` handle that error-reporting.
 
-        # Clone given repo url into current directory
-        git clone $repo_url;
-        # If `git clone` succeeds, `cd` into the cloned directory
-        and cd (echo $repo_url |
-        tr --delete '[:space:]' | 
-        string split '/' --right --field 2 |
-        string split '.git' --right --field 1)
+        # If target_directory_name not given, do a regular `git clone`:
+        if test -z $target_directory_name
+            # NOTE: If a directory with the repo name already exists in current
+            # directory, let `git clone` handle that error-reporting.
+
+            # Clone given repo url into current directory
+            git clone $repo_url;
+            # If `git clone` succeeds, `cd` into the cloned directory
+            and cd (echo $repo_url |
+            tr --delete '[:space:]' | 
+            string split '/' --right --field 2 |
+            string split '.git' --right --field 1)
+
+        # If target_directory_name was given, use that in `git clone`:
+        else
+            # Clone given repo url into current directory
+            git clone $repo_url $target_directory_name;
+            # If `git clone` succeeds, `cd` into the cloned directory
+            and cd $target_directory_name
+        end
     end
 end
 
