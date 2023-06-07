@@ -17,6 +17,7 @@
 | `./gitconfig`             | [git](https://git-scm.com/docs/git-config)                | `$HOME`                                                   |
 | `./gitignore-global`      | [git](https://git-scm.com/docs/gitignore)                 | `$HOME`                                                   |
 | `./hawk`                  | [haskell text processor](https://github.com/gelisam/hawk) | `$HOME`                                                   |
+| `./init.lua`              | [nvim](https://neovim.io)                                 | `$XDG_CONFIG_HOME`                                        |
 | `./kitty.conf`            | [kitty](https://sw.kovidgoyal.net/kitty/)                 | `$XDG_CONFIG_HOME`                                        |
 | `./luacheckrc`            | [luacheck](https://github.com/mpeterv/luacheck/)          | `$HOME/.luacheckrc`                                       |
 | `./skeletons/`            | vim                                                       | `$HOME/.vim/skeletons/`                                   |
