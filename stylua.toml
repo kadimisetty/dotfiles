@@ -1,0 +1,16 @@
+# [STYLUA Configuration](https://github.com/JohnnyMorganz/StyLua)
+# NOTES ABOUT PLACING THIS FILE:
+# - By default this is to be placed in the local directory.
+# - DOCS: "By default, the tool does not search further than the current
+# directory. Recursively searching parent directories can be enabled using
+# `--search-parent-directories`. This will keep searching ancestors. If not
+# found, it will then look in `$XDG_CONFIG_HOME` / `$XDG_CONFIG_HOME/stylua`."
+# RECOMMENDATION: Do not link explicitly if possible.
+indent_type = "Spaces"
+indent_width = 2
+column_width = 74
+collapse_simple_statement = "Always"
+
+
+[sort_requires]
+enabled = true

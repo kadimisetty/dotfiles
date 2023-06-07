@@ -21,6 +21,7 @@
 | `./kitty.conf`            | [kitty](https://sw.kovidgoyal.net/kitty/)                 | `$XDG_CONFIG_HOME`                                        |
 | `./luacheckrc`            | [luacheck](https://github.com/mpeterv/luacheck/)          | `$HOME/.luacheckrc`                                       |
 | `./skeletons/`            | vim                                                       | `$HOME/.vim/skeletons/`                                   |
+| `./stylua.toml`           | [stylua](https://github.com/JohnnyMorganz/StyLua)         | `$XDG_CONFIG_HOME` *(global not recommended)*             |
 | `./tmux.conf`             | [tmux](https://github.com/tmux/tmux)                      | `$HOME`                                                   |
 | `./vimrc`                 | vim                                                       | `$HOME`                                                   |
 | `./xmonad.hs`             | [xmonad](https://xmonad.org)                              | `$HOME/xmonad/xmonad.hs` *(not symlinked, but with `cp`)* |
