@@ -399,15 +399,15 @@ vim.opt.scrolloff = 1
 vim.opt.wrap = false
 
 -- Number of spaces `<Tab>` i the file counts for.
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 
 -- Number of spaces `<Tab>` counts for while editing.
 -- Example: Inserting `<Tab>` or using `<BS>`
-vim.opt.softtabstop = 4
+vim.opt.softtabstop = 2
 
 -- Number of spaces to use for each step of (auto)indent.
 -- (When zero the 'ts' value will be used.)
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 2
 
 -- Round indent to multiples of 'shiftwidth'
 vim.opt.shiftround = true
