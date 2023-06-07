@@ -6,7 +6,7 @@
 
 [core]
     pager = cat
-    editor = vim
+    editor = nvim
 	excludesfile = /Users/sri/.gitignore_global
 
 [alias]
