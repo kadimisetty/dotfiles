@@ -2551,12 +2551,20 @@ local lazy_opts = {
   ui = {
     border = "rounded",
     custom_keys = {
+      -- FIXME: `custom_keys` inside lazy_opts>ui>custom_keys stopped working. In
+      -- the meanwhile, set the desired keymap manually just outside this
+      -- table
       -- OPEN LAZY UI:
-      -- vim.keymap.set("n", "<m-l>", "<cmd>Lazy<cr>", { silent = true })
-      ["<m-l>"] = "<cmd>Lazy<cr>", --XXX
+      -- ["<m-l>"] = "<cmd>Lazy<cr>",
     },
   },
 }
+vim.keymap.set(
+  "n",
+  "<m-l>",
+  "<cmd>Lazy<cr>",
+  { desc = "open `lazy.nvim` dashboard" }
+)
 
 require("lazy").setup(
   {
