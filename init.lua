@@ -2678,6 +2678,47 @@ require("lazy").setup(
       event = "VeryLazy",
     },
 
+    -- Files/Dirs as textual buffer content
+    {
+      "stevearc/oil.nvim", -- {{{3
+      cmd = "Oil",
+      opts = {
+        columns = {
+          -- "mtime",
+          -- "size",
+          -- "permissions",
+          "icon",
+        },
+        float = {
+          padding = 2,
+          max_width = 40,
+          max_height = 0,
+          border = "rounded",
+          win_options = {
+            winblend = 10,
+          },
+        },
+        win_options = {
+          cursorline = true,
+        },
+      },
+      keys = {
+        {
+          "-",
+          "<cmd>Oil --float<cr>",
+          mode = "n",
+          desc = "Open Oil in floating window",
+        },
+        {
+          "_",
+          "<cmd>Oil<cr>",
+          mode = "n",
+          desc = "Open Oil in full window",
+        },
+      },
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+
     -- Pairs of handy bracket keymaps
     -- TODO: replace this with the nvim version which allows chosing
     -- keymaps
