@@ -2703,14 +2703,16 @@ require("lazy").setup(
         },
       },
       keys = {
+        -- TODO: Check if `<esc>` can be mapped to exiting the oil window or
+        -- if it is necessary in oil usage.
         {
-          "-",
+          "<m-o>",
           "<cmd>Oil --float<cr>",
           mode = "n",
           desc = "Open Oil in floating window",
         },
         {
-          "_",
+          "<m-O>",
           "<cmd>Oil<cr>",
           mode = "n",
           desc = "Open Oil in full window",
@@ -3241,15 +3243,15 @@ require("lazy").setup(
         vim.g.neo_tree_remove_legacy_commands = 1
       end,
       keys = {
-        -- Filesystem w/ current file selected
+        -- Filesystem with current file selected
         {
-          "<m-n>",
+          "-",
           "<cmd>Neotree action=focus source=filesystem position=left toggle=true reveal=true<cr>",
           desc = "Toggle NeoTree",
         },
-        -- Git status?
+        -- Git relevant files with current file selected
         {
-          "<m-N>",
+          "_",
           "<cmd>Neotree action=focus source=git_status position=left toggle=true reveal=true<cr>",
           desc = "Toggle NeoTree",
         },
