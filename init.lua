@@ -4346,12 +4346,14 @@ require("lazy").setup(
           ["<cr>"] = cmp.mapping.confirm({
             select = true,
             behavior = cmp.ConfirmBehavior.Insert,
+            callback = function() cmp.close() end,
           }),
 
           --  Insert currentl selection, replacing current word.
           ["<s-cr>"] = cmp.mapping.confirm({
             select = true,
             behavior = cmp.ConfirmBehavior.Replace,
+            callback = function() cmp.close() end,
           }),
         }
 
