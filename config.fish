@@ -19,14 +19,14 @@
 #   9. Periodically update fundle itself with `fundle self-update`.
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
-fundle plugin 'Markcial/upto'
-fundle plugin 'decors/fish-colored-man'
-fundle plugin 'edc/bass'
-fundle plugin 'oh-my-fish/plugin-bang-bang'
-fundle plugin 'oh-my-fish/plugin-gi'
-fundle plugin 'oh-my-fish/plugin-license'
-fundle plugin 'oh-my-fish/plugin-pbcopy'
-fundle plugin 'tuvistavie/fish-fastdir'
+fundle plugin Markcial/upto
+fundle plugin decors/fish-colored-man
+fundle plugin edc/bass
+fundle plugin oh-my-fish/plugin-bang-bang
+fundle plugin oh-my-fish/plugin-gi
+fundle plugin oh-my-fish/plugin-license
+fundle plugin oh-my-fish/plugin-pbcopy
+fundle plugin tuvistavie/fish-fastdir
 fundle plugin 'jorgebucaran/autopair.fish'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
@@ -41,10 +41,10 @@ fundle init
 # SETUP {{{2
 # NOTE: Place as close to top as possible to make nix available immediately.
 if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
-  source $HOME/.nix-profile/etc/profile.d/nix.fish
+    source $HOME/.nix-profile/etc/profile.d/nix.fish
 end
 # LOCALE {{{2
-if type -q "nix" && test $(uname) = "Linux"
+if type -q nix && test $(uname) = Linux
     # TODO: See if there's a better way to check for nix presence than `type -q "nix"`.
     # TODO: Check if applicable to macOS.
     # SETTING LOCALE:
@@ -54,19 +54,19 @@ if type -q "nix" && test $(uname) = "Linux"
     #      distributions](https://nixos.wiki/wiki/Locales)
 
     if test -e /etc/NIXOS
-      # On NixOS
-      # Applying this on NixOS as well, because the issue exists on non-bash shells 
-      # like `fish` etc.
-      if test -e /run/current-system/sw/lib/locale/locale-archive
-        set --export LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive
-      end
+        # On NixOS
+        # Applying this on NixOS as well, because the issue exists on non-bash shells 
+        # like `fish` etc.
+        if test -e /run/current-system/sw/lib/locale/locale-archive
+            set --export LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive
+        end
     else
-      # TODO: Narrow down this conditional block further. Currently only checking 
-      # for (non-NixOS) linux here but as noted in the link, this issue and fix 
-      # is documented as applicable only to Debian, Red Hat, and Arch derivatives. 
-      if test -e /usr/lib/locale/locale-archive
-        set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
-      end
+        # TODO: Narrow down this conditional block further. Currently only checking 
+        # for (non-NixOS) linux here but as noted in the link, this issue and fix 
+        # is documented as applicable only to Debian, Red Hat, and Arch derivatives. 
+        if test -e /usr/lib/locale/locale-archive
+            set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
+        end
     end
 end
 # ALIASES {{{2
@@ -108,7 +108,7 @@ set --export VISUAL vim
 # ENABLE VI MODE:
 fish_vi_key_bindings
 # SET VIM CURSOR STYLES:
-set fish_cursor_default block   # `default` includes normal and visual modes
+set fish_cursor_default block # `default` includes normal and visual modes
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
 # PUT PERSONAL EXECUTABLES ON PATH (Create dir if not present):
@@ -122,12 +122,12 @@ if ! test -e "$HOME/.local/bin"
 end
 fish_add_path $HOME/.local/bin
 function fish_command_not_found
-    echo -s                                                     \
-        (set_color $fish_color_error --dim)  "ERROR: Command `" \
-        (set_color normal)                                      \
-        (set_color $fish_color_error --bold ) "$argv[1]"        \
-        (set_color normal)                                      \
-        (set_color $fish_color_error --dim)  "` not found."     >&2
+    echo -s \
+        (set_color $fish_color_error --dim) "ERROR: Command `" \
+        (set_color normal) \
+        (set_color $fish_color_error --bold ) "$argv[1]" \
+        (set_color normal) \
+        (set_color $fish_color_error --dim) "` not found." >&2
     set_color normal
 end
 
@@ -137,7 +137,7 @@ end
 # COMMON SHELL SPECIFIC ALIASES {{{1
 alias l="ls --almost-all"
 alias rmi="rm -i"
-function mcd  --description "`mkdir` and `cd` into new directory"
+function mcd --description "`mkdir` and `cd` into new directory"
     mkdir $argv
     and cd $argv
 end
@@ -167,24 +167,24 @@ end
 # PROMPT {{{1
 # VIM MODE PROMPT:
 function fish_mode_prompt
-		# NOTE: 
-		#		This function uses specific unicode symbols. Intended display font is Jetpack Mono.
-		#		[Enclosed Alphanumeric Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
+    # NOTE: 
+    #		This function uses specific unicode symbols. Intended display font is Jetpack Mono.
+    #		[Enclosed Alphanumeric Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
 
     switch $fish_bind_mode
         case insert
-            echo (set_color brblack --bold --dim)		    "🄸  "
+            echo (set_color brblack --bold --dim) "🄸  "
         case default
-            echo (set_color brblue --bold)					"🅽  "
+            echo (set_color brblue --bold) "🅽  "
         case replace_one
-            echo (set_color magenta --bold)					"🆁  "
+            echo (set_color magenta --bold) "🆁  "
         case replace
-            echo (set_color brmagenta --bold)				"🆁  "
+            echo (set_color brmagenta --bold) "🆁  "
         case visual
-            echo (set_color bryellow --bold)				"🆅  "
+            echo (set_color bryellow --bold) "🆅  "
         case "*"
-						# TODO: Look into this mode.
-            echo (set_color brred --bold)						"? "
+            # TODO: Look into this mode.
+            echo (set_color brred --bold) "? "
     end
     set_color normal
 end
@@ -207,15 +207,15 @@ function fish_prompt --description "Left prompt"
     if test $_previous_command_status -eq 0
         # `$status` is SUCESS i.e. 0
         # (set_color $fish_color_operator) $_prompt_symbol   \
-        echo -s                                                 \
-            (set_color white) (prompt_pwd) " "                  \
+        echo -s \
+            (set_color white) (prompt_pwd) " " \
             (set_color $fish_color_redirection --dim) $_prompt_symbol \
             (set_color normal ) " "
     else
         # `$status` is FAILURE i.e. 1/12/123/124/125/126//127
-        echo -s                                             \
-            (set_color white) (prompt_pwd) " "              \
-            (set_color $fish_color_error) $_prompt_symbol   \
+        echo -s \
+            (set_color white) (prompt_pwd) " " \
+            (set_color $fish_color_error) $_prompt_symbol \
             (set_color normal ) " "
     end
 end
@@ -226,7 +226,7 @@ function fish_right_prompt --description "Right prompt"
 
     if test $_previous_command_status -ne 0
         set_color brblack --bold --dim
-        echo "🅔" (fish_status_to_signal $_previous_command_status)
+        echo 🅔 (fish_status_to_signal $_previous_command_status)
         set_color $fish_color_normal
     end
 
@@ -234,7 +234,7 @@ function fish_right_prompt --description "Right prompt"
     if test -n "$fish_private_mode"
         echo -s (set_color brblack --bold --dim)
         set_color brblack --bold --dim
-        echo "PRIVATE"
+        echo PRIVATE
         set_color $fish_color_normal
     end
 
@@ -246,39 +246,39 @@ set __fish_git_prompt_show_informative_status
 set __fish_git_prompt_use_informative_chars
 set __fish_git_prompt_char_stateseparator " "
 # GIT PROMPT GENERAL COLORS:
-set __fish_git_prompt_color "brblack"
-set __fish_git_prompt_color_bare "blue"
-set __fish_git_prompt_color_prefix "black"
-set __fish_git_prompt_color_suffix "black"
+set __fish_git_prompt_color brblack
+set __fish_git_prompt_color_bare blue
+set __fish_git_prompt_color_prefix black
+set __fish_git_prompt_color_suffix black
 # GIT PROMPT CLEAN STATE:
 set __fish_git_prompt_char_cleanstate ""
-set __fish_git_prompt_color_cleanstate "brblack"
+set __fish_git_prompt_color_cleanstate brblack
 # GIT PROMPT DIRTY STATE (UNSTAGED FILES) WITH CHANGES EXIST:
 set __fish_git_prompt_showdirtystate
 set __fish_git_prompt_char_dirtystate ""
-set __fish_git_prompt_color_dirtystate "brred"
+set __fish_git_prompt_color_dirtystate brred
 # GIT PROMPT STAGED FILES WITHOUT ADDITIONAL CHANGES EXIST:
 set __fish_git_prompt_char_stagedstate ""
-set __fish_git_prompt_color_stagedstate "yellow"
+set __fish_git_prompt_color_stagedstate yellow
 # GIT PROMPT UNTRACKED FILES EXIST:
 set __fish_git_prompt_showuntrackedfiles
 set __fish_git_prompt_char_untrackedfiles ""
-set __fish_git_prompt_color_untrackedfiles "brmagenta"
+set __fish_git_prompt_color_untrackedfiles brmagenta
 # GIT PROMPT INVALID STATE (IN FISH "UNMERGED" CHANGES ARE ADDITIONAL CHANGES TO ALREADY ADDED FILES):
 set __fish_git_prompt_char_invalidstate ""
-set __fish_git_prompt_color_invalidstate "brred"
+set __fish_git_prompt_color_invalidstate brred
 # GIT PROMPT UPSTREAM AND DOWNSTREAM DIFFERENCES:
-set __fish_git_prompt_showupstream "auto"
+set __fish_git_prompt_showupstream auto
 set __fish_git_prompt_char_upstream_ahead " "
 set __fish_git_prompt_char_upstream_behind " "
-set __fish_git_prompt_color_upstream "yellow"
+set __fish_git_prompt_color_upstream yellow
 # TODO: LOOK INTO `*_DONE` COLORS:
 #   https://fishshell.com/docs/current/cmds/fish_git_prompt.html?highlight=git
 #   set __fish_git_prompt_color_upstream_done "green"
 # GIT PROMPT STASH:
 set __fish_git_prompt_showstashstate
 set __fish_git_prompt_char_stashstate ""
-set __fish_git_prompt_color_stashstate "brblack"
+set __fish_git_prompt_color_stashstate brblack
 
 
 
@@ -324,7 +324,7 @@ function gccd \
         echo "ERROR: No repo url given." >&2
         set_color $fish_color_normal
         and false # return with failure code
-    # `repo_url` was passed in:
+        # `repo_url` was passed in:
     else
 
         # If target_directory_name not given, do a regular `git clone`:
@@ -333,17 +333,17 @@ function gccd \
             # directory, let `git clone` handle that error-reporting.
 
             # Clone given repo url into current directory
-            git clone $repo_url;
+            git clone $repo_url
             # If `git clone` succeeds, `cd` into the cloned directory
             and cd (echo $repo_url |
             tr --delete '[:space:]' | 
             string split '/' --right --field 2 |
             string split '.git' --right --field 1)
 
-        # If target_directory_name was given, use that in `git clone`:
+            # If target_directory_name was given, use that in `git clone`:
         else
             # Clone given repo url into current directory
-            git clone $repo_url $target_directory_name;
+            git clone $repo_url $target_directory_name
             # If `git clone` succeeds, `cd` into the cloned directory
             and cd $target_directory_name
         end
@@ -367,7 +367,7 @@ function _fzf_search_history --description "Search command history with `fzf`"
         # Run fzf on received string. (TODO: Check if `fzf` installed)
         fzf \
             # Prefill query with command line content
-            --query=(commandline)  \
+            --query=(commandline) \
             # Multi-select with (Shift)Tab
             --multi \
             # Read input delimited by ascii null
@@ -450,12 +450,11 @@ alias ntabs='nvim -p'
 
 
 
-
 # TMUX/TMUXINATOR {{{1
 # TMUX:
 alias t="tmux"
 alias tls="tmux list-sessions"
-function tat  --description "Attach tmux to a running session with name provided as arg"
+function tat --description "Attach tmux to a running session with name provided as arg"
     tmux attach -t $argv
 end
 # TMUXINATOR:
@@ -466,12 +465,12 @@ alias tst="tmuxinator start ./.tmuxinator.yml"
 
 # ELIXIR/MIX/PHOENIX {{{1
 function mxncd --description "Does `mix new` and `cd`s into the new dir"
-    if mix new $argv;
+    if mix new $argv
         cd $argv
     end
 end
 function mxpncd --description "Does `mix phx.new` and `cd`s into the new dir"
-    if mix phx.new $argv;
+    if mix phx.new $argv
         cd $argv
     end
 end
@@ -511,74 +510,74 @@ function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failur
 end
 # MANAGE.PY ALIASES:
 # TODO: Print all `manage.py` aliases with a cmd such as `malias`
-function activate  --description "activate python virtual environment in `./venv`"
+function activate --description "activate python virtual environment in `./venv`"
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
         set_color $fish_color_error
         echo -e "ERROR:\tCouldn't activate python virtual environment." >&2
-        echo -e "\tFile `./venv/bin/activate.fish` not found."          >&2
+        echo -e "\tFile `./venv/bin/activate.fish` not found." >&2
         set_color $fish_color_normal
     end
 end
-function m      --description "./manage.py"
+function m --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py $argv
 end
-function mrs    --description "./manage.py runserver"
+function mrs --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver
 end
-function mcs    --description "./manage.py collectstatic"
+function mcs --description "./manage.py collectstatic"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py collectstatic
 end
-function mcsu   --description "./manage.py createsuperuser"
+function mcsu --description "./manage.py createsuperuser"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py createsuperuser
 end
-function mm     --description "./manage.py migrate"
+function mm --description "./manage.py migrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py migrate $argv
 end
-function mmm    --description "./manage.py makemigrations"
+function mmm --description "./manage.py makemigrations"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py makemigrations $argv
 end
-function ms     --description "./manage.py shell"
+function ms --description "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell
 end
-function msa    --description "./manage.py startapp"
+function msa --description "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py startapp $argv
 end
-function msm    --description "./manage.py sqlmigrate"
+function msm --description "./manage.py sqlmigrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py sqlmigrate $argv
 end
-function mt     --description "./manage.py test"
+function mt --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py test $argv
 end
-function mts    --description "./manage.py testserver"
+function mts --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py testserver
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
-function msu    --description "./manage.py show_urls"
+function msu --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py show_urls $argv
 end
-function mvt    --description "./manage.py validate_templates"
+function mvt --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py validate_templates
 end
-function msp    --description "./manage.py shell_plus"
+function msp --description "./manage.py shell_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell_plus
 end
-function mrsp   --description "./manage.py runserver_plus"
+function mrsp --description "./manage.py runserver_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver_plus
 end
@@ -588,7 +587,7 @@ end
 # RUST/CARGO {{{1
 fish_add_path $HOME/.cargo/bin/
 function cncd --description "Does `cargo new` and `cd`s into the new dir"
-    if cargo new $argv;
+    if cargo new $argv
         cd $argv[1]
     end
 end
@@ -616,7 +615,7 @@ alias cwq="cargo watch --quiet"
 # HASKELL {{{1
 # GHCUP {{{2
 if test -e "$HOME/.ghcup/env"
-  bass source "$HOME/.ghcup/env"
+    bass source "$HOME/.ghcup/env"
 end
 # CABAL {{{2
 fish_add_path $HOME/.cabal/bin
@@ -635,7 +634,7 @@ function sncd --description "Does `stack new` and `cd`s into the new dir"
         and false # return with failure code
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
-        stack new $argv kadimisetty/basic;
+        stack new $argv kadimisetty/basic
         # `cd` into the newly created directory
         and cd $argv
     end
@@ -684,7 +683,7 @@ function gncd \
         echo "ERROR: No module path name given." >&2
         set_color $fish_color_normal
         and false # return with failure code
-    # Exit if path with given name exists in current dir
+        # Exit if path with given name exists in current dir
     else if test -e "$module_path"
         set_color $fish_color_error
         echo "ERROR: Path with given name exists." >&2
