@@ -2678,7 +2678,9 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
     vim.lsp.buf.references,
     { desc = "List symbol references in the quickfix window" }
   )
-  vim.keymap.set("n", ",f", function()
+  vim.keymap.set("n",
+    "lf",
+    function()
       -- NOTE: Preferring synchronous formatting, read link for why
       --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#async-formatting
       -- TODO: Move into null-ls settings, if we're filtering by null-ls only?
@@ -4527,7 +4529,7 @@ run_lazy_setup({
       cmd = "CodeActionMenu",
       keys = {
         {
-          ",A",
+          "lA",
           "<cmd>CodeActionMenu<cr>",
           mode = { "n", "v" },
           desc = "Activate `CodeActionMenu`",
@@ -4618,7 +4620,7 @@ run_lazy_setup({
       opts = {},
       keys = {
         {
-          ",O",
+          "lO",
           "<cmd>AerialToggle!<cr>",
           desc = "Toggle LSP symbol outline (aerial)",
         },
