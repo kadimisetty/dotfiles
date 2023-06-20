@@ -3685,21 +3685,27 @@ run_lazy_setup({
       cmd          = "Telescope",
       tag          = "0.1.1",
       keys         = {
-        -- TODO: Organize telescope keymaps into comment sections
-        {
-          "<space><space>",
-          "<cmd>Telescope find_files<cr>",
-          desc = "Search files",
-        },
+        -- META:
         {
           "<space>m",
           "<cmd>Telescope<cr>",
           desc = "Search through telescope sources (m for meta)",
         },
+        -- FILES:
         {
-          "<space>k",
-          "<cmd>Telescope keymaps<cr>",
-          desc = "Search keymaps",
+          "<space><space>",
+          "<cmd>Telescope find_files<cr>",
+          desc = "Search file names",
+        },
+        {
+          "<space>f",
+          "<cmd>Telescope current_buffer_fuzzy_find<cr>",
+          desc = "Search inside current buffer",
+        },
+        {
+          "<space>F",
+          "<cmd>Telescope live_grep<cr>",
+          desc = "Search inside current directory files (ripgrep)",
         },
         {
           "<space>g",
@@ -3707,14 +3713,15 @@ run_lazy_setup({
           desc = "Search git files",
         },
         {
-          "<space>f",
-          "<cmd>Telescope current_buffer_fuzzy_find<cr>",
-          desc = "Search live in current buffer",
+          "<space>b",
+          "<cmd>Telescope buffers<cr>",
+          desc = "Search buffer names",
         },
+        -- VIM FEATURES:
         {
-          "<space>s",
-          "<cmd>Telescope live_grep<cr>",
-          desc = "Search inside files in dir (ripgrep)",
+          "<space>k",
+          "<cmd>Telescope keymaps<cr>",
+          desc = "Search keymaps",
         },
         {
           "<space>r",
@@ -3732,11 +3739,6 @@ run_lazy_setup({
           desc = "Search commands",
         },
         {
-          "<space>b",
-          "<cmd>Telescope buffers<cr>",
-          desc = "Search buffers",
-        },
-        {
           "<space>o",
           "<cmd>Telescope vim_options<cr>",
           desc = "Search vim options",
@@ -3751,32 +3753,29 @@ run_lazy_setup({
           "<cmd>Telescope jumplist<cr>",
           desc = "Search jump list",
         },
-        {
-          "<space>d",
-          -- 0 for current buffer
-          -- "<cmd>Telescope diagnostics({ bufnr = 0 })<cr>",
-          function()
-            require("telescope.builtin").diagnostics({ bufnr = 0 })
-          end,
-          desc = "Search diagnostics",
-        },
-        {
-          "<space>D",
-          -- nil for all buffers
-          -- "<cmd>Telescope diagnostics({ bufnr = nil })<cr>",
-          function()
-            require("telescope.builtin").diagnostics({ bufnr = nil })
-          end,
-          desc = "Search diagnostics",
-        },
         -- {
         ---- TODO: Another mapping, using `t` for tabs
         --   "<space>t",
         --   "<cmd>Telescope current_buffer_tags<cr>",
         --   desc = "Search tags",
         -- },
-
-        -- LSP
+        -- LSP & DIAGNOSTICS:
+        {
+          "<space>d",
+          function()
+            -- 0 for current buffer
+            require("telescope.builtin").diagnostics({ bufnr = 0 })
+          end,
+          desc = "Search diagnostics in current buffer",
+        },
+        {
+          "<space>D",
+          -- nil for all buffers
+          function()
+            require("telescope.builtin").diagnostics({ bufnr = nil })
+          end,
+          desc = "Search diagnostics in all buffers",
+        },
         {
           "<space>ls",
           "<cmd>Telescope lsp_document_symbols<cr>",
@@ -3793,7 +3792,7 @@ run_lazy_setup({
           desc = "Search lsp outgoing calls",
         },
         {
-          "<space>li",
+          "<space>lc",
           "<cmd>Telescope lsp_incoming_calls<cr>",
           desc = "Search lsp incoming calls",
         },
@@ -3803,11 +3802,10 @@ run_lazy_setup({
           desc = "Search lsp definitions",
         },
         {
-          "<space>lrf",
+          "<space>lr",
           "<cmd>Telescope lsp_references<cr>",
           desc = "Search lsp references",
         },
-
         -- QUICKFIX/LOCLIST
         {
           "<space>q",
