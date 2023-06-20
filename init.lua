@@ -4668,6 +4668,10 @@ run_lazy_setup({
         },
       },
       init = function()
+        -- ADd a border around `LspInfo` window
+        require('lspconfig.ui.windows').default_options.border = 'single'
+
+        -- Common `on_attach` function
         local on_attach = function(_, bufnr) -- ignoring arg: `lsp_client`
           set_common_lsp_and_diagnostics_keymaps_and_commands(bufnr)
 
@@ -4766,10 +4770,6 @@ run_lazy_setup({
               -- Make server aware of Neovim runtime files
               library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
-            },
-            -- Do not send telemetry data
-            telemetry = {
-              enable = false,
             },
             completion = {
               -- TODO: Write descriptive comment
