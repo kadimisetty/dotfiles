@@ -4964,17 +4964,23 @@ run_lazy_setup({
       event = "InsertEnter",
       opts = function()
         local cmp = require("cmp")
-
         local common_mappings = {
-          -- NOTE: Not using tabs for interference reasons
-
+          -- NOTE: Not using `<tab>`/`<s-tab>`. REASON: At the point where
+          -- there is a "pum_visible" and a "luasnip next position" available,
+          -- it's hard to make a choice which to do first. Picking either
+          -- introduces an annoying incongruity with either of those shortcuts,
+          -- best to do without.
+          --
           -- Invoke completion
           ["<c-space>"] = cmp.mapping.complete(),
-
           -- Close completion
           -- TODO: Look for something better than `<esc>`
-          ["<esc>"] = cmp.mapping.abort(),
-
+          ["<s-esc>"] = cmp.mapping.abort(),
+          -- Leave and go into normal mode
+          ["<esc>"] = function()
+            cmp.mapping.close()
+            vim.cmd.stopinsert()
+          end,
           -- Traverse without inserting
           ["<c-j>"] = cmp.mapping.select_next_item({
             behavior = cmp.SelectBehavior.Select,
@@ -4982,11 +4988,9 @@ run_lazy_setup({
           ["<c-k>"] = cmp.mapping.select_prev_item({
             behavior = cmp.SelectBehavior.Select,
           }),
-
           -- Traverse docs
           ["<c-b>"] = cmp.mapping.scroll_docs(-2),
           ["<c-f>"] = cmp.mapping.scroll_docs(2),
-
           -- Insert selection
           -- NOTE: Set `select` to `false` to only confirm explicitly selected items.
           ["<cr>"] = cmp.mapping.confirm({
@@ -4994,15 +4998,13 @@ run_lazy_setup({
             behavior = cmp.ConfirmBehavior.Insert,
             callback = function() cmp.close() end,
           }),
-
-          --  Insert currentl selection, replacing current word.
+          --  Insert current selection, replacing current word.
           ["<s-cr>"] = cmp.mapping.confirm({
             select = true,
             behavior = cmp.ConfirmBehavior.Replace,
             callback = function() cmp.close() end,
           }),
         }
-
         -- Command line search mode(`/`) completion
         cmp.setup.cmdline("/", {
           mapping = cmp.mapping.preset.cmdline(common_mappings),
@@ -5031,13 +5033,11 @@ run_lazy_setup({
           completion = {
             completeopt = "menu,menuone,noinsert",
           },
-
           snippet = {
             expand = function(args)
               require("luasnip").lsp_expand(args.body)
             end,
           },
-
           -- NOTE: Order assigns implicit priority
           -- TODO: Explitly Assign priority to the source
           sources = cmp.config.sources({
@@ -5056,7 +5056,6 @@ run_lazy_setup({
             { name = "nvim_lua", max_item_count = 3 }, -- Automatically in lua ft only
             { name = "path" },
           }),
-
           formatting = {
             format = require("lspkind").cmp_format({
               -- mode: 'text', 'text_symbol', 'symbol_text', 'symbol'
@@ -5065,7 +5064,6 @@ run_lazy_setup({
               maxwidth = 50,
             }),
           },
-
           experimental = {
             ghost_text = {
               hl_group = "LspCodeLens",
@@ -5085,7 +5083,7 @@ run_lazy_setup({
       },
     },
 
-    -- LOCAL PLUGIN {{{3
+    -- LOCAL PLUGINS {{{3
     {
       dir = "~/code/playground/nvim-play/PROJECTS/play/",
     }
