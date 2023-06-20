@@ -2811,6 +2811,26 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
     { desc = "Display buffer diagnostics in location list" }
   )
 end
+local toggle_diagnostics = function()
+  if vim.diagnostic.is_disabled() then
+    vim.diagnostic.enable()
+    print("Enabling diagnostics")
+  else
+    vim.diagnostic.disable()
+    print("Disabling diagnostics")
+  end
+end
+vim.keymap.set(
+  "n",
+  "yod",
+  toggle_diagnostics,
+  { desc = "Toggle diagnostics" }
+)
+vim.api.nvim_create_user_command(
+  'ToggleDiagnostics',
+  toggle_diagnostics,
+  { desc = "Toggle diagnostics" }
+)
 
 
 -- LAZY {{{1
@@ -4635,14 +4655,86 @@ run_lazy_setup({
     {
       "neovim/nvim-lspconfig", -- {{{3
       event = "VeryLazy",
+      keys = {
+        {
+          "[ol",
+          "<cmd>LspStart<cr>",
+          mode = "n",
+          desc = "Start LSP (lspconfig)",
+        },
+        {
+          "]ol",
+          "<cmd>LspStop<cr>",
+          mode = "n",
+          desc = "Stop LSP (lspconfig)",
+        },
+      },
       init = function()
         local on_attach = function(_, bufnr) -- ignoring arg: `lsp_client`
           set_common_lsp_and_diagnostics_keymaps_and_commands(bufnr)
+
+          -- Add keymap and command to start/stop/toggle LSP (lspconfig)
+          local toggle_lspconfig_lsp = function()
+            local active_clients = vim.lsp.get_active_clients()
+            if vim.tbl_isempty(active_clients) then
+              vim.cmd([[LspStart]])
+              print('Starting LSP (lspconfig)')
+            else
+              vim.cmd([[LspStop]])
+              local display_message = "Stopping LSP (lspconfig)"
+              for _, c in ipairs(active_clients) do
+                display_message = display_message .. " : " .. c.name
+              end
+              print(display_message)
+            end
+          end
+          vim.keymap.set(
+            "n",
+            "yol",
+            toggle_lspconfig_lsp,
+            { desc = "Toggle LSP (lspconfig)" }
+          )
+          vim.api.nvim_create_user_command("ToggleLSPConfig",
+            toggle_lspconfig_lsp,
+            { desc = "Toggle LSP (lspconfig)" }
+          )
+          vim.keymap.set(
+            "n",
+            "[ol",
+            function()
+              vim.cmd([[LspStart]])
+              print("Starting LSP (lspconfig)")
+            end,
+            { desc = "Start LSP (lspconfig)" }
+          )
+          vim.api.nvim_create_user_command("StartLSPConfig",
+            function()
+              vim.cmd([[LspStart]])
+              print("Starting LSP (lspconfig)")
+            end,
+            { desc = "Start LSP (lspconfig)" }
+          )
+          vim.keymap.set("n",
+            "]ol",
+            function()
+              vim.cmd([[LspStop]])
+              print("Stopping LSP (lspconfig)")
+            end,
+            { desc = "Stop LSP (lspconfig)" }
+          )
+          vim.api.nvim_create_user_command("StopLSPConfig",
+            function()
+              vim.cmd([[LspStop]])
+              print("Stopping LSP (lspconfig)")
+            end,
+            { desc = "Stop LSP (lspconfig)" }
+          )
         end
 
         local capabilities = require("cmp_nvim_lsp").default_capabilities(
           vim.lsp.protocol.make_client_capabilities()
         )
+
 
         -- ELM
         require 'lspconfig'.elmls.setup({
@@ -4753,6 +4845,9 @@ run_lazy_setup({
     -- formatting/code_actions/diagnostics/hover/completion
     {
       "jose-elias-alvarez/null-ls.nvim", -- {{{3
+      -- NOTE: Add keys to toggle null-ls taht don't conflict with lspconfig,
+      --  could be `yol` for lspconfig and `yoL` for null-ls.
+      --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/896
       event = { "BufReadPre", "BufNewFile" },
       opts = function()
         local null_ls = require("null-ls")
