@@ -2491,38 +2491,37 @@ vim.fn.sign_define(
 
 -- COMMON LSP AND DIAGNOSTICS MAPPINGS  {{{2
 -- TODO: Show signature help in a float in insert mode?
--- TODO: Add lsp and diagnostics toggles `yol` and `yod`
 local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
-  -- LSP MAPPINGS (USES BUFFER) {{{3
+  -- LSP MAPPINGS (Uses buffer) {{{3
   vim.keymap.set(
     "n",
     "ld",
     vim.lsp.buf.definition,
     {
-      desc = "Jump to symbol definition",
+      desc = "Go to symbol definition",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'JumpToLSPSymbolDefinition',
+    'LSPGoToSymbolDefinition',
     vim.lsp.buf.definition,
-    { desc = "Jump to symbol definition" }
+    { desc = "Go to symbol definition" }
   )
   vim.keymap.set(
     "n",
     "lD",
     vim.lsp.buf.declaration,
     {
-      desc = "Jump to symbol declaration",
+      desc = "Go to symbol declaration",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'JumpToLSPSymbolDeclaration',
+    'LSPGoToSymbolDeclaration',
     vim.lsp.buf.declaration,
-    { desc = "Jump to symbol declaration" }
+    { desc = "Go to symbol declaration" }
   )
   vim.keymap.set(
     "n",
@@ -2531,122 +2530,122 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
       vim.lsp.buf.rename()
     end,
     {
-      desc = "Rename symbol references",
+      desc = "Rename symbol",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'RenameLSPSymbolReferences',
+    'LSPRenameSymbol',
     function()
       vim.lsp.buf.rename()
     end,
-    { desc = "Rename symbol references" }
+    { desc = "Rename symbol" }
   )
   vim.keymap.set(
     "n",
     "lk",
     vim.lsp.buf.hover,
     {
-      desc = "Display symbol hover information in floating window",
+      desc = "Show symbol hover information in floating window",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolHoverInformation',
+    'LSPShowSymbolHover',
     vim.lsp.buf.hover,
-    { desc = "Display symbol hover information in floating window" }
+    { desc = "Show symbol hover information in floating window" }
   )
   vim.keymap.set(
     "n",
     "gli",
     vim.lsp.buf.implementation,
     {
-      desc = "List symbol implementations in quickfix window",
+      desc = "Show symbol implementations in quickfix",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolImplementaionsInQuickFix',
+    'LSPShowSymbolImplementaionsInQuickFix',
     vim.lsp.buf.implementation,
-    { desc = "List symbol implementations in quickfix window" }
+    { desc = "Show symbol implementations in quickfix" }
   )
   vim.keymap.set(
     "n",
     "glc",
     vim.lsp.buf.incoming_calls,
     {
-      desc = "List symbol incoming calls in quickfix window",
+      desc = "Show symbol incoming calls in quickfix",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolIncomingCallsInQuickFix',
+    'LSPShowSymbolIncomingCallsInQuickFix',
     vim.lsp.buf.incoming_calls,
-    { desc = "List symbol incoming calls in quickfix window" }
+    { desc = "Show symbol incoming calls in quickfix" }
   )
   vim.keymap.set(
     "n",
     "glo",
     vim.lsp.buf.outgoing_calls,
     {
-      desc = "List symbol outgoing calls in quickfix window",
+      desc = "Show symbol outgoing calls in quickfix",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolOutgoingCallsInQuickFix',
+    'LSPShowSymbolOutgoingCallsInQuickFix',
     vim.lsp.buf.outgoing_calls,
-    { desc = "List symbol outgoing calls in quickfix window" }
+    { desc = "Show symbol outgoing calls in quickfix" }
   )
   vim.keymap.set(
     "n",
     "gls",
     vim.lsp.buf.document_symbol,
     {
-      desc = "List symbol in current buffer in quickfix window",
+      desc = "Show current buffer symbols in quickfix",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolsInCurrentBufferInQuickFix',
+    'LSPShowSymbolsInCurrentBufferInQuickFix',
     vim.lsp.buf.document_symbol,
-    { desc = "List symbol in current buffer in quickfix window" }
+    { desc = "Show current buffer symbols in quickfix" }
   )
   vim.keymap.set(
     "n",
     "glS",
     vim.lsp.buf.workspace_symbol,
     {
-      desc = "List symbol in current workspace in quickfix window",
+      desc = "Show current workspace symbols in quickfix",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolsInCurrentWorkspaceInQuickFix',
+    'LSPShowSymbolsInCurrentWorkspaceInQuickFix',
     vim.lsp.buf.workspace_symbol,
-    { desc = "List symbol in current workspace in quickfix window" }
+    { desc = "Show current workspace symbols in quickfix" }
   )
   vim.keymap.set(
     "n",
-    "lt", -- "lD",
+    "lt",
     vim.lsp.buf.type_definition,
     {
-      desc = "Jump to type of symbol definition",
+      desc = "Go to type of symbol definition",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'JumpToTypeOfLSPSymbolDefinition',
+    'LSPGoToTypeOfSymbolDefinition',
     vim.lsp.buf.type_definition,
-    { desc = "Jump to type of symbol definition" }
+    { desc = "Go to type of symbol definition" }
   )
   vim.keymap.set(
     { "n", "v" },
@@ -2659,7 +2658,7 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'SelectLSPCodeAction',
+    'LSPSelectCodeAction',
     vim.lsp.buf.code_action,
     { desc = "Select code action available at cursor position" }
   )
@@ -2668,95 +2667,106 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
     "glr", -- TODO: Change keymap
     vim.lsp.buf.references,
     {
-      desc = "List symbol references in the quickfix window",
+      desc = "Show symbol references in the quickfix window",
       buffer = bufnr,
     }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'DisplayLSPSymbolReferencesInQuickFix',
+    'LSPShowSymbolReferencesInQuickFix',
     vim.lsp.buf.references,
-    { desc = "List symbol references in the quickfix window" }
-  )
-  vim.keymap.set("n",
-    "lf",
-    function()
-      -- NOTE: Preferring synchronous formatting, read link for why
-      --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#async-formatting
-      -- TODO: Move into null-ls settings, if we're filtering by null-ls only?
-      -- NOTE: Filter formatting requests just to `null-ls, read link for why`
-      -- READ: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#choosing-a-client-for-formatting
-      -- TODO: Figure out ordering i.e null-ls first? OR just null-ls
-      -- filter = function(client) return client.name == "null-ls" end,
-      -- make alternate keympp `*F` with async true
-      vim.lsp.buf.format({ async = false })
-    end,
-    {
-      desc = "Format async with LSP client",
-      buffer = bufnr,
-    }
+    { desc = "Show symbol references in the quickfix window" }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'LSPFormat',
-    -- FIXME: Do the same thing as paired keymap right above
-    function() vim.lsp.buf.format({ async = false }) end,
-    { desc = "Format async with LSP client" }
-  )
-  vim.api.nvim_buf_create_user_command(
-    bufnr,
-    'AddFolderAtPathToLSPWorkspaceFolders',
-    vim.lsp.buf.add_workspace_folder,
-    { desc = "Add folder at path to workspace folders" }
-  )
-  vim.api.nvim_buf_create_user_command(
-    bufnr,
-    'RemoveFolderAtPathFromLSPWorkspaceFolders',
+    'LSPRemoveFolderAtPathFromWorkspaceFolders',
     vim.lsp.buf.remove_workspace_folder,
     { desc = "Remove folder at path from workspace folders" }
   )
   vim.api.nvim_buf_create_user_command(
     bufnr,
-    'ListLSPWorkspaceFolders',
+    'LSPShowWorkspaceFolders',
     -- TODO: Print this better
     function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-    { desc = "List workspace folders" }
+    { desc = "Show workspace folders" }
+  )
+  vim.api.nvim_buf_create_user_command(
+    bufnr,
+    'LSPAddFolderAtPathToWorkspaceFolders',
+    vim.lsp.buf.add_workspace_folder,
+    { desc = "Add folder at path to workspace folders" }
+  )
+  -- FORMATTING:
+  vim.keymap.set("n",
+    "lf",
+    function()
+      -- NOTE: Preferring synchronous formatting, read link for why
+      --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#async-formatting
+      --
+      -- TODO: Figure out ordering i.e null-ls first? OR just null-ls
+      -- READ: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#choosing-a-client-for-formatting
+      --    `filter = function(client) return client.name == "null-ls" end`
+      vim.lsp.buf.format({ async = false })
+    end,
+    {
+      desc = "LSP Sync Format",
+      buffer = bufnr,
+    }
+  )
+  vim.api.nvim_buf_create_user_command(
+    bufnr,
+    'LSPSyncFormat',
+    function() vim.lsp.buf.format({ async = false }) end,
+    { desc = "LSP Sync Format" }
+  )
+  vim.keymap.set("n",
+    "lF",
+    function() vim.lsp.buf.format({ async = true }) end,
+    {
+      desc = "LSP Async Format",
+      buffer = bufnr,
+    }
+  )
+  vim.api.nvim_buf_create_user_command(
+    bufnr,
+    'LSPAsyncFormat',
+    function() vim.lsp.buf.format({ async = true }) end,
+    { desc = "LSP Async Format" }
   )
 
   -- DIAGNOSTICS MAPPINGS {{{3
   vim.keymap.set(
     "n",
-    -- TODO: Options: `gd`, `<m-d>`, `ld`
-    "<m-d>",
+    "ld", -- TODO: Options: `gd`, `<m-d>`, `ld`
     vim.diagnostic.open_float,
-    { desc = "Display diagnostics in a floating window." }
+    { desc = "Show diagnostics" }
   )
   vim.api.nvim_create_user_command(
-    'DisplayDiagnosticsInFloatingWindow',
+    'DiagnosticsShow',
     vim.diagnostic.open_float,
-    { desc = "Display diagnostics in a floating window." }
+    { desc = "Show diagnostics" }
   )
   vim.keymap.set(
     "n",
     "[d",
     vim.diagnostic.goto_prev,
-    { desc = "Jump to previous diagnostic" }
+    { desc = "Go to previous diagnostic" }
   )
   vim.api.nvim_create_user_command(
-    'JumpToPreviousDiagnostic',
+    'GoToPreviousDiagnostic',
     vim.diagnostic.goto_prev,
-    { desc = "Jump to previous diagnostic" }
+    { desc = "Go to previous diagnostic" }
   )
   vim.keymap.set(
     "n",
     "]d",
     vim.diagnostic.goto_next,
-    { desc = "Jump to next diagnostic." }
+    { desc = "Go to next diagnostic." }
   )
   vim.api.nvim_create_user_command(
-    'JumpToNextDiagnostic',
+    'DiagnosticsGoToNext',
     vim.diagnostic.goto_next,
-    { desc = "Jump to next diagnostic" }
+    { desc = "Go to next diagnostic" }
   )
   vim.keymap.set(
     "n",
@@ -2764,14 +2774,14 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
     function()
       vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
     end,
-    { desc = "Jump to previous `ERROR` diagnostic" }
+    { desc = "Go to previous `ERROR` diagnostic" }
   )
   vim.api.nvim_create_user_command(
-    'JumpToPreviousERRORDiagnostic',
+    'DiagnosticsGoToPreviousERROR',
     function()
       vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
     end,
-    { desc = "Jump to previous `ERROR` diagnostic" }
+    { desc = "Go to previous `ERROR` diagnostic" }
   )
   vim.keymap.set(
     "n",
@@ -2779,36 +2789,36 @@ local set_common_lsp_and_diagnostics_keymaps_and_commands = function(bufnr)
     function()
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
     end,
-    { desc = "Jump to next `ERROR` diagnostic" }
+    { desc = "Go to next `ERROR` diagnostic" }
   )
   vim.api.nvim_create_user_command(
-    'JumpToNextERRORDiagnostic',
+    'DiagnosticsGoToNextERROR',
     function()
       vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
     end,
-    { desc = "Jump to next `ERROR` diagnostic" }
+    { desc = "Go to next `ERROR` diagnostic" }
   )
   vim.keymap.set(
     "n",
     "gdq", -- TODO: Make into command only?
     vim.diagnostic.setqflist,
-    { desc = "Display diagnostics in quickfix list" }
+    { desc = "Show diagnostics in quickfix list" }
   )
   vim.api.nvim_create_user_command(
-    'DisplayDiagnosticsInQuickfix',
+    'DiagnosticsShowInQuickfix',
     vim.diagnostic.setqflist,
-    { desc = "Display diagnostics in quickfix list" }
+    { desc = "Show diagnostics in quickfix list" }
   )
   vim.keymap.set(
     "n",
-    "gdl", -- TODO: Make into command only?
+    "gdl",
     vim.diagnostic.setloclist,
-    { desc = "Display buffer diagnostics in location list" }
+    { desc = "Show buffer diagnostics in location list" }
   )
   vim.api.nvim_create_user_command(
-    'DisplayDiagnosticsInLocationList',
+    'DiagnosticsShowInLocationShow',
     vim.diagnostic.setloclist,
-    { desc = "Display buffer diagnostics in location list" }
+    { desc = "Show buffer diagnostics in location list" }
   )
 end
 local toggle_diagnostics = function()
@@ -2827,7 +2837,7 @@ vim.keymap.set(
   { desc = "Toggle diagnostics" }
 )
 vim.api.nvim_create_user_command(
-  'ToggleDiagnostics',
+  'DiagnosticsToggle',
   toggle_diagnostics,
   { desc = "Toggle diagnostics" }
 )
@@ -4653,20 +4663,6 @@ run_lazy_setup({
     {
       "neovim/nvim-lspconfig", -- {{{3
       event = "VeryLazy",
-      keys = {
-        {
-          "[ol",
-          "<cmd>LspStart<cr>",
-          mode = "n",
-          desc = "Start LSP (lspconfig)",
-        },
-        {
-          "]ol",
-          "<cmd>LspStop<cr>",
-          mode = "n",
-          desc = "Stop LSP (lspconfig)",
-        },
-      },
       init = function()
         -- ADd a border around `LspInfo` window
         require('lspconfig.ui.windows').default_options.border = 'single'
@@ -4872,6 +4868,8 @@ run_lazy_setup({
             null_ls.builtins.formatting.gofumpt,
             -- js/html etc.
             null_ls.builtins.formatting.prettierd, -- TODO: custom config
+            -- rust
+            null_ls.builtins.formatting.rustfmt,
             -- lua
             null_ls.builtins.formatting.stylua,
             -- null_ls.builtins.diagnostics.luacheck.with({
