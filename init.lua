@@ -2517,7 +2517,6 @@ local set_common_lsp_keymaps = function(bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'LSPShowSymbolHover', f, { desc = desc })
   end
   do
-    print ">>> gli"
     local desc = "Show symbol implementations in quickfix"
     local f = vim.lsp.buf.implementation
     vim.keymap.set("n", "gli", f, { desc = desc, buffer = bufnr, })
