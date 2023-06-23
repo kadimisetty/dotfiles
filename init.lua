@@ -4187,7 +4187,7 @@ run_lazy_setup({
               desired_client_name = client.name,
               sync_format_keymap = "lf",
               async_format_keymap = "glf",
-              sync_format_on_save = false,
+              sync_format_on_save = true,
               async_format_on_save = false,
             })
 
