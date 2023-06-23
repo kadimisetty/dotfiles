@@ -4946,6 +4946,7 @@ run_lazy_setup({
             behavior = cmp.ConfirmBehavior.Replace,
             callback = function() cmp.close() end,
           }),
+          ["<c-cr>"] = function() vim.cmd.normal("o") end
         }
         -- Command line search mode(`/`) completion
         cmp.setup.cmdline("/", {
