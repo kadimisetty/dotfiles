@@ -744,14 +744,14 @@ alias grepi="grep -i"
 alias rgi="rg -i"
 
 # WC {{{2
-alias wcw="wc --words"
-alias wcl="wc --lines"
+alias wcwords="wc --words"
+alias wclines="wc --lines"
 # NOTE:
 #   Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
 #   I still want to use `wcc` for `--chars` and `wcb` for `--bytes` in the alias for
 #   mnemonic sake.
-alias wcc="wc --chars"
-alias wcb="wc --bytes"
+alias wcchars="wc --chars"
+alias wcbytes="wc --bytes"
 
 # CURL {{{2
 # [-s|--silent]: Silent mode
