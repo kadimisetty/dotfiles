@@ -2043,7 +2043,7 @@ local close_floating_windows = function(opts)
   assert(
     opts ~= nil
       and opts.all_tabs ~= nil
-      and vim.tbl_contains({ true, false }, opts.all_tabs)
+      and type(opts.all_tabs) == "boolean"
   )
 
   local window_handles
