@@ -4528,6 +4528,13 @@ run_lazy_setup({
     --   },
     -- },
 
+    -- Better vim ui
+    {
+      "stevearc/dressing.nvim", -- {{{3
+      event = "VeryLazy",
+      opts = {},
+    },
+
     -- LSP loading indicator
     {
       "j-hui/fidget.nvim", -- {{{3
