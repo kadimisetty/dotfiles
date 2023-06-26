@@ -2216,6 +2216,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- USE S-TAB TO DE-INDENT IN INSERT MODE {{{2
+vim.cmd([[
+inoremap <s-tab> <c-d>
+]])
+
 -- CUSTOMIZE HELP OUTLINE(`gO`) {{{2
 -- TODO:
 
@@ -4936,7 +4941,12 @@ run_lazy_setup({
     {
       "L3MON4D3/LuaSnip", -- {{{3
       version = "1.*",
-      -- NOTE: install jsregexp (optional!, okay to fail apparently).
+      -- NOTE: `jsregexp` is apparently necessary for variable/placeholder-transformations
+      -- READ: https://code.visualstudio.com/docs/editor/userdefinedsnippets#_variable-transforms
+      -- If the build fails, try to install it alternatively, but if it fails
+      -- still, luasnip will use an alternative sub-optimal method of just
+      -- copying the value, see the help docs.
+      --
       build = (not jit.os:find("Windows"))
           and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
         or nil,
@@ -4944,47 +4954,66 @@ run_lazy_setup({
         history = true,
         delete_check_events = "TextChanged",
       },
-      keys = {
-        -- TODO: Put inside a function to make `require('luasnip`)` available
-        {
-          "<c-k>",
-          function()
-            local luasnip = require("luasnip")
-            -- NOTE: Also consider `luasnip.expand_or_locally_jumpable(1)`
-            if luasnip.expand_or_jumpable(1) then
-              luasnip.expand_or_jump(1)
-            end
-          end,
-          mode = { "i", "s" },
-        },
-        {
-          "<c-j>",
-          function()
-            local luasnip = require("luasnip")
-            if luasnip.jumpable(-1) then luasnip.jump(-1) end
-          end,
-          mode = { "i", "s" },
-        },
-        {
-          "<c-l>",
-          function()
-            local luasnip = require("luasnip")
-            if luasnip.choice_active() then luasnip.change_choice(1) end
-          end,
-          mode = { "i" },
-        },
-        {
-          -- TODO: Change to more suitable keymap
-          "<c-m-l>",
-          function()
-            local luasnip = require("luasnip")
-            if luasnip.choice_active() then
-              luasnip.extras.select_choice()
-            end
-          end,
-          mode = { "i" },
-        },
-      },
+      keys = function()
+        local luasnip = require("luasnip")
+        return {
+          -- Expand or jump forwards
+          {
+            "<c-m-k>",
+            function()
+              if luasnip.expand_or_jumpable(1) then
+                luasnip.expand_or_jump(1)
+              end
+            end,
+            mode = { "i", "s" },
+          },
+          -- Jump backwards
+          {
+            "<c-m-j>",
+            function()
+              if luasnip.jumpable(-1) then luasnip.jump(-1) end
+            end,
+            mode = { "i", "s" },
+          },
+          -- Expand or jump forwards, but only when within the snippet
+          {
+            "<c-k>",
+            function()
+              if luasnip.expand_or_locally_jumpable(1) then
+                luasnip.expand_or_jump(1)
+              end
+            end,
+            mode = { "i", "s" },
+          },
+          -- Jump backwards, but only when within the snippet
+          {
+            "<c-j>",
+            function()
+              if luasnip.locally_jumpable(-1) then luasnip.jump(-1) end
+            end,
+            mode = { "i", "s" },
+          },
+          -- select in choice node
+          {
+            "<c-l>",
+            function()
+              if luasnip.choice_active() then luasnip.change_choice(1) end
+            end,
+            mode = { "i" },
+          },
+          -- select in choice node showin with `vim.select`ui
+          {
+            -- TODO: Change to more suitable keymap
+            "<c-m-l>",
+            function()
+              if luasnip.choice_active() then
+                luasnip.extras.select_choice()
+              end
+            end,
+            mode = { "i" },
+          },
+        }
+      end,
       dependencies = {
         "rafamadriz/friendly-snippets",
         config = function()
@@ -4993,7 +5022,6 @@ run_lazy_setup({
         end,
       },
     },
-
     -- Completions
     {
       "hrsh7th/nvim-cmp", -- {{{3
