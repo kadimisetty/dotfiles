@@ -4946,10 +4946,11 @@ run_lazy_setup({
       -- If the build fails, try to install it alternatively, but if it fails
       -- still, luasnip will use an alternative sub-optimal method of just
       -- copying the value, see the help docs.
-      --
-      build = (not jit.os:find("Windows"))
+      build = (
+        not jit.os:find("Windows")
           and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-        or nil,
+        or nil
+      ),
       opts = {
         history = true,
         delete_check_events = "TextChanged",
