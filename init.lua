@@ -4945,26 +4945,44 @@ run_lazy_setup({
         delete_check_events = "TextChanged",
       },
       keys = {
+        -- TODO: Put inside a function to make `require('luasnip`)` available
         {
-          "<tab>",
+          "<c-k>",
           function()
-            return require("luasnip").jumpable(1)
-                and "<Plug>luasnip-jump-next"
-              or "<tab>"
+            local luasnip = require("luasnip")
+            -- NOTE: Also consider `luasnip.expand_or_locally_jumpable(1)`
+            if luasnip.expand_or_jumpable(1) then
+              luasnip.expand_or_jump(1)
+            end
           end,
-          expr = true,
-          silent = true,
-          mode = "i",
-        },
-        {
-          "<tab>",
-          function() require("luasnip").jump(1) end,
-          mode = "s",
-        },
-        {
-          "<s-tab>",
-          function() require("luasnip").jump(-1) end,
           mode = { "i", "s" },
+        },
+        {
+          "<c-j>",
+          function()
+            local luasnip = require("luasnip")
+            if luasnip.jumpable(-1) then luasnip.jump(-1) end
+          end,
+          mode = { "i", "s" },
+        },
+        {
+          "<c-l>",
+          function()
+            local luasnip = require("luasnip")
+            if luasnip.choice_active() then luasnip.change_choice(1) end
+          end,
+          mode = { "i" },
+        },
+        {
+          -- TODO: Change to more suitable keymap
+          "<c-m-l>",
+          function()
+            local luasnip = require("luasnip")
+            if luasnip.choice_active() then
+              luasnip.extras.select_choice()
+            end
+          end,
+          mode = { "i" },
         },
       },
       dependencies = {
@@ -4983,32 +5001,35 @@ run_lazy_setup({
       opts = function()
         local cmp = require("cmp")
         local common_mappings = {
-          -- NOTE: Not using `<tab>`/`<s-tab>`. REASON: At the point where
-          -- there is a "pum_visible" and a "luasnip next position" available,
-          -- it's hard to make a choice which to do first. Picking either
-          -- introduces an annoying incongruity with either of those shortcuts,
-          -- best to do without.
-          --
-          -- Invoke completion
-          ["<c-space>"] = cmp.mapping.complete(),
-          -- Close completion
-          -- TODO: Look for something better than `<esc>`
-          ["<s-esc>"] = cmp.mapping.abort(),
-          -- Leave and go into normal mode
+          -- Open completion menu
+          -- ["<c-space>"] = cmp.mapping.complete(),
+          -- Toggle completion menu
+          ["<c-space>"] = function()
+            if cmp.visible() then
+              cmp.close()
+            else
+              cmp.complete()
+            end
+          end,
+          -- Close completion menu and return to insert mode
+          ["<c-esc>"] = cmp.mapping.close(),
+          -- Close completion menu and go to normal mode
           ["<esc>"] = function()
-            cmp.mapping.close()
+            cmp.close()
             vim.cmd.stopinsert()
           end,
-          -- Traverse without inserting
-          ["<c-j>"] = cmp.mapping.select_next_item({
+          -- Traverse without inserting, forward
+          ["<tab>"] = cmp.mapping.select_next_item({
             behavior = cmp.SelectBehavior.Select,
           }),
-          ["<c-k>"] = cmp.mapping.select_prev_item({
+          -- Traverse without inserting, backward
+          ["<s-tab>"] = cmp.mapping.select_prev_item({
             behavior = cmp.SelectBehavior.Select,
           }),
-          -- Traverse docs
-          ["<c-b>"] = cmp.mapping.scroll_docs(-2),
+          -- Traverse docs, forward by 2 lines
           ["<c-f>"] = cmp.mapping.scroll_docs(2),
+          -- Traverse docs, backward by 2 lines
+          ["<c-b>"] = cmp.mapping.scroll_docs(-2),
           -- Insert selection
           -- NOTE: Set `select` to `false` to only confirm explicitly selected items.
           ["<cr>"] = cmp.mapping.confirm({
@@ -5022,6 +5043,8 @@ run_lazy_setup({
             behavior = cmp.ConfirmBehavior.Replace,
             callback = function() cmp.close() end,
           }),
+          -- Even if completion menu is on, add a new line even while the
+          -- completion menu is open (convenience)
           ["<c-cr>"] = function()
             cmp.close()
             vim.cmd.normal("i\r")
