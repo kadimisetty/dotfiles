@@ -5029,11 +5029,10 @@ run_lazy_setup({
           },
           -- select in choice node showin with `vim.select`ui
           {
-            -- TODO: Change to more suitable keymap
             "<c-m-l>",
             function()
               if luasnip.choice_active() then
-                luasnip.extras.select_choice()
+                require("luasnip.extras.select_choice")()
               end
             end,
             mode = { "i" },
