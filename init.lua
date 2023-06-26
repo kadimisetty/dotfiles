@@ -4951,10 +4951,35 @@ run_lazy_setup({
           and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
         or nil
       ),
-      opts = {
-        history = true,
-        delete_check_events = "TextChanged",
-      },
+      opts = function()
+        local types = require("luasnip.util.types")
+        return {
+          history = true,
+          delete_check_events = "TextChanged",
+          -- Add indicators
+          ext_opts = {
+            [types.choiceNode] = {
+              active = {
+                virt_text = { { "󰬊", "WarningMsg" } },
+              },
+              passive = {
+                virt_text = { { "󰬊", "NonText" } },
+              },
+            },
+            [types.insertNode] = {
+              active = {
+                virt_text = { { "󰬐", "CursorLineNr" } },
+              },
+              passive = {
+                virt_text = { { "󰬐", "NonText" } },
+              },
+              visited = {
+                virt_text = { { "", "NonText" } },
+              },
+            },
+          },
+        }
+      end,
       keys = function()
         local luasnip = require("luasnip")
         return {
