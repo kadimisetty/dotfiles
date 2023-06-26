@@ -4958,9 +4958,14 @@ run_lazy_setup({
           delete_check_events = "TextChanged",
           -- Add indicators
           ext_opts = {
+            [types.snippet] = {
+              active = {
+                virt_text = { { "", "Character" } },
+              },
+            },
             [types.choiceNode] = {
               active = {
-                virt_text = { { "󰬊", "WarningMsg" } },
+                virt_text = { { "󰬊", "Character" } },
               },
               passive = {
                 virt_text = { { "󰬊", "NonText" } },
