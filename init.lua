@@ -1862,6 +1862,28 @@ vim.keymap.set("v", ">", ">gv", {
   desc = "Shift rightwards retaining visual selection",
 })
 
+-- OPEN GITHUB REPO URL UNDER CURSOR (i.e. `USERNAME/REPO`) {{{2
+-- TODO: Offer option to extend `gx` i.e. when `gx` try this next
+-- TODO: Validate and sanitize `username/repo` better
+-- TODO: Pick `open_cmd` based on operating system and availability
+vim.keymap.set("n", "gX", function()
+  local enclosing_characters_to_trim_off = [[*()[]<>`"',]]
+  local search_front_and_back = 0
+  local username_slash_repo = vim.fn.trim(
+    vim.fn.expand("<cWORD>"), -- get WORD under cursor,
+    enclosing_characters_to_trim_off,
+    search_front_and_back
+  )
+  if username_slash_repo:find("/", 1, true) then -- does it contain a slash?
+    local github_url = "https://github.com/" .. username_slash_repo
+    local open_cmd = "xdg-open"
+    vim.cmd("!" .. open_cmd .. " " .. github_url)
+  end
+end, {
+  desc = "Open github repo url under cursor (`username/repo`)",
+  silent = true,
+})
+
 -- YANK TO END OF LINE `Y` LIKE `C` OR `D` {{{2
 vim.keymap.set("n", "Y", "y$", {
   silent = true,
