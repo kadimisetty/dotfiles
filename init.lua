@@ -2225,6 +2225,20 @@ inoremap <s-tab> <c-d>
 -- CUSTOMIZE HELP OUTLINE(`gO`) {{{2
 -- TODO:
 
+-- HIDE CURSORLINE IN INSERT MODE {{{2
+-- TODO: If `cursorline` was on in normal mode, turn it off temporarily in insert
+-- mode and return to desired `cursorline` preferece when returning to normal
+-- mode. To do this, there will have to be a way to keep track of the desired
+-- `cursorline` preference prior to entering insert mode
+-- vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+--   group = utilities_augroup,
+--   command = "set cursorline",
+-- })
+-- vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+--   group = utilities_augroup,
+--   command = "set nocursorline",
+-- })
+
 -- JUMP LIST {{{2
 --  TODO: Move to backward-most/forward-most position in jump list
 --  nnoremap <silent> [J ???
