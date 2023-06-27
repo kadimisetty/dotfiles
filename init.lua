@@ -2138,14 +2138,15 @@ vim.keymap.set("n", "<m-l>", function()
   end
 end, { desc = "Toggle location list" })
 
--- CLOSE QUICKFIX IF IT'S THE LAST WINDOW REMAINING {{{2
+-- CLOSE QUICKFIX IF IT IS THE LAST WINDOW REMAINING {{{2
 vim.api.nvim_create_autocmd({ "WinEnter" }, {
   desc = "Close quickfix if it is the last window left in tab",
   group = utilities_augroup,
-  pattern = { "*" },
-  callback = function(_)
-    if (vim.bo.filetype == "qf") and (vim.fn.winnr("$") < 2) then
-      vim.cmd("quit")
+  -- pattern = { "*" },
+  callback = function()
+    -- if (vim.bo.filetype == "qf") and (vim.fn.winnr("$") < 2) then -- slower
+    if vim.fn.winnr("$") == 1 and vim.fn.win_gettype() == "quickfix" then
+      vim.cmd.quit()
     end
   end,
 })
