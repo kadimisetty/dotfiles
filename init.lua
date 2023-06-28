@@ -324,7 +324,7 @@ vim.opt.mousehide = true
 vim.opt.background = "dark"
 
 -- Command line height(1 is default)
-vim.opt.cmdheight = 2
+-- vim.opt.cmdheight = 1
 
 -- Redraw screen while executing macros, registers, untyped commands etc.
 vim.opt.lazyredraw = false
