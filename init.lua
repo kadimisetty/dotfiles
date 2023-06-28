@@ -3855,13 +3855,13 @@ run_lazy_setup({
           "<cmd>Telescope loclist<cr>",
           desc = "List loclist items",
         },
-        -- TODO: Arglist
-        -- {
-        --   "<space>a",
-        --   "<cmd>Telescope arglist<cr>", -- find somehting for arglist
-        --   desc = "Search through telescope sources (m for meta)",
-        -- },
         -- EXTENSIONS
+        {
+          "<space>a",
+          -- "<cmd>Telescope arglist<cr>",
+          function() require("telescope-arglist").arglist() end,
+          desc = "Search arglist buffers",
+        },
         {
           "<space>u",
           "<cmd>Telescope undo<cr>",
@@ -3913,6 +3913,7 @@ run_lazy_setup({
         },
         config = function(_, opts)
           require("telescope").setup(opts)
+          require("telescope").load_extension("arglist")
           require("telescope").load_extension("fzf")
           require("telescope").load_extension("undo")
           require("telescope").load_extension("lazy")
@@ -3935,6 +3936,7 @@ run_lazy_setup({
         "debugloop/telescope-undo.nvim",
         "tsakirist/telescope-lazy.nvim",
         "TC72/telescope-tele-tabby.nvim",
+        "sam4llis/telescope-arglist.nvim",
         {
           "nvim-treesitter/nvim-treesitter",
           build = ":TSUpdate",
