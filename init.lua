@@ -3237,7 +3237,7 @@ run_lazy_setup({
     -- Mini map
     {
       "echasnovski/mini.map", -- {{{3
-      lazy = false,
+      event = "VeryLazy",
       keys = {
         {
           "<cr>",
@@ -4534,6 +4534,7 @@ run_lazy_setup({
     -- LSP `highlight-args`
     {
       "m-demare/hlargs.nvim", -- {{{3
+      event = "VeryLazy",
       opts = {},
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
