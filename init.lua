@@ -171,24 +171,6 @@ vim.opt.foldopen = {
   -- `all`    -- everything
 }
 
--- CUSTOM FOLD TITLE {{{3
--- FIXME:
--- 1. Use lua
--- 2. Show depth level like the default fold text does.
--- vim.cmd([[
---     function! NeatFoldText()
---         let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
---         let lines_count = v:foldend - v:foldstart + 1
---         let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' '
---         let foldchar = matchstr(&fillchars, 'fold:\zs.')
---         let foldtextstart = strpart('' . line, 0, (winwidth(0)*2)/3)
---         let foldtextend = lines_count_text . repeat(' ', 8)
---         let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
---         return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
---     endfunction
---     set foldtext=NeatFoldText()
--- ]])
-
 -- INDENTS {{{2
 -- Use same indentation of current line when creating new line
 vim.opt.autoindent = true
