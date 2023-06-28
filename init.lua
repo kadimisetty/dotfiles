@@ -3864,7 +3864,7 @@ run_lazy_setup({
         },
         {
           "<space>u",
-          "<cmd>Telescope undo<cr>",
+          function() require("telescope").extensions.undo.undo() end,
           desc = "Search undo history",
         },
         {
@@ -3873,94 +3873,100 @@ run_lazy_setup({
           desc = "Search undo history",
         },
       },
-      opts = {
-        defaults = {
-          scroll_strategy = "limit",
-          layout_strategy = "bottom_pane",
-          layout_config = {
-            bottom_pane = {
-              height = 14,
-              preview_cutoff = 100,
-              prompt_position = "bottom",
+      opts = function()
+        local layout_actions = require("telescope.actions.layout")
+        return {
+          defaults = {
+            scroll_strategy = "limit",
+            layout_strategy = "bottom_pane",
+            layout_config = {
+              bottom_pane = {
+                height = 14,
+                preview_cutoff = 100,
+                prompt_position = "bottom",
+              },
+            },
+            winblend = 6,
+            prompt_prefix = " ",
+            dynamic_preview_title = true,
+            selection_caret = " ",
+            multi_icon = "+ ",
+            border = true,
+            -- hide `Results` title
+            results_title = false,
+            color_devicons = true,
+            mappings = {
+              i = {
+                -- Browse results upwards/downwards/top/bottom
+                ["<c-j>"] = "move_selection_next",
+                ["<c-k>"] = "move_selection_previous",
+                ["<down>"] = "move_selection_next",
+                ["<up>"] = "move_selection_previous",
+                -- ["<c-m-j>"] = "move_to_bottom",
+                -- ["<c-m-k>"] = "move_to_top",
+                -- Scroll the preview window up/down
+                ["<c-m-k>"] = "preview_scrolling_down",
+                ["<c-m-j>"] = "preview_scrolling_up",
+                ["<m-down>"] = "preview_scrolling_down",
+                ["<m-up>"] = "preview_scrolling_up",
+                -- Browse history
+                ["<c-down>"] = "cycle_history_next",
+                ["<c-up>"] = "cycle_history_prev",
+                -- Do not go to telescop_normal_mode on `<esc>`, exit instead
+                ["<esc>"] = "close",
+                -- Toggle preview window
+                ["<m-p>"] = layout_actions.toggle_preview,
+                -- Display local keymaps to registered actions here
+                ["<m-w>"] = "which_key",
+                -- revert `<c-u>` to default function of clearing line
+                ["<c-u>"] = false,
+                -- Delete selected buffer
+                ["<c-d>"] = "delete_buffer",
+                -- Send selected entries to the quickfix list, replacing the
+                -- previous entries. If no entry was selected, send all entries.
+                ["<c-q>"] = "smart_send_to_qflist",
+                -- Add selected entries to the quickfix list, keeping the
+                -- previous entries. If no entry was selected, add all entries.
+                ["<c-m-q>"] = "smart_add_to_qflist",
+                -- Send selected entries to the location list, replacing the
+                -- previous entries. If no entry was selected, send all entries.
+                ["<c-l>"] = "smart_send_to_loclist",
+                -- Add selected entries to the location list, keeping the
+                -- previous entries. If no entry was selected, add all entries.
+                ["<c-m-l>"] = "smart_add_to_loclist",
+              },
             },
           },
-          winblend = 6,
-          prompt_prefix = " ",
-          dynamic_preview_title = true,
-          selection_caret = " ",
-          multi_icon = "+ ",
-          border = true,
-          -- hide `Results` title
-          results_title = false,
-          color_devicons = true,
-          mappings = {
-            i = {
-              -- Browse results upwards/downwards/top/bottom
-              ["<c-j>"] = "move_selection_next",
-              ["<c-k>"] = "move_selection_previous",
-              ["<c-m-j>"] = "move_to_bottom",
-              ["<c-m-k>"] = "move_to_top",
-              -- Browse history
-              ["<c-down>"] = "cycle_history_next",
-              ["<c-up>"] = "cycle_history_prev",
-              -- Do not go to telescop_normal_mode on `<esc>`, exit instead
-              ["<esc>"] = "close",
-              -- revert `<c-u>` to default function of clearing line
-              ["<c-u>"] = false,
-              -- Delete selected buffer
-              ["<c-d>"] = "delete_buffer",
-              -- Scroll the preview window up
-              ["<c-f>"] = "preview_scrolling_down",
-              -- Scroll the preview window down
-              ["<c-b>"] = "preview_scrolling_up",
-              -- Send selected entries to the quickfix list, replacing the
-              -- previous entries. If no entry was selected, send all entries.
-              ["<c-q>"] = "smart_send_to_qflist",
-              -- Add selected entries to the quickfix list, keeping the
-              -- previous entries. If no entry was selected, add all entries.
-              ["<c-m-q>"] = "smart_add_to_qflist",
-              -- Send selected entries to the location list, replacing the
-              -- previous entries. If no entry was selected, send all entries.
-              ["<c-l>"] = "smart_send_to_loclist",
-              -- Add selected entries to the location list, keeping the
-              -- previous entries. If no entry was selected, add all entries.
-              ["<c-m-l>"] = "smart_add_to_loclist",
-              -- Display local keymaps to registered actions here
-              ["<c-w>"] = "which_key",
-              -- TODO:
-              -- Move from a none fuzzy search to a fuzzy one This action is
-              -- meant to be used in `live_grep` and
-              -- `lsp_dynamic_workspace_symbols`
-              -- ["<c-z>"] = "to_fuzzy_refine", -- need better keymap also
+          config = function(_, opts)
+            require("telescope").setup(opts)
+            require("telescope").load_extension("arglist")
+            require("telescope").load_extension("fzf")
+            require("telescope").load_extension("undo")
+            require("telescope").load_extension("lazy")
+            require("telescope").load_extension("tele_tabby")
+          end,
+          extensions = {
+            -- "debugloop/telescope-undo.nvim",
+            undo = {
+              use_delta = false, -- do not use `delta` here
+              -- DEFAULT MAPPINGS:
+              -- mappings = {
+              -- i = {
+              --   ["<cr>"] = require("telescope-undo.actions").yank_additions,
+              --   ["<s-cr>"] = require("telescope-undo.actions").yank_deletions,
+              --   ["<c-cr>"] = require("telescope-undo.actions").restore,
+              -- },
+              -- },
             },
           },
-        },
-        config = function(_, opts)
-          require("telescope").setup(opts)
-          require("telescope").load_extension("arglist")
-          require("telescope").load_extension("fzf")
-          require("telescope").load_extension("undo")
-          require("telescope").load_extension("lazy")
-          require("telescope").load_extension("tele_tabby")
-        end,
-        extensions = {
-          undo = {
-            -- default config
-            -- mappings = {
-            -- i = {
-            --   ["<cr>"] = require("telescope-undo.actions").yank_additions,
-            --   ["<S-cr>"] = require("telescope-undo.actions").yank_deletions,
-            --   ["<C-cr>"] = require("telescope-undo.actions").restore,
-            -- },
-          },
-        },
-      },
+        }
+      end,
       dependencies = {
         "nvim-lua/plenary.nvim",
-        "debugloop/telescope-undo.nvim",
         "tsakirist/telescope-lazy.nvim",
         "TC72/telescope-tele-tabby.nvim",
         "sam4llis/telescope-arglist.nvim",
+        "debugloop/telescope-undo.nvim",
         {
           "nvim-treesitter/nvim-treesitter",
           build = ":TSUpdate",
