@@ -160,7 +160,6 @@ vim.opt.foldlevelstart = 1
 vim.opt.foldopen = {
   "block", -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
   "insert", -- insert mode commands
-  "jump", -- far jumps like `G`, `gg` etc.
   "mark", -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
   "percent", -- `%`
   "quickfix", -- :cn`, `:crew`, `:make`, etc.
@@ -168,6 +167,7 @@ vim.opt.foldopen = {
   "tag", -- tag jumps like `:ta`, `CTRL-T` etc.
   "undo", -- undo or redo
   "hor", -- horizontal movement like `l`,`w`, `fx` etc.
+  -- "jump", -- far jumps like `G`, `gg` etc.
   -- `all`    -- everything
 }
 
@@ -4284,6 +4284,33 @@ run_lazy_setup({
     {
       "christoomey/vim-titlecase", -- {{{3
       event = "VeryLazy",
+    },
+
+    -- Folds
+    {
+      "anuvyklack/pretty-fold.nvim",
+      event = "VeryLazy",
+      opts = {
+        sections = {
+          left = {
+            "  ",
+            "content",
+          },
+          right = {
+            " ",
+            -- "number_of_folded_lines",
+            function()
+              local fold_line_count = vim.fn.foldclosedend(
+                vim.v.foldstart
+              ) - vim.fn.foldclosed(vim.v.foldstart) + 1
+              return fold_line_count .. " ☰"
+            end,
+            " ",
+          },
+        },
+        fill_char = "",
+        process_comment_signs = "delete", -- removes comment characters
+      },
     },
 
     -- Rust
