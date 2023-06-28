@@ -1855,7 +1855,7 @@ vim.keymap.set("n", "gX", function()
   if username_slash_repo:find("/", 1, true) then -- does it contain a slash?
     local github_url = "https://github.com/" .. username_slash_repo
     local open_cmd = "xdg-open"
-    vim.cmd("!" .. open_cmd .. " " .. github_url)
+    vim.fn.jobstart(open_cmd .. " " .. github_url)
   end
 end, {
   desc = "Open github repo url under cursor (`username/repo`)",
