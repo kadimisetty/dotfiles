@@ -3979,14 +3979,20 @@ run_lazy_setup({
     },
 
     -- Breadcrumb bar
-    -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but too many errors now. Try later.
-    -- NOTE: Load after colorscheme!
-    -- TODO: Disable barbeque on unfocussed windows
-    -- TODO: Add mapping to toggle barbeque by window
+    -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but it's >= 0.10.0-dev. Try later.
     {
       "utilyre/barbecue.nvim", -- {{{3
       name = "barbecue",
+      event = "VeryLazy",
       version = "*",
+      keys = {
+        {
+          -- NOTE: If barbecuw hasn't loaded yet, this will stall one time
+          "<m-b>",
+          function() require("barbecue.ui").toggle() end,
+          desc = "Toggle barbecue globally",
+        },
+      },
       opts = {
         theme = "tokyonight",
         -- Replace file icon with modified symbol when buffer is modified
