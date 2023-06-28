@@ -3906,6 +3906,8 @@ run_lazy_setup({
               ["<c-up>"] = "cycle_history_prev",
               -- Do not go to normal mode on `<esc>`, exit instead
               ["<esc>"] = "close",
+              -- revert `<c-u>` to default function
+              ["<C-u>"] = false,
             },
           },
         },
