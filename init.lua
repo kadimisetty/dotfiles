@@ -3857,8 +3857,8 @@ run_lazy_setup({
         },
         -- EXTENSIONS
         {
+          -- TODO: Add keymap/action to delete from arglist
           "<space>a",
-          -- "<cmd>Telescope arglist<cr>",
           function() require("telescope-arglist").arglist() end,
           desc = "Search arglist buffers",
         },
@@ -3895,19 +3895,43 @@ run_lazy_setup({
           color_devicons = true,
           mappings = {
             i = {
-              -- TODO: See if tabs can be used for copying and
-              -- something else for multi-selection.
-
-              -- Browse results with `<c-j/k>` like in `fzf.vim`
+              -- Browse results upwards/downwards/top/bottom
               ["<c-j>"] = "move_selection_next",
               ["<c-k>"] = "move_selection_previous",
+              ["<c-m-j>"] = "move_to_bottom",
+              ["<c-m-k>"] = "move_to_top",
               -- Browse history
               ["<c-down>"] = "cycle_history_next",
               ["<c-up>"] = "cycle_history_prev",
-              -- Do not go to normal mode on `<esc>`, exit instead
+              -- Do not go to telescop_normal_mode on `<esc>`, exit instead
               ["<esc>"] = "close",
-              -- revert `<c-u>` to default function
-              ["<C-u>"] = false,
+              -- revert `<c-u>` to default function of clearing line
+              ["<c-u>"] = false,
+              -- Delete selected buffer
+              ["<c-d>"] = "delete_buffer",
+              -- Scroll the preview window up
+              ["<c-f>"] = "preview_scrolling_down",
+              -- Scroll the preview window down
+              ["<c-b>"] = "preview_scrolling_up",
+              -- Send selected entries to the quickfix list, replacing the
+              -- previous entries. If no entry was selected, send all entries.
+              ["<c-q>"] = "smart_send_to_qflist",
+              -- Add selected entries to the quickfix list, keeping the
+              -- previous entries. If no entry was selected, add all entries.
+              ["<c-m-q>"] = "smart_add_to_qflist",
+              -- Send selected entries to the location list, replacing the
+              -- previous entries. If no entry was selected, send all entries.
+              ["<c-l>"] = "smart_send_to_loclist",
+              -- Add selected entries to the location list, keeping the
+              -- previous entries. If no entry was selected, add all entries.
+              ["<c-m-l>"] = "smart_add_to_loclist",
+              -- Display local keymaps to registered actions here
+              ["<c-w>"] = "which_key",
+              -- TODO:
+              -- Move from a none fuzzy search to a fuzzy one This action is
+              -- meant to be used in `live_grep` and
+              -- `lsp_dynamic_workspace_symbols`
+              -- ["<c-z>"] = "to_fuzzy_refine", -- need better keymap also
             },
           },
         },
