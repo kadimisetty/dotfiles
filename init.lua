@@ -4063,28 +4063,30 @@ run_lazy_setup({
           exclude = {}, -- list of file types to exclude highlighting
         },
       },
+      -- TODO: Add keymaps that restrict searching for pragmas in current
+      -- buffer
       keys = {
         {
           "]p",
           function() require("todo-comments").jump_next() end,
-          desc = "Jump to next pragma",
+          desc = "Go to next pragma",
         },
         {
           "[p",
           function() require("todo-comments").jump_prev() end,
-          desc = "Jump to previous pragma",
+          desc = "Go to previous pragma",
         },
         {
           "<space>p",
           -- default keywords
           "<cmd>TodoTelescope<cr>",
-          desc = "Pragma(Todo) Telescope",
+          desc = "Search all pragmas in telescope",
         },
         {
           "<space>P",
-          -- given keywords
-          "<cmd>TodoTelescope keywords=TODO,FIXME,NOTE<cr>",
-          desc = "Todo/Fix/Fixme",
+          -- supplied keywords
+          "<cmd>TodoTelescope keywords=TODO,NOTE,FIX,ISSUE,FIXME,NOTE,XXX<cr>",
+          desc = "Search pragmas(TODO/NOTE/FIX) in telescope",
         },
       },
       dependencies = {
