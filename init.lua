@@ -3586,7 +3586,6 @@ run_lazy_setup({
       -- event = "VeryLazy",
       lazy = false,
       priority = 600,
-      -- cmd = "NeoTree",
       init = function()
         -- Disable deprecated commands e.g. `:NeoTreeReveal`
         vim.g.neo_tree_remove_legacy_commands = 1
@@ -3605,10 +3604,71 @@ run_lazy_setup({
           desc = "Toggle NeoTree",
         },
       },
+      opts = {
+        sources = {
+          "filesystem", -- "buffers", "git_status",
+        },
+        open_files_do_not_replace_types = {
+          "terminal",
+          "Trouble",
+          "qf",
+          "Outline",
+        },
+        filesystem = {
+          bind_to_cwd = false,
+          hijack_netrw_behavior = "disabled",
+          filtered_items = {
+            hide_dotfiles = false,
+            hide_hidden = false,
+          },
+        },
+        window = {
+          width = 22,
+          mappings = {
+            ["P"] = "noop", -- disable default: `toggle_preview`
+            ["<m-p>"] = {
+              "toggle_preview",
+              config = { use_float = true },
+            },
+            ["<bs>"] = "noop", -- disable default: `navigate_up`
+            ["<m-up>"] = "navigate_up",
+            ["gh"] = "show_help", -- along with default: `?`
+            ["S"] = "noop", -- disable default: `open_split`
+            ["<c-x>"] = "open_split",
+            ["s"] = "noop", -- disable default: `open_vsplit`
+            ["<c-v>"] = "open_vsplit",
+            ["t"] = "noop", -- disable default: `open_tabnew`
+            ["<c-t>"] = "open_tabnew",
+            ["H"] = "noop", -- disable default: `toggle_hidden`
+            ["<c-h>"] = "toggle_hidden",
+            ["<space>"] = "noop", -- disable default:  toggle_node
+            -- instead of default: `open` do `toggle_node`
+            ["<cr>"] = "toggle_node",
+            -- ["<s-cr>"] = TODO: open/select and then close neotree
+            ["<c-cr>"] = "open_with_window_picker",
+            -- instead of default: `open` do `toggle_node`
+            ["z"] = "noop", -- disable default: `close_all_nodes`
+            ["zc"] = "close_node", -- like in folds
+            ["zM"] = "close_all_nodes", -- like in folds
+            ["zR"] = "expand_all_nodes", -- like in folds
+          },
+        },
+      },
       dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
         "nvim-tree/nvim-web-devicons",
+        {
+          -- Required in mappings using `*_window_picker`
+          "s1n7ax/nvim-window-picker",
+          name = "window-picker",
+          event = "VeryLazy",
+          version = "2.*",
+          opts = {
+            show_prompt = false,
+            selection_chars = "1234567890QWERTYUIOP",
+          },
+        },
       },
     },
 
