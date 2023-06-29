@@ -3641,9 +3641,8 @@ run_lazy_setup({
             ["<c-t>"] = "open_tabnew",
             ["H"] = "noop", -- disable default: `toggle_hidden`
             ["<c-h>"] = "toggle_hidden",
-            ["<space>"] = "noop", -- disable default:  toggle_node
-            -- instead of default: `open` do `toggle_node`
-            ["<cr>"] = "toggle_node",
+            -- ["<space>"] = "toggle_node", -- default
+            -- ["<cr>"] = "open", -- default
             -- ["<s-cr>"] = TODO: open/select and then close neotree
             ["<c-cr>"] = "open_with_window_picker",
             -- instead of default: `open` do `toggle_node`
