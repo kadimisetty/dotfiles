@@ -4684,7 +4684,6 @@ run_lazy_setup({
     {
       "stevearc/dressing.nvim", -- {{{3
       event = "VeryLazy",
-      opts = {},
     },
 
     -- LSP loading indicator
