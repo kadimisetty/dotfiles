@@ -127,9 +127,9 @@ vim.opt.wildmenu = true
 -- INSERT MODE COMPLETION {{{3
 -- TODO: Consider `popup`
 vim.opt.completeopt:append({
-  "menu", -- show popup menu for completions
-  "menuone", -- show even for only one available completion
-  "preview", -- show extra meta info in preview window
+  "menu",     -- show popup menu for completions
+  "menuone",  -- show even for only one available completion
+  "preview",  -- show extra meta info in preview window
   "noinsert", -- TODO: don't insert any text unless user selects one
 })
 
@@ -155,15 +155,15 @@ vim.opt.foldlevelstart = 1
 
 -- Commands(like movements) that open closed folds
 vim.opt.foldopen = {
-  "block", -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
-  "insert", -- insert mode commands
-  "mark", -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
-  "percent", -- `%`
+  "block",    -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
+  "insert",   -- insert mode commands
+  "mark",     -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
+  "percent",  -- `%`
   "quickfix", -- :cn`, `:crew`, `:make`, etc.
-  "search", -- triggering search patterns
-  "tag", -- tag jumps like `:ta`, `CTRL-T` etc.
-  "undo", -- undo or redo
-  "hor", -- horizontal movement like `l`,`w`, `fx` etc.
+  "search",   -- triggering search patterns
+  "tag",      -- tag jumps like `:ta`, `CTRL-T` etc.
+  "undo",     -- undo or redo
+  "hor",      -- horizontal movement like `l`,`w`, `fx` etc.
   -- "jump", -- far jumps like `G`, `gg` etc.
   -- `all`    -- everything
 }
@@ -364,7 +364,7 @@ vim.opt.showbreak = [[…]]
 
 -- Jump to the last known valid cursor position {{{2
 local jump_to_last_known_cursor_position_augroup =
-  vim.api.nvim_create_augroup("jump_to_last_known_cursor_position", {})
+    vim.api.nvim_create_augroup("jump_to_last_known_cursor_position", {})
 
 -- On opening file, jump to last known cursor position from last opened
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -414,7 +414,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 --   `softtabstop` set to 0 disables it.
 --   `shiftwidth` set to 0 makes it use `tabstop` value.
 local whitespace_preferences_group =
-  vim.api.nvim_create_augroup("whitespace_preferences", {})
+    vim.api.nvim_create_augroup("whitespace_preferences", {})
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = whitespace_preferences_group,
   pattern = { "make" },
@@ -601,7 +601,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.keymap.set("n", "<localleader>u", function()
       -- Do nothing if current line is blank
       local function_name =
-        vim.fn.split(vim.api.nvim_get_current_line())[1]
+          vim.fn.split(vim.api.nvim_get_current_line())[1]
       if function_name ~= nil then
         -- Grab the function name and
         -- add an undefined stub on a new following line
@@ -609,8 +609,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         local save_indentation = vim.fn.indent(current_line_number)
         local indentation_spaces = string.rep(" ", save_indentation)
         local content = indentation_spaces
-          .. function_name
-          .. " = undefined"
+            .. function_name
+            .. " = undefined"
         vim.api.nvim_buf_set_lines(
           0,
           current_line_number,
@@ -684,7 +684,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 
 -- ELIXIR TOGGLES {{{2
 local elixir_toggles_augroup =
-  vim.api.nvim_create_augroup("elixir_toggles_augroup", {})
+    vim.api.nvim_create_augroup("elixir_toggles_augroup", {})
 
 -- Toggle trailing comma on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -704,7 +704,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- PYTHON TOGGLES {{{2
 local python_toggles_augroup =
-  vim.api.nvim_create_augroup("python_toggles_augroup", {})
+    vim.api.nvim_create_augroup("python_toggles_augroup", {})
 
 -- Toggle trailing colon on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -757,7 +757,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- RUST TOGGLES {{{2
 local rust_toggles_augroup =
-  vim.api.nvim_create_augroup("rust_toggles_augroup", {})
+    vim.api.nvim_create_augroup("rust_toggles_augroup", {})
 
 -- Toggle trailing semicolon on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -1245,7 +1245,7 @@ endfunction
 --    window closing commands only like `zz`?
 --
 local terminal_augroup =
-  vim.api.nvim_create_augroup("terminal_augroup", {})
+    vim.api.nvim_create_augroup("terminal_augroup", {})
 
 -- Open `fish` terminal in a window within current tab
 vim.keymap.set(
@@ -1789,7 +1789,7 @@ vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
 -- UTILITIES {{{1
 local utilities_augroup =
-  vim.api.nvim_create_augroup("utilities_augroup", {})
+    vim.api.nvim_create_augroup("utilities_augroup", {})
 
 -- IN COMMAND LINE AUTOCMOPLETE USE `UP`/`DOWN` LIKE `<c-n>`/`<c-p>` {{{2
 -- TODO: Check if this still works with `*cmp*` still on
@@ -1819,7 +1819,7 @@ end, {
 vim.api.nvim_create_user_command("W", "wall<bang>", {
   bang = true,
   desc = "Write all changed buffers to disk,"
-    .. " use `!` to write read-only buffers also",
+      .. " use `!` to write read-only buffers also",
 })
 -- `Q`:  Close all windows and exit but confirm if any buffers have unsaved changes
 -- `Q!`: Close all windows and exit, ignoring changed buffer
@@ -2042,8 +2042,8 @@ local close_floating_windows = function(opts)
   -- Assert function parameters are `{ all_tabs = true|false }`
   assert(
     opts ~= nil
-      and opts.all_tabs ~= nil
-      and type(opts.all_tabs) == "boolean"
+    and opts.all_tabs ~= nil
+    and type(opts.all_tabs) == "boolean"
   )
 
   local window_handles
@@ -2108,7 +2108,7 @@ vim.keymap.set("n", "<m-q>", function()
   local is_quickfix_open_in_current_tab = false
   for _, w in ipairs(vim.fn.getwininfo()) do
     if
-      w.quickfix > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
+        w.quickfix > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
     then
       is_quickfix_open_in_current_tab = true
     end
@@ -2125,7 +2125,7 @@ vim.keymap.set("n", "<m-l>", function()
   local is_loclist_open_in_current_tab = false
   for _, w in ipairs(vim.fn.getwininfo()) do
     if
-      w.loclist > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
+        w.loclist > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
     then
       is_loclist_open_in_current_tab = true
     end
@@ -2663,15 +2663,15 @@ local set_common_lsp_formatting = function(opts)
   -- }
   assert(
     opts.bufnr ~= nil
-      and type(opts.bufnr) == "number"
-      and opts.sync_format_keymap ~= nil
-      and type(opts.sync_format_keymap) == "string"
-      and opts.async_format_keymap ~= nil
-      and type(opts.sync_format_keymap) == "string"
-      and opts.sync_format_on_save ~= nil
-      and type(opts.sync_format_on_save) == "boolean"
-      and opts.async_format_on_save ~= nil
-      and type(opts.async_format_on_save) == "boolean"
+    and type(opts.bufnr) == "number"
+    and opts.sync_format_keymap ~= nil
+    and type(opts.sync_format_keymap) == "string"
+    and opts.async_format_keymap ~= nil
+    and type(opts.sync_format_keymap) == "string"
+    and opts.sync_format_on_save ~= nil
+    and type(opts.sync_format_on_save) == "boolean"
+    and opts.async_format_on_save ~= nil
+    and type(opts.async_format_on_save) == "boolean"
   )
   if opts.desired_client_name ~= nil then
     assert(type(opts.desired_client_name) == "string")
@@ -2707,7 +2707,7 @@ local set_common_lsp_formatting = function(opts)
 
     if opts.sync_format_on_save then
       local lsp_sync_formatting_augroup =
-        vim.api.nvim_create_augroup("lsp_sync_formatting_augroup", {})
+          vim.api.nvim_create_augroup("lsp_sync_formatting_augroup", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = lsp_sync_formatting_augroup,
         buffer = opts.bufnr,
@@ -2737,7 +2737,7 @@ local set_common_lsp_formatting = function(opts)
 
     if opts.async_format_on_save then
       local lsp_async_formatting_augroup =
-        vim.api.nvim_create_augroup("lsp_async_formatting_augroup", {})
+          vim.api.nvim_create_augroup("lsp_async_formatting_augroup", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = lsp_async_formatting_augroup,
         buffer = opts.bufnr,
@@ -2870,6 +2870,7 @@ end
 
 -- LAZY {{{1
 -- LAZY SETUP {{{2
+-- LAZY INSTALLATION {{{3
 -- NOTE: `lazy.nvim` requires `<leader>` and `<localleader>` to be configured.
 -- INSTALL LAZY IF NOT PRESENT:
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -2894,6 +2895,64 @@ vim.keymap.set(
   "<cmd>Lazy<cr>",
   { desc = "Open `lazy.nvim` dashboard" }
 )
+-- LAZY ICONS {{{3
+local lazy_icons = {
+  dap = {
+    Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+    Breakpoint = " ",
+    BreakpointCondition = " ",
+    BreakpointRejected = { " ", "DiagnosticError" },
+    LogPoint = ".>",
+  },
+  diagnostics = {
+    Error = " ",
+    Warn = " ",
+    Hint = " ",
+    Info = " ",
+  },
+  git = {
+    added = " ",
+    modified = " ",
+    removed = " ",
+  },
+  kinds = {
+    Array = " ",
+    Boolean = " ",
+    Class = " ",
+    Color = " ",
+    Constant = " ",
+    Constructor = " ",
+    Copilot = " ",
+    Enum = " ",
+    EnumMember = " ",
+    Event = " ",
+    Field = " ",
+    File = " ",
+    Folder = " ",
+    Function = " ",
+    Interface = " ",
+    Key = " ",
+    Keyword = " ",
+    Method = " ",
+    Module = " ",
+    Namespace = " ",
+    Null = " ",
+    Number = " ",
+    Object = " ",
+    Operator = " ",
+    Package = " ",
+    Property = " ",
+    Reference = " ",
+    Snippet = " ",
+    String = " ",
+    Struct = " ",
+    Text = " ",
+    TypeParameter = " ",
+    Unit = " ",
+    Value = " ",
+    Variable = " ",
+  },
+}
 
 run_lazy_setup({
   -- LAZY OPTIONS  {{{2
@@ -3071,7 +3130,7 @@ run_lazy_setup({
         -- LINES:
         -- NOTE: Remaining related utilities in line utlities section
         -- TODO: Refactor lines out of unimpaired section
-        { "<m-up>", "[e", remap = true, desc = "Move line downwards" },
+        { "<m-up>",   "[e", remap = true, desc = "Move line downwards" },
         { "<m-down>", "]e", remap = true, desc = "Move line upwards" },
         -- VISUAL SELECTION
         -- TODO: Refactor visual selectionout of unimpaired section
@@ -3431,80 +3490,218 @@ run_lazy_setup({
     -- Colorscheme
     {
       "folke/tokyonight.nvim", -- {{{3
-      lazy = false, -- Load during startup if main colorscheme
-      priority = 1000, -- Load before all other start plugins
+      lazy = false,            -- Load during startup if main colorscheme
+      priority = 1000,         -- Load before all other start plugins
       init = function() vim.cmd.colorscheme("tokyonight") end,
       opts = {
         style = "moon", -- @type `storm` | `moon`| `night`(darkest) | `day` (light)
         terminal_colors = true,
         styles = {
           sidebars = "dark", -- backgrounds: @type: "dark" | "transparent" | "normal"
-          floats = "dark", -- backgrounds: @type: "dark" | "transparent" | "normal"
+          floats = "dark",   -- backgrounds: @type: "dark" | "transparent" | "normal"
           -- Style(syntax groups) = Value(attr-list value in `:help nvim_set_hl`)
           comments = { italic = true, bold = true },
           variables = { bold = true },
           keywords = { italic = true },
           functions = { italic = true, bold = true },
         },
-        sidebars = { "qf", "help" }, --example: `["qf", "terminal", "packer"]`
+        sidebars = { "qf", "help" },     --example: `["qf", "terminal", "packer"]`
         hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
         -- dim_inactive = false, -- do not dim, use alternate dimmer like `shade.nvim`
-        dim_inactive = true, -- do not dim, use alternate dimmer like `shade.nvim`
-        lualine_bold = true, -- Lualine section headers will be bold
+        dim_inactive = true,             -- do not dim, use alternate dimmer like `shade.nvim`
+        lualine_bold = true,             -- Lualine section headers will be bold
       },
     },
 
     -- Status line
     {
       "nvim-lualine/lualine.nvim", -- {{{3
-      lazy = false, -- Load during startup if main colorscheme
-      opts = {
-        options = {
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
-          ignore_focus = {},
-          always_divide_middle = true,
-          -- Show only one statusline for all windows
-          globalstatus = true,
-        },
-        -- NOTE: Available values:
-        -- `branch` , `buffers` , `diagnostics` , `diff` , `encoding` ,
-        -- `fileformat` , `filename` , `filesize` , `filetype` ,
-        -- `hostname` , `location` , `mode` , `progress` , `searchcount` ,
-        -- `selectioncount` , `tabs`
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename" },
-          lualine_x = { "searchcount", "selectioncount", "filetype" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = { "filename" },
-          lualine_c = {},
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        extensions = {
-          -- "aerial",
-          "fugitive", -- git
-          -- "fzf", -- fuzzy search
-          "lazy", -- plugin manager
-          "man", -- manual
-          -- "mundo", -- undo tree
-          "neo-tree",
-          -- "nvim-dap-ui", -- UI for dap(debug adapter protocol)
-          -- "nvim-tree", -- file tree
-          -- "overseer", -- taskrunner
-          "quickfix",
-          -- "symbols-outline", -- symbols tree
-          "trouble", -- error list accumulator
-        },
+      event = "VeryLazy",
+      opts = function()
+        return {
+          options = {
+            globalstatus = true, -- Show only one statusline for all windows
+            theme = 'auto',
+            component_separators = { left = "", right = "" },
+            section_separators = { left = "", right = "" },
+            ignore_focus = {},
+            always_divide_middle = true,
+            disabled_filetypes = { statusline = { "alpha" } },
+          },
+          sections = {
+            lualine_a = {
+              {
+                -- short mode
+                function()
+                  --  NOTE: vim mode codes (keys) are listed in `:help mode()`
+                  local nvim_mode_code = vim.api.nvim_get_mode().mode
+                  local nvim_mode_code_representations = {
+                    ["n"] = "N",
+                    ["no"] = "NO",
+                    ["nov"] = "NOv",
+                    ["noV"] = "NOV",
+                    ["no\22"] = "NO^v",
+                    ["niI"] = "N",
+                    ["niR"] = "N",
+                    ["niV"] = "N",
+                    ["nt"] = "N",
+                    ["ntT"] = "N",
+                    ["v"] = "v",
+                    ["vs"] = "v",
+                    ["V"] = "V",
+                    ["Vs"] = "V",
+                    ["\22"] = "^v",
+                    ["\22s"] = "^v",
+                    ["s"] = "s",
+                    ["S"] = "S",
+                    ["\19"] = "S-BLOCK",
+                    ["i"] = "I",
+                    ["ic"] = "I",
+                    ["ix"] = "I",
+                    ["R"] = "R",
+                    ["Rc"] = "R",
+                    ["Rx"] = "R",
+                    ["Rv"] = "VR",
+                    ["Rvc"] = "VR",
+                    ["Rvx"] = "VR",
+                    ["c"] = "C",
+                    ["cv"] = "EX",
+                    ["ce"] = "EX",
+                    ["r"] = "PROMPT",
+                    ["rm"] = "MORE",
+                    ["r?"] = "CONFIRM",
+                    ["!"] = "!",
+                    ["t"] = "TERM",
+                  }
+                  return vim.fn.get(
+                    nvim_mode_code_representations, -- table
+                    nvim_mode_code,                 -- index
+                    nvim_mode_code                  -- default
+                  )
+                end,
+                padding = { left = 1, right = 1 },
+              },
+            },
+            lualine_b = {
+              {
+                "branch",
+                -- icon = "" -- Ideally this would be my icon of choice
+                -- NOTE: In order to hide the `main` branch and showing my icon
+                -- of choice the following "hack" needs to be done:
+                -- 1. Set `icon` to a blank string
+                -- 2. Set `padding` to accomodate hardcoded icon
+                -- 3. Define `fmt` with hardcoded icon  of choice
+                icon = "",
+                padding = { left = 0, right = 1 },
+                fmt = function(branch_name)
+                  if branch_name == "" then -- show "master"
+                    -- case: `""` is no "git branch" available
+                    -- returning: `nil` doesn't show this component
+                    return nil
+                  elseif branch_name == "main" then -- show "master"
+                    -- case: `main` branch
+                    -- returning: "" pretending it's just the icon
+                    return ""
+                  else
+                    -- case: branch other than `main`
+                    -- returning: " branch_name"
+                    return " " .. branch_name
+                  end
+                end,
+              },
+            },
+            lualine_c = {
+              {
+                -- NOTE: The `󰆧` icon is hardcoded in a "hackish" way to get
+                -- that symbol to print before the `navic` component. Using
+                -- `fmt` on `navic` is unsatisfactory as it's visible when
+                -- `navic` is not displayed as well.
+                component_separators = { left = "󰆧", right = "" },
+                "filename",
+                path = 1,
+                symbols = {
+                  modified = "󰐕", --      󰐕 
+                  readonly = "",
+                  unnamed = "NO NAME",
+                },
+              },
+              {
+                "navic",
+              },
+            },
+            lualine_x = {
+              {
+                "diagnostics",
+                symbols = {
+                  error = lazy_icons.diagnostics.Error,
+                  warn = lazy_icons.diagnostics.Warn,
+                  info = lazy_icons.diagnostics.Info,
+                  hint = lazy_icons.diagnostics.Hint,
+                },
+              },
+              "searchcount",
+              "selectioncount",
+              -- TODO: setup `dap` here like in  `lazy-distribution`
+              {
+                require("lazy.status").updates,
+                cond = require("lazy.status").has_updates,
+              },
+              {
+                "diff",
+                symbols = {
+                  added = lazy_icons.git.added,
+                  modified = lazy_icons.git.modified,
+                  removed = lazy_icons.git.removed,
+                },
+              },
+              {
+                "filetype",
+                icon_only = true,
+                colored = false,
+                padding = { left = 0, right = 1 },
+              },
+            },
+            lualine_y = {
+              {
+                "progress",
+                padding = { left = 1, right = 1 },
+              },
+              {
+                "location",
+                padding = { left = 0, right = 0 },
+              },
+            },
+            lualine_z = {},
+          },
+          inactive_sections = {
+            lualine_a = { "filename" },
+            lualine_b = {},
+            lualine_c = {},
+            lualine_x = {},
+            lualine_y = { "bo:filetype" },
+            lualine_z = { "location" },
+          },
+          extensions = {
+            "fugitive",
+            "lazy",
+            "man",
+            "neo-tree",
+            "quickfix",
+            "trouble",
+            -- "mundo", -- undo tree
+            -- "nvim-dap-ui", -- UI for dap(debug adapter protocol)
+            -- "overseer", -- taskrunner
+            -- "symbols-outline", -- symbols tree
+          },
+        }
+      end,
+      dependencies = {
+        "SmiteshP/nvim-navic",
+        "folke/trouble.nvim",
+        "nvim-neo-tree/neo-tree.nvim",
+        "nvim-tree/nvim-web-devicons",
+        "tpope/vim-fugitive",
       },
-      dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
     -- Tab bar
@@ -3566,19 +3763,19 @@ run_lazy_setup({
       opts = {
         -- REMOVE UNCHANGED DEFAULT VARS
         disable_filetype = { "TelescopePrompt", "spectre_panel" },
-        disable_in_macro = false, -- disable when recording or executing a macro
+        disable_in_macro = false,       -- disable when recording or executing a macro
         disable_in_visualblock = false, -- disable when insert after visual block mode
         disable_in_replace_mode = true,
         ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
         enable_moveright = true,
-        enable_afterquote = true, -- add bracket pairs after quote
+        enable_afterquote = true,         -- add bracket pairs after quote
         enable_check_bracket_line = true, --- check bracket in same line
         enable_bracket_in_quote = true,
-        enable_abbr = false, -- trigger abbreviation
-        break_undo = true, -- switch for basic rule break undo sequence
+        enable_abbr = false,              -- trigger abbreviation
+        break_undo = true,                -- switch for basic rule break undo sequence
         check_ts = false,
         map_cr = true,
-        map_bs = true, -- map the <BS> key
+        map_bs = true,   -- map the <BS> key
         map_c_h = false, -- Map the <C-h> key to delete a pair
         map_c_w = false, -- map <c-w> to delete a pair if possible
       },
@@ -3635,25 +3832,25 @@ run_lazy_setup({
               "toggle_preview",
               config = { use_float = true },
             },
-            ["<bs>"] = "noop", -- disable default: `navigate_up`
+            ["<bs>"] = "noop",    -- disable default: `navigate_up`
             ["<m-up>"] = "navigate_up",
             ["gh"] = "show_help", -- along with default: `?`
-            ["S"] = "noop", -- disable default: `open_split`
+            ["S"] = "noop",       -- disable default: `open_split`
             ["<c-x>"] = "open_split",
-            ["s"] = "noop", -- disable default: `open_vsplit`
+            ["s"] = "noop",       -- disable default: `open_vsplit`
             ["<c-v>"] = "open_vsplit",
-            ["t"] = "noop", -- disable default: `open_tabnew`
+            ["t"] = "noop",       -- disable default: `open_tabnew`
             ["<c-t>"] = "open_tabnew",
-            ["H"] = "noop", -- disable default: `toggle_hidden`
+            ["H"] = "noop",       -- disable default: `toggle_hidden`
             ["<c-h>"] = "toggle_hidden",
             -- ["<space>"] = "toggle_node", -- default
             -- ["<cr>"] = "open", -- default
             -- ["<s-cr>"] = TODO: open/select and then close neotree
             ["<c-cr>"] = "open_with_window_picker",
             -- instead of default: `open` do `toggle_node`
-            ["z"] = "noop", -- disable default: `close_all_nodes`
-            ["zc"] = "close_node", -- like in folds
-            ["zM"] = "close_all_nodes", -- like in folds
+            ["z"] = "noop",              -- disable default: `close_all_nodes`
+            ["zc"] = "close_node",       -- like in folds
+            ["zM"] = "close_all_nodes",  -- like in folds
             ["zR"] = "expand_all_nodes", -- like in folds
           },
         },
@@ -3702,8 +3899,8 @@ run_lazy_setup({
             "s",
             -- "" .. " Source `./Session.vim",
             ""
-              .. "  "
-              .. "SOURCE `./Session.vim`",
+            .. "  "
+            .. "SOURCE `./Session.vim`",
             "<cmd>source ./Session.vim<cr>"
           ),
           dashboard.button(
@@ -4115,15 +4312,15 @@ run_lazy_setup({
         -- * keyword: highlights of the keyword
         -- * after: highlights after the keyword (todo text)
         highlight = {
-          multiline = true, -- enable multine todo comments
-          multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
-          multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
-          keyword = "wide_bg", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
-          after = "", -- "fg" or "bg" or empty
+          multiline = true,                -- enable multine todo comments
+          multiline_pattern = "^.",        -- lua pattern to match the next multiline from the start of the matched keyword
+          multiline_context = 10,          -- extra lines that will be re-evaluated when changing a line
+          keyword = "wide_bg",             -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+          after = "",                      -- "fg" or "bg" or empty
           pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
-          comments_only = true, -- uses treesitter to match keywords in comments only
-          max_line_len = 400, -- ignore lines longer than this
-          exclude = {}, -- list of file types to exclude highlighting
+          comments_only = true,            -- uses treesitter to match keywords in comments only
+          max_line_len = 400,              -- ignore lines longer than this
+          exclude = {},                    -- list of file types to exclude highlighting
         },
       },
       -- TODO: Add keymaps that restrict searching for pragmas in current
@@ -4263,7 +4460,7 @@ run_lazy_setup({
         create_event = function()
           -- disable for single window
           local win_numbers =
-            require("colorful-winsep.utils").calculate_number_windows()
+              require("colorful-winsep.utils").calculate_number_windows()
           if win_numbers == 2 then
             local win_id = vim.fn.win_getid(vim.fn.winnr("h"))
             local filetype = vim.api.nvim_buf_get_option(
@@ -4689,7 +4886,7 @@ run_lazy_setup({
     -- LSP loading indicator
     {
       "j-hui/fidget.nvim", -- {{{3
-      tag = "legacy", -- TODO: Remove when fidget is eventually updated
+      tag = "legacy",      -- TODO: Remove when fidget is eventually updated
       lazy = false,
       config = function()
         require("fidget").setup({
@@ -5094,7 +5291,7 @@ run_lazy_setup({
       -- copying the value, see the help docs.
       build = (
         not jit.os:find("Windows")
-          and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
         or nil
       ),
       opts = function()
@@ -5300,7 +5497,7 @@ run_lazy_setup({
               group_index = 2,
               max_item_count = 3,
             },
-            { name = "luasnip", priority = 10 },
+            { name = "luasnip",  priority = 10 },
             { name = "cmdline" },
             { name = "nvim_lua", max_item_count = 3 }, -- Automatically in lua ft only
             { name = "path" },
