@@ -120,6 +120,7 @@ vim.opt.wildmode = {
 -- Perform things like menu completion with wildchar(often tab) etc.
 -- Enhance command line completion
 -- TODO:
+
 --   Find more relatable key keymaps in this mode.  Read `help 'wildmenu'`
 vim.opt.wildmenu = true
 
@@ -633,7 +634,6 @@ vim.cmd([[
 -- HASKELL HELPERS {{{3
 
 -- RUST {{{2
--- TODO:
 local rust_augroup = vim.api.nvim_create_augroup("rust_augroup", {})
 
 -- Set `formatprg` to `rustfmt`
@@ -3394,12 +3394,17 @@ run_lazy_setup({
     {
       "m4xshen/smartcolumn.nvim", -- {{{3
       opts = {
-        -- disabled_filetypes = { "help", "text", "markdown" }  -- default
+        -- default: {}
+        -- example: { python = "80", haskell = { "80", "120"} }
+        colorcolumn = { "80", "100" }, -- default: "80"
+        --
+        -- file: whole file (default)
+        -- window: visible part of current window
+        -- line: current line
+        scope = "window",
+        --
+        -- exampledisabled_filetypes = default: { "help", "text", "markdown" }
       },
-      colorcolumn = { "80", "100" }, -- default: "80"
-      -- "file" (default) / "window": visible part of current window / "line": current line
-      scope = "window",
-      -- custom_colorcolumn = { python = "80", haskell = { "80", "120"} } -- {} (default)
     },
 
     -- inverse toggle e.g. true/false
@@ -4093,7 +4098,6 @@ run_lazy_setup({
     -- TODO: Make this into a separate plugin
     {
       "folke/todo-comments.nvim", -- {{{3
-      enable = true,
       event = { "BufReadPost", "BufNewFile" },
       cmd = { "TodoTelescope" },
       opts = {
@@ -4255,8 +4259,6 @@ run_lazy_setup({
     {
       "nvim-zh/colorful-winsep.nvim", -- {{{3
       event = { "WinNew" },
-      -- TODO: Check if config and opts can be supplied together
-      -- config = true,
       opts = {
         create_event = function()
           -- disable for single window
@@ -4272,8 +4274,9 @@ run_lazy_setup({
             -- disable for given filetypes
             local disabled_filetypes = {
               "neo-tree",
-              -- "Mundo",
-              -- "MundoDiff"
+              "Trouble",
+              "qf",
+              -- "Mundo", "MundoDiff" -- Uses 2 windows, need special treatment
             }
             if vim.tbl_contains(disabled_filetypes, filetype) then
               require("colorful-winsep").NvimSeparatorDel()
@@ -4620,7 +4623,7 @@ run_lazy_setup({
     {
       "RRethy/vim-illuminate", -- {{{3
       event = { "BufReadPost", "BufNewFile" },
-      cofig = function()
+      config = function()
         require("illuminate").configure({
           -- ordered by priority:
           providers = {
