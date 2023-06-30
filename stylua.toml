@@ -8,9 +8,4 @@
 # RECOMMENDATION: Do not link explicitly if possible.
 indent_type = "Spaces"
 indent_width = 2
-column_width = 74
-collapse_simple_statement = "Always"
-
-
-[sort_requires]
-enabled = true
+column_width = 80

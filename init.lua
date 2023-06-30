@@ -127,9 +127,9 @@ vim.opt.wildmenu = true
 -- INSERT MODE COMPLETION {{{3
 -- TODO: Consider `popup`
 vim.opt.completeopt:append({
-  "menu",     -- show popup menu for completions
-  "menuone",  -- show even for only one available completion
-  "preview",  -- show extra meta info in preview window
+  "menu", -- show popup menu for completions
+  "menuone", -- show even for only one available completion
+  "preview", -- show extra meta info in preview window
   "noinsert", -- TODO: don't insert any text unless user selects one
 })
 
@@ -155,15 +155,15 @@ vim.opt.foldlevelstart = 1
 
 -- Commands(like movements) that open closed folds
 vim.opt.foldopen = {
-  "block",    -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
-  "insert",   -- insert mode commands
-  "mark",     -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
-  "percent",  -- `%`
+  "block", -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
+  "insert", -- insert mode commands
+  "mark", -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
+  "percent", -- `%`
   "quickfix", -- :cn`, `:crew`, `:make`, etc.
-  "search",   -- triggering search patterns
-  "tag",      -- tag jumps like `:ta`, `CTRL-T` etc.
-  "undo",     -- undo or redo
-  "hor",      -- horizontal movement like `l`,`w`, `fx` etc.
+  "search", -- triggering search patterns
+  "tag", -- tag jumps like `:ta`, `CTRL-T` etc.
+  "undo", -- undo or redo
+  "hor", -- horizontal movement like `l`,`w`, `fx` etc.
   -- "jump", -- far jumps like `G`, `gg` etc.
   -- `all`    -- everything
 }
@@ -364,7 +364,7 @@ vim.opt.showbreak = [[…]]
 
 -- Jump to the last known valid cursor position {{{2
 local jump_to_last_known_cursor_position_augroup =
-    vim.api.nvim_create_augroup("jump_to_last_known_cursor_position", {})
+  vim.api.nvim_create_augroup("jump_to_last_known_cursor_position", {})
 
 -- On opening file, jump to last known cursor position from last opened
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -414,7 +414,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 --   `softtabstop` set to 0 disables it.
 --   `shiftwidth` set to 0 makes it use `tabstop` value.
 local whitespace_preferences_group =
-    vim.api.nvim_create_augroup("whitespace_preferences", {})
+  vim.api.nvim_create_augroup("whitespace_preferences", {})
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = whitespace_preferences_group,
   pattern = { "make" },
@@ -600,17 +600,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.keymap.set("n", "<localleader>u", function()
       -- Do nothing if current line is blank
-      local function_name =
-          vim.fn.split(vim.api.nvim_get_current_line())[1]
+      local function_name = vim.fn.split(vim.api.nvim_get_current_line())[1]
       if function_name ~= nil then
         -- Grab the function name and
         -- add an undefined stub on a new following line
         local current_line_number = vim.fn.line(".")
         local save_indentation = vim.fn.indent(current_line_number)
         local indentation_spaces = string.rep(" ", save_indentation)
-        local content = indentation_spaces
-            .. function_name
-            .. " = undefined"
+        local content = indentation_spaces .. function_name .. " = undefined"
         vim.api.nvim_buf_set_lines(
           0,
           current_line_number,
@@ -684,7 +681,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 
 -- ELIXIR TOGGLES {{{2
 local elixir_toggles_augroup =
-    vim.api.nvim_create_augroup("elixir_toggles_augroup", {})
+  vim.api.nvim_create_augroup("elixir_toggles_augroup", {})
 
 -- Toggle trailing comma on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -704,7 +701,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- PYTHON TOGGLES {{{2
 local python_toggles_augroup =
-    vim.api.nvim_create_augroup("python_toggles_augroup", {})
+  vim.api.nvim_create_augroup("python_toggles_augroup", {})
 
 -- Toggle trailing colon on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -757,7 +754,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- RUST TOGGLES {{{2
 local rust_toggles_augroup =
-    vim.api.nvim_create_augroup("rust_toggles_augroup", {})
+  vim.api.nvim_create_augroup("rust_toggles_augroup", {})
 
 -- Toggle trailing semicolon on current line
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -1244,25 +1241,14 @@ endfunction
 --    consider changing that to closing done_terminal_window with regular
 --    window closing commands only like `zz`?
 --
-local terminal_augroup =
-    vim.api.nvim_create_augroup("terminal_augroup", {})
+local terminal_augroup = vim.api.nvim_create_augroup("terminal_augroup", {})
 
 -- Open `fish` terminal in a window within current tab
-vim.keymap.set(
-  "n",
-  "<m-t>",
-  "<cmd>split term://fish<cr>",
-  { silent = true }
-)
+vim.keymap.set("n", "<m-t>", "<cmd>split term://fish<cr>", { silent = true })
 
 -- Open `fish` terminal in a new tab
 -- TODO: Remove hard coded `fish` shell reference
-vim.keymap.set(
-  "n",
-  "<m-T>",
-  "<cmd>tabnew term://fish<cr>",
-  { silent = true }
-)
+vim.keymap.set("n", "<m-T>", "<cmd>tabnew term://fish<cr>", { silent = true })
 
 -- Keep the terminal UI basic
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
@@ -1474,30 +1460,10 @@ vim.keymap.set(
 -- Move tab to the first/last position
 -- NOTE: `:tabmove 0` moves to the first position and `:tabmove` to the last
 -- NOTE: Doing both gx and xg variations, because I forget otherwise.
-vim.keymap.set(
-  "n",
-  "<c-w>g<s-right>",
-  "<cmd>tabmove<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "g<c-w><s-right>",
-  "<cmd>tabmove<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>g<s-left>",
-  "<cmd>tabmove 0<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "g<c-w><s-left>",
-  "<cmd>tabmove 0<cr>",
-  { silent = true }
-)
+vim.keymap.set("n", "<c-w>g<s-right>", "<cmd>tabmove<cr>", { silent = true })
+vim.keymap.set("n", "g<c-w><s-right>", "<cmd>tabmove<cr>", { silent = true })
+vim.keymap.set("n", "<c-w>g<s-left>", "<cmd>tabmove 0<cr>", { silent = true })
+vim.keymap.set("n", "g<c-w><s-left>", "<cmd>tabmove 0<cr>", { silent = true })
 
 -- MOVING HELPERS {{{3
 -- TODO: Use lua
@@ -1788,8 +1754,7 @@ vim.opt.sessionoptions:remove({ "terminal" })
 vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
 -- UTILITIES {{{1
-local utilities_augroup =
-    vim.api.nvim_create_augroup("utilities_augroup", {})
+local utilities_augroup = vim.api.nvim_create_augroup("utilities_augroup", {})
 
 -- IN COMMAND LINE AUTOCMOPLETE USE `UP`/`DOWN` LIKE `<c-n>`/`<c-p>` {{{2
 -- TODO: Check if this still works with `*cmp*` still on
@@ -1819,7 +1784,7 @@ end, {
 vim.api.nvim_create_user_command("W", "wall<bang>", {
   bang = true,
   desc = "Write all changed buffers to disk,"
-      .. " use `!` to write read-only buffers also",
+    .. " use `!` to write read-only buffers also",
 })
 -- `Q`:  Close all windows and exit but confirm if any buffers have unsaved changes
 -- `Q!`: Close all windows and exit, ignoring changed buffer
@@ -1890,7 +1855,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Briefly highlight yanked text",
   group = utilities_augroup,
-  callback = function() vim.highlight.on_yank() end,
+  callback = function()
+    vim.highlight.on_yank()
+  end,
 })
 
 -- LIMIT HELP PAGES TEXT WIDTH (for plugin help files) {{{2
@@ -1909,7 +1876,9 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   group = utilities_augroup,
   pattern = { "*.txt" },
   callback = function()
-    if vim.bo.buftype == "help" then vim.cmd("wincmd T") end
+    if vim.bo.buftype == "help" then
+      vim.cmd("wincmd T")
+    end
   end,
   desc = "Move help to a new tab",
 })
@@ -2041,9 +2010,7 @@ local close_floating_windows = function(opts)
 
   -- Assert function parameters are `{ all_tabs = true|false }`
   assert(
-    opts ~= nil
-    and opts.all_tabs ~= nil
-    and type(opts.all_tabs) == "boolean"
+    opts ~= nil and opts.all_tabs ~= nil and type(opts.all_tabs) == "boolean"
   )
 
   local window_handles
@@ -2064,18 +2031,14 @@ local close_floating_windows = function(opts)
 end
 
 -- Close floating windows in current tab
-vim.api.nvim_create_user_command(
-  "CloseFloatingWindowsInCurrentTab",
-  function() close_floating_windows({ all_tabs = false }) end,
-  { desc = "Close floating windows in current tab" }
-)
+vim.api.nvim_create_user_command("CloseFloatingWindowsInCurrentTab", function()
+  close_floating_windows({ all_tabs = false })
+end, { desc = "Close floating windows in current tab" })
 
 -- Close floating windows in all tabs
-vim.api.nvim_create_user_command(
-  "CloseFloatingWindowsInAllTabs",
-  function() close_floating_windows({ all_tabs = true }) end,
-  { desc = "Close floating windows in all tabs" }
-)
+vim.api.nvim_create_user_command("CloseFloatingWindowsInAllTabs", function()
+  close_floating_windows({ all_tabs = true })
+end, { desc = "Close floating windows in all tabs" })
 
 -- Close all helper windows
 vim.keymap.set("n", "<leader>z", function()
@@ -2107,9 +2070,7 @@ end, { desc = "Close all floating/helper windows in all tabs" })
 vim.keymap.set("n", "<m-q>", function()
   local is_quickfix_open_in_current_tab = false
   for _, w in ipairs(vim.fn.getwininfo()) do
-    if
-        w.quickfix > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
-    then
+    if w.quickfix > 0 and w.tabnr == vim.api.nvim_get_current_tabpage() then
       is_quickfix_open_in_current_tab = true
     end
   end
@@ -2124,9 +2085,7 @@ end, { desc = "Toggle quickfix window" })
 vim.keymap.set("n", "<m-l>", function()
   local is_loclist_open_in_current_tab = false
   for _, w in ipairs(vim.fn.getwininfo()) do
-    if
-        w.loclist > 0 and w.tabnr == vim.api.nvim_get_current_tabpage()
-    then
+    if w.loclist > 0 and w.tabnr == vim.api.nvim_get_current_tabpage() then
       is_loclist_open_in_current_tab = true
     end
   end
@@ -2134,7 +2093,9 @@ vim.keymap.set("n", "<m-l>", function()
     vim.cmd.lclose()
   else
     local ok, err = pcall(vim.cmd.lopen)
-    if not ok then vim.notify(err, vim.log.levels.ERROR) end
+    if not ok then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
   end
 end, { desc = "Toggle location list" })
 
@@ -2269,7 +2230,9 @@ vim.keymap.set(
   "n",
   "]om",
   -- "<cmd>setlocal modifiable<cr>",
-  function() vim.bo.modifiable = true end,
+  function()
+    vim.bo.modifiable = true
+  end,
   { silent = true }
 )
 -- Turn off modifiable on current buffer
@@ -2277,16 +2240,15 @@ vim.keymap.set(
   "n",
   "[om",
   -- "<cmd>setlocal nomodifiable<cr>",
-  function() vim.bo.modifiable = false end,
+  function()
+    vim.bo.modifiable = false
+  end,
   { silent = true }
 )
 -- Toggle modifiable on current buffer
-vim.keymap.set(
-  "n",
-  "yom",
-  function() vim.bo.modifiable = not vim.bo.modifiable end,
-  { silent = true }
-)
+vim.keymap.set("n", "yom", function()
+  vim.bo.modifiable = not vim.bo.modifiable
+end, { silent = true })
 
 -- LINE MOVING UTILITIES {{{2
 -- LEGEND:
@@ -2408,12 +2370,7 @@ vim.keymap.set(
   { silent = true }
 )
 -- Turn off gutter (sign column)
-vim.keymap.set(
-  "n",
-  "[og",
-  "<cmd>setlocal signcolumn=no<cr>",
-  { silent = true }
-)
+vim.keymap.set("n", "[og", "<cmd>setlocal signcolumn=no<cr>", { silent = true })
 -- Set gutter (sign column) to turn on/off automatically
 -- TODO: Consider disabling this, as it's too unweildy
 -- NOTE: This is in the style of `tpope/vim-unimpaired` and since the about
@@ -2435,15 +2392,12 @@ vim.keymap.set(
 -- TODO: Switch this to `init.lua`
 -- TODO: Set `nomodifiable` on loaded vimrc? or provided a read-only variant
 -- nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
-vim.keymap.set(
-  "n",
-  "<leader>v",
-  "<cmd>edit $MYVIMRC<cr>",
-  { silent = true }
-)
+vim.keymap.set("n", "<leader>v", "<cmd>edit $MYVIMRC<cr>", { silent = true })
 
 -- PRINT/INSPECT HELPER {{{2
-P = function(...) print(vim.inspect(...)) end
+P = function(...)
+  print(vim.inspect(...))
+end
 
 -- SAVE SHORTCUTS {{{2
 -- Save with `<c-s>`
@@ -2510,7 +2464,9 @@ local set_common_lsp_keymaps = function(bufnr)
   end
   do
     local desc = "Rename symbol"
-    local f = function() vim.lsp.buf.rename() end
+    local f = function()
+      vim.lsp.buf.rename()
+    end
     vim.keymap.set("n", "lr", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
@@ -2624,7 +2580,9 @@ local set_common_lsp_keymaps = function(bufnr)
       bufnr,
       "LSPShowWorkspaceFolders",
       -- TODO: Print this better
-      function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
       { desc = "Show workspace folders" }
     )
     vim.api.nvim_buf_create_user_command(
@@ -2663,15 +2621,15 @@ local set_common_lsp_formatting = function(opts)
   -- }
   assert(
     opts.bufnr ~= nil
-    and type(opts.bufnr) == "number"
-    and opts.sync_format_keymap ~= nil
-    and type(opts.sync_format_keymap) == "string"
-    and opts.async_format_keymap ~= nil
-    and type(opts.sync_format_keymap) == "string"
-    and opts.sync_format_on_save ~= nil
-    and type(opts.sync_format_on_save) == "boolean"
-    and opts.async_format_on_save ~= nil
-    and type(opts.async_format_on_save) == "boolean"
+      and type(opts.bufnr) == "number"
+      and opts.sync_format_keymap ~= nil
+      and type(opts.sync_format_keymap) == "string"
+      and opts.async_format_keymap ~= nil
+      and type(opts.sync_format_keymap) == "string"
+      and opts.sync_format_on_save ~= nil
+      and type(opts.sync_format_on_save) == "boolean"
+      and opts.async_format_on_save ~= nil
+      and type(opts.async_format_on_save) == "boolean"
   )
   if opts.desired_client_name ~= nil then
     assert(type(opts.desired_client_name) == "string")
@@ -2707,7 +2665,7 @@ local set_common_lsp_formatting = function(opts)
 
     if opts.sync_format_on_save then
       local lsp_sync_formatting_augroup =
-          vim.api.nvim_create_augroup("lsp_sync_formatting_augroup", {})
+        vim.api.nvim_create_augroup("lsp_sync_formatting_augroup", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = lsp_sync_formatting_augroup,
         buffer = opts.bufnr,
@@ -2737,7 +2695,7 @@ local set_common_lsp_formatting = function(opts)
 
     if opts.async_format_on_save then
       local lsp_async_formatting_augroup =
-          vim.api.nvim_create_augroup("lsp_async_formatting_augroup", {})
+        vim.api.nvim_create_augroup("lsp_async_formatting_augroup", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = lsp_async_formatting_augroup,
         buffer = opts.bufnr,
@@ -2764,11 +2722,7 @@ local set_common_diagnostics_configuration = function()
     local f = vim.diagnostic.open_float
     -- TODO: Options: `gd`, `<m-d>`, `ld`
     vim.keymap.set("n", "<m-d>", f, { desc = desc })
-    vim.api.nvim_create_user_command(
-      "DiagnosticsShow",
-      f,
-      { desc = desc }
-    )
+    vim.api.nvim_create_user_command("DiagnosticsShow", f, { desc = desc })
   end
   do
     local desc = "Go to previous diagnostic"
@@ -2784,11 +2738,7 @@ local set_common_diagnostics_configuration = function()
     local desc = "Go to next diagnostic"
     local f = vim.diagnostic.goto_next
     vim.keymap.set("n", "]d", f, { desc = desc })
-    vim.api.nvim_create_user_command(
-      "DiagnosticsGoToNext",
-      f,
-      { desc = desc }
-    )
+    vim.api.nvim_create_user_command("DiagnosticsGoToNext", f, { desc = desc })
   end
   do
     local desc = "Go to previous `ERROR` diagnostic"
@@ -2850,19 +2800,12 @@ local set_common_diagnostics_configuration = function()
       end
     end
     vim.keymap.set("n", "yod", f, { desc = desc })
-    vim.api.nvim_create_user_command(
-      "DiagnosticsToggle",
-      f,
-      { desc = desc }
-    )
+    vim.api.nvim_create_user_command("DiagnosticsToggle", f, { desc = desc })
   end
 end
 
 -- LSP & DIAGNOSTICS CONFIGURATION {{{2
-local set_common_lsp_and_diagnostics_configuration = function(
-  client,
-  bufnr
-)
+local set_common_lsp_and_diagnostics_configuration = function(client, bufnr)
   -- TODO: Show signature help in a float in insert mode?
   set_common_lsp_keymaps(bufnr)
   set_common_diagnostics_configuration()
@@ -3130,7 +3073,7 @@ run_lazy_setup({
         -- LINES:
         -- NOTE: Remaining related utilities in line utlities section
         -- TODO: Refactor lines out of unimpaired section
-        { "<m-up>",   "[e", remap = true, desc = "Move line downwards" },
+        { "<m-up>", "[e", remap = true, desc = "Move line downwards" },
         { "<m-down>", "]e", remap = true, desc = "Move line upwards" },
         -- VISUAL SELECTION
         -- TODO: Refactor visual selectionout of unimpaired section
@@ -3331,7 +3274,9 @@ run_lazy_setup({
           desc = "Disable minimap in quickfix and location list windows",
           group = vim.api.nvim_create_augroup("minimap_augroup", {}),
           pattern = { "qf" }, -- acts on both quickfix and loclist windows
-          callback = function() vim.b.minimap_disable = true end,
+          callback = function()
+            vim.b.minimap_disable = true
+          end,
         })
       end,
       opts = function()
@@ -3480,7 +3425,9 @@ run_lazy_setup({
       keys = {
         {
           "<localleader>i", -- TODO: Find another, might have interference
-          function() require("nvim-toggler").toggle() end,
+          function()
+            require("nvim-toggler").toggle()
+          end,
           mode = { "n", "v" },
           desc = "Invert word under cursor",
         },
@@ -3490,26 +3437,28 @@ run_lazy_setup({
     -- Colorscheme
     {
       "folke/tokyonight.nvim", -- {{{3
-      lazy = false,            -- Load during startup if main colorscheme
-      priority = 1000,         -- Load before all other start plugins
-      init = function() vim.cmd.colorscheme("tokyonight") end,
+      lazy = false, -- Load during startup if main colorscheme
+      priority = 1000, -- Load before all other start plugins
+      init = function()
+        vim.cmd.colorscheme("tokyonight")
+      end,
       opts = {
         style = "moon", -- @type `storm` | `moon`| `night`(darkest) | `day` (light)
         terminal_colors = true,
         styles = {
           sidebars = "dark", -- backgrounds: @type: "dark" | "transparent" | "normal"
-          floats = "dark",   -- backgrounds: @type: "dark" | "transparent" | "normal"
+          floats = "dark", -- backgrounds: @type: "dark" | "transparent" | "normal"
           -- Style(syntax groups) = Value(attr-list value in `:help nvim_set_hl`)
           comments = { italic = true, bold = true },
           variables = { bold = true },
           keywords = { italic = true },
           functions = { italic = true, bold = true },
         },
-        sidebars = { "qf", "help" },     --example: `["qf", "terminal", "packer"]`
+        sidebars = { "qf", "help" }, --example: `["qf", "terminal", "packer"]`
         hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
         -- dim_inactive = false, -- do not dim, use alternate dimmer like `shade.nvim`
-        dim_inactive = true,             -- do not dim, use alternate dimmer like `shade.nvim`
-        lualine_bold = true,             -- Lualine section headers will be bold
+        dim_inactive = true, -- do not dim, use alternate dimmer like `shade.nvim`
+        lualine_bold = true, -- Lualine section headers will be bold
       },
     },
 
@@ -3521,7 +3470,7 @@ run_lazy_setup({
         return {
           options = {
             globalstatus = true, -- Show only one statusline for all windows
-            theme = 'auto',
+            theme = "auto",
             component_separators = { left = "", right = "" },
             section_separators = { left = "", right = "" },
             ignore_focus = {},
@@ -3575,8 +3524,8 @@ run_lazy_setup({
                   }
                   return vim.fn.get(
                     nvim_mode_code_representations, -- table
-                    nvim_mode_code,                 -- index
-                    nvim_mode_code                  -- default
+                    nvim_mode_code, -- index
+                    nvim_mode_code -- default
                   )
                 end,
                 padding = { left = 1, right = 1 },
@@ -3763,19 +3712,19 @@ run_lazy_setup({
       opts = {
         -- REMOVE UNCHANGED DEFAULT VARS
         disable_filetype = { "TelescopePrompt", "spectre_panel" },
-        disable_in_macro = false,       -- disable when recording or executing a macro
+        disable_in_macro = false, -- disable when recording or executing a macro
         disable_in_visualblock = false, -- disable when insert after visual block mode
         disable_in_replace_mode = true,
         ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
         enable_moveright = true,
-        enable_afterquote = true,         -- add bracket pairs after quote
+        enable_afterquote = true, -- add bracket pairs after quote
         enable_check_bracket_line = true, --- check bracket in same line
         enable_bracket_in_quote = true,
-        enable_abbr = false,              -- trigger abbreviation
-        break_undo = true,                -- switch for basic rule break undo sequence
+        enable_abbr = false, -- trigger abbreviation
+        break_undo = true, -- switch for basic rule break undo sequence
         check_ts = false,
         map_cr = true,
-        map_bs = true,   -- map the <BS> key
+        map_bs = true, -- map the <BS> key
         map_c_h = false, -- Map the <C-h> key to delete a pair
         map_c_w = false, -- map <c-w> to delete a pair if possible
       },
@@ -3832,25 +3781,25 @@ run_lazy_setup({
               "toggle_preview",
               config = { use_float = true },
             },
-            ["<bs>"] = "noop",    -- disable default: `navigate_up`
+            ["<bs>"] = "noop", -- disable default: `navigate_up`
             ["<m-up>"] = "navigate_up",
             ["gh"] = "show_help", -- along with default: `?`
-            ["S"] = "noop",       -- disable default: `open_split`
+            ["S"] = "noop", -- disable default: `open_split`
             ["<c-x>"] = "open_split",
-            ["s"] = "noop",       -- disable default: `open_vsplit`
+            ["s"] = "noop", -- disable default: `open_vsplit`
             ["<c-v>"] = "open_vsplit",
-            ["t"] = "noop",       -- disable default: `open_tabnew`
+            ["t"] = "noop", -- disable default: `open_tabnew`
             ["<c-t>"] = "open_tabnew",
-            ["H"] = "noop",       -- disable default: `toggle_hidden`
+            ["H"] = "noop", -- disable default: `toggle_hidden`
             ["<c-h>"] = "toggle_hidden",
             -- ["<space>"] = "toggle_node", -- default
             -- ["<cr>"] = "open", -- default
             -- ["<s-cr>"] = TODO: open/select and then close neotree
             ["<c-cr>"] = "open_with_window_picker",
             -- instead of default: `open` do `toggle_node`
-            ["z"] = "noop",              -- disable default: `close_all_nodes`
-            ["zc"] = "close_node",       -- like in folds
-            ["zM"] = "close_all_nodes",  -- like in folds
+            ["z"] = "noop", -- disable default: `close_all_nodes`
+            ["zc"] = "close_node", -- like in folds
+            ["zM"] = "close_all_nodes", -- like in folds
             ["zR"] = "expand_all_nodes", -- like in folds
           },
         },
@@ -3899,8 +3848,8 @@ run_lazy_setup({
             "s",
             -- "" .. " Source `./Session.vim",
             ""
-            .. "  "
-            .. "SOURCE `./Session.vim`",
+              .. "  "
+              .. "SOURCE `./Session.vim`",
             "<cmd>source ./Session.vim<cr>"
           ),
           dashboard.button(
@@ -4116,12 +4065,16 @@ run_lazy_setup({
         {
           -- TODO: Add keymap/action to delete from arglist
           "<space>a",
-          function() require("telescope-arglist").arglist() end,
+          function()
+            require("telescope-arglist").arglist()
+          end,
           desc = "Search arglist buffers",
         },
         {
           "<space>u",
-          function() require("telescope").extensions.undo.undo() end,
+          function()
+            require("telescope").extensions.undo.undo()
+          end,
           desc = "Search undo history",
         },
         {
@@ -4250,7 +4203,9 @@ run_lazy_setup({
         {
           -- NOTE: If barbecuw hasn't loaded yet, this will stall one time
           "<m-b>",
-          function() require("barbecue.ui").toggle() end,
+          function()
+            require("barbecue.ui").toggle()
+          end,
           desc = "Toggle barbecue globally",
         },
       },
@@ -4312,15 +4267,15 @@ run_lazy_setup({
         -- * keyword: highlights of the keyword
         -- * after: highlights after the keyword (todo text)
         highlight = {
-          multiline = true,                -- enable multine todo comments
-          multiline_pattern = "^.",        -- lua pattern to match the next multiline from the start of the matched keyword
-          multiline_context = 10,          -- extra lines that will be re-evaluated when changing a line
-          keyword = "wide_bg",             -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
-          after = "",                      -- "fg" or "bg" or empty
+          multiline = true, -- enable multine todo comments
+          multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
+          multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
+          keyword = "wide_bg", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+          after = "", -- "fg" or "bg" or empty
           pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
-          comments_only = true,            -- uses treesitter to match keywords in comments only
-          max_line_len = 400,              -- ignore lines longer than this
-          exclude = {},                    -- list of file types to exclude highlighting
+          comments_only = true, -- uses treesitter to match keywords in comments only
+          max_line_len = 400, -- ignore lines longer than this
+          exclude = {}, -- list of file types to exclude highlighting
         },
       },
       -- TODO: Add keymaps that restrict searching for pragmas in current
@@ -4328,12 +4283,16 @@ run_lazy_setup({
       keys = {
         {
           "]p",
-          function() require("todo-comments").jump_next() end,
+          function()
+            require("todo-comments").jump_next()
+          end,
           desc = "Go to next pragma",
         },
         {
           "[p",
-          function() require("todo-comments").jump_prev() end,
+          function()
+            require("todo-comments").jump_prev()
+          end,
           desc = "Go to previous pragma",
         },
         {
@@ -4460,7 +4419,7 @@ run_lazy_setup({
         create_event = function()
           -- disable for single window
           local win_numbers =
-              require("colorful-winsep.utils").calculate_number_windows()
+            require("colorful-winsep.utils").calculate_number_windows()
           if win_numbers == 2 then
             local win_id = vim.fn.win_getid(vim.fn.winnr("h"))
             local filetype = vim.api.nvim_buf_get_option(
@@ -4579,9 +4538,9 @@ run_lazy_setup({
             " ",
             -- "number_of_folded_lines",
             function()
-              local fold_line_count = vim.fn.foldclosedend(
-                vim.v.foldstart
-              ) - vim.fn.foldclosed(vim.v.foldstart) + 1
+              local fold_line_count = vim.fn.foldclosedend(vim.v.foldstart)
+                - vim.fn.foldclosed(vim.v.foldstart)
+                + 1
               return fold_line_count .. " ☰"
             end,
             " ",
@@ -4886,7 +4845,7 @@ run_lazy_setup({
     -- LSP loading indicator
     {
       "j-hui/fidget.nvim", -- {{{3
-      tag = "legacy",      -- TODO: Remove when fidget is eventually updated
+      tag = "legacy", -- TODO: Remove when fidget is eventually updated
       lazy = false,
       config = function()
         require("fidget").setup({
@@ -5232,7 +5191,9 @@ run_lazy_setup({
             -- rust
             null_ls.builtins.formatting.rustfmt,
             -- lua
-            null_ls.builtins.formatting.stylua,
+            null_ls.builtins.formatting.stylua.with({
+              timeout = 40000, --default: 5k, -1 is no_timeout
+            }),
             -- null_ls.builtins.diagnostics.luacheck.with({
             --   condition = function(utils)
             --     return utils.root_has_file({ ".luacheckrc" })
@@ -5243,6 +5204,7 @@ run_lazy_setup({
             null_ls.builtins.diagnostics.write_good,
             null_ls.builtins.diagnostics.alex,
           },
+
           -- NOTE: Reuse a shared lspconfig on_attach callback here?
           on_attach = function(client, bufnr)
             -- FORMATTING:
@@ -5256,14 +5218,6 @@ run_lazy_setup({
                 sync_format_on_save = true,
                 async_format_on_save = false,
               })
-
-              -- vim.api.nvim_create_autocmd("BufWritePre", {
-              --   group = null_ls_formatting_augroup,
-              --   buffer = bufnr,
-              --   callback = function()
-              --     vim.lsp.buf.format({ async = false })
-              --   end,
-              -- })
             end
           end,
           root_dir = require("null-ls.utils").root_pattern(
@@ -5291,7 +5245,7 @@ run_lazy_setup({
       -- copying the value, see the help docs.
       build = (
         not jit.os:find("Windows")
-        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+          and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
         or nil
       ),
       opts = function()
@@ -5345,7 +5299,9 @@ run_lazy_setup({
           {
             "<c-m-j>",
             function()
-              if luasnip.jumpable(-1) then luasnip.jump(-1) end
+              if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+              end
             end,
             mode = { "i", "s" },
           },
@@ -5363,7 +5319,9 @@ run_lazy_setup({
           {
             "<c-j>",
             function()
-              if luasnip.locally_jumpable(-1) then luasnip.jump(-1) end
+              if luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+              end
             end,
             mode = { "i", "s" },
           },
@@ -5371,7 +5329,9 @@ run_lazy_setup({
           {
             "<c-l>",
             function()
-              if luasnip.choice_active() then luasnip.change_choice(1) end
+              if luasnip.choice_active() then
+                luasnip.change_choice(1)
+              end
             end,
             mode = { "i" },
           },
@@ -5436,13 +5396,17 @@ run_lazy_setup({
           ["<cr>"] = cmp.mapping.confirm({
             select = true,
             behavior = cmp.ConfirmBehavior.Insert,
-            callback = function() cmp.close() end,
+            callback = function()
+              cmp.close()
+            end,
           }),
           --  Insert current selection, replacing current word.
           ["<s-cr>"] = cmp.mapping.confirm({
             select = true,
             behavior = cmp.ConfirmBehavior.Replace,
-            callback = function() cmp.close() end,
+            callback = function()
+              cmp.close()
+            end,
           }),
           -- Even if completion menu is on, add a new line even while the
           -- completion menu is open (convenience)
@@ -5497,7 +5461,7 @@ run_lazy_setup({
               group_index = 2,
               max_item_count = 3,
             },
-            { name = "luasnip",  priority = 10 },
+            { name = "luasnip", priority = 10 },
             { name = "cmdline" },
             { name = "nvim_lua", max_item_count = 3 }, -- Automatically in lua ft only
             { name = "path" },
