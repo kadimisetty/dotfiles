@@ -3220,6 +3220,7 @@ run_lazy_setup({
           scroll = {
             timing = animate.gen_timing.quadratic({
               duration = 100,
+              easing = "in-out",
               unit = "total",
             }),
             subscroll = animate.gen_subscroll.equal({
