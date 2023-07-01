@@ -4204,6 +4204,7 @@ run_lazy_setup({
         {
           -- NOTE: If barbecuw hasn't loaded yet, this will stall one time
           "<m-b>",
+          mode = { "n", "i" },
           function()
             require("barbecue.ui").toggle()
           end,
