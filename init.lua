@@ -3618,7 +3618,7 @@ run_lazy_setup({
               },
               {
                 "location",
-                padding = { left = 0, right = 0 },
+                padding = { left = 0, right = 1 },
               },
             },
             lualine_z = {},
