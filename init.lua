@@ -2200,21 +2200,15 @@ inoremap <s-tab> <c-d>
 --   command = "set nocursorline",
 -- })
 
--- JUMP LIST {{{2
---  TODO: Move to backward-most/forward-most position in jump list
---  nnoremap <silent> [J ???
---  nnoremap <silent> ]J ???
---
--- ISSUE: By default `<c-o>` and `<c-i>` move backward and forward in jumplist.
---    but `<c-i>` is generally the same code as `Tab` which I use in tab page
---    navigation keymaps, hence `<c-i>/Tab` is not available for this use.
--- TEMP_FIX: Use unimpaired-style keymaps `[j` and `]j` to navigate the jump list.
---  Move backward/forward through jump list by 1 step
--- nnoremap <silent> [j :<c-u>execute "normal! \<c-o>"<CR>
--- nnoremap <silent> ]j :<c-u>execute "normal! 1\<c-i>"<CR>
--- FIXME: Specify control sequence in the command sting properly
--- vim.keymap.set('n' , '[j', "<cmd>execute 'normal! \<c-o>'<cr>", {silent = true})
--- vim.keymap.set('n' , '[j', "<cmd>execute 'normal! 1\<c-i>'<cr>", {silent = true})
+-- RESTORE `<c-i>` TO DISTINGUISH IT FROM `<tab>` MAPPINGS {{{2
+-- NOTE: `<c-i>` and `<tab>` are same in vim but, thankfully, different in nvim
+-- and so allows them to be used in different mappings, however, by default,
+-- remapping `<tab>` will do the same to `<c-i>` unless it's explicitly set to
+-- something else, hence the following.
+vim.keymap.set("n", "<c-i>", "<c-i>", {
+  silent = true,
+  desc = [[restore `<c-i>` to original "go to newer jump"]],
+})
 
 -- KILL BUFFER IN CURRENT WINDOW {{{2
 -- Delete buffer in current window
