@@ -3917,6 +3917,44 @@ run_lazy_setup({
       },
     },
 
+    -- LazyGit
+    {
+      "kdheepak/lazygit.nvim", -- {{{3
+      -- TODO: [Use telescope extension?](https://github.com/kdheepak/lazygit.nvim#telescope-plug)
+      cmd = {
+        "LazyGitCurrentFile",
+        "LazyGit",
+        "LazyGitFilterCurrentFile",
+        "LazyGitFilter",
+        "LazyGitConfig",
+      },
+      keys = {
+        {
+          "<m-g>",
+          "<cmd>LazyGitCurrentFile<cr>",
+          desc = "Show current buffer in lazygit",
+        },
+        {
+          "<m-G>",
+          "<cmd>LazyGit<cr>",
+          desc = "Show current directory in lazygit",
+        },
+        {
+          "g<m-g>",
+          "<cmd>LazyGitFilterCurrentFile<cr>",
+          desc = "Show current buffer commits in lazygit",
+        },
+        {
+          "g<m-G>",
+          "<cmd>LazyGitFilter<cr>",
+          desc = "Show project commits in lazygit",
+        },
+      },
+      dependencies = {
+        "nvim-lua/plenary.nvim", -- used for border decorations
+      },
+    },
+
     -- Fuzzy finder
     {
       "nvim-telescope/telescope.nvim", -- {{{3
