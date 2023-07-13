@@ -5094,13 +5094,20 @@ run_lazy_setup({
           capabilities = capabilities,
         })
 
-        -- GO:
+        -- GO
         require("lspconfig").gopls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
         })
 
-        -- RUST:
+        -- HASKELL
+        require("lspconfig")["hls"].setup({
+          filetypes = { "haskell", "lhaskell", "cabal" },
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+
+        -- RUST
         -- NOTE: Using `rust-tools to handle LSP features
 
         -- LUA:
