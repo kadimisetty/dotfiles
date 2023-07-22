@@ -5227,6 +5227,11 @@ run_lazy_setup({
             null_ls.builtins.diagnostics.flake8,
             -- go
             null_ls.builtins.formatting.gofumpt,
+            -- haskell
+            null_ls.builtins.formatting.cabal_fmt,
+            null_ls.builtins.formatting.fourmolu.with({
+              extra_args = { "--indentation", "2" },
+            }),
             -- js/html etc.
             null_ls.builtins.formatting.prettierd, -- TODO: custom config
             -- rust
