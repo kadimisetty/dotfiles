@@ -28,6 +28,7 @@ fundle plugin oh-my-fish/plugin-license
 fundle plugin oh-my-fish/plugin-pbcopy
 fundle plugin tuvistavie/fish-fastdir
 fundle plugin 'jorgebucaran/autopair.fish'
+fundle plugin 'nesl247/fish-theme-dracula'
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
@@ -94,12 +95,12 @@ end
 set fish_greeting ""
 # THEME:
 # Dracula
-# fish_config theme choose Dracula
+fish_config theme choose Dracula
 
 # Tokyo Night:
 # fish_config theme choose tokyonight_day
 # fish_config theme choose tokyonight_moon
-fish_config theme choose tokyonight_night
+# fish_config theme choose tokyonight_night
 # fish_config theme choose tokyonight_storm
 
 # DEFAULT EDITOR:
