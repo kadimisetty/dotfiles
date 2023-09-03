@@ -136,7 +136,7 @@ end
 
 
 # COMMON SHELL SPECIFIC ALIASES {{{1
-alias l="ls --almost-all"
+alias l="ls -A" # on macos `-A` exist but not longform `--almost-all`
 alias rmi="rm -i"
 function mcd --description "`mkdir` and `cd` into new directory"
     mkdir $argv
