@@ -41,11 +41,12 @@ function djangoinit
     if test -n "$VIRTUAL_ENV"
         _echo_error "Should not be in an active python virtual environment."
         return 1
-    else if test -n "$(ls --almost-all ./)"
+    else if test -n "$(ls -A ./)" # `-A` instead of `--almost-all` for macos
         _echo_error "Current directory should be empty."
         return 1
     end
-    for requiredBinary in "python" "git" "git-ignore"
+    # [git-ignore](https://github.com/sondr3/git-ignore)
+    for requiredBinary in python3 git git-ignore
         if ! type -q $requiredBinary
             _echo_error "ERROR: Cannot find `$requiredBinary` in `\$PATH`."
             return 1
@@ -53,11 +54,11 @@ function djangoinit
     end
 
     # BEGIN
-    _echo_header "DJANGO_INIT"
+    _echo_header DJANGO_INIT
 
     # VENV
     _echo_header "SETTING UP VIRTUAL ENVIRONMENT"
-    python -m venv ./venv
+    python3 -m venv ./venv
     source ./venv/bin/activate.fish
     _echo_footer "SETTING UP VIRTUAL ENVIRONMENT"
 
@@ -82,7 +83,7 @@ function djangoinit
     # with markers for VENDOR and LOCAL apps.
     # NOTE: Using a tempfile as an intermediate for editing with sed.
     set TMP_FILE $(mktemp)
-    sed --expression="/'django.contrib.staticfiles',\$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py > $TMP_FILE
+    sed --expression="/'django.contrib.staticfiles',\$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py >$TMP_FILE
     mv $TMP_FILE ./core/settings.py
     echo "\nTODO: Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
     _echo_footer "SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
@@ -96,8 +97,8 @@ function djangoinit
 
     # GIT
     _echo_header "SETTING UP GIT + GITIGNORE"
-    git-ignore --update django >> .gitignore
-    git-ignore --update python >> .gitignore
+    git-ignore --update django >>.gitignore
+    git-ignore --update python >>.gitignore
     git init
     git add --all
     git commit --message="django init"
@@ -105,7 +106,7 @@ function djangoinit
 
     # END
     deactivate # Deactivate virtual environment
-    _echo_footer "DJANGO_INIT"
+    _echo_footer DJANGO_INIT
 end
 
 
