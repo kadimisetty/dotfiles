@@ -5283,17 +5283,10 @@ run_lazy_setup({
     -- Snippets
     {
       "L3MON4D3/LuaSnip", -- {{{3
-      version = "1.*",
-      -- NOTE: `jsregexp` is apparently necessary for variable/placeholder-transformations
+ 	    version = "2.*",
+      -- NOTE: `jsregexp` is optional and apparently only needed for variable/placeholder-transformations
       -- READ: https://code.visualstudio.com/docs/editor/userdefinedsnippets#_variable-transforms
-      -- If the build fails, try to install it alternatively, but if it fails
-      -- still, luasnip will use an alternative sub-optimal method of just
-      -- copying the value, see the help docs.
-      build = (
-        not jit.os:find("Windows")
-          and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
-        or nil
-      ),
+      build = "make install_jsregexp",
       opts = function()
         local types = require("luasnip.util.types")
         return {
@@ -5401,6 +5394,7 @@ run_lazy_setup({
         end,
       },
     },
+
     -- Completions
     {
       "hrsh7th/nvim-cmp", -- {{{3
