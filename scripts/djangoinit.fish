@@ -46,7 +46,9 @@ function djangoinit
         return 1
     end
     # [git-ignore](https://github.com/sondr3/git-ignore)
-    for requiredBinary in python3 git git-ignore
+    # `gsed`: using `gnu-sed`(`gsed`) for macos compatibility
+    #         `brew install gnu-sed`, 
+    for requiredBinary in python3 git git-ignore gsed
         if ! type -q $requiredBinary
             _echo_error "ERROR: Cannot find `$requiredBinary` in `\$PATH`."
             return 1
@@ -83,7 +85,8 @@ function djangoinit
     # with markers for VENDOR and LOCAL apps.
     # NOTE: Using a tempfile as an intermediate for editing with sed.
     set TMP_FILE $(mktemp)
-    sed --expression="/'django.contrib.staticfiles',\$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py >$TMP_FILE
+    # NOTE: Using `gbu-sed`(`gsed`) in place of `sed` for macos compatibility
+    gsed --expression="/'django.contrib.staticfiles',\$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py >$TMP_FILE
     mv $TMP_FILE ./core/settings.py
     echo "\nTODO: Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
     _echo_footer "SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
