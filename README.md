@@ -16,9 +16,10 @@
 | `./ghcide-via-stack-exec` | [haskell ghcide lsp]()                                    | `$HOME`                                                   |
 | `./gitconfig`             | [git](https://git-scm.com/docs/git-config)                | `$HOME`                                                   |
 | `./gitignore-global`      | [git](https://git-scm.com/docs/gitignore)                 | `$HOME`                                                   |
+| `./hammerspoon-init.lua`  | [hammerspoon](https://github.com/Hammerspoon/hammerspoon) | `$HOME/.hammerspoon/init.lua`                             |
 | `./hawk`                  | [haskell text processor](https://github.com/gelisam/hawk) | `$HOME`                                                   |
 | `./init.lua`              | [nvim](https://neovim.io)                                 | `$XDG_CONFIG_HOME`                                        |
-| `./nvim-init.lua          | [neovim](https://neovim.io)                               | `$XDG_CONFIG_HOME/nvim/init.lua`                          |
+| `./nvim-init.lua`         | [neovim](https://neovim.io)                               | `$XDG_CONFIG_HOME/nvim/init.lua`                          |
 | `./kitty.conf`            | [kitty](https://sw.kovidgoyal.net/kitty/)                 | `$XDG_CONFIG_HOME`                                        |
 | `./luacheckrc`            | [luacheck](https://github.com/mpeterv/luacheck/)          | `$HOME/.luacheckrc`                                       |
 | `./skeletons/`            | vim                                                       | `$HOME/.vim/skeletons/`                                   |
