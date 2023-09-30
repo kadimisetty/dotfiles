@@ -5283,7 +5283,7 @@ run_lazy_setup({
     -- Snippets
     {
       "L3MON4D3/LuaSnip", -- {{{3
- 	    version = "2.*",
+      version = "2.*",
       -- NOTE: `jsregexp` is optional and apparently only needed for variable/placeholder-transformations
       -- READ: https://code.visualstudio.com/docs/editor/userdefinedsnippets#_variable-transforms
       build = "make install_jsregexp",
