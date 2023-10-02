@@ -4560,7 +4560,7 @@ run_lazy_setup({
 
     -- Folds
     {
-      "anuvyklack/pretty-fold.nvim",
+      "anuvyklack/pretty-fold.nvim", -- {{{3
       event = "VeryLazy",
       opts = {
         sections = {
@@ -4584,6 +4584,9 @@ run_lazy_setup({
         process_comment_signs = "delete", -- removes comment characters
       },
     },
+
+    -- Elixir
+    "elixir-editors/vim-elixir", -- {{{3
 
     -- Rust
     {
@@ -5087,6 +5090,29 @@ run_lazy_setup({
         local capabilities = require("cmp_nvim_lsp").default_capabilities(
           vim.lsp.protocol.make_client_capabilities()
         )
+
+        -- ELIXIR
+        require("lspconfig").elixirls.setup({
+          -- `elixir-ls` doesn't come with a `cmd` so specify this manually
+          -- e.g.: "/path/to/elixir-ls/language_server.sh"
+          cmd = {
+            vim.fn.stdpath("data")
+              .. "/mason/packages/elixir-ls/language_server.sh",
+          },
+          capabilities = capabilities,
+          -- using custom `on_attach` to enable lsp format
+          on_attach = function(client, bufnr)
+            set_common_lsp_and_diagnostics_configuration(client, bufnr)
+            set_common_lsp_formatting({
+              bufnr = bufnr,
+              desired_client_name = client.name,
+              sync_format_keymap = "lf",
+              async_format_keymap = "glf",
+              sync_format_on_save = true, -- changed from false
+              async_format_on_save = false,
+            })
+          end,
+        })
 
         -- ELM
         require("lspconfig").elmls.setup({
