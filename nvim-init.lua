@@ -1,17 +1,17 @@
 -- NVIM CONFIGURATION: {{{1
--- vim: foldmethod=marker:foldlevel=0:nofoldenable:
+-- Vim: Foldmethod=Marker:Foldlevel=0:Nofoldenable:
 -- Sri Kadimisetty
 
 -- TODO:
--- - Ensure all keymaps have `desc`.
--- - Convert vim fucntions into lua functions.
--- - Places to occasionally purge:
---     - `undodir` for sake of `mundo.vim`,
---     - `viewdir` for clearing out old saved views.
--- - Ensure all autocmds (and mappings) have
--- 		a description field. Consider leaving out the
--- 		comment for those, to avoid duplication.
--- - Remove the default `gs` (the sleep thing)
+-- - Ensure All Keymaps Have `Desc`.
+-- - Convert Vim Fucntions Into Lua Functions.
+-- - Places to Occasionally Purge:
+--     - `Undodir` for Sake of `Mundo.Vim`,
+--     - `Viewdir` for Clearing Out Old Saved Views.
+-- - Ensure All Autocmds (and Mappings) Have
+-- 		a Description Field. Consider Leaving Out The
+-- 		Comment for Those, to Avoid Duplication.
+-- - Remove the Default `Gs` (the Sleep Thing)
 -- - Use lua for all functions
 -- - Whitespace removal:
 --     - Changed lines only
@@ -350,7 +350,7 @@ vim.opt.belloff = "all"
 vim.opt.synmaxcol = 2048
 
 -- Highlight the screen line and column of cursor
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.cursorcolumn = false
 
 -- Position newly split windows to below
