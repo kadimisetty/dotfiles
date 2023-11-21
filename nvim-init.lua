@@ -3139,11 +3139,13 @@ run_lazy_setup({
     {
       "lukas-reineke/indent-blankline.nvim", -- {{{3
       event = "BufEnter",
-      -- init = function()
-      --  TODO: Less intense color
-      -- end,
+      main = "ibl",
       opts = {
-        show_current_context = false,
+        -- show_current_context = false,
+        indent = {
+          --  TODO: Less intense highlight
+          char = "│",
+        },
       },
     },
 
