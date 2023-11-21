@@ -28,7 +28,7 @@ fundle plugin oh-my-fish/plugin-license
 fundle plugin oh-my-fish/plugin-pbcopy
 fundle plugin tuvistavie/fish-fastdir
 fundle plugin 'jorgebucaran/autopair.fish'
-fundle plugin 'nesl247/fish-theme-dracula'
+fundle plugin nesl247/fish-theme-dracula
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
@@ -145,11 +145,17 @@ end
 # QUICK `cd` INTO DIRS IN HERE:
 set CDPATH $HOME/code/
 # COMMONLY VISITED DIRS:
-alias sandbox="cd ~/code/sandbox"
-alias playground="cd ~/code/playground/"
-alias personal="cd ~/code/personal"
+# CODE:
+alias sandbox="cd $HOME/code/sandbox"
+alias playground="cd $HOME/code/playground/"
+alias personal="cd $HOME/code/personal"
 alias external="cd $HOME/code/external/"
 alias dotfiles="cd $HOME/code/personal/dotfiles/"
+# DESIGN:
+alias design-sandbox="cd $HOME/design/design-sandbox/"
+alias design-playground="cd $HOME/design/design-playground/"
+alias design-personal="cd $HOME/design/design-personal/"
+alias design-external="cd $HOME/design/design-external/"
 
 
 
