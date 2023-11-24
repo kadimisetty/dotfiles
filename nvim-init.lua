@@ -3962,7 +3962,7 @@ run_lazy_setup({
       "nvim-telescope/telescope.nvim", -- {{{3
       lazy = false,
       cmd = "Telescope",
-      tag = "0.1.1",
+      tag = "0.1.4",
       keys = {
         -- META:
         {
