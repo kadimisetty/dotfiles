@@ -60,6 +60,7 @@ hs.hotkey.bind({ "cmd", "alt" }, "right", function()
 end)
 
 -- Make focussed window top half of screen {{{2
+-- NOTE: Currently disabling for Key conflict with Robofont layer navigation
 hs.hotkey.bind({ "cmd", "alt" }, "up", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -74,6 +75,7 @@ hs.hotkey.bind({ "cmd", "alt" }, "up", function()
 end)
 
 -- Make focussed window bottom half of screen {{{2
+-- NOTE: Currently disabling for Key conflict with Robofont layer navigation
 hs.hotkey.bind({ "cmd", "alt" }, "down", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -86,6 +88,60 @@ hs.hotkey.bind({ "cmd", "alt" }, "down", function()
   f.h = max.h / 2
   win:setFrame(f)
 end)
+
+-- SPACES {{{1
+-- Helper to switch to given space id in current screen {{{2
+-- TODO: show "human readable name" ofg screen in alert?
+-- TODO: make switching to 1..9 spaces use the same code
+local switchToSpaceIdInCurrentScreen = function(spaceIdInCurrentScreen)
+  hs.spaces.gotoSpace(spaceIdInCurrentScreen)
+  -- NOTE:
+  --  1. `escape` to leave activated mission control.
+  --  2. Increasing default delay(200ms) to give more time
+  --      to leave mission control.
+  hs.eventtap.keyStroke({}, "escape", 600000)
+end
+
+-- Switch to space by index (1-9) {{{2
+for idx, val in ipairs(hs.spaces.spacesForScreen(hs.screen.mainScreen())) do
+  hs.hotkey.bind({ "ctrl", "alt" }, tostring(idx), function() -- first
+    switchToSpaceIdInCurrentScreen(val)
+  end)
+end
+
+-- Switch to last space (0) {{{2
+hs.hotkey.bind({ "ctrl", "alt" }, "0", function()
+  local allSpacesInCurrentScreen =
+    hs.spaces.spacesForScreen(hs.screen.mainScreen())
+  local lastSpaceInCurrentScreen =
+    allSpacesInCurrentScreen[#allSpacesInCurrentScreen]
+  switchToSpaceIdInCurrentScreen(lastSpaceInCurrentScreen)
+end)
+
+-- Carry focussed winow to rightwards space {{{2
+-- FIXME:
+hs.hotkey.bind({ "ctrl", "alt" }, "right", function()
+  local allSpacesInCurrentScreen =
+    hs.spaces.spacesForScreen(hs.screen.mainScreen())
+  local currentSpaceId = hs.spaces.focusedSpace()
+  for idx, val in ipairs(allSpacesInCurrentScreen) do
+    if val == currentSpaceId then
+      -- TODO: check if there is another space to the right
+      -- TODO: check if this is a regular space and not
+      if idx < #allSpacesInCurrentScreen then
+        -- switch to the next screen id in allSpacesInCurrentScreen
+        -- switchToSpaceIdInCurrentScreen(allSpacesInCurrentScreen[idx + 1])
+        hs.alert.show("RIGHT SPACE ID: ")
+        hs.alert.show(allSpacesInCurrentScreen[idx + 1])
+        -- TODO: Move window
+        -- hs.spaces.moveWindowToSpace(window, spaceID[, force]) -> true | nil, error
+      end
+    end
+  end
+end)
+
+-- Carry focussed winow to leftwards space {{{2
+-- TODO:
 
 -- LAUNCHERS {{{1
 
@@ -106,7 +162,7 @@ hs.hotkey.bind({ "alt", "cmd" }, "return", function()
     tell application "Safari"
       make new document
       activate
-    end tell 
+    end tell
   ]])
 end)
 
@@ -121,6 +177,19 @@ hs.hotkey.bind({ "shift", "cmd" }, "return", function()
         tell application "iTerm"
           activate
         end tell
+    end if
+  ]])
+end)
+
+-- Launch new kitty window {{{2
+hs.hotkey.bind({ "shift", "cmd" }, "return", function()
+  hs.osascript.applescript([[
+    if application "kitty" is not running then
+      tell application "kitty" to activate
+    else
+      tell application "System Events" to tell process "kitty"
+        click menu item "New OS Window" of menu 1 of menu bar item "Shell" of menu bar 1
+      end tell
     end if
   ]])
 end)
