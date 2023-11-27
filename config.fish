@@ -315,11 +315,17 @@ alias ga='git add'
 alias ga.='git add .'
 alias gb='git branch'
 alias gc='git commit'
+alias gcm='git commit --message'
 alias gca='git commit --amend'
 alias gco='git checkout'
 alias gd='git diff'
+alias gdn='git diff --name-status'
 alias gds='git diff --staged'
+alias gdsn='git diff --staged --name-status'
 alias gl='git log --oneline --decorate --graph'
+alias gl1='git log --oneline --decorate --graph --max-count=1'
+alias gl10='git log --oneline --decorate --graph --max-count=10'
+alias glast='git log HEAD --stat --max-count=1'
 function gccd \
     --description "`git clone`s given repo url and `cd`s inside" \
     --argument repo_url \
