@@ -1,5 +1,5 @@
 -- NVIM CONFIGURATION: {{{1
--- Vim: Foldmethod=Marker:Foldlevel=0:Nofoldenable:
+-- vim: foldmethod=marker:foldlevel=0:nofoldenable:
 -- Sri Kadimisetty
 
 -- TODO:
