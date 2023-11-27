@@ -349,7 +349,7 @@ function gccd \
             git clone $repo_url
             # If `git clone` succeeds, `cd` into the cloned directory
             and cd (echo $repo_url |
-            tr --delete '[:space:]' | 
+            tr -d '[:space:]' | 
             string split '/' --right --field 2 |
             string split '.git' --right --field 1)
 
@@ -397,7 +397,8 @@ function _fzf_search_history --description "Search command history with `fzf`"
         string split0 |
         # Remove trailing newlines on string received.
         # TODO: Replace with `string` command.
-        tr --delete '\n' |
+        # NOTE: `-d` delete given char(s) from input
+        tr -d '\n' |
         # Store received string into `$result`
         read --local --null result
     # Run only if previous command succeeds,
