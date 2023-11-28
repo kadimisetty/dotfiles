@@ -496,6 +496,21 @@ vim.opt.formatoptions:append({ n = true })
 --   desc    = "Enable markdown folding",
 -- })
 
+-- XML {{{2
+-- TODO: Convert to lua api.
+-- FIXME: Remove hardcoded `ttx`
+-- NOTE: Most of these are to do with helping with folding in XML
+-- NOTE: vim provides built-in support for xml folding, see `:help xml-folding`
+vim.cmd([[
+  augroup XML
+      autocmd!
+      autocmd FileType xml,ttx let g:xml_syntax_folding=1
+      autocmd FileType xml,ttx setlocal foldmethod=syntax
+      autocmd FileType xml,ttx :syntax on
+      autocmd FileType xml,ttx :%foldopen!
+  augroup END
+]])
+
 -- ELM {{{2
 local elm_augroup = vim.api.nvim_create_augroup("elm_augroup", {})
 
