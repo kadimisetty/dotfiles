@@ -107,8 +107,8 @@ fish_config theme choose Dracula
 # fish_config theme choose tokyonight_storm
 
 # DEFAULT EDITOR:
-set --export EDITOR vim
-set --export VISUAL vim
+set --export EDITOR nvim
+set --export VISUAL nvim
 # ENABLE VI MODE:
 fish_vi_key_bindings
 # SET VIM CURSOR STYLES:

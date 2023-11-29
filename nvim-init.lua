@@ -4733,6 +4733,22 @@ run_lazy_setup({
     --   end,
     -- },
 
+    {
+      "blankname/vim-fish", -- {{{3
+      -- NOTE: `https://github.com/dag/vim-fish` was abondoned, hence using
+      -- this maintained clone
+      ft = { "fish" },
+      config = function()
+        -- TODO: Move this out of here into a general fish setup section
+        vim.cmd([[
+          " Set up :make to use fish for syntax checking.
+          autocmd FileType fish :compiler fish
+          " Enable folding of block structures in fish.
+          autocmd FileType fish setlocal foldmethod=expr
+        ]])
+      end,
+    },
+
     -- Go
     -- {
     --   "ray-x/go.nvim", -- {{{3
