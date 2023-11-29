@@ -25,10 +25,13 @@ fundle plugin edc/bass
 fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
-fundle plugin oh-my-fish/plugin-pbcopy
 fundle plugin tuvistavie/fish-fastdir
-fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin nesl247/fish-theme-dracula
+fundle plugin 'jorgebucaran/autopair.fish'
+if test $(uname) != Darwin
+    # ignore these plugins in macos
+    fundle plugin oh-my-fish/plugin-pbcopy
+end
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
