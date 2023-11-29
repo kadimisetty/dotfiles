@@ -250,32 +250,35 @@ function fish_right_prompt --description "Right prompt"
 
     # Always show git prompt
     echo -s (set_color brblack) (fish_git_prompt)
+
+    # Always add 1 character-wide right margin
+    echo " "
 end
 # GIT PROMPT SETTINGS:
-set __fish_git_prompt_show_informative_status
-set __fish_git_prompt_use_informative_chars
-set __fish_git_prompt_char_stateseparator " "
+set __fish_git_prompt_show_informative_status true
+set __fish_git_prompt_use_informative_chars true
+set __fish_git_prompt_char_stateseparator ""
 # GIT PROMPT GENERAL COLORS:
 set __fish_git_prompt_color brblack
 set __fish_git_prompt_color_bare blue
 set __fish_git_prompt_color_prefix black
 set __fish_git_prompt_color_suffix black
 # GIT PROMPT CLEAN STATE:
-set __fish_git_prompt_char_cleanstate ""
+set __fish_git_prompt_char_cleanstate " "
 set __fish_git_prompt_color_cleanstate brblack
 # GIT PROMPT DIRTY STATE (UNSTAGED FILES) WITH CHANGES EXIST:
-set __fish_git_prompt_showdirtystate
-set __fish_git_prompt_char_dirtystate ""
+set __fish_git_prompt_showdirtystate true
+set __fish_git_prompt_char_dirtystate " "
 set __fish_git_prompt_color_dirtystate brred
 # GIT PROMPT STAGED FILES WITHOUT ADDITIONAL CHANGES EXIST:
-set __fish_git_prompt_char_stagedstate ""
+set __fish_git_prompt_char_stagedstate " "
 set __fish_git_prompt_color_stagedstate yellow
 # GIT PROMPT UNTRACKED FILES EXIST:
-set __fish_git_prompt_showuntrackedfiles
-set __fish_git_prompt_char_untrackedfiles ""
+set __fish_git_prompt_showuntrackedfiles true
+set __fish_git_prompt_char_untrackedfiles " "
 set __fish_git_prompt_color_untrackedfiles brmagenta
 # GIT PROMPT INVALID STATE (IN FISH "UNMERGED" CHANGES ARE ADDITIONAL CHANGES TO ALREADY ADDED FILES):
-set __fish_git_prompt_char_invalidstate ""
+set __fish_git_prompt_char_invalidstate " "
 set __fish_git_prompt_color_invalidstate brred
 # GIT PROMPT UPSTREAM AND DOWNSTREAM DIFFERENCES:
 set __fish_git_prompt_showupstream auto
@@ -286,8 +289,8 @@ set __fish_git_prompt_color_upstream yellow
 #   https://fishshell.com/docs/current/cmds/fish_git_prompt.html?highlight=git
 #   set __fish_git_prompt_color_upstream_done "green"
 # GIT PROMPT STASH:
-set __fish_git_prompt_showstashstate
-set __fish_git_prompt_char_stashstate ""
+set __fish_git_prompt_showstashstate true
+set __fish_git_prompt_char_stashstate " "
 set __fish_git_prompt_color_stashstate brblack
 
 
