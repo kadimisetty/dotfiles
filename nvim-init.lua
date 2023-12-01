@@ -1834,7 +1834,11 @@ vim.keymap.set("n", "gX", function()
   )
   if username_slash_repo:find("/", 1, true) then -- does it contain a slash?
     local github_url = "https://github.com/" .. username_slash_repo
+    -- Treating `xdg-open` as default(`open` on macOS)
     local open_cmd = "xdg-open"
+    if vim.loop.os_uname().sysname == "Darwin" then
+      open_cmd = "open"
+    end
     vim.fn.jobstart(open_cmd .. " " .. github_url)
   end
 end, {
