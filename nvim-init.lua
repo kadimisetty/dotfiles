@@ -4966,6 +4966,12 @@ run_lazy_setup({
       },
     },
 
+    -- Edit quickfix list like a normal buffer
+    {
+      "itchyny/vim-qfedit", -- {{{3
+      ft = "qf",
+    },
+
     -- LSP reporting UI
     -- TODO: clean keymap desc
     {
