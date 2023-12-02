@@ -5215,18 +5215,7 @@ run_lazy_setup({
     -- LSP tools
     {
       "williamboman/mason.nvim", -- {{{3
-      lazy = false,
-      priority = 900,
-      cmd = {
-        "Mason",
-        "MasonInstall",
-        "MasonInstallAll",
-        "MasonUninstall",
-        "MasonUninstallAll",
-        "MasonLog",
-      },
-      build = ":MasonUpdate",
-      -- NOTE: mason doesn't load without calling `setup` here in `config`
+      lazy = false, -- because `keys` would make ahis default to true
       config = function()
         require("mason").setup({
           ui = {
@@ -5237,9 +5226,7 @@ run_lazy_setup({
             },
           },
         })
-        -- require("mason-lspconfig").setup()
       end,
-
       keys = {
         {
           "<m-m>",
@@ -5248,22 +5235,41 @@ run_lazy_setup({
           desc = "Open Mason UI",
         },
       },
-
-      -- opts = {
-      --   ensure_installed = {
-      --     -- "stylua",
-      --     -- "selene",
-      --     -- "luacheck",
-      --     -- "shellcheck",
-      --     -- -- "deno",
-      --     -- "shfmt",
-      --     -- "black",
-      --     -- "isort",
-      --     "flake8",
-      --   },
-      -- },
       dependencies = {
-        -- "williamboman/mason-lspconfig.nvim",
+        {
+          "WhoIsSethDaniel/mason-tool-installer.nvim", -- {{{4
+          -- TODO: Decide wherether to use this plugin, mason-lspconfig or both
+          -- NOTE: Available cmds are
+          -- `MasonToolsInstall/MasonToolsUpdate/MasonToolsClean`
+          -- NOTE: Tool names might differ between mason and lspconfig. This
+          -- plugin uses mason's tool names. The plugin
+          -- `williamboman/mason-lspconfig.nvim` will allow mason to understand
+          -- lspconfig's tool names.
+          opts = {
+            ensure_installed = {
+              -- English
+              "alex",
+              "write-good",
+              -- Lua
+              "stylua",
+              -- Elixir
+              "elixir-ls",
+              "nextls",
+              -- Python
+              "autoflake",
+              "autopep8",
+              "black",
+              "flake8",
+              "isort",
+              "pyright",
+              -- Shell
+              "shellcheck",
+              -- Elm
+              "elm-format",
+              "elm-language-server",
+            },
+          },
+        },
       },
     },
 
