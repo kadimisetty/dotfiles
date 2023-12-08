@@ -764,14 +764,17 @@ alias grepi="grep -i"
 alias rgi="rg -i"
 
 # WC {{{2
-alias wcwords="wc --words"
-alias wclines="wc --lines"
+# NOTE: 
+#   1. Using short form flags because macos coreutils by default do not have
+#      the long flags available (as of macOS Sonoma).
+#   2. Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
+#      I still want to use `wcc` for `--chars` and `wcb` for `--bytes` in the
+#      alias for mnemonic sake.
+alias wcwords="wc -w" # --words
+alias wclines="wc -l" # --lines
 # NOTE:
-#   Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
-#   I still want to use `wcc` for `--chars` and `wcb` for `--bytes` in the alias for
-#   mnemonic sake.
-alias wcchars="wc --chars"
-alias wcbytes="wc --bytes"
+alias wcchars="wc -m" # --chars
+alias wcbytes="wc -c" # --bytes
 
 # CURL {{{2
 # [-s|--silent]: Silent mode
