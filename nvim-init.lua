@@ -4859,7 +4859,7 @@ run_lazy_setup({
           providers = {
             "treesitter",
             "lsp",
-            -- "regex",
+            "regex",
           },
           filetypes_denylist = {
             "dirvish",
