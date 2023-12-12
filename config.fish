@@ -373,7 +373,7 @@ end
 
 
 # FZF {{{1
-#   NOTE: Use ripgrep to power fzf searches:
+# ripgrep options being used to power fzf:
 #           --files             : Print files'names but not their content
 #           --hidden            : Search hidden files and directories
 #           --smart-case        : Search smart with upper and lower case
@@ -381,30 +381,79 @@ end
 set --export FZF_DEFAULT_COMMAND 'rg --files --hidden --smart-case --glob "!.git/*"'
 
 function _fzf_search_history --description "Search command history with `fzf`"
-    # Get history and pipe into fzf
+    # TODO: Ensure `fzf` is installed locally
+    # Get history and pipe into fzf 
     history --null |
-        # Run fzf on received string. (TODO: Check if `fzf` installed)
+        # Run fzf using history's entries as source
         fzf \
             # Prefill query with command line content
             --query=(commandline) \
-            # Multi-select with (Shift)Tab
+            # Prompt indicator 
+            --prompt=" " \
+            # Current line indicator 
+            --pointer="" \
+            # Enable multi-selection
             --multi \
+            # Selected line indicator
+            --marker="+" \
             # Read input delimited by ascii null
             --read0 \
             # Print input delimited by ascii null
             --print0 \
-            # Not fullscreen but w/ this height under cursor
+            # Not fullscreen but hang down with this much height under cursor
             --height=10 \
-            # Strategy to use when scores are tied
-            --tiebreak=index \
-            # Prompt string
-            --prompt=" " |
+            # Extra left margin to align text with my prompt
+            --padding="0,0,0,2" \
+            # Keep default layout with prompt and first result at bottom 
+            --layout="default" \
+            # Show info to right end of prompt line
+            --info="inline-right" \
+            # Theme slightly customized from default base theme
+            # NOTE: Place ANSI attributes(`bold`) before other styles
+            --color="fg+:bold,gutter:-1,info:italic,info:dim,separator:dim" \
+            # When other multi-selections are selected and enter is hit on a
+            # unselected line, the current unselected line is not chosen and
+            # only the previously selected lines are chosen. Fix that behavior
+            # with enter
+            --bind="enter:select+accept" \
+            # Accept current line, ignoring other selections
+            --bind="alt-enter:clear-selection+accept" \
+            # Tab toggles selection without moving line
+            --bind="tab:toggle" \
+            # Shift-tab deselects without moving line
+            --bind="btab:deselect" \
+            # Vertical movement
+            --bind="ctrl-alt-n:first,ctrl-alt-p:last" \
+            --bind="ctrl-alt-j:first,ctrl-alt-k:last" \
+            # NOTE: Cannot do`ctrl-alt` + up/down as it is not available
+            # --bind="ctrl-alt-up:first,ctrl-alt-p:down" \
+            # Offset up/down, like with `c-e`/`c-y` in vim
+            --bind="ctrl-e:offset-down,ctrl-y:offset-up" \
+            # Select/deselect up/down wards. (Aids consecutive selections)
+            # (Currently not doing n/p+j/k just up/down)
+            --bind="shift-up:select+up,shift-down:select+down" \
+            --bind="alt-shift-up:deselect+up,alt-shift-down:deselect+down" \
+            # TODO: Ensure this history file location exists and is
+            # periodically cleared out.
+            --history="$HOME/.cache/fzf-history/fzf-history-file" \
+            # NOTE: When history is specified, `c-n`/`c-p` is  automatically
+            # remapped to next/prev history, so explicitly rebind that
+            # don't want it
+            --bind="alt-up:prev-history,alt-down:next-history" \
+            # Preview disabled
+            # --bind="ctrl-alt-f:preview-page-up,ctrl-alt-b:preview-page-down" \
+            # --preview-window="right" \
+            # --preview="cat {}" \ # "head -$LINES {}"
+            # Strategy to use when search scores are tied
+            --tiebreak=index |
         # Split string received on null byte
         string split0 |
-        # Remove trailing newlines on string received.
-        # TODO: Replace with `string` command.
-        # NOTE: `-d` delete given char(s) from input
-        tr -d '\n' |
+        # Remove blank line between "multi-selections"
+        string replace "\n\n" "\n" |
+        # Trim trailing/leading whitespace
+        # string trim |
+        # Remove end-of-file blank line in "multi-selections"
+        string collect |
         # Store received string into `$result`
         read --local --null result
     # Run only if previous command succeeds,
