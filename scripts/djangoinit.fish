@@ -65,17 +65,17 @@ function djangoinit
     _echo_footer "SETTING UP VIRTUAL ENVIRONMENT"
 
     # DJANGO
-    _echo_header "INSTALLING LATEST DJANGO v4.*"
-    pip install --upgrade 'django==4.*'
-    echo "DONE INSTALLING LATEST DJANGO v4.*"
-    _echo_footer "INSTALLING LATEST DJANGO v4.*"
-    _echo_header "STARTING DJANGO PROJECT"
+    _echo_header "INSTALLING LATEST DJANGO v5.*"
+    pip install --upgrade 'django==5.*'
+    _echo_footer "INSTALLING LATEST DJANGO v5.*"
+
+    _echo_header "STARTING DJANGO PROJECT (core)"
     # Start a django project into the current directory
     # Use current directory name as name of django project
     # django-admin startproject $(basename $PWD) .
     # Use `core` as name of django project
     django-admin startproject core .
-    _echo_footer "STARTING DJANGO PROJECT"
+    _echo_footer "STARTING DJANGO PROJECT (core)"
 
     # PLUGINS: DJANGO-EXTENSIONS+DRF
     _echo_header "SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
@@ -99,13 +99,13 @@ function djangoinit
     _echo_footer "FORMATTING WITH BLACK (linelength 79)"
 
     # GIT
-    _echo_header "SETTING UP GIT + GITIGNORE"
+    _echo_header "SETTING UP GIT"
     git-ignore --update django >>.gitignore
     git-ignore --update python >>.gitignore
     git init
     git add --all
     git commit --message="django init"
-    _echo_footer "SETTING UP GIT + GITIGNORE"
+    _echo_footer "SETTING UP GIT"
 
     # END
     deactivate # Deactivate virtual environment
