@@ -4138,10 +4138,10 @@ run_lazy_setup({
         },
       },
       opts = function()
-        local layout_actions = require("telescope.actions.layout")
+        local actions_layout = require("telescope.actions.layout")
+        local actions = require("telescope.actions")
         return {
           defaults = {
-            scroll_strategy = "limit",
             layout_strategy = "bottom_pane",
             layout_config = {
               bottom_pane = {
@@ -4150,54 +4150,63 @@ run_lazy_setup({
                 prompt_position = "bottom",
               },
             },
-            winblend = 6,
-            prompt_prefix = " ",
-            dynamic_preview_title = true,
-            selection_caret = " ",
-            multi_icon = "+ ",
+            scroll_strategy = "limit", -- default is `cycle`
             border = true,
-            -- hide `Results` title
+            winblend = 8,
+            dynamic_preview_title = true,
             results_title = false,
             color_devicons = true,
+            prompt_prefix = " ",
+            selection_caret = " ",
+            multi_icon = " +",
             mappings = {
+              -- NOTE: Restrict to insert mode only (disable normal mode here)
               i = {
-                -- Browse results upwards/downwards/top/bottom
-                ["<c-j>"] = "move_selection_next",
-                ["<c-k>"] = "move_selection_previous",
-                ["<down>"] = "move_selection_next",
-                ["<up>"] = "move_selection_previous",
-                -- ["<c-m-j>"] = "move_to_bottom",
-                -- ["<c-m-k>"] = "move_to_top",
-                -- Scroll the preview window up/down
-                ["<c-m-k>"] = "preview_scrolling_down",
-                ["<c-m-j>"] = "preview_scrolling_up",
-                ["<m-down>"] = "preview_scrolling_down",
-                ["<m-up>"] = "preview_scrolling_up",
-                -- Browse history
-                ["<c-down>"] = "cycle_history_next",
-                ["<c-up>"] = "cycle_history_prev",
-                -- Do not go to telescop_normal_mode on `<esc>`, exit instead
-                ["<esc>"] = "close",
-                -- Toggle preview window
-                ["<m-p>"] = layout_actions.toggle_preview,
-                -- Display local keymaps to registered actions here
-                ["<m-w>"] = "which_key",
-                -- revert `<c-u>` to default function of clearing line
+                ["<esc>"] = actions.close,
+                ["<m-p>"] = actions_layout.toggle_preview,
+                ["<m-a>"] = actions.select_all,
+                ["<m-s-a>"] = actions.drop_all,
+                ["<tab>"] = actions.toggle_selection,
+                ["<s-tab>"] = actions.remove_selection,
+                ["<m-w>"] = actions.which_key,
+                ["<c-n>"] = actions.move_selection_next,
+                ["<c-p>"] = actions.move_selection_previous,
+                ["<c-m-n>"] = actions.move_to_bottom,
+                ["<c-m-p>"] = actions.move_to_top,
+                ["<c-j>"] = actions.move_selection_next,
+                ["<c-k>"] = actions.move_selection_previous,
+                ["<c-m-k>"] = actions.move_to_top,
+                ["<c-m-j>"] = actions.move_to_bottom,
+                -- NOTE: Not doing move to top/bottom for up/down
+                ["<up>"] = actions.move_selection_previous,
+                ["<down>"] = actions.move_selection_next,
+                ["<s-up>"] = actions.add_selection
+                  + actions.move_selection_previous,
+                ["<s-down>"] = actions.add_selection
+                  + actions.move_selection_next,
+                ["<s-m-up>"] = actions.remove_selection
+                  + actions.move_selection_previous,
+                ["<s-m-down>"] = actions.remove_selection
+                  + actions.move_selection_next,
+                ["<c-e>"] = actions.results_scrolling_up,
+                ["<c-y>"] = actions.results_scrolling_down,
+                ["<c-m-f>"] = actions.preview_scrolling_down,
+                ["<c-m-b>"] = actions.preview_scrolling_up,
+                ["<m-down>"] = actions.cycle_history_next,
+                ["<m-up>"] = actions.cycle_history_prev,
+                -- NOTE:Revert `<c-u>` to readline style clearing line behavior
                 ["<c-u>"] = false,
-                -- Delete selected buffer
-                ["<c-d>"] = "delete_buffer",
-                -- Send selected entries to the quickfix list, replacing the
-                -- previous entries. If no entry was selected, send all entries.
-                ["<c-q>"] = "smart_send_to_qflist",
-                -- Add selected entries to the quickfix list, keeping the
-                -- previous entries. If no entry was selected, add all entries.
-                ["<c-m-q>"] = "smart_add_to_qflist",
-                -- Send selected entries to the location list, replacing the
-                -- previous entries. If no entry was selected, send all entries.
-                ["<c-l>"] = "smart_send_to_loclist",
-                -- Add selected entries to the location list, keeping the
-                -- previous entries. If no entry was selected, add all entries.
-                ["<c-m-l>"] = "smart_add_to_loclist",
+                ["<c-d>"] = actions.delete_buffer,
+                -- QUICKFIX AND LOCATION LISTS:
+                -- NOTE: If no entry is selected, send all entries
+                -- REPLACE quickfix list with selected entries
+                ["<c-q>"] = actions.smart_send_to_qflist,
+                -- EXTEND quickfix list with selected entries at the end
+                ["<c-m-q>"] = actions.smart_add_to_qflist,
+                -- REPLACE location list with selected entries
+                ["<c-l>"] = actions.smart_send_to_loclist,
+                -- EXTEND location list with selected entries at the end
+                ["<c-m-l>"] = actions.smart_add_to_loclist,
               },
             },
           },
