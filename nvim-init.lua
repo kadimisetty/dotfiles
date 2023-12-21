@@ -5188,7 +5188,19 @@ run_lazy_setup({
         -- RUST
         -- NOTE: Using `rust-tools to handle LSP features
 
-        -- LUA:
+        -- PYTHON/RUFF
+        require("lspconfig").ruff_lsp.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+
+        -- PYTHON/PYRIGHT
+        require("lspconfig").pyright.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+
+        -- LUA
         require("lspconfig").lua_ls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
@@ -5211,12 +5223,6 @@ run_lazy_setup({
               callSnippet = "Replace",
             },
           },
-        })
-
-        -- PYTHON:
-        require("lspconfig").pyright.setup({
-          on_attach = on_attach,
-          capabilities = capabilities,
         })
       end,
     },
@@ -5285,7 +5291,8 @@ run_lazy_setup({
     -- LSP features
     -- formatting/code_actions/diagnostics/hover/completion
     {
-      "jose-elias-alvarez/null-ls.nvim", -- {{{3
+      "nvimtools/none-ls.nvim", -- {{{3
+      -- "jose-elias-alvarez/null-ls.nvim"
       -- NOTE: Add keys to toggle null-ls taht don't conflict with lspconfig,
       --  could be `yol` for lspconfig and `yoL` for null-ls.
       --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/896
@@ -5309,6 +5316,8 @@ run_lazy_setup({
             null_ls.builtins.formatting.isort,
             null_ls.builtins.formatting.black,
             null_ls.builtins.diagnostics.flake8,
+            -- TODO: MIGRATE TO RUFF
+            -- null_ls.builtins.diagnostics.ruff,
             -- go
             null_ls.builtins.formatting.gofumpt,
             -- haskell
