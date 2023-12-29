@@ -812,6 +812,16 @@ set --export luarocks "luarocks --local"
 alias grepi="grep -i"
 alias rgi="rg -i"
 
+# EMACS {{{2
+# TERMINAL {{{3
+alias et="emacs --no-window-system"
+alias etfresh="emacs --no-window-system --no-init-file"
+alias etquick="emacs --no-window-system --quick"
+# GUI {{{3
+# alias e="emacs"
+# alias efresh="emacs --no-init-file"
+# alias equick="emacs --quick"
+
 # WC {{{2
 # NOTE: 
 #   1. Using short form flags because macos coreutils by default do not have
