@@ -41,6 +41,45 @@ fundle init
 
 
 
+
+# UTILS {{{1
+function echoerr \
+    --description "print given msg to stderr and exit with error exit status"
+    # USAGE 1:        `echoerr "incorrect configuration file: conf.json"
+    # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
+    # USAGE 2:        `echo "incorrect configuration file: conf.json" | echoerr`
+    # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
+
+    # SETUP
+    set_color $fish_color_error
+    set --local msg ""
+
+    # CHECK IF INPUT IS BEING PIPED
+    if isatty stdin
+        # NOT PIPE/REDIRECTION: Display immediately
+        set --append msg $argv
+    else
+        # PIPE/REDIRECTION: Display after getting all piped input
+        cat /dev/stdin | while read eachline
+            set --append msg $eachline
+        end
+
+        if test (count $argv) -gt 0
+            echo "COUNT: " (count $msg)
+        end
+    end
+
+    # WRITE TO STDERR
+    echo "ERROR:" $msg >&2
+    set_color $fish_color_normal
+
+    # RETURN WITH ERROR STATUS CODE 1 (EPERM 1 Operation not permitted)
+    false
+end
+
+
+
+
 # NIX {{{1
 # SETUP {{{2
 # NOTE: Place as close to top as possible to make nix available immediately.
