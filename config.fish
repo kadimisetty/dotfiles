@@ -505,10 +505,35 @@ alias n="nvim"
 alias nview="nvim -R"
 alias nclean="vim --clean"
 alias nsession="nvim -S ./Session.vim"
-alias nwindows='nvim -O' # vertical splits,
+alias nwindows='nvim -O' # vertical splits
 alias ntabs='nvim -p'
-
-# TODO: Finish converting these remaining vim aliases
+function nman --description "Open man page for given command name"
+    if test (count $argv) -ne 1
+        # ENSURE SINGLE ARGUMENT:
+        set_color $fish_color_error
+        echo "ERROR: takes one argument"
+        set_color $fish_color_normal
+        false # report error exit status overridden by `echo` 
+    else if not man $argv &>/dev/null
+        # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
+        set_color $fish_color_error
+        echo "ERROR: No man page for:" $argv
+        set_color $fish_color_normal
+        false # report error exit status overridden by `echo` 
+    else
+        # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
+        nvim \
+            # Open man page for command supplied by given argument
+            -c "Man $argv" \
+            # Move opened man page to it's own tabpage
+            -c "execute \"normal! \<c-w>T\"" \
+            # Make only tabpage open
+            -c "execute \"tabonly\"" \
+            # Delete inital blank buffer
+            -c "execute \"bd 1\""
+    end
+end
+# TODO: Finish converting these remaining vim aliases into nvim aliases
 # alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
 # alias vn='vim -c "NERDTree"'
 # alias vno='vim -c "NERDTree | normal O"'
