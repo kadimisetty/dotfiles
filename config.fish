@@ -808,9 +808,12 @@ set --export luarocks "luarocks --local"
 
 
 # MISC {{{1
-# GREP & RG {{{2
-alias grepi="grep -i"
-alias rgi="rg -i"
+# GREP {{{2
+alias grepi="grep --ignore-case"
+
+# RG {{{2
+alias rgi="rg --ignore-case"
+alias rgs="rg --smart-case"
 
 # EMACS {{{2
 # TERMINAL {{{3
