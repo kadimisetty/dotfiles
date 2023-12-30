@@ -2922,9 +2922,9 @@ run_lazy_setup({
   -- LAZY PLUGINS {{{2
   lazy_plugins = {
 
-    -- Popup with possible keybindings of command you started typing
+    -- which key {{{3
     {
-      "folke/which-key.nvim", -- {{{3
+      "folke/which-key.nvim",
       event = "VeryLazy",
       init = function()
         -- Time(ms) which-key can show it's display
@@ -2950,9 +2950,9 @@ run_lazy_setup({
       },
     },
 
-    -- Surrounds text objects
+    -- surround {{{3
     {
-      "tpope/vim-surround", -- {{{3
+      "tpope/vim-surround",
       event = "VeryLazy",
       init = function()
         -- NOTE: Do'nt use vim.keymap.set for this one.
@@ -2960,9 +2960,9 @@ run_lazy_setup({
       end,
     },
 
-    -- Work with several variants of a word at once and fix all case typos
+    -- abolish {{{3
     {
-      "tpope/tpope-vim-abolish", -- {{{3
+      "tpope/tpope-vim-abolish",
       event = "VeryLazy",
       config = function()
         -- TODO: If specifying these here works out well, remove
@@ -2990,51 +2990,51 @@ run_lazy_setup({
       end,
     },
 
-    -- Helps "end" certain structures like `do`/`end` blocks automatically
+    -- endwise {{{3
     {
-      "tpope/vim-endwise", -- {{{3
+      "tpope/vim-endwise",
       event = "VeryLazy",
     },
 
-    -- Helpers for UNIX
+    -- eunuch {{{3
     {
-      "tpope/vim-eunuch", -- {{{3
+      "tpope/vim-eunuch",
       event = "VeryLazy",
     },
 
-    -- Git wrapper
+    -- fugitive {{{3
     {
-      "tpope/vim-fugitive", -- {{{3
+      "tpope/vim-fugitive",
       event = "VeryLazy",
     },
 
-    -- Vim Liquid runtime files with Jekyll enhancements
+    -- liquid {{{3
     {
-      "tpope/vim-liquid", -- {{{3
+      "tpope/vim-liquid",
       event = "VeryLazy",
     },
 
-    -- Enable repeating supported plugin maps with "."
+    -- repeat {{{3
     {
-      "tpope/vim-repeat", -- {{{3
+      "tpope/vim-repeat",
       event = "VeryLazy",
     },
 
-    -- Readline style insertion keymaps
+    -- rsi {{{3
     {
-      "tpope/vim-rsi", -- {{{3
+      "tpope/vim-rsi",
       event = "VeryLazy",
     },
 
-    -- Netrw enhancer
+    -- vinegar {{{3
     {
-      "tpope/vim-vinegar", -- {{{3
+      "tpope/vim-vinegar",
       event = "VeryLazy",
     },
 
-    -- Files/Dirs as textual buffer content
+    -- oil {{{3
     {
-      "stevearc/oil.nvim", -- {{{3
+      "stevearc/oil.nvim",
       cmd = "Oil",
       opts = {
         columns = {
@@ -3075,11 +3075,10 @@ run_lazy_setup({
       dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
-    -- Pairs of handy bracket keymaps
-    -- TODO: replace this with the nvim version which allows chosing
-    -- keymaps
+    -- unimpaired {{{3
+    -- TODO: Find a replacement that allows choosing/changing keymaps
     {
-      "tpope/vim-unimpaired", -- {{{3
+      "tpope/vim-unimpaired",
       -- lazy = false, -- Load during startup if main colorscheme
       event = "VeryLazy",
       keys = {
@@ -3126,17 +3125,17 @@ run_lazy_setup({
       },
     },
 
-    -- Alignign
+    -- alignment plugins {{{3
     -- TODO: Add trigger with cmd/keys
     -- TODO: Try to get "junegunn/vim-easy-align" to work
     -- NOTE: Ignore 'echasnovski/mini.align', not good for me
 
-    -- -- Refactoring
-    -- -- NOTE: Disabled for LSP
-    -- -- TODO: Add keymaps
-    -- -- TODO: Add telescope extension
+    -- refactoring {{{3
+    -- NOTE: Disabled for LSP
+    -- TODO: Add keymaps
+    -- TODO: Add telescope extension
     -- {
-    --   "ThePrimeagen/refactoring.nvim", -- {{{3
+    --   "ThePrimeagen/refactoring.nvim",
     --   event = "VeryLazy",
     --   dependencies = {
     --     { "nvim-lua/plenary.nvim" },
@@ -3144,19 +3143,19 @@ run_lazy_setup({
     --   },
     -- },
 
-    -- Colors
+    -- nvim-colorizer {{{
     -- FIXME: Very buggy for me
     -- {
-    --   "norcalli/nvim-colorizer.lua", -- {{{3
+    --   "norcalli/nvim-colorizer.lua",
     --   event = "VeryLazy",
     --   opts = {
     --     mode = "background", -- set foreground/background text color
     --   },
     -- },
 
-    -- Indent Guides
+    -- indent blankline {{{3
     {
-      "lukas-reineke/indent-blankline.nvim", -- {{{3
+      "lukas-reineke/indent-blankline.nvim",
       event = "BufEnter",
       main = "ibl",
       opts = {
@@ -3168,47 +3167,49 @@ run_lazy_setup({
       },
     },
 
+    -- tint {{{3
     -- Dim inactive window
     -- FIXME: tint.nvim flat out does not work
     -- {
-    --   "levouh/tint.nvim", -- {{{3
+    --   "levouh/tint.nvim",
     --   lazy = false,
-    --   -- opts = {
-    --   --   tint = -45, -- Darken colors, use a positive value to brighten
-    --   --   saturation = 0.6, -- Saturation to preserve
-    --   --   transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
-    --   --   tint_background_colors = true, -- Tint background portions of highlight groups
-    --   --   highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
-    --   --   window_ignore_function = function(winid)
-    --   --     local bufid = vim.api.nvim_win_get_buf(winid)
-    --   --     local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
-    --   --     local floating = vim.api.nvim_win_get_config(winid).relative
-    --   --       ~= ""
-    --   --
-    --   --     -- Do not tint `terminal` or floating windows, tint everything else
-    --   --     return buftype == "terminal" or floating
-    --   --   end,
-    --   -- },
+    --   opts = {
+    --     tint = -45, -- Darken colors, use a positive value to brighten
+    --     saturation = 0.6, -- Saturation to preserve
+    --     transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
+    --     tint_background_colors = true, -- Tint background portions of highlight groups
+    --     highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
+    --     window_ignore_function = function(winid)
+    --       local bufid = vim.api.nvim_win_get_buf(winid)
+    --       local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
+    --       local floating = vim.api.nvim_win_get_config(winid).relative
+    --         ~= ""
+    --
+    --       -- Do not tint `terminal` or floating windows, tint everything else
+    --       return buftype == "terminal" or floating
+    --     end,
+    --   },
     -- },
 
+    -- shade {{{
     -- FIXME: After using Neotree, active window is still dimmed
     -- FIXME: Last visible line of all inactive windows is not dimmed
     -- {
-    --   "sunjon/shade.nvim", -- {{{3
+    --   "sunjon/shade.nvim",
     --   lazy = false,
     --   priority = 700,
     --   opts = {},
     -- },
 
-    -- Expand emmet abbreviations
+    -- emmet {{{3
     {
-      "mattn/emmet-vim", -- {{{3
+      "mattn/emmet-vim",
       event = "VeryLazy",
     },
 
-    -- Animate movements
+    -- mini.animate {{{3
     {
-      "echasnovski/mini.animate", -- {{{3
+      "echasnovski/mini.animate",
       event = "VeryLazy",
       opts = function()
         -- don't use animate when scrolling with the mouse
@@ -3252,9 +3253,9 @@ run_lazy_setup({
       end,
     },
 
-    -- Mini map
+    -- mini.map {{{3
     {
-      "echasnovski/mini.map", -- {{{3
+      "echasnovski/mini.map",
       event = "VeryLazy",
       keys = {
         {
@@ -3331,9 +3332,9 @@ run_lazy_setup({
       },
     },
 
-    -- Commenting
+    -- comment.nvim {{{3
     {
-      "numToStr/Comment.nvim", -- {{{3
+      "numToStr/Comment.nvim",
       event = "VeryLazy",
       opts = {
         toggler = {
@@ -3343,10 +3344,10 @@ run_lazy_setup({
       },
     },
 
-    -- Distraction free writing
+    -- zen mode {{{3
     -- FIXME: zen-mode not working, find alternative
     -- {
-    --   "folke/zen-mode.nvim", -- {{{3
+    --   "folke/zen-mode.nvim",
     --   opts = {
     --     window = {
     --       backdrop = 0.80, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
@@ -3410,9 +3411,9 @@ run_lazy_setup({
     -- },
     --
 
-    -- Color columns
+    -- smartcolumn {{{3
     {
-      "m4xshen/smartcolumn.nvim", -- {{{3
+      "m4xshen/smartcolumn.nvim",
       opts = {
         -- default: {}
         -- example: { python = "80", haskell = { "80", "120"} }
@@ -3427,9 +3428,9 @@ run_lazy_setup({
       },
     },
 
-    -- inverse toggle e.g. true/false
+    -- nvim toggler {{{3
     {
-      "nguyenvukhang/nvim-toggler", -- {{{3
+      "nguyenvukhang/nvim-toggler",
       opts = {
         remove_default_keybinds = true,
         -- remove_default_inverses = false,
@@ -3450,9 +3451,9 @@ run_lazy_setup({
       },
     },
 
-    -- Colorscheme
+    -- tokyonight colorscheme {{{3
     {
-      "folke/tokyonight.nvim", -- {{{3
+      "folke/tokyonight.nvim",
       lazy = false, -- Load during startup if main colorscheme
       priority = 1000, -- Load before all other start plugins
       init = function()
@@ -3478,9 +3479,9 @@ run_lazy_setup({
       },
     },
 
-    -- Status line
+    -- lualine {{{3
     {
-      "nvim-lualine/lualine.nvim", -- {{{3
+      "nvim-lualine/lualine.nvim",
       event = "VeryLazy",
       opts = function()
         return {
@@ -3669,9 +3670,9 @@ run_lazy_setup({
       },
     },
 
-    -- Tab bar
+    -- taboo {{{3
     {
-      "gcmt/taboo.vim", -- {{{3
+      "gcmt/taboo.vim",
       init = function()
         vim.g.taboo_tab_format = [[ %d %f %m ]]
         vim.g.taboo_renamed_tab_format = [[ %d %l %m ]]
@@ -3679,9 +3680,9 @@ run_lazy_setup({
       dependencies = { "ryanoasis/vim-devicons" },
     },
 
-    -- Undo
+    -- mundo {{{3
     {
-      "simnalamburt/vim-mundo", -- {{{3
+      "simnalamburt/vim-mundo",
       event = "VeryLazy",
       init = function()
         -- NOTE: Vim saves/restores undo history to/from an undo file in
@@ -3700,9 +3701,9 @@ run_lazy_setup({
       },
     },
 
-    -- Auto pairs
+    -- autopairs {{{3
     {
-      "windwp/nvim-autopairs", -- {{{3
+      "windwp/nvim-autopairs",
       event = "VeryLazy",
       init = function()
         local Rule = require("nvim-autopairs.rule")
@@ -3746,9 +3747,9 @@ run_lazy_setup({
       },
     },
 
-    -- File explorer
+    -- neo-tree {{{3
     {
-      "nvim-neo-tree/neo-tree.nvim", -- {{{3
+      "nvim-neo-tree/neo-tree.nvim",
       branch = "v2.x",
       -- event = "VeryLazy",
       lazy = false,
@@ -3838,9 +3839,9 @@ run_lazy_setup({
       },
     },
 
-    -- Welcome page
+    -- alpha {{{3
     {
-      "goolord/alpha-nvim", -- {{{3
+      "goolord/alpha-nvim",
       event = "VimEnter",
       config = function()
         local alpha = require("alpha")
@@ -3898,9 +3899,9 @@ run_lazy_setup({
       dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
-    -- Git
+    -- gitsigns {{{3
     {
-      "lewis6991/gitsigns.nvim", -- {{{3
+      "lewis6991/gitsigns.nvim",
       event = { "BufReadPre", "BufNewFile" },
       opts = {
         signs = {
@@ -3938,9 +3939,9 @@ run_lazy_setup({
       },
     },
 
-    -- LazyGit
+    -- lazygit {{{3
     {
-      "kdheepak/lazygit.nvim", -- {{{3
+      "kdheepak/lazygit.nvim",
       -- TODO: [Use telescope extension?](https://github.com/kdheepak/lazygit.nvim#telescope-plug)
       cmd = {
         "LazyGitCurrentFile",
@@ -3976,9 +3977,9 @@ run_lazy_setup({
       },
     },
 
-    -- Fuzzy finder
+    -- telescope {{{3
     {
-      "nvim-telescope/telescope.nvim", -- {{{3
+      "nvim-telescope/telescope.nvim",
       lazy = false,
       cmd = "Telescope",
       tag = "0.1.4",
@@ -4248,17 +4249,17 @@ run_lazy_setup({
       },
     },
 
-    -- Narrow Region
+    -- narrow region {{{3
     -- TODO: Create keymaps
     {
-      "chrisbra/NrrwRgn", -- {{{3
+      "chrisbra/NrrwRgn",
       event = "VeryLazy",
     },
 
-    -- Breadcrumb bar
+    -- barbecue {{{3
     -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but it's >= 0.10.0-dev. Try later.
     {
-      "utilyre/barbecue.nvim", -- {{{3
+      "utilyre/barbecue.nvim",
       name = "barbecue",
       event = "VeryLazy",
       version = "*",
@@ -4294,10 +4295,9 @@ run_lazy_setup({
       },
     },
 
-    -- Search enhancer
-
+    -- flit {{{3
     {
-      "ggandor/flit.nvim", -- {{{3
+      "ggandor/flit.nvim",
       event = "VeryLazy",
       opts = {
         multiline = true,
@@ -4308,12 +4308,13 @@ run_lazy_setup({
       },
     },
 
+    -- todo comments {{{3
     -- Pragmas (todo/fixme/note etc.)
     -- NOTE: `p` for pragma, like xcode pragma
     -- TODO: Toggle display in gutter
     -- TODO: Make this into a separate plugin
     {
-      "folke/todo-comments.nvim", -- {{{3
+      "folke/todo-comments.nvim",
       event = { "BufReadPost", "BufNewFile" },
       cmd = { "TodoTelescope" },
       opts = {
@@ -4377,107 +4378,110 @@ run_lazy_setup({
       },
     },
 
-    -- Custom text objects
+    -- vim-textobj-user {{{3
     {
-      "kana/vim-textobj-user", -- {{{3
+      "kana/vim-textobj-user",
       event = "VeryLazy",
     },
 
-    -- Entire file as a text object
+    -- vim-textobj-entire {{{3
     -- `e`
     {
-      "kana/vim-textobj-entire", -- {{{3
+      "kana/vim-textobj-entire",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Indents as text objects
+    -- vim-textobj-indent {{{3
     -- `i`
     {
-      "kana/vim-textobj-indent", -- {{{3
+      "kana/vim-textobj-indent",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Parameters as text objects
+    -- vim-textobj-parameter {{{3
     -- `,`
     {
-      "sgur/vim-textobj-parameter", -- {{{3
+      "sgur/vim-textobj-parameter",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Method chain members as text objects
+    -- vim-textobj-chainmember {{{3
     -- `m`
     {
-      "D4KU/vim-textobj-chainmember", -- {{{3
+      "D4KU/vim-textobj-chainmember",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Python functions/classes as text objects
+    -- vim-textobj-python {{{3
     -- `f`/`c`
     {
-      "bps/vim-textobj-python", -- {{{3
+      "bps/vim-textobj-python",
       ft = "python",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Haskell top level bindings as text objects
+    -- vim-textobj-haskell {{{3
     -- `h`
     {
-      "gilligan/vim-textobj-haskell", -- {{{3
+      "gilligan/vim-textobj-haskell",
       ft = "haskell",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Lua blocks as text objects
+    -- vim-textobj-lua {{{3
     -- `l`
-    -- {"spacewander/vim-textobj-lua", -- {{{3
+    -- {"spacewander/vim-textobj-lua",
     --     ft = "lua",
     --     dependencies = "kana/vim-textobj-user",
     -- },
 
-    -- Comments as text objects
+    -- vim-textobj-comment {{3
     -- `c` FIXME: Collision with `bps/vim-textobj-python`'s `c`
     {
-      "glts/vim-textobj-comment", -- {{{3
+      "glts/vim-textobj-comment",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
+    -- vim-textobj-fold {{{3
     -- Fold areas as text objects
     -- `z`
     {
-      "kana/vim-textobj-fold", -- {{{3
+      "kana/vim-textobj-fold",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- URLs as text objects
+    -- vim-textobj-url  {{{3
     -- `u`
     {
-      "kana/vim-textobj-fold", -- {{{3
+      "LeonB/vim-textobj-url",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- Elixir blocks as text objects
+    -- vim-textobj-elixir {{{3
     -- `e` FIXME: Collision with "entire", Change to `x`?
-    -- {"andyl/vim-textobj-elixir", -- {{{3
+    -- {"andyl/vim-textobj-elixir",
     --      ft = "elixir",
     --      dependencies = "kana/vim-textobj-user",
     -- },
 
+    -- cool {{{3
     -- Disable search highlight on moving after searching
     {
-      "romainl/vim-cool", -- {{{3
+      "romainl/vim-cool",
       event = "VeryLazy",
     },
 
+    -- colorful-winsep {{{3
     -- Colorful window border
     {
-      "nvim-zh/colorful-winsep.nvim", -- {{{3
+      "nvim-zh/colorful-winsep.nvim",
       event = { "WinNew" },
       opts = {
         create_event = function()
@@ -4506,12 +4510,13 @@ run_lazy_setup({
       },
     },
 
+    -- rainbow_parentheses {{{3
     -- FIXME: Place after any vim-unimpaired preferences because I'm
     -- overriding the default `r` for `relativenumber` using in
     -- vim-unimpaired. Finda better solution to this predicament as this won't
     -- work if I'm loading "lazily".
     {
-      "junegunn/rainbow_parentheses.vim", -- {{{3
+      "junegunn/rainbow_parentheses.vim",
       event = "VeryLazy",
       init = function()
         vim.cmd(
@@ -4540,9 +4545,10 @@ run_lazy_setup({
       },
     },
 
+    -- beacon {{{3
     -- Find cursor
     {
-      "rainbowhxch/beacon.nvim", -- {{{3
+      "rainbowhxch/beacon.nvim",
       opts = {
         enable = true,
         size = 6,
@@ -4562,35 +4568,37 @@ run_lazy_setup({
       },
     },
 
+    -- strip trailing whitespace {{{3
     -- Strip trailing whitespace on changed lines only
     -- FIXME: TOO MANY ERRORS> FIND REPLACEMENT QUICK.
     -- NOTE: Provides command `StripTrailingWhitespace` to remove trailing whitespace
     -- in entire file as well (not just changed lines).
     -- {
-    --   "axelf4/vim-strip-trailing-whitespace", -- {{{3
+    --   "axelf4/vim-strip-trailing-whitespace",
     --   lazy = false,
     --   -- NOTE: Plugin is sometimes not loaded when needed, so setting high priority
     --   priority = 900,
     -- },
 
-    -- Sort lines
+    -- sort motion {{{3
     -- `gs`
     -- TODO: Make a plugin `gs` that ignores comments
     {
-      "christoomey/vim-sort-motion", -- {{{3
+      "christoomey/vim-sort-motion",
       event = "VeryLazy",
     },
 
+    -- titlecase {{{3
     -- Title case
     -- `gz`
     {
-      "christoomey/vim-titlecase", -- {{{3
+      "christoomey/vim-titlecase",
       event = "VeryLazy",
     },
 
-    -- Folds
+    -- pretty fold {{{3
     {
-      "anuvyklack/pretty-fold.nvim", -- {{{3
+      "anuvyklack/pretty-fold.nvim",
       event = "VeryLazy",
       opts = {
         sections = {
@@ -4615,12 +4623,12 @@ run_lazy_setup({
       },
     },
 
-    -- Elixir
-    "elixir-editors/vim-elixir", -- {{{3
+    -- elixir {{{3
+    "elixir-editors/vim-elixir",
 
-    -- Rust
+    -- rust tools {{{3
     {
-      "simrat39/rust-tools.nvim", -- {{{3
+      "simrat39/rust-tools.nvim",
       -- TODO: Move to `lsp-config` and if necessary use non-lsp `rust.vim`
       opts = {
         tools = {
@@ -4691,10 +4699,11 @@ run_lazy_setup({
       },
     },
 
+    -- rust {{{3
     -- {
     -- TODO: Adapt the custom cargo mappings and delete this if rust-tools
     -- works fun.
-    --   "rust-lang/rust.vim", -- {{{3
+    --   "rust-lang/rust.vim",
     --   enable = false, -- XXX
     --   event = "VeryLazy",
     --   ft = "rust",
@@ -4746,8 +4755,9 @@ run_lazy_setup({
     --   end,
     -- },
 
+    -- fish {{{3
     {
-      "blankname/vim-fish", -- {{{3
+      "blankname/vim-fish",
       -- NOTE: `https://github.com/dag/vim-fish` was abondoned, hence using
       -- this maintained clone
       ft = { "fish" },
@@ -4762,9 +4772,9 @@ run_lazy_setup({
       end,
     },
 
-    -- Go
+    -- go  {{{3
     -- {
-    --   "ray-x/go.nvim", -- {{{3
+    --   "ray-x/go.nvim",
     --   event = { "CmdlineEnter" },
     --   ft = { "go", "gomod" },
     --   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
@@ -4775,15 +4785,17 @@ run_lazy_setup({
     --     "nvim-treesitter/nvim-treesitter",
     --   },
     -- },
+
+    -- vim-go {{{3
     -- {
-    --   "fatih/vim-go", ---{{{3
+    --   "fatih/vim-go",
     --   event = "VeryLazy",
     --   ft = "go",
     -- },
 
-    -- Treesitter
+    -- treesitter {{{3
     {
-      "nvim-treesitter/nvim-treesitter", -- {{{3
+      "nvim-treesitter/nvim-treesitter",
       build = function()
         require("nvim-treesitter.install").update({ with_sync = true })
       end,
@@ -4826,17 +4838,19 @@ run_lazy_setup({
       },
     },
 
+    -- treesitter playground {{{3
     -- Treesitter playground
     {
-      "nvim-treesitter/playground", -- {{{3
+      "nvim-treesitter/playground",
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
       },
     },
 
+    -- hlargs {{{3
     -- LSP `highlight-args`
     {
-      "m-demare/hlargs.nvim", -- {{{3
+      "m-demare/hlargs.nvim",
       event = "VeryLazy",
       opts = {},
       dependencies = {
@@ -4844,9 +4858,10 @@ run_lazy_setup({
       },
     },
 
+    -- plenary {{{3
     -- Nvim/Lua helpers (often used as a dependency as well)
     {
-      "nvim-lua/plenary.nvim", -- {{{3
+      "nvim-lua/plenary.nvim",
       lazy = true,
       init = function()
         -- Global function that reloads module fresh, even if it were already
@@ -4858,9 +4873,10 @@ run_lazy_setup({
       end,
     },
 
+    -- illuminate {{{3
     -- Same word highlights (LSP/treesitter/regex)
     {
-      "RRethy/vim-illuminate", -- {{{3
+      "RRethy/vim-illuminate",
       event = { "BufReadPost", "BufNewFile" },
       config = function()
         require("illuminate").configure({
@@ -4901,10 +4917,11 @@ run_lazy_setup({
       },
     },
 
+    -- renamer {{{3
     -- LSP renamer
     -- FIXME: renamer.nvim Does not work, find alternate
     -- {
-    --   "filipdutescu/renamer.nvim", -- {{{3
+    --   "filipdutescu/renamer.nvim",
     --   lazy = false,
     --   branch = "master",
     --   dependencies = { { "nvim-lua/plenary.nvim" } },
@@ -4919,15 +4936,17 @@ run_lazy_setup({
     --   },
     -- },
 
+    -- dressing {{{3
     -- Better vim ui
     {
-      "stevearc/dressing.nvim", -- {{{3
+      "stevearc/dressing.nvim",
       event = "VeryLazy",
     },
 
+    -- fidget {{{3
     -- LSP loading indicator
     {
-      "j-hui/fidget.nvim", -- {{{3
+      "j-hui/fidget.nvim",
       tag = "legacy", -- TODO: Remove when fidget is eventually updated
       lazy = false,
       config = function()
@@ -4959,11 +4978,11 @@ run_lazy_setup({
       end,
     },
 
-    -- LSP Code Action Menu
+    -- nvim-code-action-menu {{{3
     -- TODO: Run within lsp-config
     -- TODO: Only activate if lsp active
     {
-      "weilbith/nvim-code-action-menu", -- {{{3
+      "weilbith/nvim-code-action-menu",
       cmd = "CodeActionMenu",
       keys = {
         {
@@ -4975,16 +4994,18 @@ run_lazy_setup({
       },
     },
 
+    -- qf-edit {{{3
     -- Edit quickfix list like a normal buffer
     {
-      "itchyny/vim-qfedit", -- {{{3
+      "itchyny/vim-qfedit",
       ft = "qf",
     },
 
+    -- trouble {{{3
     -- LSP reporting UI
     -- TODO: clean keymap desc
     {
-      "folke/trouble.nvim", -- {{{3
+      "folke/trouble.nvim",
       cmd = { "TroubleToggle", "Trouble" },
       opts = { use_diagnostic_signs = true },
       keys = {
@@ -5041,10 +5062,11 @@ run_lazy_setup({
       },
     },
 
+    -- inc-rename {{{3
     -- LSP incremental renaming
     -- FIXME: Not working
     -- {
-    --   "smjonas/inc-rename.nvim", -- {{{3
+    --   "smjonas/inc-rename.nvim",
     --   cmd = "IncRename",
     --   keys = {
     --     {
@@ -5056,11 +5078,12 @@ run_lazy_setup({
     --   },
     -- },
 
+    -- aerial {{{3
     -- LSP symbol outline listing
     -- NOTE: Choosing this over "simrat39/symbols-outline.nvim" because this
     -- is much simpler and easier on the eyes.
     {
-      "stevearc/aerial.nvim", -- {{{3
+      "stevearc/aerial.nvim",
       opts = {},
       keys = {
         {
@@ -5075,9 +5098,9 @@ run_lazy_setup({
       },
     },
 
-    -- LSP Configuration
+    -- lspconfig {{{3
     {
-      "neovim/nvim-lspconfig", -- {{{3
+      "neovim/nvim-lspconfig",
       event = "VeryLazy",
       init = function()
         -- ADd a border around `LspInfo` window
@@ -5227,9 +5250,9 @@ run_lazy_setup({
       end,
     },
 
-    -- LSP tools
+    -- mason {{{3
     {
-      "williamboman/mason.nvim", -- {{{3
+      "williamboman/mason.nvim",
       lazy = false, -- because `keys` would make ahis default to true
       config = function()
         require("mason").setup({
@@ -5288,10 +5311,10 @@ run_lazy_setup({
       },
     },
 
-    -- LSP features
+    -- none-ls / null-ls {{{3
     -- formatting/code_actions/diagnostics/hover/completion
     {
-      "nvimtools/none-ls.nvim", -- {{{3
+      "nvimtools/none-ls.nvim",
       -- "jose-elias-alvarez/null-ls.nvim"
       -- NOTE: Add keys to toggle null-ls taht don't conflict with lspconfig,
       --  could be `yol` for lspconfig and `yoL` for null-ls.
@@ -5373,9 +5396,9 @@ run_lazy_setup({
       },
     },
 
-    -- Snippets
+    -- luasnip {{{3
     {
-      "L3MON4D3/LuaSnip", -- {{{3
+      "L3MON4D3/LuaSnip",
       version = "2.*",
       -- NOTE: `jsregexp` is optional and apparently only needed for variable/placeholder-transformations
       -- READ: https://code.visualstudio.com/docs/editor/userdefinedsnippets#_variable-transforms
@@ -5488,9 +5511,9 @@ run_lazy_setup({
       },
     },
 
-    -- Completions
+    -- nvim-cmp  {{{3
     {
-      "hrsh7th/nvim-cmp", -- {{{3
+      "hrsh7th/nvim-cmp",
       event = "InsertEnter",
       opts = function()
         local cmp = require("cmp")
