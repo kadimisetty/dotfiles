@@ -51,29 +51,37 @@ function echoerr \
     # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 
     # SETUP
+    # Use current theme's error color
     set_color $fish_color_error
-    set --local msg ""
+    # Init message to eventually print
+    set --local msg $argv
 
-    # CHECK IF INPUT IS BEING PIPED
-    if isatty stdin
-        # NOT PIPE/REDIRECTION: Display immediately
-        set --append msg $argv
-    else
-        # PIPE/REDIRECTION: Display after getting all piped input
+    # APPEND PIPED INPUTS
+    if not isatty stdin
+        # Append a space f any arugments were supplied
+        if test (count $argv) -ne 0
+            set --append msg " "
+        end
+        # Append piped inputs
         cat /dev/stdin | while read eachline
             set --append msg $eachline
-        end
-
-        if test (count $argv) -gt 0
-            echo "COUNT: " (count $msg)
         end
     end
 
     # WRITE TO STDERR
-    echo "ERROR:" $msg >&2
-    set_color $fish_color_normal
+    # Bail if no arguments were given/piped in
+    if test "$msg" = "" || test "$msg" = " "
+        # Print error (i.e. no arguments given) to stderr
+        echo "ERROR: echoerr: no argument(s) provided" >&2
+    else
+        # Print error to stderr as desired
+        echo -s "ERROR: " $msg >&2
+    end
 
-    # RETURN WITH ERROR STATUS CODE 1 (EPERM 1 Operation not permitted)
+    # CLEANUP
+    # Restore fish shell print color
+    set_color $fish_color_normal
+    # Return with error status code 1 (eperm 1 operation not permitted)
     false
 end
 
@@ -378,11 +386,8 @@ function gccd \
 
     # Exit if no `repo_url` argument passed in:
     if test -z $repo_url
-        set_color $fish_color_error
-        echo "ERROR: No repo url given." >&2
-        set_color $fish_color_normal
-        and false # return with failure code
         # `repo_url` was passed in:
+        echoerr "no repo url given"
     else
 
         # If target_directory_name not given, do a regular `git clone`:
@@ -549,16 +554,10 @@ alias ntabs='nvim -p'
 function nman --description "Open man page for given command name"
     if test (count $argv) -ne 1
         # ENSURE SINGLE ARGUMENT:
-        set_color $fish_color_error
-        echo "ERROR: takes one argument"
-        set_color $fish_color_normal
-        false # report error exit status overridden by `echo` 
+        echoerr "takes one argument"
     else if not man $argv &>/dev/null
         # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
-        set_color $fish_color_error
-        echo "ERROR: No man page for:" $argv
-        set_color $fish_color_normal
-        false # report error exit status overridden by `echo` 
+        echoerr "no man page for: $argv"
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
         nvim \
