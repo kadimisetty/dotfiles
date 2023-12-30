@@ -634,10 +634,7 @@ fish_add_path $FLYCTL_INSTALL/bin/
 # DJANGO {{{1
 function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failure if not in python virtual environment"
     if ! test -n "$VIRTUAL_ENV"
-        set_color $fish_color_error
-        echo "ERROR: Not in active python virtual environment." >&2
-        set_color $fish_color_normal
-        and false # return with failure code
+        echoerr "not in active python environment"
     end
 end
 # MANAGE.PY ALIASES:
@@ -646,10 +643,7 @@ function activate --description "activate python virtual environment in `./venv`
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
-        set_color $fish_color_error
-        echo -e "ERROR:\tCouldn't activate python virtual environment." >&2
-        echo -e "\tFile `./venv/bin/activate.fish` not found." >&2
-        set_color $fish_color_normal
+        echo -e "./venv/bin/activate.fish" | echoerr "file to activate python environment not found:"
     end
 end
 function m --description "./manage.py"
@@ -760,10 +754,7 @@ function sncd --description "Does `stack new` and `cd`s into the new dir"
 
     # Exit if path with that name exists in current dir
     if test -e $argv
-        set_color $fish_color_error
-        echo "ERROR: Path with given name exists." >&2
-        set_color $fish_color_normal
-        and false # return with failure code
+        echoerr "parh with given name exists"
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
         stack new $argv kadimisetty/basic
@@ -811,16 +802,10 @@ function gncd \
 
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
-        set_color $fish_color_error
-        echo "ERROR: No module path name given." >&2
-        set_color $fish_color_normal
-        and false # return with failure code
+        echoerr "no module path given"
         # Exit if path with given name exists in current dir
     else if test -e "$module_path"
-        set_color $fish_color_error
-        echo "ERROR: Path with given name exists." >&2
-        set_color $fish_color_normal
-        and false # return with failure code
+        echoerr "path with given name exists"
     else
         # Create a new directory with the name, move into it and run `go mod init` there
         mcd "$module_path"
