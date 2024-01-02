@@ -2265,8 +2265,10 @@ end, { silent = true })
 
 -- LINE MOVING UTILITIES {{{2
 -- LEGEND:
---  Push: Move line (over above/below line etc.)
---  Smush: Merge line (into above/below line etc., in trailing/leading)
+--  1. Push: Move current line (over above/below line etc.)
+--  2. Smush: Merge current line (into above/below line etc.)
+--  3. Duplicate: Duplicate line (into above/below current line etc.)
+--  4. Splits: Segment of current line to the left/right of cursor
 --
 -- TODO:
 --  1. Visual block smushes
@@ -2275,9 +2277,7 @@ end, { silent = true })
 --      c. Merge(smush) into itself.
 --  2. Move selection with `{` and `}` actions etc.
 --  3. Choose which end(leading/trailing) of target line to smush into.
---  4. IDEA: `Copy` out of chosen selection.
---      e.g. a variant of `<m-down>`: `g<m-down>` will copy current line downwards
---      have these variants for all them, I'm not sure of the leading `g` yet.
+--  5. Stop using marks to store positions.
 -- LINE SMUSHES {{{3
 vim.keymap.set(
   "n",
@@ -2290,6 +2290,25 @@ vim.keymap.set(
   "<m-s-down>",
   "J",
   { desc = "Merge line(leading) with below line(trailing)" }
+)
+
+-- LINE DUPLICATIONS {{{3
+-- TODO:
+-- 1. Allow multiple lines(esp. remember original position to get back to)
+-- 3. Consider: After first duplication, continuing to hold `c-m` but
+--    "retapping" direction keys should just move like with `m-`direction)?
+--    or keep dpoing current behavior of duplicating another line
+vim.keymap.set(
+  "n",
+  "<c-m-up>",
+  "mzyyP`zk",
+  { desc = "Duplicate current line upwards" }
+)
+vim.keymap.set(
+  "n",
+  "<c-m-down>",
+  "mzyyp`zj",
+  { desc = "Duplicate current line downwards" }
 )
 
 -- LINE SPLIT PUSHES {{{3
