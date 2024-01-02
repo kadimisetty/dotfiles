@@ -2265,10 +2265,11 @@ end, { silent = true })
 
 -- LINE MOVING UTILITIES {{{2
 -- LEGEND:
---  1. Push: Move current line (over above/below line etc.)
---  2. Smush: Merge current line (into above/below line etc.)
---  3. Duplicate: Duplicate line (into above/below current line etc.)
---  4. Splits: Segment of current line to the left/right of cursor
+--  1. Push(v): Move current line/segment over above/below line etc.
+--  2. Smush(v): Merge current line/segment into above/below line etc.
+--  3. Duplicate(v): Duplicate line/segment into above/below current line etc.
+--  5. Deletion(v) (Send to blackhole): Delete current line/segment
+--  4. Split/Segment(n): Segment of current line to left/right of cursor
 --
 -- TODO:
 --  1. Visual block smushes
@@ -2281,6 +2282,8 @@ end, { silent = true })
 --  6. Re-consisder indenting when putting content on new lines i.e. try to not
 --     use visual mode if possible, e.g. on single lines.
 --  7. Choose naming preference between line splits and segments.
+--  8. Add another modifier (say prepending with `g`) to pick between
+--     indent/noo=indentation afterwards .e.g. on newly added lines
 -- LINE SMUSHES {{{3
 vim.keymap.set(
   "n",
@@ -2294,6 +2297,78 @@ vim.keymap.set(
   "J",
   { desc = "Merge line(leading) with below line(trailing)" }
 )
+
+-- LINE DELETIONS/PASTES {{{3
+-- NOTE: Line/segment deletion/pasting should feel like sending/getting the
+-- text to/from somewhere high-above/deep-below, hence the up/down mnemonic.
+-- TODO:
+-- Picking an appropriate register to paste froa:
+--    1. `0`/1` - Unnamed registers
+--    2. `"`    - Last yank/.deleted/changed text. this is the current choice
+--       because it includes deletions inside current line.
+-- FULL LINE DELETION
+-- TODO:
+--  RE-CONSIDER: With segments, pastes can do one of the following:
+--    1. Paste over the rest of the line. Currently doing this.
+--    2. Insert right after cursor without removing rest of the line.
+vim.keymap.set("n", "<c-s-m-up>", "dd", { desc = "Delete current line" })
+-- FULL LINE PASTE
+vim.keymap.set(
+  "n",
+  "<c-s-m-down>",
+  [[<cmd>put! "<cr>==]],
+  { desc = "Paste last yank (reg 0) above current line" }
+)
+
+-- LINE SEGMENT DELETIONS/PASTES {{{4
+-- INCLUDING LETTER AT CURSOR {{{5
+-- DELETIONS {{{6
+vim.keymap.set("n", "<m-s-right><c-s-m-up>", "D", {
+  desc = "Delete line segment from cursor to end of line",
+})
+vim.keymap.set(
+  "n",
+  "<m-s-left><c-s-m-up>",
+  -- Attempt leaving leading whitespace(i.e. indentation) out of yank
+  [[d^]],
+  {
+    desc = "Delete line segment from cursor to beginning of line",
+  }
+)
+-- PASTES {{{6
+vim.keymap.set("n", "<m-s-right><c-s-m-down>", [[hmzlvg_""p`zl]], {
+  desc = "Paste over line segment from cursor to end of line",
+})
+vim.keymap.set(
+  "n",
+  "<m-s-left><c-s-m-down>",
+  -- Attempt leaving leading whitespace(i.e. indentation) out of yank
+  [[v^""p]],
+  {
+    desc = "Paste over line segment from cursor to beginning of line",
+  }
+)
+
+-- NOT INCLUDING LETTER AT CURSOR {{{5
+-- DELETION {{{6
+vim.keymap.set("n", "<m-right><c-s-m-up>", "lD", {
+  desc = "Delete line segment from right after cursor to end of line",
+})
+vim.keymap.set(
+  "n",
+  "<m-left><c-s-m-up>",
+  [[d^]], -- leaving indentation (leading whitespace) alone
+  {
+    desc = "Delete line segment from right before cursor to beginning of line",
+  }
+)
+-- PASTES {{{6
+vim.keymap.set("n", "<m-right><c-s-m-down>", [[mzlvg_""p`z]], {
+  desc = "Paste over line segment from right after cursor to end of line",
+})
+vim.keymap.set("n", "<m-left><c-s-m-down>", [[hv^""p]], {
+  desc = "Paste over line segment from right before cursor to beginning of line",
+})
 
 -- LINE DUPLICATIONS {{{3
 -- FULL LINE DUPLICATIONS {{{4
