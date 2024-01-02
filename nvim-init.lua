@@ -2278,6 +2278,9 @@ end, { silent = true })
 --  2. Move selection with `{` and `}` actions etc.
 --  3. Choose which end(leading/trailing) of target line to smush into.
 --  5. Stop using marks to store positions.
+--  6. Re-consisder indenting when putting content on new lines i.e. try to not
+--     use visual mode if possible, e.g. on single lines.
+--  7. Choose naming preference between line splits and segments.
 -- LINE SMUSHES {{{3
 vim.keymap.set(
   "n",
@@ -2293,6 +2296,7 @@ vim.keymap.set(
 )
 
 -- LINE DUPLICATIONS {{{3
+-- FULL LINE DUPLICATIONS {{{4
 -- TODO:
 -- 1. Allow multiple lines(esp. remember original position to get back to)
 -- 3. Consider: After first duplication, continuing to hold `c-m` but
@@ -2310,6 +2314,33 @@ vim.keymap.set(
   "mzyyp`zj",
   { desc = "Duplicate current line downwards" }
 )
+-- LINE SEGMENT DUPLICATIONS {{{4
+-- INCLUDING LETTER AT CURSOR {{{5
+vim.keymap.set("n", "<m-s-right><c-m-up>", "mzy$O<esc>p==`z", {
+  desc = "Duplicate line segment from cursor to end of line, upwards",
+})
+vim.keymap.set("n", "<m-s-right><c-m-down>", "mzy$o<esc>p==`z", {
+  desc = "Duplicate line segment from cursor to end of line, downwards",
+})
+vim.keymap.set("n", "<m-s-left><c-m-up>", "mzly0O<esc>p==`z", {
+  desc = "Duplicate line segment from cursor to beginning of line, upwards",
+})
+vim.keymap.set("n", "<m-s-left><c-m-down>", "mzly0o<esc>p==`z", {
+  desc = "Duplicate line segment from cursor to beginning of line, downwards",
+})
+-- NOT INCLUDING LETTER AT CURSOR {{{5
+vim.keymap.set("n", "<m-right><c-m-up>", "mzly$O<esc>p==`z", {
+  desc = "Duplicate line segment right after cursor to end of line, upwards",
+})
+vim.keymap.set("n", "<m-right><c-m-down>", "mzly$o<esc>p==`z", {
+  desc = "Duplicate line segment right after cursor to end of line, downwards",
+})
+vim.keymap.set("n", "<m-left><c-m-up>", "mzy0O<esc>p==`z", {
+  desc = "Duplicate line segment right before cursor to beginning of line, upwards",
+})
+vim.keymap.set("n", "<m-left><c-m-down>", "mzy0o<esc>p==`z", {
+  desc = "Duplicate line segment right before cursor to beginning of line, downwards",
+})
 
 -- LINE SPLIT PUSHES {{{3
 -- SPLIT RIGHT AT CURSOR {{{4
