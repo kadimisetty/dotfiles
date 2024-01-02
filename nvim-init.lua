@@ -4424,14 +4424,6 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-haskell {{{3
-    -- `h`
-    {
-      "gilligan/vim-textobj-haskell",
-      ft = "haskell",
-      dependencies = "kana/vim-textobj-user",
-    },
-
     -- vim-textobj-lua {{{3
     -- `l`
     -- {"spacewander/vim-textobj-lua",
