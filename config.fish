@@ -363,6 +363,61 @@ alias exagt="exa --tree --git-ignore --git"
 
 
 
+# MAKE {{{1
+# NOTE: I'm using `c-k` as a stand-in for `make`. The terminal primarily treats
+# `c-k` as vertical tab(`\v`), which has no every day use for me. `c-k` is
+# actually my second-best option to `c-m`, which is treated by the terminal as
+# `enter` and so obviously impossible to use. Hence sticking with `c-k` here.
+# TODO:
+#   1. Make a function generator here to avoid repetition
+#   2. Grab content of echo from function meta description. Tied to "1".
+function kk --description make --wraps make
+    set_color normal
+    set_color --bold --italics
+    echo make
+    set_color normal
+    make
+    commandline --function repaint
+end
+bind \ck\ck --mode default kk
+bind \ck\ck --mode insert kk
+
+function kr --description "make run" --wraps "make run"
+    set_color normal
+    set_color --bold --italics
+    echo "make run"
+    set_color normal
+    make run
+    commandline --function repaint
+end
+bind \ck\cr --mode default kr
+bind \ck\cr --mode insert kr
+
+function kb --description "make build" --wraps "make build"
+    set_color normal
+    set_color --bold --italics
+    echo "make build"
+    set_color normal
+    make build
+    commandline --function repaint
+end
+bind \ck\cb --mode default kb
+bind \ck\cb --mode insert kb
+
+function kc --description "make clean" --wraps "make clean"
+    set_color normal
+    set_color --bold --italics
+    echo "make clean"
+    set_color normal
+    make clean
+    commandline --function repaint
+end
+bind \ck\cc --mode default kc
+bind \ck\cc --mode insert kc
+
+
+
+
 # GIT {{{1
 alias ga='git add'
 alias ga.='git add .'
