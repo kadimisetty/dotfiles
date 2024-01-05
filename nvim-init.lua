@@ -5670,14 +5670,11 @@ run_lazy_setup({
             behavior = cmp.SelectBehavior.Select,
             count = 1000,
           }),
-          -- Traverse without inserting, forward (DEFAULT)
-          ["<c-n>"] = cmp.mapping.select_next_item({
-            behavior = cmp.SelectBehavior.Select,
-          }),
-          -- Traverse without inserting, backward (DEFAULT)
-          ["<c-p>"] = cmp.mapping.select_prev_item({
-            behavior = cmp.SelectBehavior.Select,
-          }),
+          -- NOTE:
+          -- DEFAULT Traverse without inserting, FORWARD:
+          --  `<c-n>`/<down>
+          -- DEFAULT Traverse without inserting, BACKWARD:
+          --  `<c-p>`/<up>
           -- Traverse without inserting, to last item
           ["<c-m-n>"] = cmp.mapping.select_next_item({
             behavior = cmp.SelectBehavior.Select,
@@ -5685,6 +5682,16 @@ run_lazy_setup({
           }),
           -- Traverse without inserting, to first item
           ["<c-m-p>"] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
+          -- Traverse without inserting, to last item
+          ["<m-down>"] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
+          -- Traverse without inserting, to first item
+          ["<m-up>"] = cmp.mapping.select_prev_item({
             behavior = cmp.SelectBehavior.Select,
             count = 1000,
           }),
