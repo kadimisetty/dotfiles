@@ -5660,6 +5660,34 @@ run_lazy_setup({
           ["<s-tab>"] = cmp.mapping.select_prev_item({
             behavior = cmp.SelectBehavior.Select,
           }),
+          -- Traverse without inserting, to last item
+          ["<m-tab>"] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
+          -- Traverse without inserting, to first item
+          ["<m-s-tab>"] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
+          -- Traverse without inserting, forward (DEFAULT)
+          ["<c-n>"] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select,
+          }),
+          -- Traverse without inserting, backward (DEFAULT)
+          ["<c-p>"] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select,
+          }),
+          -- Traverse without inserting, to last item
+          ["<c-m-n>"] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
+          -- Traverse without inserting, to first item
+          ["<c-m-p>"] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select,
+            count = 1000,
+          }),
           -- Traverse docs, forward by 2 lines
           ["<c-f>"] = cmp.mapping.scroll_docs(2),
           -- Traverse docs, backward by 2 lines
