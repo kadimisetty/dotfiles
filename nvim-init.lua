@@ -2581,7 +2581,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Go to symbol definition"
     local f = vim.lsp.buf.definition
-    vim.keymap.set("n", "ld", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", ",d", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPGoToSymbolDefinition",
@@ -2592,7 +2592,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Go to symbol declaration"
     local f = vim.lsp.buf.declaration
-    vim.keymap.set("n", "lD", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", ",D", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPGoToSymbolDeclaration",
@@ -2605,7 +2605,7 @@ local set_common_lsp_keymaps = function(bufnr)
     local f = function()
       vim.lsp.buf.rename()
     end
-    vim.keymap.set("n", "lr", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", ",r", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPRenameSymbol",
@@ -2616,7 +2616,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show symbol hover information in floating window"
     local f = vim.lsp.buf.hover
-    vim.keymap.set("n", "lk", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", ",k", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolHover",
@@ -2627,7 +2627,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show symbol implementations in quickfix"
     local f = vim.lsp.buf.implementation
-    vim.keymap.set("n", "gli", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,i", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolImplementaionsInQuickFix",
@@ -2638,7 +2638,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show symbol incoming calls in quickfix"
     local f = vim.lsp.buf.incoming_calls
-    vim.keymap.set("n", "glc", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,c", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolIncomingCallsInQuickFix",
@@ -2649,7 +2649,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show symbol outgoing calls in quickfix"
     local f = vim.lsp.buf.outgoing_calls
-    vim.keymap.set("n", "glo", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,o", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolOutgoingCallsInQuickFix",
@@ -2660,7 +2660,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show current buffer symbols in quickfix"
     local f = vim.lsp.buf.document_symbol
-    vim.keymap.set("n", "gls", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,s", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolsInCurrentBufferInQuickFix",
@@ -2671,7 +2671,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Show current workspace symbols in quickfix"
     local f = vim.lsp.buf.workspace_symbol
-    vim.keymap.set("n", "glS", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,S", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolsInCurrentWorkspaceInQuickFix",
@@ -2682,7 +2682,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Go to type of symbol definition"
     local f = vim.lsp.buf.type_definition
-    vim.keymap.set("n", "lt", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", ",t", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPGoToTypeOfSymbolDefinition",
@@ -2693,7 +2693,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Select code action available at cursor position"
     local f = vim.lsp.buf.code_action
-    vim.keymap.set({ "n", "v" }, "la", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set({ "n", "v" }, ",a", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPSelectCodeAction",
@@ -2705,7 +2705,7 @@ local set_common_lsp_keymaps = function(bufnr)
     local desc = "Show symbol references in the quickfix window"
     local f = vim.lsp.buf.references
     -- TODO: Change keymap
-    vim.keymap.set("n", "glr", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set("n", "g,r", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowSymbolReferencesInQuickFix",
@@ -2859,13 +2859,13 @@ local set_common_diagnostics_configuration = function()
     local desc = "Show diagnostics"
     local f = vim.diagnostic.open_float
     -- TODO: Options: `gd`, `<m-d>`, `ld`
-    vim.keymap.set("n", "<m-d>", f, { desc = desc })
+    vim.keymap.set("n", "<m-,>", f, { desc = desc })
     vim.api.nvim_create_user_command("DiagnosticsShow", f, { desc = desc })
   end
   do
     local desc = "Go to previous diagnostic"
     local f = vim.diagnostic.goto_prev
-    vim.keymap.set("n", "[d", f, { desc = desc })
+    vim.keymap.set("n", "[,", f, { desc = desc })
     vim.api.nvim_create_user_command(
       "DiagnosticGoToPrevious",
       f,
@@ -2875,7 +2875,7 @@ local set_common_diagnostics_configuration = function()
   do
     local desc = "Go to next diagnostic"
     local f = vim.diagnostic.goto_next
-    vim.keymap.set("n", "]d", f, { desc = desc })
+    vim.keymap.set("n", "],", f, { desc = desc })
     vim.api.nvim_create_user_command("DiagnosticsGoToNext", f, { desc = desc })
   end
   do
@@ -2885,7 +2885,7 @@ local set_common_diagnostics_configuration = function()
         severity = vim.diagnostic.severity.ERROR,
       })
     end
-    vim.keymap.set("n", "[D", f, { desc = desc })
+    vim.keymap.set("n", "[<", f, { desc = desc })
     vim.api.nvim_create_user_command(
       "DiagnosticsGoToPreviousERROR",
       f,
@@ -2899,7 +2899,7 @@ local set_common_diagnostics_configuration = function()
         severity = vim.diagnostic.severity.ERROR,
       })
     end
-    vim.keymap.set("n", "]D", f, { desc = desc })
+    vim.keymap.set("n", "]<", f, { desc = desc })
     vim.api.nvim_create_user_command(
       "DiagnosticsGoToNextERROR",
       f,
@@ -2909,7 +2909,7 @@ local set_common_diagnostics_configuration = function()
   do
     local desc = "Show diagnostics in quickfix list"
     local f = vim.diagnostic.setqflist
-    vim.keymap.set("n", "gdq", f, { desc = desc })
+    vim.keymap.set("n", "g,q", f, { desc = desc })
     vim.api.nvim_create_user_command(
       "DiagnosticsShowInQuickfix",
       f,
@@ -2919,7 +2919,7 @@ local set_common_diagnostics_configuration = function()
   do
     local desc = "Show buffer diagnostics in location list"
     local f = vim.diagnostic.setloclist
-    vim.keymap.set("n", "gdl", f, { desc = desc })
+    vim.keymap.set("n", "g,l", f, { desc = desc })
     vim.api.nvim_create_user_command(
       "DiagnosticsShowInLocationList",
       f,
@@ -2937,7 +2937,7 @@ local set_common_diagnostics_configuration = function()
         print("Disabling diagnostics")
       end
     end
-    vim.keymap.set("n", "yod", f, { desc = desc })
+    vim.keymap.set("n", "yo,", f, { desc = desc })
     vim.api.nvim_create_user_command("DiagnosticsToggle", f, { desc = desc })
   end
 end
@@ -4765,8 +4765,8 @@ run_lazy_setup({
             set_common_lsp_formatting({
               bufnr = bufnr,
               desired_client_name = client.name,
-              sync_format_keymap = "lf",
-              async_format_keymap = "glf",
+              sync_format_keymap = ",f",
+              async_format_keymap = "g,f",
               sync_format_on_save = true,
               async_format_on_save = false,
             })
@@ -5229,8 +5229,8 @@ run_lazy_setup({
           set_common_lsp_formatting({
             bufnr = bufnr,
             desired_client_name = client.name,
-            sync_format_keymap = "lf",
-            async_format_keymap = "glf",
+            sync_format_keymap = ",f",
+            async_format_keymap = "g,f",
             sync_format_on_save = false,
             async_format_on_save = false,
           })
@@ -5252,7 +5252,7 @@ run_lazy_setup({
           end
           vim.keymap.set(
             "n",
-            "yol",
+            "yo,",
             toggle_lspconfig_lsp,
             { desc = "Toggle LSP (lspconfig)" }
           )
@@ -5261,7 +5261,7 @@ run_lazy_setup({
             toggle_lspconfig_lsp,
             { desc = "Toggle LSP (lspconfig)" }
           )
-          vim.keymap.set("n", "[ol", function()
+          vim.keymap.set("n", "[o,", function()
             vim.cmd([[LspStart]])
             print("Starting LSP (lspconfig)")
           end, { desc = "Start LSP (lspconfig)" })
@@ -5269,7 +5269,7 @@ run_lazy_setup({
             vim.cmd([[LspStart]])
             print("Starting LSP (lspconfig)")
           end, { desc = "Start LSP (lspconfig)" })
-          vim.keymap.set("n", "]ol", function()
+          vim.keymap.set("n", "]o,", function()
             vim.cmd([[LspStop]])
             print("Stopping LSP (lspconfig)")
           end, { desc = "Stop LSP (lspconfig)" })
@@ -5298,8 +5298,8 @@ run_lazy_setup({
             set_common_lsp_formatting({
               bufnr = bufnr,
               desired_client_name = client.name,
-              sync_format_keymap = "lf",
-              async_format_keymap = "glf",
+              sync_format_keymap = ",f",
+              async_format_keymap = "g,f",
               sync_format_on_save = true, -- changed from false
               async_format_on_save = false,
             })
@@ -5433,9 +5433,8 @@ run_lazy_setup({
     {
       "nvimtools/none-ls.nvim",
       -- "jose-elias-alvarez/null-ls.nvim"
-      -- NOTE: Add keys to toggle null-ls taht don't conflict with lspconfig,
-      --  could be `yol` for lspconfig and `yoL` for null-ls.
-      --  READ: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/896
+      -- NOTE: Add keys to toggle null-ls that don't conflict with lspconfig.
+      -- READ: https://github.com/jose-elias-alvarez/null-ls.nvim/issues/896
       event = { "BufReadPre", "BufNewFile" },
       opts = function()
         local null_ls = require("null-ls")
@@ -5492,8 +5491,8 @@ run_lazy_setup({
               set_common_lsp_formatting({
                 bufnr = bufnr,
                 desired_client_name = "null-ls",
-                sync_format_keymap = "lF",
-                async_format_keymap = "glF",
+                sync_format_keymap = ",F",
+                async_format_keymap = "g,F",
                 sync_format_on_save = true,
                 async_format_on_save = false,
               })
