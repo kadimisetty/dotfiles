@@ -2986,6 +2986,7 @@ local lazy_icons = {
     LogPoint = ".>",
   },
   diagnostics = {
+    -- TODO: Extract these into common icon styledpreferences
     Error = " ",
     Warn = " ",
     Hint = " ",
@@ -3724,10 +3725,11 @@ run_lazy_setup({
               {
                 "diagnostics",
                 symbols = {
-                  error = lazy_icons.diagnostics.Error,
-                  warn = lazy_icons.diagnostics.Warn,
-                  info = lazy_icons.diagnostics.Info,
-                  hint = lazy_icons.diagnostics.Hint,
+                  -- TODO: Get icons from common source
+                  error = "󰬌 ",
+                  warn = "󰬞 ",
+                  info = "󰬐 ",
+                  hint = " ",
                 },
               },
               "searchcount",
