@@ -1768,6 +1768,20 @@ vim.cmd([[
 vim.opt.sessionoptions:remove({ "terminal" })
 vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
+-- PARITY {{{1
+-- TODO: Extract into a plugint hat pairs functions with parity for certain
+-- filetype etc.
+-- XCODE {{{2
+-- local parity_augroup = vim.api.nvim_create_augroup("utilities_augroup", {})
+vim.keymap.set("n", "<c-m-d-f>", function()
+  vim.lsp.buf.format({ async = false })
+end, { desc = "LSP format - XCode Parity" })
+-- TODO: Remove dependence on 3rd party plugin
+-- TODO: Also work with visual selection i.e. `gc` when necessary
+vim.keymap.set("n", "<d-/>", function()
+  return "<Plug>(comment_toggle_linewise_current)"
+end, { expr = true, desc = "Same as `gcc` - XCode Parity" })
+
 -- UTILITIES {{{1
 local utilities_augroup = vim.api.nvim_create_augroup("utilities_augroup", {})
 
