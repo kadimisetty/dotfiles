@@ -3283,7 +3283,73 @@ run_lazy_setup({
     --   },
     -- },
 
-    -- nvim-colorizer {{{
+    -- treesj {{{3
+    {
+      "Wansmer/treesj",
+      event = "VeryLazy",
+      cmd = {
+        "TSJToggle",
+        "TSJSplit",
+        "TSJJoin",
+      },
+      -- TODO: Find easier keys, especially to toggle, preferably something
+      -- like `c-*` to use it rapidly like in insert mode experience as well.
+      keys = {
+        -- TOGGLE ONLY COMBOS(i/n): `<c-t>`: toggle
+        {
+          "<c-t>",
+          mode = "n",
+          function()
+            require("treesj").toggle()
+          end,
+          desc = "treesj toggle node under cursor between line/multi-line",
+        },
+        {
+          -- NOTE: Insert mode toggling has issues with returning back to
+          -- insert mode after completion.
+          "<c-t>",
+          mode = "i",
+          function()
+            require("treesj").toggle()
+            vim.cmd([[
+              stopinsert
+              stopinsert
+            ]])
+            vim.cmd("startinsert")
+          end,
+          desc = "treesj toggle node under cursor between line/multi-line",
+        },
+
+        -- LOCALLEADER COMBOS(n): `\\tt`: toggle, `\\ts`: split, `\\tj`: join
+        {
+          "<localleader>tt",
+          function()
+            require("treesj").toggle()
+          end,
+          desc = "treesj toggle node under cursor between line/multi-line",
+        },
+        {
+          "<localleader>ts",
+          function()
+            require("treesj").split()
+          end,
+          desc = "treesj split node under cursor",
+        },
+        {
+          "<localleader>tj",
+          function()
+            require("treesj").join()
+          end,
+          desc = "treesj join node under cursor",
+        },
+      },
+      config = function()
+        require("treesj").setup({ use_default_keymaps = false })
+      end,
+      dependencies = { "nvim-treesitter/nvim-treesitter" },
+    },
+
+    -- nvim-colorizer {{{3
     -- FIXME: Very buggy for me
     -- {
     --   "norcalli/nvim-colorizer.lua",
