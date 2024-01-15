@@ -415,6 +415,17 @@ end
 bind \ck\cc --mode default kc
 bind \ck\cc --mode insert kc
 
+function kt --description "make test" --wraps "make test"
+    set_color normal
+    set_color --bold --italics
+    echo "make test"
+    set_color normal
+    make test
+    commandline --function repaint
+end
+bind \ck\ct --mode default kt
+bind \ck\ct --mode insert kt
+
 
 
 
