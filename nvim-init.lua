@@ -4971,6 +4971,9 @@ run_lazy_setup({
       end,
     },
 
+    -- nushell {{{3
+    "elkasztano/nushell-syntax-vim",
+
     -- go  {{{3
     -- {
     --   "ray-x/go.nvim",
