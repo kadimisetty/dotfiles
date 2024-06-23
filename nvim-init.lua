@@ -467,9 +467,8 @@ vim.opt.timeoutlen = 350
 vim.opt.iskeyword:append({ "_", "$", "@", "%", "#", "-" })
 
 -- Print-friendly configuration
--- FIXME: Try to use tables for this; failed using variations of this so far:
---   `vim.opt.printoptions = { header = 0, duplex = 'long', paper = 'A4' }`
-vim.o.printoptions = "header:0,duplex:long,paper:A4"
+-- NOTE:: `printoptions` are now obsolete in neovim
+-- vim.o.printoptions = "header:0,duplex:long,paper:A4"
 
 -- Toggle paste mode
 -- NOTE: nvim 0.9 deprecated `paste`/`pastetoggle` as bracketed paste mode is
