@@ -5498,7 +5498,7 @@ run_lazy_setup({
               "autoflake",
               "autopep8",
               "black",
-              "flake8",
+              -- "flake8", -- FIXME: Deprecated?
               "isort",
               "pyright",
               -- Shell
@@ -5538,20 +5538,20 @@ run_lazy_setup({
             -- python
             null_ls.builtins.formatting.isort,
             null_ls.builtins.formatting.black,
-            null_ls.builtins.diagnostics.flake8,
+            -- null_ls.builtins.diagnostics.flake8, -- FIXME: Deprecated?
             -- TODO: MIGRATE TO RUFF
             -- null_ls.builtins.diagnostics.ruff,
             -- go
             null_ls.builtins.formatting.gofumpt,
             -- haskell
-            null_ls.builtins.formatting.cabal_fmt,
-            null_ls.builtins.formatting.fourmolu.with({
-              extra_args = { "--indentation", "2" },
-            }),
+            -- null_ls.builtins.formatting.cabal_fmt, -- FIXME: Deprecated?
+            -- null_ls.builtins.formatting.fourmolu.with({ -- FIXME: Deprecated?
+            --   extra_args = { "--indentation", "2" },
+            -- }),
             -- js/html etc.
             null_ls.builtins.formatting.prettierd, -- TODO: custom config
             -- rust
-            null_ls.builtins.formatting.rustfmt,
+            -- null_ls.builtins.formatting.rustfmt,-- FIXME: Deprecated?
             -- lua
             null_ls.builtins.formatting.stylua.with({
               timeout = 40000, --default: 5k, -1 is no_timeout
