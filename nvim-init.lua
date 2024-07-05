@@ -5285,10 +5285,18 @@ run_lazy_setup({
     -- is much simpler and easier on the eyes.
     {
       "stevearc/aerial.nvim",
-      opts = {},
+      opts = {
+        show_guides = true,
+        layout = {
+          -- {40, 0.2} MEANS The lesser of 40 columns or 20% of total
+          max_width = { 40, 0.2 },
+          -- width = nil,
+          min_width = 20,
+        },
+      },
       keys = {
         {
-          "lO",
+          ",O",
           "<cmd>AerialToggle!<cr>",
           desc = "Toggle LSP symbol outline (aerial)",
         },
