@@ -4281,33 +4281,34 @@ run_lazy_setup({
           end,
           desc = "Search diagnostics in all buffers",
         },
+        -- LSP
         {
-          "<space>ls",
+          "<space>,s",
           "<cmd>Telescope lsp_document_symbols<cr>",
           desc = "Search lsp document symbols",
         },
         {
-          "<space>lS",
+          "<space>,S",
           "<cmd>Telescope lsp_workspace_symbols<cr>",
           desc = "Search lsp workspace symbols",
         },
         {
-          "<space>lo",
+          "<space>,o",
           "<cmd>Telescope lsp_outgoing_calls<cr>",
           desc = "Search lsp outgoing calls",
         },
         {
-          "<space>lc",
+          "<space>,c",
           "<cmd>Telescope lsp_incoming_calls<cr>",
           desc = "Search lsp incoming calls",
         },
         {
-          "<space>ld",
+          "<space>,d",
           "<cmd>Telescope lsp_definitions<cr>",
           desc = "Search lsp definitions",
         },
         {
-          "<space>lr",
+          "<space>,r",
           "<cmd>Telescope lsp_references<cr>",
           desc = "Search lsp references",
         },
