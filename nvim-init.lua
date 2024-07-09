@@ -4796,31 +4796,33 @@ run_lazy_setup({
     },
 
     -- pretty fold {{{3
-    {
-      "anuvyklack/pretty-fold.nvim",
-      event = "VeryLazy",
-      opts = {
-        sections = {
-          left = {
-            "  ",
-            "content",
-          },
-          right = {
-            " ",
-            -- "number_of_folded_lines",
-            function()
-              local fold_line_count = vim.fn.foldclosedend(vim.v.foldstart)
-                - vim.fn.foldclosed(vim.v.foldstart)
-                + 1
-              return fold_line_count .. " ☰"
-            end,
-            " ",
-          },
-        },
-        fill_char = "",
-        process_comment_signs = "delete", -- removes comment characters
-      },
-    },
+    -- NOTE: Disabled because titles dont show well in nvim 10.0+
+    -- {
+    --   "anuvyklack/pretty-fold.nvim",
+    --   enabled = false,
+    --   event = "VeryLazy",
+    --   opts = {
+    --     sections = {
+    --       left = {
+    --         "  ",
+    --         "content",
+    --       },
+    --       right = {
+    --         " ",
+    --         -- "number_of_folded_lines",
+    --         function()
+    --           local fold_line_count = vim.fn.foldclosedend(vim.v.foldstart)
+    --             - vim.fn.foldclosed(vim.v.foldstart)
+    --             + 1
+    --           return fold_line_count .. " ☰"
+    --         end,
+    --         " ",
+    --       },
+    --     },
+    --     fill_char = "",
+    --     process_comment_signs = "delete", -- removes comment characters
+    --   },
+    -- },
 
     -- elixir {{{3
     "elixir-editors/vim-elixir",
