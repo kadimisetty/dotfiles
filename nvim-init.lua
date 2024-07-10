@@ -4827,135 +4827,6 @@ run_lazy_setup({
     -- elixir {{{3
     "elixir-editors/vim-elixir",
 
-    -- rust tools {{{3
-    {
-      "simrat39/rust-tools.nvim",
-      -- TODO: Move to `lsp-config` and if necessary use non-lsp `rust.vim`
-      opts = {
-        tools = {
-          inlay_hints = {
-            auto = false, --default: true
-            only_current_line = false,
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-          },
-          hover_actions = {},
-        },
-        server = {
-          standalone = false,
-          on_attach = function(client, bufnr)
-            set_common_lsp_and_diagnostics_configuration(client, bufnr)
-            set_common_lsp_formatting({
-              bufnr = bufnr,
-              desired_client_name = client.name,
-              sync_format_keymap = ",f",
-              async_format_keymap = "g,f",
-              sync_format_on_save = true,
-              async_format_on_save = false,
-            })
-
-            vim.keymap.set(
-              "n",
-              "lK",
-              require("rust-tools").hover_actions.hover_actions,
-              { buffer = bufnr }
-            )
-            -- TODO: Keep `rust-tools` hover or my common LSP's?
-            vim.keymap.set(
-              "n",
-              "lA",
-              require("rust-tools").code_action_group.code_action_group,
-              { buffer = bufnr }
-            )
-          end,
-
-          settings = {
-            ["rust-analyzer"] = {
-              imports = {
-                granularity = {
-                  group = "module",
-                },
-                prefix = "self",
-              },
-              cargo = {
-                buildScripts = {
-                  enable = true,
-                },
-              },
-              procMacro = {
-                enable = true,
-              },
-              checkOnSave = {
-                command = "clippy",
-              },
-            },
-          },
-        },
-      },
-
-      dependencies = {
-        "neovim/nvim-lspconfig",
-        "nvim-lua/plenary.nvim",
-      },
-    },
-
-    -- rust {{{3
-    -- {
-    -- TODO: Adapt the custom cargo mappings and delete this if rust-tools
-    -- works fun.
-    --   "rust-lang/rust.vim",
-    --   enable = false, -- XXX
-    --   event = "VeryLazy",
-    --   ft = "rust",
-    --   init = function()
-    --     local rustlang_rustvim_augroup = vim.api.nvim_create_augroup(
-    --       "rustlang_rustvim_augroup")
-    --     -- Leave this to LSP integration
-    --     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    --       desc = "Format buffer on save",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "*.rs" },
-    --       command = [[ RustFmt ]],
-    --     })
-    --     -- `cargo run` (`<leader>r`)
-    --     vim.api.nvim_create_autocmd({ "FileType" }, {
-    --       desc = "`cargo run`",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "rust" },
-    --       command = [[ nnoremap <leader>r <cmd>Crun<cr> ]],
-    --     })
-    --     -- `cargo run` (`<leader>cr`)
-    --     vim.api.nvim_create_autocmd({ "FileType" }, {
-    --       desc = "`cargo run`",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "rust" },
-    --       command = [[ nnoremap <leader>cr <cmd>Crun<cr> ]],
-    --     })
-    --     -- `cargo build`
-    --     vim.api.nvim_create_autocmd({ "FileType" }, {
-    --       desc = "`cargo build`",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "rust" },
-    --       command = [[ nnoremap <leader>cb <cmd>Cbuild<cr> ]],
-    --     })
-    --     -- `cargo test`
-    --     vim.api.nvim_create_autocmd({ "FileType" }, {
-    --       desc = "`cargo test`",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "rust" },
-    --       command = [[ nnoremap <leader>ct <cmd>Ctest<cr> ]],
-    --     })
-    --     --  `cargo check`
-    --     vim.api.nvim_create_autocmd({ "FileType" }, {
-    --       desc = "`cargo check`",
-    --       group = rustlang_rustvim_augroup,
-    --       pattern = { "rust" },
-    --       command = [[ nnoremap <leader>cc <cmd>Ccheck<cr> ]],
-    --     })
-    --   end,
-    -- },
-
     -- fish {{{3
     {
       "blankname/vim-fish",
@@ -5319,6 +5190,10 @@ run_lazy_setup({
         require("lspconfig.ui.windows").default_options.border = "rounded"
 
         -- Common `on_attach` function
+        -- FIXME: Refactor custom `on_attach` function to abstract out the
+        -- "format on save" options.
+        -- TODO: Rename `on_attach` to something like `custom_on_attach` so
+        -- it's not so confused with the default `on_attach`.
         local on_attach = function(client, bufnr)
           set_common_lsp_and_diagnostics_configuration(client, bufnr)
           set_common_lsp_formatting({
@@ -5421,7 +5296,22 @@ run_lazy_setup({
         })
 
         -- RUST
-        -- NOTE: Using `rust-tools to handle LSP features
+        -- NOTE: Now using builtin LSP `rust-analyzer` but consider moving
+        -- to `mrcjkb/rustaceanvim` for more LSP features.
+        require("lspconfig").rust_analyzer.setup({
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            set_common_lsp_and_diagnostics_configuration(client, bufnr)
+            set_common_lsp_formatting({
+              bufnr = bufnr,
+              desired_client_name = client.name,
+              sync_format_keymap = ",f",
+              async_format_keymap = "g,f",
+              sync_format_on_save = true, -- changed from false
+              async_format_on_save = false,
+            })
+          end,
+        })
 
         -- PYTHON/RUFF
         require("lspconfig").ruff_lsp.setup({
