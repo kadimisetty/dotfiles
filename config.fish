@@ -43,6 +43,17 @@ fundle init
 
 
 # UTILS {{{1
+# `fg` SHORTCUT {{{2
+# `c-z` sends active process to background, adding shortcut binding `m-z` to
+# send to foreground i.e. `fg`.
+# FIXME: Once `fg` brings back the active process (example `vim`) and that
+# process is closed, there is a message displayed "Send job 1 (vim) to
+# foreground" and the shell is also unresponsive awaiting a newline. Make
+# these side-effects not show.
+bind \ez --mode default fg
+bind \ez --mode insert fg
+
+# ECHOERR {{{2
 function echoerr \
     --description "print given msg to stderr and exit with error exit status"
     # USAGE 1:        `echoerr "incorrect configuration file: conf.json"
