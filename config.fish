@@ -19,15 +19,16 @@
 #   9. Periodically update fundle itself with `fundle self-update`.
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
+fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin Markcial/upto
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
+fundle plugin nesl247/fish-theme-dracula
 fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
 fundle plugin tuvistavie/fish-fastdir
-fundle plugin nesl247/fish-theme-dracula
-fundle plugin 'jorgebucaran/autopair.fish'
+fundle plugin tuvistavie/oh-my-fish-core # for oh-my-0fish plugins
 if test $(uname) != Darwin
     # ignore these plugins in macos
     fundle plugin oh-my-fish/plugin-pbcopy
