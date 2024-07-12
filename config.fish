@@ -168,8 +168,6 @@ fish_config theme choose Dracula
 # DEFAULT EDITOR:
 set --export EDITOR nvim
 set --export VISUAL nvim
-# ENABLE VI MODE:
-fish_vi_key_bindings
 # SET VIM CURSOR STYLES:
 set fish_cursor_default block # `default` includes normal and visual modes
 set fish_cursor_insert line
@@ -218,6 +216,43 @@ alias design-sandbox="cd $HOME/design/design-sandbox/"
 alias design-playground="cd $HOME/design/design-playground/"
 alias design-personal="cd $HOME/design/design-personal/"
 alias design-external="cd $HOME/design/design-external/"
+
+
+
+
+# VI MODE ENHANCEMENTS {{{1
+# ENABLE VI MODE:
+fish_vi_key_bindings
+
+# READLINE BINDINGS ENHANCEMENTS FOR VI MODE (INSERT + NORMAL) {{{2
+# NOTE: `bind --function-names` shows bindable input functions
+# TODO: Only bind when vi mode is enabled.
+# TODO: Use a function to simplify these binding assingments.
+# MOVING {{{3
+bind \ca --mode default beginning-of-line
+bind \ca --mode insert beginning-of-line
+bind \ce --mode default end-of-line
+bind \ce --mode insert end-of-line
+bind \cb --mode default backward-char
+bind \cb --mode insert backward-char
+bind \cf --mode default forward-char
+bind \cf --mode insert forward-char
+bind \eb --mode default backward-word
+bind \eb --mode insert backward-word
+bind \ef --mode default forward-word
+bind \ef --mode insert forward-word
+
+# EDITING {{{3
+bind \ct --mode default transpose-chars
+bind \ct --mode insert transpose-chars
+bind \et --mode default transpose-words
+bind \et --mode insert transpose-words
+bind \eu --mode default upcase-word
+bind \eu --mode insert upcase-word
+bind \el --mode default downcase-word
+bind \el --mode insert downcase-word
+bind \ec --mode default capitalize-word
+bind \ec --mode insert capitalize-word
 
 
 
