@@ -7,7 +7,7 @@
 
 # FISH PLUGINS {{{1
 # FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
-# DIRECITONS:
+# DIRECTIONS:
 #   1. Install [fundle itself](https://github.com/danhper/fundle).
 #   2. Install [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish#installation).
 #   3. List fish plugins`fundle plugin ph-my-fish/plugin` in lines at top of file.
@@ -28,7 +28,7 @@ fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
 fundle plugin tuvistavie/fish-fastdir
-fundle plugin tuvistavie/oh-my-fish-core # for oh-my-0fish plugins
+fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
 if test $(uname) != Darwin
     # ignore these plugins in macos
     fundle plugin oh-my-fish/plugin-pbcopy
@@ -93,7 +93,7 @@ function echoerr \
     # CLEANUP
     # Restore fish shell print color
     set_color $fish_color_normal
-    # Return with error status code 1 (eperm 1 operation not permitted)
+    # Return with error status code 1 (i.e. EPERM 1 operation not permitted)
     false
 end
 
@@ -112,7 +112,7 @@ if type -q nix && test $(uname) = Linux
     # TODO: Check if applicable to macOS.
     # SETTING LOCALE:
     # 	ISSUE: When using Nix(OS/pkg-manager) there is an issue where environmental 
-    # 	variable LOCALE_ACHIVE doen't point to the desired system's locale-achive.
+    # 	variable LOCALE_ACHIVE doesn't point to the desired system's locale-archive.
     #   READ: [Troubleshooting when using nix on non-NixOS linux
     #      distributions](https://nixos.wiki/wiki/Locales)
 
@@ -264,7 +264,7 @@ function fish_prompt --description "Left prompt"
 
     # If not sudo calculate prompt symbol based on success/failure.
     if test $_previous_command_status -eq 0
-        # `$status` is SUCESS i.e. 0
+        # `$status` is SUCCESS i.e. 0
         set _prompt_symbol ""
     else
         # `$status` is FAILURE i.e. 1/12/123/124/125/126//127
@@ -274,7 +274,7 @@ function fish_prompt --description "Left prompt"
     fish_is_root_user; and set _prompt_symbol '#'
 
     if test $_previous_command_status -eq 0
-        # `$status` is SUCESS i.e. 0
+        # `$status` is SUCCESS i.e. 0
         # (set_color $fish_color_operator) $_prompt_symbol   \
         echo -s \
             (set_color white) (prompt_pwd) " " \
@@ -496,7 +496,7 @@ end
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
-#           --files             : Print files'names but not their content
+#           --files             : Print file's names but not their content
 #           --hidden            : Search hidden files and directories
 #           --smart-case        : Search smart with upper and lower case
 #           --glob "!.git/*"    : Ignore .git/ folder
@@ -835,7 +835,7 @@ function sncd --description "Does `stack new` and `cd`s into the new dir"
 
     # Exit if path with that name exists in current dir
     if test -e $argv
-        echoerr "parh with given name exists"
+        echoerr "path with given name exists"
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
         stack new $argv kadimisetty/basic
@@ -996,6 +996,8 @@ alias fp="fish --private"
 function fr --description "Reload fish configuration"
     source "$__fish_config_dir/config.fish"
 end
+
+
 
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
