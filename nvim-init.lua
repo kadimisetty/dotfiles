@@ -2751,6 +2751,56 @@ local set_common_lsp_keymaps = function(bufnr)
   end
 end
 
+-- LSP TOGGLING KEYMAPS {{{2
+-- TODO: Consider activating these keymaps based on events rather than from,
+-- being called via this function
+local set_common_lsp_toggling_keymaps = function()
+  -- Add keymap and command to start/stop/toggle LSP (lspconfig)
+  local toggle_lspconfig_lsp = function()
+    -- TODO: Check if can receive `client`via argument from `common_on_attach`
+    -- rather than getting all active clients again here
+    local active_clients = vim.lsp.get_active_clients()
+    if vim.tbl_isempty(active_clients) then
+      vim.cmd([[LspStart]])
+      print("Starting LSP (lspconfig)")
+    else
+      vim.cmd([[LspStop]])
+      local display_message = "Stopping LSP (lspconfig)"
+      for _, c in ipairs(active_clients) do
+        display_message = display_message .. " : " .. c.name
+      end
+      print(display_message)
+    end
+  end
+  vim.keymap.set(
+    "n",
+    "yo,",
+    toggle_lspconfig_lsp,
+    { desc = "Toggle LSP (lspconfig)" }
+  )
+  vim.api.nvim_create_user_command(
+    "ToggleLSPConfig",
+    toggle_lspconfig_lsp,
+    { desc = "Toggle LSP (lspconfig)" }
+  )
+  vim.keymap.set("n", "[o,", function()
+    vim.cmd([[LspStart]])
+    print("Starting LSP (lspconfig)")
+  end, { desc = "Start LSP (lspconfig)" })
+  vim.api.nvim_create_user_command("StartLSPConfig", function()
+    vim.cmd([[LspStart]])
+    print("Starting LSP (lspconfig)")
+  end, { desc = "Start LSP (lspconfig)" })
+  vim.keymap.set("n", "]o,", function()
+    vim.cmd([[LspStop]])
+    print("Stopping LSP (lspconfig)")
+  end, { desc = "Stop LSP (lspconfig)" })
+  vim.api.nvim_create_user_command("StopLSPConfig", function()
+    vim.cmd([[LspStop]])
+    print("Stopping LSP (lspconfig)")
+  end, { desc = "Stop LSP (lspconfig)" })
+end
+
 -- LSP FORMATTING {{{2
 local set_common_lsp_formatting = function(opts)
   -- NOTE:
@@ -5186,7 +5236,7 @@ run_lazy_setup({
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
       init = function()
-        -- ADd a border around `LspInfo` window
+        -- Add a border around `LspInfo` window
         require("lspconfig.ui.windows").default_options.border = "rounded"
 
         -- Common `on_attach` function
@@ -5194,7 +5244,8 @@ run_lazy_setup({
         -- "format on save" options.
         -- TODO: Rename `on_attach` to something like `custom_on_attach` so
         -- it's not so confused with the default `on_attach`.
-        local on_attach = function(client, bufnr)
+        local common_on_attach = function(client, bufnr)
+          set_common_lsp_toggling_keymaps()
           set_common_lsp_and_diagnostics_configuration(client, bufnr)
           set_common_lsp_formatting({
             bufnr = bufnr,
@@ -5204,49 +5255,6 @@ run_lazy_setup({
             sync_format_on_save = false,
             async_format_on_save = false,
           })
-
-          -- Add keymap and command to start/stop/toggle LSP (lspconfig)
-          local toggle_lspconfig_lsp = function()
-            local active_clients = vim.lsp.get_active_clients()
-            if vim.tbl_isempty(active_clients) then
-              vim.cmd([[LspStart]])
-              print("Starting LSP (lspconfig)")
-            else
-              vim.cmd([[LspStop]])
-              local display_message = "Stopping LSP (lspconfig)"
-              for _, c in ipairs(active_clients) do
-                display_message = display_message .. " : " .. c.name
-              end
-              print(display_message)
-            end
-          end
-          vim.keymap.set(
-            "n",
-            "yo,",
-            toggle_lspconfig_lsp,
-            { desc = "Toggle LSP (lspconfig)" }
-          )
-          vim.api.nvim_create_user_command(
-            "ToggleLSPConfig",
-            toggle_lspconfig_lsp,
-            { desc = "Toggle LSP (lspconfig)" }
-          )
-          vim.keymap.set("n", "[o,", function()
-            vim.cmd([[LspStart]])
-            print("Starting LSP (lspconfig)")
-          end, { desc = "Start LSP (lspconfig)" })
-          vim.api.nvim_create_user_command("StartLSPConfig", function()
-            vim.cmd([[LspStart]])
-            print("Starting LSP (lspconfig)")
-          end, { desc = "Start LSP (lspconfig)" })
-          vim.keymap.set("n", "]o,", function()
-            vim.cmd([[LspStop]])
-            print("Stopping LSP (lspconfig)")
-          end, { desc = "Stop LSP (lspconfig)" })
-          vim.api.nvim_create_user_command("StopLSPConfig", function()
-            vim.cmd([[LspStop]])
-            print("Stopping LSP (lspconfig)")
-          end, { desc = "Stop LSP (lspconfig)" })
         end
 
         local capabilities = require("cmp_nvim_lsp").default_capabilities(
@@ -5264,6 +5272,7 @@ run_lazy_setup({
           capabilities = capabilities,
           -- using custom `on_attach` to enable lsp format
           on_attach = function(client, bufnr)
+            set_common_lsp_toggling_keymaps()
             set_common_lsp_and_diagnostics_configuration(client, bufnr)
             set_common_lsp_formatting({
               bufnr = bufnr,
@@ -5278,20 +5287,20 @@ run_lazy_setup({
 
         -- ELM
         require("lspconfig").elmls.setup({
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
         -- GO
         require("lspconfig").gopls.setup({
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
         -- HASKELL
         require("lspconfig")["hls"].setup({
           filetypes = { "haskell", "lhaskell", "cabal" },
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
@@ -5301,6 +5310,7 @@ run_lazy_setup({
         require("lspconfig").rust_analyzer.setup({
           capabilities = capabilities,
           on_attach = function(client, bufnr)
+            set_common_lsp_toggling_keymaps()
             set_common_lsp_and_diagnostics_configuration(client, bufnr)
             set_common_lsp_formatting({
               bufnr = bufnr,
@@ -5315,19 +5325,19 @@ run_lazy_setup({
 
         -- PYTHON/RUFF
         require("lspconfig").ruff_lsp.setup({
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
         -- PYTHON/PYRIGHT
         require("lspconfig").pyright.setup({
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
         -- LUA
         require("lspconfig").lua_ls.setup({
-          on_attach = on_attach,
+          on_attach = common_on_attach,
           capabilities = capabilities,
           settings = {
             runtime = {
