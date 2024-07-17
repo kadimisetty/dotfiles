@@ -46,9 +46,7 @@ function djangoinit
         return 1
     end
     # [git-ignore](https://github.com/sondr3/git-ignore)
-    # `gsed`: using `gnu-sed`(`gsed`) for macos compatibility
-    #         `brew install gnu-sed`, 
-    for requiredBinary in python3 git git-ignore gsed
+    for requiredBinary in python3 git git-ignore gawk
         if ! type -q $requiredBinary
             _echo_error "ERROR: Cannot find `$requiredBinary` in `\$PATH`."
             return 1
@@ -62,6 +60,7 @@ function djangoinit
     _echo_header "SETTING UP VIRTUAL ENVIRONMENT"
     python3 -m venv ./venv
     source ./venv/bin/activate.fish
+    pip install --upgrade pip
     _echo_footer "SETTING UP VIRTUAL ENVIRONMENT"
 
     # DJANGO
@@ -77,18 +76,31 @@ function djangoinit
     django-admin startproject core .
     _echo_footer "STARTING DJANGO PROJECT (core)"
 
-    # PLUGINS: DJANGO-EXTENSIONS+DRF
+    # PLUGINS: DJANGO-EXTENSIONS + DRF
     _echo_header "SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
-    # Install django_extensions with dependencies
+    # Install django_extensions and it's dependencies
     pip install --upgrade django-extensions werkzeug djangorestframework
-    # Insert django_extensions inside settings.py/INSTALLED_APPS
-    # with markers for VENDOR and LOCAL apps.
-    # NOTE: Using a tempfile as an intermediate for editing with sed.
-    set TMP_FILE $(mktemp)
-    # NOTE: Using `gbu-sed`(`gsed`) in place of `sed` for macos compatibility
-    gsed --expression="/'django.contrib.staticfiles',\$/a\    # 3RD PARTY\n\    'django_extensions',\n\    'rest_framework',\n\    # LOCAL" ./core/settings.py >$TMP_FILE
-    mv $TMP_FILE ./core/settings.py
-    echo "\nTODO: Reorder \`INSTALLED_APPS\` in \`./settings.py\` to place Vendor and Local apps at the end."
+    # List installed plugins in `settings.py`
+    # NOTE: Using a tempfile as an intermediate for editing as gawk's `inplace`
+    # isn't working as expected.
+    # TODO: Pass in the list of plugins as arguments to `gawk`.
+    set TMP_SETTINGS_FILE $(mktemp)
+    gawk '
+BEGIN { installed_apps_nr = -1; insert_point = -1 }
+{ lines[NR] = $0 }
+/INSTALLED_APPS/ { installed_apps_nr = NR }
+/\]/ { if (installed_apps_nr != -1 && insert_point == -1) insert_point = NR }
+END {
+  if (installed_apps_nr == -1) {
+    for (i=1; i<NR; i++)  print lines[i]
+  } else {
+    for (i=1; i<insert_point; i++)  print lines[i]
+    content = "\n# 3RD PARTY APPS\n\"django_extensions\",\n\"rest_framework\",\n\n# LOCAL APPS"
+    print content
+    for (i=insert_point; i<NR; i++)  print lines[i]
+  }
+}' ./core/settings.py >$TMP_SETTINGS_FILE
+    mv $TMP_SETTINGS_FILE ./core/settings.py
     _echo_footer "SETTING UP PLUGINS: DJANGO EXTENSIONS + DRF"
 
     # BLACK
