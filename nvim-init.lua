@@ -5261,6 +5261,12 @@ run_lazy_setup({
           vim.lsp.protocol.make_client_capabilities()
         )
 
+        -- AWK
+        require("lspconfig").awk_ls.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- ELIXIR
         require("lspconfig").elixirls.setup({
           -- `elixir-ls` doesn't come with a `cmd` so specify this manually
