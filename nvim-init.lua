@@ -3596,18 +3596,6 @@ run_lazy_setup({
       },
     },
 
-    -- comment.nvim {{{3
-    {
-      "numToStr/Comment.nvim",
-      event = "VeryLazy",
-      opts = {
-        toggler = {
-          -- line = "gcc",
-          block = "gbb", -- default `gbc`
-        },
-      },
-    },
-
     -- zen mode {{{3
     -- FIXME: zen-mode not working, find alternative
     -- {
