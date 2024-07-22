@@ -3314,10 +3314,19 @@ run_lazy_setup({
       },
     },
 
-    -- alignment plugins {{{3
-    -- TODO: Add trigger with cmd/keys
-    -- TODO: Try to get "junegunn/vim-easy-align" to work
-    -- NOTE: Ignore 'echasnovski/mini.align', not good for me
+    -- mini align {{{3
+    {
+      "echasnovski/mini.align",
+      version = false, -- KEEP(version): as per docs
+      event = "VeryLazy",
+      lazy = false,
+      opts = {
+        mappings = {
+          start = "ga",
+          start_with_preview = "gA",
+        },
+      },
+    },
 
     -- refactoring {{{3
     -- NOTE: Disabled for LSP
