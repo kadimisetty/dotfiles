@@ -6,6 +6,8 @@
 # BINARIES USED: 
 # - `nvim` for editor
 # - `bat` for pager
+# - `delta` for pager
+# - `delta` for cli diff tool
 # - `meld` for gui merge tool?
 # - `git-media` to handle large media files
 # - `git-lfs` to handle large file storage with pointers
@@ -20,9 +22,10 @@
 
 [core]
 	editor = nvim
-	# Text viewer to use for git commands 
-	pager = bat
 	excludesfile = /Users/sri/.gitignore_global
+	# Text viewer to use for git commands. It can be overridden by setting an
+	# environment variable on the command line, e.g. `GIT_PAGER=bat git diff`
+	pager = delta
 
 [push]
 	# `current` pushes current branch to a remote branch with same name
@@ -47,7 +50,14 @@
 [interactive]
 	# Display colorized diffs processed with given command in interactive
 	# commands like `git add --patch`. Default is `disabled`(no filtering).
-	diffFilter = disabled
+	diffFilter = delta --color-only --features=interactive
+
+[delta]
+	# side-by-side = true
+	line-numbers = true
+	syntax-theme = Dracula
+	# `n` and `N` to navigate between diff sections
+	navigate = true
 
 [merge]
 	# - On merge, use this style to write conflicted hunks to working tree files
