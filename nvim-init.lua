@@ -655,6 +655,25 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   desc = "Set `formatprg` to `rustfmt`",
 })
 
+-- GITCONFIG {{{2
+local gitconfig_augroup = vim.api.nvim_create_augroup("gitconfig_augroup", {})
+
+-- Set `gitconfig` specific settings
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  group = gitconfig_augroup,
+  pattern = { "gitconfig" },
+  callback = function()
+    vim.opt_local.filetype = "gitconfig"
+    vim.opt_local.commentstring = "# %s"
+    vim.opt_local.expandtab = false
+    vim.opt_local.tabstop = 4
+    -- NOTE: Set `softtabstop` and `shiftwidth` to `0` to use `tabstop`'s value
+    vim.opt_local.softtabstop = 0
+    vim.opt_local.shiftwidth = 0
+  end,
+  desc = "Set gitconfig specific settings",
+})
+
 -- ELIXIR/PHOENIX {{{2
 local elixir_augroup = vim.api.nvim_create_augroup("elixir_augroup", {})
 

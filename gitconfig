@@ -1,8 +1,11 @@
-# vim: filetype=gitconfig:
-# vim: noexpandtab softtabstop=0 shiftwidth=0 commentstring=#\ %s:
-
-# NOTE: Use tabs to be consistent with entries added by `git` cli.
-
+# GIT GLOBAL CONFIGURATION FILE
+# [`git-config`](https://git-scm.com/docs/git-config)
+#
+# NOTE:
+# - Use tabs to be consistent with entries added by `git` cli.
+# - See `git-config` docs for a comprehensive formatting reference.
+# - `git-config` prefers `;` for comment string, I prefer `#` instead.
+#
 # BINARIES USED: 
 # - `nvim` for editor
 # - `bat` for pager
