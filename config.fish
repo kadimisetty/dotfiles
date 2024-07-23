@@ -206,16 +206,18 @@ end
 set CDPATH $HOME/code/
 # COMMONLY VISITED DIRS:
 # CODE:
-alias sandbox="cd $HOME/code/sandbox"
-alias playground="cd $HOME/code/playground/"
-alias personal="cd $HOME/code/personal"
-alias external="cd $HOME/code/external/"
 alias dotfiles="cd $HOME/code/personal/dotfiles/"
+alias external="cd $HOME/code/external/"
+alias keep="cd $HOME/code/keep/"
+alias personal="cd $HOME/code/personal/"
+alias playground="cd $HOME/code/playground/"
+alias sandbox="cd $HOME/code/sandbox/"
 # DESIGN:
-alias design-sandbox="cd $HOME/design/design-sandbox/"
-alias design-playground="cd $HOME/design/design-playground/"
-alias design-personal="cd $HOME/design/design-personal/"
 alias design-external="cd $HOME/design/design-external/"
+alias design-keep="cd $HOME/design/design-keep/"
+alias design-personal="cd $HOME/design/design-personal/"
+alias design-playground="cd $HOME/design/design-playground/"
+alias design-sandbox="cd $HOME/design/design-sandbox/"
 
 
 
