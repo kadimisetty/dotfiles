@@ -1,95 +1,93 @@
-# vim: filetype=gitconfig
+# vim: filetype=gitconfig:
+# vim: noexpandtab softtabstop=0 shiftwidth=0 commentstring=#\ %s:
+
+# NOTE: Use tabs to be consistent with entries added by `git` cli.
+
+# BINARIES USED: 
+# - `nvim` for editor
+# - `bat` for pager
+# - `meld` for gui merge tool?
+# - `git-media` to handle large media files
+# - `git-lfs` to handle large file storage with pointers
 
 [user]
 	name = Sri Kadimisetty
 	email = kadimisetty@users.noreply.github.com
 
+[init]
+	#  Use `main` over `master`
+	defaultbranch = main
+
 [core]
-    pager = cat
-    editor = nvim
+	editor = nvim
+	# Text viewer to use for git commands 
+	pager = bat
 	excludesfile = /Users/sri/.gitignore_global
 
-[alias]
-    tags = tag -l
-    branches = branch -a
-    remotes = remote -v
-
-    root = rev-parse --show-toplevel
-
-    graft = cherry-pick -x
-
-    l   = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
-    ll  = log     --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
-    gl  = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
-    gll = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
-
-    pull = pull --ff-only
-    up = merge --ff-only
-
-    join = merge --no-ff
-
-    discard-merge = reset --hard HEAD
-
-    ack = log --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S 
-
-    ci = commit
-    cm = commit -m
-
-    d = !git diff | vim -R -
-    di = !git diff --cached | vim -R -
-
-    co = checkout
-    id = rev-parse
-
-    stat = status
-    st = status
-
-    unstage = reset HEAD
-    uns = reset HEAD
-
-    delete-local-branch = branch -D
-    delete-remote-branch = push origin --delete
-    delete-local-reference-to-remote-branch = branch -rd
-
-    currentbranch = rev-parse --abbrev-ref HEAD
-
-    fo = fetch origin
-    fu = fetch upstream
-
-    po = push origin
-    ; lo = pull origin
-
-    mo = !git merge --no-ff origin/`git currentbranch`
-    mu = !git merge --no-ff upstream/`git currentbranch`
-
-    uo = !git merge --ff-only origin/`git currentbranch`
-    uu = !git merge --ff-only upstream/`git currentbranch`
-
-    addremove = !git add . && git add -u
-    addrem = !git addremove
-
-    sl = "!sh -c 'git show --color=always $1 | less -R' -"
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
-
 [push]
-    default = current
+	# `current` pushes current branch to a remote branch with same name
+	default = current
+
+[diff]
+	# `nvimdiff` is gitconfig-speak for `nvim -d`
+	tool = nvimdiff
 
 [color]
-    branch = auto
-    diff = auto
-    interactive = auto
-    status = auto
+	# NOTE: `auto` enables color for output within terminals
+	ui = auto # default
+	# Enable color in displaying branch names within terminals
+	branch = auto
+	# Enable color for git interactive prompts within terminals
+	interactive = auto
+	# Enable color for `git-status` within terminals
+	status = auto
+	# Use ANSI escape sequences to color pathnames within terminals
+	diff = auto
+
+[interactive]
+	# Display colorized diffs processed with given command in interactive
+	# commands like `git add --patch`. Default is `disabled`(no filtering).
+	diffFilter = disabled
+
+[merge]
+	# - On merge, use this style to write conflicted hunks to working tree files
+	# - `diff3` adds `|||||||` and original text before `=======` marker.
+	# - Other 2 builtin styles are: `merge` and `zdiff3`
+	conflictstyle = diff3
+
+[diff]
+	# Style "moved blocks of code" differently from usual removed/added lines
+	colorMoved = default
 
 [web]
-    browser = open
+	browser = open
 
+[alias]
+	# Show all tags
+	tags = tag --list
+	# Show both remote and local branches
+	branches = branch --all
+	# Show remote url after name
+	remotes = remote --verbose
+	# Show which commit a change was cherry-picked from
+	graft = cherry-pick -x
+	# Show absolute path of top-level directory of the working tree
+	root = rev-parse --show-toplevel
+	# `--ff-only`: Only apply remote changes if there is no divergent local
+	# history
+	pull = pull --ff-only
+	# `--ff-only`: Resolve the merge as a fast-forward when possible, and if not,
+	# refuse to merge and exit with error code.
+	up = merge --ff-only
+
+# `git-media`
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
+
+# `git-lfs`
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[init]
-	defaultBranch = main
