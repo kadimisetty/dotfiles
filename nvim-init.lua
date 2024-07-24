@@ -4914,6 +4914,12 @@ run_lazy_setup({
       end,
     },
 
+    -- purescript {{{3
+    {
+      "purescript-contrib/purescript-vim",
+      ft = { "purescript" },
+    },
+
     -- nushell {{{3
     "elkasztano/nushell-syntax-vim",
 
@@ -5330,6 +5336,12 @@ run_lazy_setup({
           capabilities = capabilities,
         })
 
+        -- PURESCRIPT
+        require("lspconfig").purescriptls.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- RUST
         -- NOTE: Now using builtin LSP `rust-analyzer` but consider moving
         -- to `mrcjkb/rustaceanvim` for more LSP features.
@@ -5478,6 +5490,8 @@ run_lazy_setup({
             -- null_ls.builtins.diagnostics.flake8, -- FIXME: Deprecated?
             -- TODO: MIGRATE TO RUFF
             -- null_ls.builtins.diagnostics.ruff,
+            -- purescript
+            null_ls.builtins.formatting.purs_tidy,
             -- go
             null_ls.builtins.formatting.gofumpt,
             -- haskell
