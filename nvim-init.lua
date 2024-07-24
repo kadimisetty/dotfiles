@@ -1856,31 +1856,63 @@ vim.keymap.set("v", ">", ">gv", {
   desc = "Shift rightwards retaining visual selection",
 })
 
--- OPEN GITHUB REPO URL UNDER CURSOR (i.e. `USERNAME/REPO`) {{{2
--- TODO: Offer option to extend `gx` i.e. when `gx` try this next
--- TODO: Validate and sanitize `username/repo` better
--- TODO: Pick `open_cmd` based on operating system and availability
-vim.keymap.set("n", "gX", function()
-  local enclosing_characters_to_trim_off = [[*()[]<>`"',]]
-  local search_front_and_back = 0
-  local username_slash_repo = vim.fn.trim(
-    vim.fn.expand("<cWORD>"), -- get WORD under cursor,
-    enclosing_characters_to_trim_off,
-    search_front_and_back
-  )
-  if username_slash_repo:find("/", 1, true) then -- does it contain a slash?
-    local github_url = "https://github.com/" .. username_slash_repo
-    -- Treating `xdg-open` as default(`open` on macOS)
-    local open_cmd = "xdg-open"
-    if vim.loop.os_uname().sysname == "Darwin" then
-      open_cmd = "open"
+-- OPEN GITHUB REPO URL UNDER CURSOR (i.e. `USERNAME/REPO`) EXTENDING `gx` {{{2
+do -- KEEP: do block to localise local functions and variables
+  -- NOTE:
+  -- Derives heavily from neovim's builtin implementation.
+  -- Read at  `MYVIMRUNTIME/lua/vim/_defaults.lua` (nvim v0.10.0)
+  local common_gx_open = function(cfile)
+    local main_cmd, main_err = vim.ui.open(cfile)
+    local main_retval = main_cmd and main_cmd:wait(1000) or nil
+    if main_cmd and main_retval and main_retval.code ~= 0 then
+      main_err = ("vim.ui.open: command %s (%d): %s"):format(
+        (main_retval.code == 124 and "timeout" or "failed"),
+        main_retval.code,
+        vim.inspect(main_cmd.cmd)
+      )
     end
-    vim.fn.jobstart(open_cmd .. " " .. github_url)
+
+    -- On failure with regular `gx`, attempt github username/reponame url
+    if main_err then
+      -- 1. Attempt github username/reponame url
+      -- Validate github username/reponame format
+      local username_repo_combo = cfile:match("[%a%d%-%.%_]*%/[%a%d%-%.%_]*")
+      if username_repo_combo then
+        local github_repo_url = "https://github.com/" .. username_repo_combo
+        local cmd, err = vim.ui.open(github_repo_url)
+        local retval = cmd and cmd:wait(1000) or nil
+
+        -- 2. On failed open, display previous main error
+        if cmd and retval and retval.code ~= 0 then
+          vim.notify(main_err, vim.log.levels.ERROR)
+        end
+      else
+        -- 2. On failed validation, display previous main error
+        vim.notify(main_err, vim.log.levels.ERROR)
+      end
+    end
   end
-end, {
-  desc = "Open github repo url under cursor (`username/repo`)",
-  silent = true,
-})
+
+  local common_gx_desc =
+    "Opens filepath/URI/github-user-repo under cursor with system handler (file explorer, web browser, …)"
+
+  vim.keymap.set("n", "gx", function()
+    common_gx_open(vim.fn.expand("<cfile>"))
+  end, { desc = common_gx_desc })
+
+  vim.keymap.set({ "x" }, "gx", function()
+    -- get supposed cfile split across multiple lines
+    local lines = vim.fn.getregion(
+      vim.fn.getpos("."),
+      vim.fn.getpos("v"),
+      { type = vim.fn.mode() }
+    )
+    -- Trim whitespace on each line and concatenate.
+    local cfile_without_whitespace =
+      table.concat(vim.iter(lines):map(vim.trim):totable())
+    common_gx_open(cfile_without_whitespace)
+  end, { desc = common_gx_desc })
+end
 
 -- YANK TO END OF LINE `Y` LIKE `C` OR `D` {{{2
 vim.keymap.set("n", "Y", "y$", {
