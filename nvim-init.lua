@@ -3450,6 +3450,13 @@ run_lazy_setup({
       dependencies = { "nvim-treesitter/nvim-treesitter" },
     },
 
+    -- strip trailing whitespace {{{3
+    -- NOTE: Strips trailwing whitespace on (git) changed lines only. To strip
+    -- trailwing whitespace on all lines in entire file, use command
+    -- `:StripTrailingWhitespace`. Do not replace with a similar plugin,
+    -- because the other's likely do not respect this behavior.
+    "axelf4/vim-strip-trailing-whitespace",
+
     -- indent blankline {{{3
     {
       "lukas-reineke/indent-blankline.nvim",
