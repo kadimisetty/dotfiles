@@ -3384,19 +3384,6 @@ run_lazy_setup({
       },
     },
 
-    -- refactoring {{{3
-    -- NOTE: Disabled for LSP
-    -- TODO: Add keymaps
-    -- TODO: Add telescope extension
-    -- {
-    --   "ThePrimeagen/refactoring.nvim",
-    --   event = "VeryLazy",
-    --   dependencies = {
-    --     { "nvim-lua/plenary.nvim" },
-    --     { "nvim-treesitter/nvim-treesitter" },
-    --   },
-    -- },
-
     -- treesj {{{3
     {
       "Wansmer/treesj",
@@ -3463,16 +3450,6 @@ run_lazy_setup({
       dependencies = { "nvim-treesitter/nvim-treesitter" },
     },
 
-    -- nvim-colorizer {{{3
-    -- FIXME: Very buggy for me
-    -- {
-    --   "norcalli/nvim-colorizer.lua",
-    --   event = "VeryLazy",
-    --   opts = {
-    --     mode = "background", -- set foreground/background text color
-    --   },
-    -- },
-
     -- indent blankline {{{3
     {
       "lukas-reineke/indent-blankline.nvim",
@@ -3486,40 +3463,6 @@ run_lazy_setup({
         },
       },
     },
-
-    -- tint {{{3
-    -- Dim inactive window
-    -- FIXME: tint.nvim flat out does not work
-    -- {
-    --   "levouh/tint.nvim",
-    --   lazy = false,
-    --   opts = {
-    --     tint = -45, -- Darken colors, use a positive value to brighten
-    --     saturation = 0.6, -- Saturation to preserve
-    --     transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
-    --     tint_background_colors = true, -- Tint background portions of highlight groups
-    --     highlight_ignore_patterns = { "WinSeparator", "Status.*" }, -- Highlight group patterns to ignore, see `string.find`
-    --     window_ignore_function = function(winid)
-    --       local bufid = vim.api.nvim_win_get_buf(winid)
-    --       local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
-    --       local floating = vim.api.nvim_win_get_config(winid).relative
-    --         ~= ""
-    --
-    --       -- Do not tint `terminal` or floating windows, tint everything else
-    --       return buftype == "terminal" or floating
-    --     end,
-    --   },
-    -- },
-
-    -- shade {{{
-    -- FIXME: After using Neotree, active window is still dimmed
-    -- FIXME: Last visible line of all inactive windows is not dimmed
-    -- {
-    --   "sunjon/shade.nvim",
-    --   lazy = false,
-    --   priority = 700,
-    --   opts = {},
-    -- },
 
     -- emmet {{{3
     {
@@ -3651,73 +3594,6 @@ run_lazy_setup({
         "lewis6991/gitsigns.nvim",
       },
     },
-
-    -- zen mode {{{3
-    -- FIXME: zen-mode not working, find alternative
-    -- {
-    --   "folke/zen-mode.nvim",
-    --   opts = {
-    --     window = {
-    --       backdrop = 0.80, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-    --       -- height and width can be:
-    --       -- * an absolute number of cells when > 1
-    --       -- * a percentage of the width / height of the editor when <= 1
-    --       -- * a function that returns the width or the height
-    --       width = 90, -- width of the Zen window
-    --       height = 1, -- height of the Zen window
-    --       -- by default, no options are changed for the Zen window
-    --       -- uncomment any of the options below, or add other vim.wo options you want to apply
-    --       options = {
-    --         -- signcolumn = "no", -- disable signcolumn
-    --         -- number = false, -- disable number column
-    --         -- relativenumber = false, -- disable relative numbers
-    --         -- cursorline = false, -- disable cursorline
-    --         -- cursorcolumn = false, -- disable cursor column
-    --         -- foldcolumn = "0", -- disable fold column
-    --         -- list = false, -- disable whitespace characters
-    --       },
-    --     },
-    --     plugins = {
-    --       -- disable some global vim options (vim.o...)
-    --       -- comment the lines to not apply the options
-    --       options = {
-    --         enabled = true,
-    --         ruler = false, -- disables the ruler text in the cmd line area
-    --         showcmd = false, -- disables the command in the last line of the screen
-    --       },
-    --       twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
-    --       gitsigns = { enabled = false }, -- disables git signs
-    --       tmux = { enabled = false }, -- disables the tmux statusline
-    --       -- this will change the font size on kitty when in zen mode
-    --       -- to make this work, you need to set the following kitty options:
-    --       -- - allow_remote_control socket-only
-    --       -- - listen_on unix:/tmp/kitty
-    --       kitty = {
-    --         enabled = false,
-    --         font = "+4", -- font size increment
-    --       },
-    --       -- this will change the font size on alacritty when in zen mode
-    --       -- requires  Alacritty Version 0.10.0 or higher
-    --       -- uses `alacritty msg` subcommand to change font size
-    --       alacritty = {
-    --         enabled = false,
-    --         font = "14", -- font size
-    --       },
-    --       -- this will change the font size on wezterm when in zen mode
-    --       -- See alse also the Plugins/Wezterm section in this projects README
-    --       wezterm = {
-    --         enabled = false,
-    --         -- can be either an absolute font size or the number of incremental steps
-    --         font = "+4", -- (10% increase per step)
-    --       },
-    --     },
-    --     -- callback where you can add custom code when the Zen window opens
-    --     on_open = function(win) end,
-    --     -- callback where you can add custom code when the Zen window closes
-    --     on_close = function() end,
-    --   },
-    -- },
-    --
 
     -- smartcolumn {{{3
     {
@@ -4875,18 +4751,6 @@ run_lazy_setup({
       },
     },
 
-    -- strip trailing whitespace {{{3
-    -- Strip trailing whitespace on changed lines only
-    -- FIXME: TOO MANY ERRORS> FIND REPLACEMENT QUICK.
-    -- NOTE: Provides command `StripTrailingWhitespace` to remove trailing whitespace
-    -- in entire file as well (not just changed lines).
-    -- {
-    --   "axelf4/vim-strip-trailing-whitespace",
-    --   lazy = false,
-    --   -- NOTE: Plugin is sometimes not loaded when needed, so setting high priority
-    --   priority = 900,
-    -- },
-
     -- sort motion {{{3
     -- `gs`
     -- TODO: Make a plugin `gs` that ignores comments
@@ -4902,35 +4766,6 @@ run_lazy_setup({
       "christoomey/vim-titlecase",
       event = "VeryLazy",
     },
-
-    -- pretty fold {{{3
-    -- NOTE: Disabled because titles dont show well in nvim 10.0+
-    -- {
-    --   "anuvyklack/pretty-fold.nvim",
-    --   enabled = false,
-    --   event = "VeryLazy",
-    --   opts = {
-    --     sections = {
-    --       left = {
-    --         "  ",
-    --         "content",
-    --       },
-    --       right = {
-    --         " ",
-    --         -- "number_of_folded_lines",
-    --         function()
-    --           local fold_line_count = vim.fn.foldclosedend(vim.v.foldstart)
-    --             - vim.fn.foldclosed(vim.v.foldstart)
-    --             + 1
-    --           return fold_line_count .. " ☰"
-    --         end,
-    --         " ",
-    --       },
-    --     },
-    --     fill_char = "",
-    --     process_comment_signs = "delete", -- removes comment characters
-    --   },
-    -- },
 
     -- elixir {{{3
     "elixir-editors/vim-elixir",
@@ -4960,27 +4795,6 @@ run_lazy_setup({
 
     -- nushell {{{3
     "elkasztano/nushell-syntax-vim",
-
-    -- go  {{{3
-    -- {
-    --   "ray-x/go.nvim",
-    --   event = { "CmdlineEnter" },
-    --   ft = { "go", "gomod" },
-    --   build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-    --   config = function() require("go").setup() end,
-    --   dependencies = { -- optional packages
-    --     "ray-x/guihua.lua",
-    --     "neovim/nvim-lspconfig",
-    --     "nvim-treesitter/nvim-treesitter",
-    --   },
-    -- },
-
-    -- vim-go {{{3
-    -- {
-    --   "fatih/vim-go",
-    --   event = "VeryLazy",
-    --   ft = "go",
-    -- },
 
     -- treesitter {{{3
     {
@@ -5105,25 +4919,6 @@ run_lazy_setup({
         "nvim-treesitter/nvim-treesitter",
       },
     },
-
-    -- renamer {{{3
-    -- LSP renamer
-    -- FIXME: renamer.nvim Does not work, find alternate
-    -- {
-    --   "filipdutescu/renamer.nvim",
-    --   lazy = false,
-    --   branch = "master",
-    --   dependencies = { { "nvim-lua/plenary.nvim" } },
-    --   keys = {
-    --     {
-    --       "lR",
-    --       '<cmd>lua require("renamer").rename()<cr>',
-    --       mode = { "n", "v" },
-    --       noremap = true,
-    --       desc = "Do LSP rename in popup",
-    --     },
-    --   },
-    -- },
 
     -- dressing {{{3
     -- Better vim ui
@@ -5250,22 +5045,6 @@ run_lazy_setup({
         },
       },
     },
-
-    -- inc-rename {{{3
-    -- LSP incremental renaming
-    -- FIXME: Not working
-    -- {
-    --   "smjonas/inc-rename.nvim",
-    --   cmd = "IncRename",
-    --   keys = {
-    --     {
-    --       ",R",
-    --       function() return ":IncRename " .. vim.fn.expand("<cword>") end,
-    --       desc = "Do LSP incremental rename",
-    --       expr = true,
-    --     },
-    --   },
-    -- },
 
     -- aerial {{{3
     -- LSP symbol outline listing
