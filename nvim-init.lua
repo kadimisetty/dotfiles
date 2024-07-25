@@ -3450,8 +3450,12 @@ run_lazy_setup({
       dependencies = { "nvim-treesitter/nvim-treesitter" },
     },
 
+    -- highlight trailing whitespace {{{3
+    "bitc/vim-bad-whitespace",
+
     -- strip trailing whitespace {{{3
-    -- NOTE: Strips trailwing whitespace on (git) changed lines only. To strip
+    -- TODO: Strip inly in vcs(git) changed files
+    -- NOTE: Strips trailwing whitespace on changed lines only. To strip
     -- trailwing whitespace on all lines in entire file, use command
     -- `:StripTrailingWhitespace`. Do not replace with a similar plugin,
     -- because the other's likely do not respect this behavior.
