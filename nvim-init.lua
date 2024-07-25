@@ -3,6 +3,7 @@
 -- Sri Kadimisetty
 
 -- TODO:
+-- - Check if common plugin dependency `plenary` can be removed in nvim +0.10.
 -- - Ensure All Keymaps Have `Desc`.
 -- - Convert Vim Fucntions Into Lua Functions.
 -- - Places to Occasionally Purge:
@@ -3962,7 +3963,6 @@ run_lazy_setup({
             "neo-tree",
             "quickfix",
             "trouble",
-            -- "mundo", -- undo tree
             -- "nvim-dap-ui", -- UI for dap(debug adapter protocol)
             -- "overseer", -- taskrunner
             -- "symbols-outline", -- symbols tree
@@ -3988,25 +3988,31 @@ run_lazy_setup({
       dependencies = { "ryanoasis/vim-devicons" },
     },
 
-    -- mundo {{{3
+    -- undotree {{{3
     {
-      "simnalamburt/vim-mundo",
-      event = "VeryLazy",
-      init = function()
-        -- NOTE: Vim saves/restores undo history to/from an undo file in
-        -- directory specified in `undodir` whose nvim default is:
-        -- undodir = ~/.local/state/nvim/undo//
-        -- Enable saving the undo history to file in `undodir`
-        vim.opt.undofile = true
+      "jiaoshijie/undotree",
+      config = true,
+      keys = function()
+        local undotree = require("undotree")
+        local undotree_action = require("undotree.action")
+        return {
+          -- TODO: Add `<s-cr>` to update undo state and exit
+          {
+            "<m-u>",
+            function()
+              undotree.toggle()
+              -- TODO: Hide this message on closing undotree
+              print(
+                "UNDOTREE: ",
+                "j/k: ↑/↓, J/K: ↑/↓ + change state, ",
+                "cr: change state, p: go to preview, q: quit"
+              )
+            end,
+            desc = "Toggle undotree",
+          },
+        }
       end,
-      cmd = "MundoToggle",
-      keys = {
-        {
-          "<m-u>",
-          "<cmd>MundoToggle<cr>",
-          desc = "Toggle Mundo undo-tree",
-        },
-      },
+      dependencies = "nvim-lua/plenary.nvim",
     },
 
     -- autopairs {{{3
