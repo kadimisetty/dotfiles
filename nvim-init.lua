@@ -3171,28 +3171,16 @@ run_lazy_setup({
     {
       "folke/which-key.nvim",
       event = "VeryLazy",
-      init = function()
-        -- Time(ms) which-key can show it's display
-        vim.o.timeout = true
-        vim.o.timeoutlen = 600
-      end,
       opts = {
-        icons = {
-          separator = "",
-        },
-        popup_mappings = {
-          scroll_up = "<up>",
-          scroll_down = "<down>",
-        },
-        window = {
-          position = "bottom",
-          padding = { 1, 1, 1, 1 },
-          winblend = 10,
-        },
+        -- NOTE: 4 plugins marks/registers/spelling/presents enabled by default
         plugins = {
-          spelling = { enabled = true, suggestions = 12 },
+          spelling = {
+            suggestions = 10, --  reduce to 10 to only have numbers for triggers
+          },
         },
+        -- win = { no_overlap = true, -- don't allow popup to overlap cursor },
       },
+      dependencies = "echasnovski/mini.icons",
     },
 
     -- surround {{{3
