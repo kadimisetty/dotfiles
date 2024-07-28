@@ -92,8 +92,11 @@ vim.opt.incsearch = true
 vim.opt.diffopt:append("vertical")
 
 -- FORMATTING {{{2
--- TODO: Add a check for par binary existing?
-vim.opt.formatprg = "par -w79"
+if vim.fn.executable("par") == 1 then
+  vim.opt.formatprg = "par -w79"
+else
+  vim.notify("WARN: please install `par` for `formatprg`", vim.log.levels.WARN)
+end
 
 -- MODELINE {{{2
 -- Vim checks first few lines for "modelines"(user specified `set` commands).
