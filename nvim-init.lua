@@ -3442,14 +3442,30 @@ run_lazy_setup({
     },
 
     -- highlight trailing whitespace {{{3
-    "bitc/vim-bad-whitespace",
+    {
+      "bitc/vim-bad-whitespace",
+      -- TODO: Delete the provided command `EraseBadWhitespace`, I'm using a
+      -- different plugin for that.
+      init = function()
+        -- Hide trailing whitespace in buffers of given filetype
+        vim.api.nvim_create_autocmd("FileType", {
+          desc = "Hide trailing whitespace in buffers of given filetype",
+          group = vim.api.nvim_create_augroup("bad_whitespace_augroup", {}),
+          pattern = {
+            "alpha", -- startup window plugin
+          },
+          command = [[execute "HideBadWhitespace"]],
+        })
+      end,
+    },
 
     -- strip trailing whitespace {{{3
-    -- TODO: Strip inly in vcs(git) changed files
-    -- NOTE: Strips trailwing whitespace on changed lines only. To strip
-    -- trailwing whitespace on all lines in entire file, use command
+    -- TODO: Strip only in vcs(git) changed files.
+    -- NOTE: This plugin is not currently being used for highlighting.
+    -- NOTE: Strips trailing whitespace on changed lines only. To strip
+    -- trailing whitespace on all lines in entire file, use command
     -- `:StripTrailingWhitespace`. Do not replace with a similar plugin,
-    -- because the other's likely do not respect this behavior.
+    -- because they likely don't respect this behavior.
     "axelf4/vim-strip-trailing-whitespace",
 
     -- indent blankline {{{3
