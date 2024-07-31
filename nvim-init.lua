@@ -500,19 +500,18 @@ vim.opt.formatoptions:append({ n = true })
 -- })
 
 -- XML {{{2
--- TODO: Convert to lua api.
--- FIXME: Remove hardcoded `ttx`
--- NOTE: Most of these are to do with helping with folding in XML
--- NOTE: vim provides built-in support for xml folding, see `:help xml-folding`
-vim.cmd([[
-  augroup XML
-      autocmd!
-      autocmd FileType xml,ttx let g:xml_syntax_folding=1
-      autocmd FileType xml,ttx setlocal foldmethod=syntax
-      autocmd FileType xml,ttx :syntax on
-      autocmd FileType xml,ttx :%foldopen!
-  augroup END
-]])
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  desc = "adds xml syntax and folding settings",
+  group = vim.api.nvim_create_augroup("xml_augroup", {}),
+  pattern = { "xml", "ttx" },
+  callback = function()
+    vim.g.xml_syntax_folding = 1
+    vim.opt_local.foldmethod = "syntax"
+    vim.cmd.syntax({ args = { "on" } })
+    -- TODO: Convert to lua(figure out how to handle `%`)
+    vim.cmd([[silent! %foldopen!]])
+  end,
+})
 
 -- ELM {{{2
 local elm_augroup = vim.api.nvim_create_augroup("elm_augroup", {})
