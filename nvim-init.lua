@@ -2977,25 +2977,46 @@ local set_common_diagnostics_configuration = function()
     },
   })
   do
-    local desc = "Show diagnostics"
+    local desc = "Show diagnostics floating window"
     local f = vim.diagnostic.open_float
-    -- TODO: Options: `gd`, `<m-d>`, `ld`
-    vim.keymap.set("n", "<m-,>", f, { desc = desc })
+    -- NOTE: Something like: `gd`, `<m-d>`, `,d`, ',?'
+    vim.keymap.set("n", ",?", f, { desc = desc })
     vim.api.nvim_create_user_command("DiagnosticsShow", f, { desc = desc })
   end
   do
+    local desc = "Close diagnostics floating window"
+    local f = function()
+      -- NOTE: Cannot target diagnostic windows specifically, so settling for
+      -- closing all floating windows(by checking `relative` on all windows,
+      -- which  should be set to `win` in floating windows.)
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if vim.api.nvim_win_get_config(win).relative == "win" then
+          vim.api.nvim_win_close(win, true)
+        end
+      end
+    end
+    vim.keymap.set("n", ",z", f, { desc = desc })
+    vim.api.nvim_create_user_command("DiagnosticsClose", f, { desc = desc })
+  end
+  do
     local desc = "Go to previous diagnostic"
-    local f = vim.diagnostic.goto_prev
+    local f = function()
+      vim.diagnostic.goto_prev()
+      vim.diagnostic.open_float()
+    end
     vim.keymap.set("n", "[,", f, { desc = desc })
     vim.api.nvim_create_user_command(
-      "DiagnosticGoToPrevious",
+      "DiagnosticsGoToPrevious",
       f,
       { desc = desc }
     )
   end
   do
     local desc = "Go to next diagnostic"
-    local f = vim.diagnostic.goto_next
+    local f = function()
+      vim.diagnostic.goto_next()
+      vim.diagnostic.open_float()
+    end
     vim.keymap.set("n", "],", f, { desc = desc })
     vim.api.nvim_create_user_command("DiagnosticsGoToNext", f, { desc = desc })
   end
@@ -3005,6 +3026,7 @@ local set_common_diagnostics_configuration = function()
       vim.diagnostic.goto_prev({
         severity = vim.diagnostic.severity.ERROR,
       })
+      vim.diagnostic.open_float()
     end
     vim.keymap.set("n", "[<", f, { desc = desc })
     vim.api.nvim_create_user_command(
@@ -3019,6 +3041,7 @@ local set_common_diagnostics_configuration = function()
       vim.diagnostic.goto_next({
         severity = vim.diagnostic.severity.ERROR,
       })
+      vim.diagnostic.open_float()
     end
     vim.keymap.set("n", "]<", f, { desc = desc })
     vim.api.nvim_create_user_command(
