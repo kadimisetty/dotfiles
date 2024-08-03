@@ -501,7 +501,7 @@ vim.opt.formatoptions:append({ n = true })
 
 -- XML {{{2
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  desc = "adds xml syntax and folding settings",
+  desc = "Set XML specific settings",
   group = vim.api.nvim_create_augroup("xml_augroup", {}),
   pattern = { "xml", "ttx" },
   callback = function()
@@ -705,6 +705,22 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = { "*.html.eex" },
   command = "set syntax=eelixir",
   desc = "",
+})
+
+-- FISH {{{2
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  desc = "Set fish specific settings",
+  group = vim.api.nvim_create_augroup("fish_augroup", {}),
+  pattern = { "fish" },
+  callback = function()
+    -- FIXME: `blankname/vim-fish` recommends `compiler fish` in a `autocmd
+    -- FileType` to use `:make` for syntax checking in fish files.
+    -- vim.cmd.compiler("fish")
+
+    -- NOTE: I prefer `expr` folding for fish in general, except in
+    -- `config.fish` which is explicitly set there to `marker` via modeline.
+    vim.opt_local.foldmethod = "expr"
+  end,
 })
 
 -- TOGGLES {{{1
@@ -4816,15 +4832,6 @@ run_lazy_setup({
       -- NOTE: `https://github.com/dag/vim-fish` was abondoned, hence using
       -- this maintained clone
       ft = { "fish" },
-      config = function()
-        -- TODO: Move this out of here into a general fish setup section
-        vim.cmd([[
-          " Set up :make to use fish for syntax checking.
-          autocmd FileType fish :compiler fish
-          " Enable folding of block structures in fish.
-          autocmd FileType fish setlocal foldmethod=expr
-        ]])
-      end,
     },
 
     -- purescript {{{3
