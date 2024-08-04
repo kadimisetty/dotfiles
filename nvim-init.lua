@@ -1350,73 +1350,63 @@ vim.keymap.set("n", "<c-w>A", "<cmd>tab all<cr>", { silent = true })
 vim.keymap.set("n", "<c-w>a", "<cmd>all<cr>", { silent = true })
 
 -- MOVING {{{2
--- Jump to last accessed tab page
-vim.keymap.set("n", "<c-w><c-w>", "<cmd>tabnext #<cr>", { silent = true })
+do
+  vim.keymap.set("n", "<c-w><c-w>", "<cmd>tabnext #<cr>", {
+    silent = true,
+    desc = "Jump to last accessed tab page",
+  })
 
--- Jump to first tab using `1` ala my xmonad configuration
-vim.keymap.set("n", "<c-w>`", "<cmd>tabfirst<cr>", { silent = true })
+  vim.keymap.set("n", "<tab>", "<cmd>tabnext<cr>", {
+    silent = true,
+    desc = "Jump to next tab",
+  })
 
--- Jump to last tab using `0` ala my xmonad configuration
-vim.keymap.set("n", "<c-w>0", "<cmd>tablast<cr>", { silent = true })
+  vim.keymap.set("n", "<s-tab>", "<cmd>tabprevious<cr>", {
+    silent = true,
+    desc = "Jump to previous tab",
+  })
 
--- Jump to next tab
-vim.keymap.set("n", "<tab>", "<cmd>tabnext<cr>", { silent = true })
+  vim.keymap.set("n", "<c-w>`", "<cmd>tabfirst<cr>", {
+    silent = true,
+    desc = "Jump to first tab on backtick",
+  })
 
--- Jump to previous tab
-vim.keymap.set("n", "<s-tab>", "<cmd>tabprevious<cr>", { silent = true })
+  -- Jump to closest tab from given tab position
+  ---@param targetTabIndex number
+  local jumpToClosestTabPosition = function(targetTabIndex)
+    --  NOTE:
+    --  1. When a tab position isn't present, jump to largest i.e. when
+    ---    only 1-4 tab positions are present, say target is  7 go to 4.
+    --- 2. 0 is considered the last tab position, specifically even wheb there
+    ---    are more than 9 tabs, 0 goes to the last one). 0 being listed here
+    ---    feels wonky, but this is just a utility function so letting it be.
 
--- Jump to tabs at positions `1-9`
--- TODO: Make it so when a position isn't present, jump to largest tab position
---          i.e. if only `1-4` positions are present, on say `7` go to `4`
-vim.keymap.set("n", "<c-w>1", "<cmd>tabfirst<cr>", { silent = true })
-vim.keymap.set(
-  "n",
-  "<c-w>2",
-  '<cmd>execute "normal! 2gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>3",
-  '<cmd>execute "normal! 3gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>4",
-  '<cmd>execute "normal! 4gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>5",
-  '<cmd>execute "normal! 5gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>6",
-  '<cmd>execute "normal! 6gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>7",
-  '<cmd>execute "normal! 7gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>8",
-  '<cmd>execute "normal! 8gt"<cr>',
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>9",
-  '<cmd>execute "normal! 9gt"<cr>',
-  { silent = true }
-)
+    local numberOfTabs = vim.tbl_count(vim.api.nvim_list_tabpages())
+    -- Given target is 0 (go to last tab):
+    if targetTabIndex == 0 then
+      vim.cmd.tablast()
+    -- Given target less than 1, bit not 0:
+    elseif targetTabIndex < 0 then
+      vim.cmd.tabfirst()
+    -- Given target less than or equal to number of tabs:
+    elseif targetTabIndex <= numberOfTabs then
+      vim.cmd.execute([["normal! ]] .. targetTabIndex .. [[gt"]])
+    -- Given target higher than number of tabs:
+    elseif targetTabIndex > numberOfTabs then
+      vim.cmd.execute([["normal! ]] .. numberOfTabs .. [[gt"]])
+    end
+  end
+
+  -- Make keymaps to jump to tab positions 1 through 9
+  for i = 0, 9 do
+    vim.keymap.set("n", "<c-w>" .. i, function()
+      jumpToClosestTabPosition(i)
+    end, {
+      silent = true,
+      desc = "Jump to closest tab page number",
+    })
+  end
+end
 
 -- RENAMING {{{2
 -- Rename current tab
