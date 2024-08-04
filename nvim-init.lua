@@ -1343,6 +1343,12 @@ vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", { silent = true })
 -- Open all buffers in windows in current tab
 vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", { silent = true })
 
+-- OPEN ALL ARGLIST BUFFERS IN TABS/WINDOWS {{{2
+-- Open all arglist buffers in tabs
+vim.keymap.set("n", "<c-w>A", "<cmd>tab all<cr>", { silent = true })
+-- Open all arglist buffers in windows in current tab
+vim.keymap.set("n", "<c-w>a", "<cmd>all<cr>", { silent = true })
+
 -- MOVING {{{2
 -- Jump to last accessed tab page
 vim.keymap.set("n", "<c-w><c-w>", "<cmd>tabnext #<cr>", { silent = true })
