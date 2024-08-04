@@ -1337,10 +1337,11 @@ vim.keymap.set("n", "<c-w>d", "<cmd>vsplit<cr>", { silent = true })
 -- Duplicate current buffer in new tab
 vim.keymap.set("n", "<c-w>D", "<cmd>tab split<cr>", { silent = true })
 
--- OPEN ALL BUFFERS IN TABS {{{2
--- TODO: Open all buffers in windows
+-- OPEN ALL BUFFERS IN TABS/WINDOWS {{{2
 -- Open all buffers in tabs
 vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", { silent = true })
+-- Open all buffers in windows in current tab
+vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", { silent = true })
 
 -- MOVING {{{2
 -- Jump to last accessed tab page
