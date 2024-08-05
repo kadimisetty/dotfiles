@@ -3,18 +3,20 @@
 # AUTHOR: Sri Kadimisetty
 
 
-
-
-# FISH PLUGINS {{{1
+# FISH PLUGINS (FUNDLE) {{{1
 # FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
 # DIRECTIONS:
 #   1. Install [fundle itself](https://github.com/danhper/fundle).
-#   2. Install [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish#installation).
-#   3. List fish plugins`fundle plugin ph-my-fish/plugin` in lines at top of file.
+#   2. Install
+#      [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish#installation).
+#   3. List fish plugins`fundle plugin ph-my-fish/plugin` in lines at top of
+#      file.
 #   4. Initiate fundle with `fundle init` after packages list.
-#   5. In a new/reloaded shell run `fundle install` and the plugins are now available.
+#   5. In a new/reloaded shell run `fundle install` and the plugins are now
+#      available.
 #   6. Configure and add bindings to plugins as necessary.
-#   7. To uninstall, remove the plugin line and on a new/reloaded shell run `fundle clean`.
+#   7. To uninstall, remove the plugin line and on a new/reloaded shell run
+#      `fundle clean`.
 #   8. To update all plugins, run `fundle update`.
 #   9. Periodically update fundle itself with `fundle self-update`.
 
@@ -39,8 +41,6 @@ fundle init
 
 # CONFIGURE PLUGINS:
 # TODO
-
-
 
 
 # UTILS {{{1
@@ -98,8 +98,6 @@ function echoerr \
 end
 
 
-
-
 # NIX {{{1
 # SETUP {{{2
 # NOTE: Place as close to top as possible to make nix available immediately.
@@ -108,25 +106,28 @@ if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
 end
 # LOCALE {{{2
 if type -q nix && test $(uname) = Linux
-    # TODO: See if there's a better way to check for nix presence than `type -q "nix"`.
+    # TODO: See if there's a better way to check for nix presence than `type -q
+    # "nix"`.
     # TODO: Check if applicable to macOS.
     # SETTING LOCALE:
-    # 	ISSUE: When using Nix(OS/pkg-manager) there is an issue where environmental 
-    # 	variable LOCALE_ACHIVE doesn't point to the desired system's locale-archive.
+    # 	ISSUE: When using Nix(OS/pkg-manager) there is an issue where
+    # 	environmental variable LOCALE_ACHIVE doesn't point to the desired
+    # 	system's locale-archive.
     #   READ: [Troubleshooting when using nix on non-NixOS linux
     #      distributions](https://nixos.wiki/wiki/Locales)
 
     if test -e /etc/NIXOS
         # On NixOS
-        # Applying this on NixOS as well, because the issue exists on non-bash shells 
-        # like `fish` etc.
+        # Applying this on NixOS as well, because the issue exists on non-bash
+        # shells like `fish` etc.
         if test -e /run/current-system/sw/lib/locale/locale-archive
             set --export LOCALE_ARCHIVE /run/current-system/sw/lib/locale/locale-archive
         end
     else
-        # TODO: Narrow down this conditional block further. Currently only checking 
-        # for (non-NixOS) linux here but as noted in the link, this issue and fix 
-        # is documented as applicable only to Debian, Red Hat, and Arch derivatives. 
+        # TODO: Narrow down this conditional block further. Currently only
+        # checking for (non-NixOS) linux here but as noted in the link, this
+        # issue and fix is documented as applicable only to Debian, Red Hat,
+        # and Arch derivatives.
         if test -e /usr/lib/locale/locale-archive
             set --export LOCALE_ARCHIVE /usr/lib/locale/locale-archive
         end
@@ -146,10 +147,10 @@ alias nesg='nix-env --switch-generation'
 alias ns='nix-shell'
 alias nixx='nix --extra-experimental-features "nix-command flakes repl-flake"'
 function noption --description "value of given config option"
-    nix-instantiate --eval --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
+    nix-instantiate \
+        --eval \
+        --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
 end
-
-
 
 
 # COMMON FISH SPECIFIC PREFERENCES {{{1
@@ -177,7 +178,8 @@ if ! test -e "$HOME/bin"
     mkdir $HOME/bin
 end
 fish_add_path $HOME/bin/
-# PUT COMMONLY USED BIN PATH ON PATH (used by `stack` etc. Create dir if not present.):
+# PUT COMMONLY USED BIN PATH ON PATH (used by `stack` etc. Create dir if not
+# present.):
 if ! test -e "$HOME/.local/bin"
     mkdir $HOME/.local/bin
 end
@@ -191,8 +193,6 @@ function fish_command_not_found
         (set_color $fish_color_error --dim) "` not found." >&2
     set_color normal
 end
-
-
 
 
 # COMMON SHELL SPECIFIC ALIASES {{{1
@@ -218,8 +218,6 @@ alias design-keep="cd $HOME/design/design-keep/"
 alias design-personal="cd $HOME/design/design-personal/"
 alias design-playground="cd $HOME/design/design-playground/"
 alias design-sandbox="cd $HOME/design/design-sandbox/"
-
-
 
 
 # VI MODE ENHANCEMENTS {{{1
@@ -257,8 +255,6 @@ bind \ec --mode default capitalize-word
 bind \ec --mode insert capitalize-word
 
 
-
-
 # KITTY {{{1
 if test -n "$KITTY_WINDOW_ID"
     function icat --description "Display image(s) inline"
@@ -268,14 +264,13 @@ if test -n "$KITTY_WINDOW_ID"
 end
 
 
-
-
 # PROMPT {{{1
 # VIM MODE PROMPT:
 function fish_mode_prompt
-    # NOTE: 
-    #		This function uses specific unicode symbols. Intended display font is Jetpack Mono.
-    #		[Enclosed Alphanumeric Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
+    # NOTE:
+    #		This function uses specific unicode symbols. Intended display font is
+    #		Jetpack Mono. [Enclosed Alphanumeric
+    #		Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
 
     switch $fish_bind_mode
         case insert
@@ -373,7 +368,8 @@ set __fish_git_prompt_color_stagedstate yellow
 set __fish_git_prompt_showuntrackedfiles true
 set __fish_git_prompt_char_untrackedfiles " "
 set __fish_git_prompt_color_untrackedfiles brmagenta
-# GIT PROMPT INVALID STATE (IN FISH "UNMERGED" CHANGES ARE ADDITIONAL CHANGES TO ALREADY ADDED FILES):
+# GIT PROMPT INVALID STATE (IN FISH "UNMERGED" CHANGES ARE ADDITIONAL CHANGES
+# TO ALREADY ADDED FILES):
 set __fish_git_prompt_char_invalidstate " "
 set __fish_git_prompt_color_invalidstate brred
 # GIT PROMPT UPSTREAM AND DOWNSTREAM DIFFERENCES:
@@ -390,8 +386,6 @@ set __fish_git_prompt_char_stashstate " "
 set __fish_git_prompt_color_stashstate brblack
 
 
-
-
 # LSD {{{1
 # TODO: [Setup configuration](https://github.com/Peltoche/lsd#configuration)
 alias lsdll='lsd --long'
@@ -402,14 +396,10 @@ alias lsdl2='lsd --tree --depth 2'
 alias lsdl3='lsd --tree --depth 3'
 
 
-
-
 # EXA {{{1
 alias exat="exa --tree"
 alias exatg="exa --tree --git-ignore --git"
 alias exagt="exa --tree --git-ignore --git"
-
-
 
 
 # MAKE {{{1
@@ -476,8 +466,6 @@ bind \ck\ct --mode default kt
 bind \ck\ct --mode insert kt
 
 
-
-
 # GIT {{{1
 alias ga='git add'
 alias ga.='git add .'
@@ -513,7 +501,7 @@ function gccd \
             git clone $repo_url
             # If `git clone` succeeds, `cd` into the cloned directory
             and cd (echo $repo_url |
-            tr -d '[:space:]' | 
+            tr -d '[:space:]' |
             string split '/' --right --field 2 |
             string split '.git' --right --field 1)
 
@@ -528,27 +516,26 @@ function gccd \
 end
 
 
-
-
 # FZF {{{1
 # ripgrep options being used to power fzf:
 #           --files             : Print file's names but not their content
 #           --hidden            : Search hidden files and directories
 #           --smart-case        : Search smart with upper and lower case
 #           --glob "!.git/*"    : Ignore .git/ folder
-set --export FZF_DEFAULT_COMMAND 'rg --files --hidden --smart-case --glob "!.git/*"'
+set --export \
+    FZF_DEFAULT_COMMAND 'rg --files --hidden --smart-case --glob "!.git/*"'
 
 function _fzf_search_history --description "Search command history with `fzf`"
     # TODO: Ensure `fzf` is installed locally
-    # Get history and pipe into fzf 
+    # Get history and pipe into fzf
     history --null |
         # Run fzf using history's entries as source
         fzf \
             # Prefill query with command line content
             --query=(commandline) \
-            # Prompt indicator 
+            # Prompt indicator
             --prompt=" " \
-            # Current line indicator 
+            # Current line indicator
             --pointer="" \
             # Enable multi-selection
             --multi \
@@ -562,7 +549,7 @@ function _fzf_search_history --description "Search command history with `fzf`"
             --height=10 \
             # Extra left margin to align text with my prompt
             --padding="0,0,0,2" \
-            # Keep default layout with prompt and first result at bottom 
+            # Keep default layout with prompt and first result at bottom
             --layout="default" \
             # Show info to right end of prompt line
             --info="inline-right" \
@@ -626,8 +613,6 @@ bind \cr --mode default _fzf_search_history
 bind \cr --mode insert _fzf_search_history
 
 
-
-
 # DIRENV {{{1
 # SEE: https://direnv.net/docs/hook.html#fish
 # HOOK INTO FISH SHELL:
@@ -636,9 +621,6 @@ direnv hook fish | source
 # set -g direnv_fish_mode disable_arrow
 
 
-
-
-# -----------------------------------------------------------------------
 # VIM {{{1
 alias v="vim"
 alias vc="vim --clean"
@@ -654,8 +636,6 @@ alias vpr="vim -c FZFRg"
 alias vo='vim -o'
 alias vO='vim -O'
 alias vt='vim -p'
-
-
 
 
 # NVIM {{{1
@@ -694,19 +674,16 @@ end
 # alias vg='vim -c "call ToggleGVCommitBrowser(\'G\')"'
 
 
-
-
 # TMUX/TMUXINATOR {{{1
 # TMUX:
 alias t="tmux"
 alias tls="tmux list-sessions"
-function tat --description "Attach tmux to a running session with name provided as arg"
+function tat
+    --description "Attach tmux to a running session with name provided as arg"
     tmux attach -t $argv
 end
 # TMUXINATOR:
 alias tst="tmuxinator start ./.tmuxinator.yml"
-
-
 
 
 # ELIXIR/MIX/PHOENIX {{{1
@@ -736,28 +713,27 @@ alias mxpn="mix phx.new"
 alias mxps="mix phx.server"
 
 
-
-
 # FLY {{{1
 set --export FLYCTL_INSTALL "$HOME/.fly"
 fish_add_path $FLYCTL_INSTALL/bin/
 
 
-
-
 # DJANGO {{{1
-function _exit_if_not_in_active_python_virtual_env --description "Exit w/ failure if not in python virtual environment"
+function _exit_if_not_in_active_python_virtual_env \
+    --description "Exit w/ failure if not in python virtual environment"
     if ! test -n "$VIRTUAL_ENV"
         echoerr "not in active python environment"
     end
 end
 # MANAGE.PY ALIASES:
 # TODO: Print all `manage.py` aliases with a cmd such as `malias`
-function activate --description "activate python virtual environment in `./venv`"
+function activate \
+    --description "activate python virtual environment in `./venv`"
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
-        echo -e "./venv/bin/activate.fish" | echoerr "file to activate python environment not found:"
+        echo -e "./venv/bin/activate.fish" |
+            echoerr "file to activate python environment not found:"
     end
 end
 function m --description "./manage.py"
@@ -823,7 +799,6 @@ function mrsp --description "./manage.py runserver_plus"
 end
 
 
-
 # RUST/CARGO {{{1
 fish_add_path $HOME/.cargo/bin/
 function cncd --description "Does `cargo new` and `cd`s into the new dir"
@@ -851,10 +826,9 @@ alias cw="cargo watch"
 alias cwq="cargo watch --quiet"
 
 
-
 # HASKELL {{{1
 # GHCUP {{{2
-# NOTE: Autogenerated by `ghcup` install script 
+# NOTE: Autogenerated by `ghcup` install script
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
 set -gx PATH $HOME/.cabal/bin $PATH /Users/sri/.ghcup/bin # ghcup-env
 
@@ -887,8 +861,6 @@ alias sg="stack ghci"
 alias sn="stack new"
 alias sr="stack run"
 alias st='stack test'
-
-
 
 
 # GO {{{1
@@ -924,16 +896,15 @@ function gncd \
     else if test -e "$module_path"
         echoerr "path with given name exists"
     else
-        # Create a new directory with the name, move into it and run `go mod init` there
+        # Create a new directory with the name, move into it and run `go mod
+        # init` there
         mcd "$module_path"
         and gmi "$module_path"
     end
 end
 
 
-
-
-# # NODE/NVM -- TEMPORARILY DISABLED FOR NIX ALTERNATIVE {{{1
+# NODE/NVM -- TEMPORARILY DISABLED FOR NIX ALTERNATIVE {{{1
 # # NOTE: SEE: https://github.com/nvm-sh/nvm#fish
 # # DESIRED LOCATION: ~/.config/fish/functions/nvm.fish
 # function nvm
@@ -961,10 +932,9 @@ end
 #   end
 # end
 # # DESIRED LOCATION: ~/.config/fish/config.fish
-# # You must call it on initialization or listening to directory switching won't work
+# # You must call it on initialization or listening to directory switching
+# # won't work
 # load_nvm > /dev/stderr
-
-
 
 
 # LUA/LUAROCKS {{{1
@@ -972,26 +942,28 @@ fish_add_path $HOME/.luarocks/bin/
 set --export luarocks "luarocks --local"
 
 
-# MISC {{{1
-# GREP {{{2
+# GREP {{{1
 alias grepi="grep --ignore-case"
 
-# RG {{{2
+
+# RG {{{1
 alias rgi="rg --ignore-case"
 alias rgs="rg --smart-case"
 
-# EMACS {{{2
-# TERMINAL {{{3
+
+# EMACS {{{1
+# TERMINAL {{{2
 alias et="emacs --no-window-system"
 alias etfresh="emacs --no-window-system --no-init-file"
 alias etquick="emacs --no-window-system --quick"
-# GUI {{{3
+# GUI {{{2
 # alias e="emacs"
 # alias efresh="emacs --no-init-file"
 # alias equick="emacs --quick"
 
-# WC {{{2
-# NOTE: 
+
+# WC {{{1
+# NOTE:
 #   1. Using short form flags because macos coreutils by default do not have
 #      the long flags available (as of macOS Sonoma).
 #   2. Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
@@ -1003,7 +975,8 @@ alias wclines="wc -l" # --lines
 alias wcchars="wc -m" # --chars
 alias wcbytes="wc -c" # --bytes
 
-# CURL {{{2
+
+# CURL {{{1
 # [-s|--silent]: Silent mode
 alias curls="curl --silent"
 # [-O|--remote-name]: Write output to a file named as the remote file
@@ -1013,17 +986,20 @@ alias curlo="curl --output"
 # [-i|--include]: Include protocol response headers in the output
 alias curli="curl --include"
 
-# BAT {{{2
+
+# BAT {{{1
 # [[-l|--language] <language>]:
 #   Explicitly set the language for syntax highlighting.
 #   Available languages can be listed with `bat --list-languages`
 #   Example: `json`
 alias batl="bat --language"
 
-# SQLITE-UTILS {{{2
+
+# SQLITE-UTILS {{{1
 alias sqm="sqlite-utils memory"
 alias sqmt="sqlite-utils memory --table"
 alias sqms="sqlite-utils memory --schema"
+
 
 # FISH ALIASES {{{2
 # OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED
@@ -1034,6 +1010,5 @@ function fr --description "Reload fish configuration"
 end
 
 
-
-
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
+# -----------------------------------------------------------------------
