@@ -1937,8 +1937,11 @@ vim.keymap.set("n", "Y", "y$", {
 })
 
 -- RETURN CURSOR POSITION AFTER JOINING TWO LINES WITH `J` {{{2
--- TODO: Achieve this without polluting registers (here `z`)
-vim.keymap.set("n", "J", "mzJ`z", {
+vim.keymap.set("n", "J", function()
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.join()
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+end, {
   silent = true,
   desc = "Return cursor position after joining lines",
 })
