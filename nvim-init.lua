@@ -265,31 +265,29 @@ vim.opt.wildignore:append({
 })
 
 -- UI {{{2
--- TITLE {{{3
--- Set terminal window title to value of `titlestring`
-vim.opt.title = true
--- Window title to use after vim is exiting but unable to restore the replaced
--- previous title
-vim.opt.titleold = "Terminal"
+-- WINDOW TITLE {{{3
+-- NOTE:
+-- 1. "Window title" can be taken to mean terminal window title
+-- 2. Fields used are from `statusline`.
+-- 3. Do not use special characters, it's risky.
+vim.opt.titlestring =
+  -- Show + if file has been modified
+  "%M"
+  -- Show base filename
+  .. "%f"
+  -- Show [help] if help window
+  .. "%h"
+  -- Show [RO] if read-only
+  .. "%r"
+  -- Show [Preview] if preview window
+  .. "%w"
 
--- String to use to set terminal window title
--- TODO: Convert to lua.
--- WARN: Do not use special characters, it's risky.
--- NOTE: Fields used are from `statusline`.
-vim.cmd([[
-    "Clear title string
-    set titlestring=
-    "Show + if file has been modified
-    set titlestring+=%M
-    "Show base filename
-    set titlestring+=%f
-    "Show [help] if help window
-    set titlestring+=%h
-    "Show [RO] if read-only
-    set titlestring+=%r
-    "Show [Preview] if preview window
-    set titlestring+=%w
-]])
+-- Set title to value in `titlestring`
+vim.opt.title = true
+
+-- Title to use after vim is exiting but unable to restore the previously
+-- replaced title
+vim.opt.titleold = "Terminal"
 
 -- MISC UI {{{3
 -- Enable TUI gui colors
