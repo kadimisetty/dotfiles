@@ -29,7 +29,6 @@ fundle plugin nesl247/fish-theme-dracula
 fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
-fundle plugin tuvistavie/fish-fastdir
 fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
 if test $(uname) != Darwin
     # ignore these plugins in macos
@@ -400,6 +399,18 @@ alias lsdl3='lsd --tree --depth 3'
 alias exat="exa --tree"
 alias exatg="exa --tree --git-ignore --git"
 alias exagt="exa --tree --git-ignore --git"
+
+
+# CD UPWARDS WITH `..`S {{{1
+# NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
+#   1. Not doing the plugin's directory history stack helpers `d` in favor of
+#      fish's directory history combo: `dirh`/`cdh`/`prevd`/`nextd`. There is
+#      also fish's directory stack combo: `dirs`/`pushd`/`popd`.
+#   2. Offering 4 level upwards just like the plugin.
+#   3. Not doing `alias ..="cd ../"` because `..` works natively.
+alias ...="cd ../../"
+alias ....="cd ../../../"
+alias .....="cd ../../../../"
 
 
 # MAKE {{{1
