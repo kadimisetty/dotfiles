@@ -25,7 +25,6 @@ fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin Markcial/upto
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
-fundle plugin nesl247/fish-theme-dracula
 fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
@@ -153,9 +152,10 @@ end
 
 
 # COMMON FISH SPECIFIC PREFERENCES {{{1
-# DISABLE WELCOME GREETING:
+# DISABLE WELCOME GREETING {{{2
 set fish_greeting ""
-# THEME:
+
+# THEME{{{2
 # Dracula
 fish_config theme choose Dracula
 
@@ -165,14 +165,14 @@ fish_config theme choose Dracula
 # fish_config theme choose tokyonight_night
 # fish_config theme choose tokyonight_storm
 
-# DEFAULT EDITOR:
+# SET VIM AS DEFAULT EDITOR {{{2
 set --export EDITOR nvim
 set --export VISUAL nvim
-# SET VIM CURSOR STYLES:
 set fish_cursor_default block # `default` includes normal and visual modes
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
-# PUT PERSONAL EXECUTABLES ON PATH (Create dir if not present):
+
+# PUT PERSONAL EXECUTABLES ON PATH (Create dir if not present) {{{2
 if ! test -e "$HOME/bin"
     mkdir $HOME/bin
 end
