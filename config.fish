@@ -25,7 +25,6 @@ fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin Markcial/upto
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
-fundle plugin oh-my-fish/plugin-bang-bang
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
 fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
@@ -40,18 +39,7 @@ fundle init
 # CONFIGURE PLUGINS:
 # TODO
 
-
-# UTILS {{{1
-# `fg` SHORTCUT {{{2
-# `c-z` sends active process to background, adding shortcut binding `m-z` to
-# send to foreground i.e. `fg`.
-# FIXME: Once `fg` brings back the active process (example `vim`) and that
-# process is closed, there is a message displayed "Send job 1 (vim) to
-# foreground" and the shell is also unresponsive awaiting a newline. Make
-# these side-effects not show.
-bind \ez --mode default fg
-bind \ez --mode insert fg
-
+# HELPER FUNCTIONS {{{1
 # ECHOERR {{{2
 function echoerr \
     --description "print given msg to stderr and exit with error exit status"
@@ -94,6 +82,34 @@ function echoerr \
     # Return with error status code 1 (i.e. EPERM 1 operation not permitted)
     false
 end
+
+
+# BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{1
+# TODO:
+# 1. Consider the whole breadth of bash expansions.
+# 2. Investigate fish issues with `!$`.
+function last_history_item
+    echo $history[1]
+end
+function last_history_item_argument
+    # Use `printf` instead of echo according to general recommendation.
+    printf '%s' $history[1] | read --tokenize --list last_command_tokens
+    and echo $last_command_tokens[-1]
+end
+# NOTE: `!!!` instead of `!$` because of fish's issues with `$` in strings.
+abbr --add '!!!' --position anywhere --function last_history_item_argument
+abbr --add '!!' --position anywhere --function last_history_item
+
+
+# `fg` SHORTCUT {{{1
+# `c-z` sends active process to background, adding shortcut binding `m-z` to
+# send to foreground i.e. `fg`.
+# FIXME: Once `fg` brings back the active process (example `vim`) and that
+# process is closed, there is a message displayed "Send job 1 (vim) to
+# foreground" and the shell is also unresponsive awaiting a newline. Make
+# these side-effects not show.
+bind \ez --mode default fg
+bind \ez --mode insert fg
 
 
 # NIX {{{1
