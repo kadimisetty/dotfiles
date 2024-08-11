@@ -1944,17 +1944,6 @@ end, {
   desc = "Return cursor position after joining lines",
 })
 
--- INITIALISE NEW FILES WITH CORRESPONDING SKELETON TEMPLATES {{{2
--- TODO: Use nvim specific skeleton files storage location
--- FIXME: Unlike in vim, errors if filetype doesn't have a skeleton. Use a
---        separate function to not panic when a skeleton is not present.
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = utilities_augroup,
-  pattern = { "html" },
-  command = [[ 0r ~/.vim/skeletons/skeleton.%:e ]],
-  desc = "Initialise new files with corresponding skeleton templates",
-})
-
 -- HIGHLIGHT YANKED TEXT {{{2
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Briefly highlight yanked text",
@@ -4550,6 +4539,28 @@ run_lazy_setup({
       dependencies = {
         "ggandor/leap.nvim",
         "tpope/vim-repeat",
+      },
+    },
+
+    -- skeleton(template) files {{{3
+    -- NOTE:  Load skeletons from `skeleton` directory within nepvim's config
+    -- directory i.e. `vim.fn.stdpath('config)`. e.g.:
+    -- `$HOME/.config/nvim/skeleton/rust.skel`
+    -- TODO:
+    -- 1. Implement for more languages and utilise the plugin's `substitutions`
+    --    feature.
+    -- 2. Refactor out language specific template filling from elm etc. into
+    --    here.
+    {
+      "motosir/skel-nvim",
+      opts = {
+        mappings = {
+          ["*.html"] = {
+            "basic.html.skel",
+            "elm.html.skel",
+            "elm-full.html.skel",
+          },
+        },
       },
     },
 
