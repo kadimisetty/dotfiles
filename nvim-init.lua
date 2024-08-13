@@ -4564,6 +4564,71 @@ run_lazy_setup({
       },
     },
 
+    -- fold navigation {{{3
+    -- NOTE: Works only in folds (duh). Check if folds are active by opening
+    -- `foldcolumn` with for e.g: `:set foldcolumn=5`.
+    -- TODO: Add a `foldcolumn` toggler.
+    {
+      "domharries/foldnav.nvim",
+      version = "*",
+      config = function()
+        vim.g.foldnav = {
+          -- Briefly flash area of fold being referenced
+          flash = { enabled = true },
+        }
+      end,
+      keys = {
+        --[[
+        NOTE: Table shows vim's equivalent mappings(VIM), the mappings I
+        added/overwrote(MINE) to use the features provided by foldnav.
+        +-----+------+-------------------+----------------------------------+
+        | VIM | MINE | FOLDNAV           | DESCRIPTION                      |
+        |-----+------+-------------------+----------------------------------|
+        |     | zK   | goto_prev_start() | Most recent place a fold started |
+        | [z  | [z   | goto_start()      | Start of enclosing fold          |
+        | zj  | zj   | goto_next()       | Start of next fold               |
+        | zk  | zk   | goto_prev_end()   | End of previous fold             |
+        | ]z  | ]z   | goto_end()        | End of enclosing fold            |
+        +-----+------+-------------------+----------------------------------+
+        --]]
+        {
+          "zK",
+          function()
+            require("foldnav").goto_prev_start()
+          end,
+          mode = { "n", "x", "o" },
+        },
+        {
+          "[z",
+          function()
+            require("foldnav").goto_start()
+          end,
+          mode = { "n", "x", "o" },
+        },
+        {
+          "zj",
+          function()
+            require("foldnav").goto_next()
+          end,
+          mode = { "n", "x", "o" },
+        },
+        {
+          "zk",
+          function()
+            require("foldnav").goto_prev_end()
+          end,
+          mode = { "n", "x", "o" },
+        },
+        {
+          "]z",
+          function()
+            require("foldnav").goto_end()
+          end,
+          mode = { "n", "x", "o" },
+        },
+      },
+    },
+
     -- todo comments {{{3
     -- Pragmas (todo/fixme/note etc.)
     -- NOTE: `p` for pragma, like xcode pragma
