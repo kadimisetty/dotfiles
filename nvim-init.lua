@@ -5083,22 +5083,6 @@ run_lazy_setup({
       end,
     },
 
-    -- nvim-code-action-menu {{{3
-    -- TODO: Run within lsp-config
-    -- TODO: Only activate if lsp active
-    {
-      "weilbith/nvim-code-action-menu",
-      cmd = "CodeActionMenu",
-      keys = {
-        {
-          "lA",
-          "<cmd>CodeActionMenu<cr>",
-          mode = { "n", "v" },
-          desc = "Activate `CodeActionMenu`",
-        },
-      },
-    },
-
     -- qf-edit {{{3
     -- Edit quickfix list like a normal buffer
     {
@@ -5192,6 +5176,21 @@ run_lazy_setup({
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
+      },
+    },
+
+    -- code action with preview {{{3
+    -- TODO: Only activate if lsp active
+    {
+      "aznhe21/actions-preview.nvim",
+      keys = {
+        {
+          ",A",
+          function()
+            require("actions-preview").code_actions()
+          end,
+          mode = { "v", "n" },
+        },
       },
     },
 
