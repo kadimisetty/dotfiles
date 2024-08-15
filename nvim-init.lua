@@ -5310,6 +5310,12 @@ run_lazy_setup({
           capabilities = capabilities,
         })
 
+        -- SWIFT(SOURCEKIT)
+        require("lspconfig").sourcekit.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- LUA
         require("lspconfig").lua_ls.setup({
           on_attach = common_on_attach,
@@ -5429,6 +5435,9 @@ run_lazy_setup({
             -- null_ls.builtins.diagnostics.ruff,
             -- purescript
             null_ls.builtins.formatting.purs_tidy,
+            -- swift
+            null_ls.builtins.diagnostics.swiftlint,
+            null_ls.builtins.formatting.swiftformat,
             -- go
             null_ls.builtins.formatting.gofumpt,
             -- haskell
