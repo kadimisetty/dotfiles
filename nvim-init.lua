@@ -4072,64 +4072,56 @@ run_lazy_setup({
       },
     },
 
-    -- alpha {{{3
+    -- alpha start page {{{3
     {
       "goolord/alpha-nvim",
-      event = "VimEnter",
       config = function()
-        local alpha = require("alpha")
         local dashboard = require("alpha.themes.dashboard")
-
-        -- set "dashboard" theme section contents
         dashboard.section.header.val = {
-          [[                                                    ]],
-          [[                                                    ]],
-          [[ █▀▄▀█ █▀▀ █▀▄▀█ █▀▀ █▄░█ ▀█▀ █▀█   █▀▄▀█ █▀█ █▀█ █ ]],
-          [[ █░▀░█ ██▄ █░▀░█ ██▄ █░▀█ ░█░ █▄█   █░▀░█ █▄█ █▀▄ █ ]],
-          [[                                                    ]],
+          [[ _____ __    _____    _____ _____ _____]],
+          [[|     |  |  |  _  |  |   __| __  |     |]],
+          [[|  |  |  |__|     |  |__   |    -|-   -|]],
+          [[|_____|_____|__|__|  |_____|__|__|_____|]],
         }
         dashboard.section.buttons.val = {
           dashboard.button(
             "e",
-            "" .. "  " .. "EDIT",
-            ":ene <BAR> startinsert <CR>"
+            "EDIT NEW BUFFER",
+            "<cmd>enew | startinsert<cr>"
           ),
           dashboard.button(
             "s",
-            -- "" .. " Source `./Session.vim",
-            ""
-              .. "  "
-              .. "SOURCE `./Session.vim`",
+            "SOURCE `./Session.vim`",
             "<cmd>source ./Session.vim<cr>"
           ),
-          dashboard.button(
-            "c",
-            "" .. "  " .. "EDIT `~/.config/nvim/init.lua`",
-            "<cmd>edit $MYVIMRC<cr>"
-          ),
-          dashboard.button("q", "󰅗" .. "  " .. "QUIT", ":qa<cr>"),
+          dashboard.button("q", "QUIT", "<cmd>quitall<cr>"),
         }
-        local function footer()
-          -- return [[“do not sleep, my starling, do not sleep”]]
-          return [[AS LONG AS THERE IS LIFE, THERE IS HOPE]]
-        end
-        dashboard.section.footer.val = footer()
-
-        -- set dashboard theme highlights
-        -- dashboard.section.header.opts.hl = "Include"
-        -- dashboard.section.buttons.opts.hl = "Keyword"
-        -- dashboard.section.footer.opts.hl = "Type"
-        dashboard.section.header.opts.hl = "Ccmment"
-        dashboard.section.buttons.opts.hl = "Title"
-        dashboard.section.footer.opts.hl = "Comment"
-
-        -- turn off autocmds. TODO: why?
-        dashboard.config.opts.noautocmd = false
-
-        -- apply customized "dashboard" theme
-        alpha.setup(dashboard.opts)
+        dashboard.section.footer.val = {
+          [[do not sleep, my starling, do not sleep]],
+        }
+        -- TODO: Investigate if a custom namespace is necessary here
+        local ns = vim.api.nvim_create_namespace("alpha_custom_highlights")
+        vim.api.nvim_set_hl_ns(ns)
+        vim.api.nvim_set_hl(ns, "AlphaCustomDashboardHeader", {
+          fg = vim.fn.synIDattr(
+            vim.fn.synIDtrans(vim.fn.hlID("Comment")),
+            "fg"
+          ),
+          bold = true,
+          italic = false,
+        })
+        vim.api.nvim_set_hl(ns, "AlphaCustomDashboardFooter", {
+          fg = vim.fn.synIDattr(
+            vim.fn.synIDtrans(vim.fn.hlID("LineNrAbove")),
+            "fg"
+          ),
+          bold = true,
+          italic = true,
+        })
+        dashboard.section.header.opts.hl = "AlphaCustomDashboardHeader"
+        dashboard.section.footer.opts.hl = "AlphaCustomDashboardFooter"
+        require("alpha").setup(dashboard.opts)
       end,
-      dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
     -- gitsigns {{{3
