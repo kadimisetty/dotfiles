@@ -3478,70 +3478,55 @@ run_lazy_setup({
       },
     },
 
-    -- treesj {{{3
+    -- split-join with treesj and mini.splitjoin {{{3
     {
       "Wansmer/treesj",
+      -- NOTE:
+      -- 1. Only keep 1 keymap - toggle.
+      -- 2. Removing insert mode completion due to issue with returning to
+      --    insert mode afterwards.
+      -- TODO:
+      -- 1. Make `mini.splitjoin` add trailing comma on last item in relevant
+      --    areas for relevant filetypes.
+      --    EXAMPLES:
+      --    - github.com/jackieaskins/dotfiles/blob/main/nvim/lua/plugins/mini-splitjoin.lua
+      --    - github.com/sid-6581/NeovimConfig/blob/main/lua/plugins/mini_splitjoin.lua
       event = "VeryLazy",
       cmd = {
         "TSJToggle",
         "TSJSplit",
         "TSJJoin",
       },
-      -- TODO: Find easier keys, especially to toggle, preferably something
-      -- like `c-*` to use it rapidly like in insert mode experience as well.
+      opts = { use_default_keymaps = false },
       keys = {
-        -- TOGGLE ONLY COMBOS(i/n): `<c-t>`: toggle
         {
           "<c-t>",
           mode = "n",
           function()
-            require("treesj").toggle()
+            if
+              -- treesj supports current buffer filetype?
+              vim.list_contains(
+                require("treesj.langs")["presets"],
+                vim.bo.filetype
+              )
+            then
+              require("treesj").toggle()
+            else
+              require("mini.splitjoin").toggle()
+            end
           end,
-          desc = "treesj toggle node under cursor between line/multi-line",
-        },
-        {
-          -- NOTE: Insert mode toggling has issues with returning back to
-          -- insert mode after completion.
-          "<c-t>",
-          mode = "i",
-          function()
-            require("treesj").toggle()
-            vim.cmd([[
-              stopinsert
-              stopinsert
-            ]])
-            vim.cmd("startinsert")
-          end,
-          desc = "treesj toggle node under cursor between line/multi-line",
-        },
-
-        -- LOCALLEADER COMBOS(n): `\\tt`: toggle, `\\ts`: split, `\\tj`: join
-        {
-          "<localleader>tt",
-          function()
-            require("treesj").toggle()
-          end,
-          desc = "treesj toggle node under cursor between line/multi-line",
-        },
-        {
-          "<localleader>ts",
-          function()
-            require("treesj").split()
-          end,
-          desc = "treesj split node under cursor",
-        },
-        {
-          "<localleader>tj",
-          function()
-            require("treesj").join()
-          end,
-          desc = "treesj join node under cursor",
+          desc = "Toggle split-join on node under cursor",
         },
       },
-      config = function()
-        require("treesj").setup({ use_default_keymaps = false })
-      end,
-      dependencies = { "nvim-treesitter/nvim-treesitter" },
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        {
+          "echasnovski/mini.splitjoin",
+          version = "*",
+          -- NOTE: Disable default mappings because this is here as backup only
+          opts = { mappings = { toggle = "", split = "", join = "" } },
+        },
+      },
     },
 
     -- highlight trailing whitespace {{{3
