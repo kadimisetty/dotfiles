@@ -1928,6 +1928,84 @@ do -- KEEP: do block to localise local functions and variables
   end, { desc = common_gx_desc })
 end
 
+-- QUICK JUMPS TO POSITIONS BY PERCENTAGE {{{2
+-- CURRENT LINE {{{3
+-- NOTE:
+-- 1. Using current line leader: `g`
+-- 2. Can't think of proper line equivalent for 100%, so just use built-in `g$`
+-- 3. `g0 goes to 0% by default`, so no need for a 0 position and also cannot
+--    use `g0`.
+-- 4. `gH` natively starts select mode but I never use it, so feeling opkay
+--    about overwriting it.
+-- 5. `gM` natively jumos to 50%, but keeping custom mapping away for sake of
+--    completion and description appearing in `which-key` etc.
+do
+  -- JUMP TO HIGH(H)/MEDIUM(M)/LOW(L) POSITION IN CURRENT LINE {{{4
+  vim.keymap.set(
+    "n",
+    "gH",
+    "0%",
+    { silent = true, desc = "Jump to buffer's high(H)(start) position" }
+  )
+  vim.keymap.set(
+    "n",
+    "gM",
+    "50%",
+    { silent = true, desc = "Jump to buffer's middle(M) position" }
+  )
+  vim.keymap.set(
+    "n",
+    "gL",
+    "100%",
+    { silent = true, desc = "Jump to buffer's low(L)(end) position" }
+  )
+  -- JUMP TO 0/10/20/30/40/50/60/70/80/90% POSITION IN CURRENT LINE {{{4
+  for i = 1, 9 do
+    vim.keymap.set(
+      "n",
+      "g" .. i,
+      (i * 10) .. "gM",
+      { silent = true, desc = "Jump to current line's (N*10)% position" }
+    )
+  end
+end
+-- CURRENT BUFFER {{{3
+-- NOTE:
+-- 1. Using current buffer leader: `G`
+-- 2. Not using 0 for 100% because of conflict woth line's native equivalent.
+-- 3. Can't think of proper buffer equivalent for 100%, so just use the
+--    built-in `GG`
+do
+  -- JUMP TO HIGH(H)/MEDIUM(M)/LOW(L) POSITION IN CURRENT BUFFER {{{4
+  vim.keymap.set("n", "GH", "2%", {
+    silent = true,
+    desc = "Jump to current buffer's high(H) position",
+  })
+  vim.keymap.set("n", "GM", "50%", {
+    silent = true,
+    desc = "Jump to current buffer's middle(M) position",
+  })
+  vim.keymap.set("n", "GL", "98%", {
+    silent = true,
+    desc = "Jump to current buffer's low(L) position",
+  })
+  -- JUMP TO 0/10/20/30/40/50/60/70/80/90% POSITION IN CURRENT BUFFER {{{4
+  vim.keymap.set(
+    "n",
+    "G0",
+    "gg",
+    { silent = true, desc = "Jump to current buffer's 0% position" }
+  )
+  for i = 1, 9 do
+    vim.keymap.set(
+      "n",
+      "G" .. i,
+      (i * 10) .. "%",
+      { silent = true, desc = "Jump to current buffer's (N*10)% position" }
+    )
+  end
+end
+
 -- YANK TO END OF LINE `Y` LIKE `C` OR `D` {{{2
 vim.keymap.set("n", "Y", "y$", {
   silent = true,
