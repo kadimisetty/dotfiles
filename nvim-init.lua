@@ -3718,25 +3718,48 @@ run_lazy_setup({
       },
     },
 
-    -- nvim toggler {{{3
+    -- boole (toggle/invert)  {{{3
     {
-      "nguyenvukhang/nvim-toggler",
+      "nat-418/boole.nvim",
+      -- NOTE: Use `allow_caps_additions` over `additions` to preserve case.
+      -- TODO:
+      -- 1. Disable unnecessary default values. See source for examples.
+      -- 2. Allow symbold pairs like`==`/`!=`, `&&`/`||` etc.
       opts = {
-        remove_default_keybinds = true,
-        -- remove_default_inverses = false,
-        inverses = {
-          ["enable"] = "disable",
-          ["start"] = "stop",
-        },
-      },
-      keys = {
-        {
-          "<localleader>i", -- TODO: Find another, might have interference
-          function()
-            require("nvim-toggler").toggle()
-          end,
-          mode = { "n", "v" },
-          desc = "Invert word under cursor",
+        mappings = { increment = "<c-a>", decrement = "<c-x>" },
+        allow_caps_additions = {
+          -- eg: enable/disable, Enable/Disable, ENABLE/DISABLE
+          { "enable", "disable" },
+          { "enabled", "disabled" },
+          { "enables", "disables" },
+          { "right", "left" },
+          { "up", "down" },
+          { "true", "false" },
+          { "yes", "no" },
+          { "on", "off" },
+          { "and", "not", "or" },
+          { "if", "then", "else", "elseif", "end" },
+          -- NOTE: numbers upto 20 because it becomes 2 word numbers after that.
+          {
+            "zero",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "eighteen",
+            "nineteen",
+            "twenty",
+          },
         },
       },
     },
