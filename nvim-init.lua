@@ -2023,6 +2023,12 @@ end, {
 })
 
 -- HIGHLIGHT YANKED TEXT {{{2
+-- NOTE:
+-- 1. Neovim comes with "highlight on yank", but I'm disabling it to use
+--    plugin's that provide more features like `mei28/luminate.nvim`.
+-- 2. Neovim uses the `IncSearch` highlight by default. See help for how to
+--    configure.
+--[[
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Briefly highlight yanked text",
   group = utilities_augroup,
@@ -2030,6 +2036,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+--]]
 
 -- LIMIT HELP PAGES TEXT WIDTH (for plugin help files) {{{2
 -- TODO: Check if I meant this for 3rd part help pages, because internal help
@@ -5116,6 +5123,21 @@ run_lazy_setup({
       keys = {},
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
+      },
+    },
+
+    -- luminate - highlight yank/paste/undo/redo {{{3
+    {
+      "mei28/luminate.nvim",
+      -- NOTE: Neovim cokes with "highlight on yank". Disable it to use this
+      -- plugin's highlights for uniformity sake.
+      event = { "VeryLazy" },
+      opts = {
+        duration = 300, -- milliseconds
+        yank = { enabled = true },
+        paste = { enabled = true },
+        undo = { enabled = true },
+        redo = { enabled = true },
       },
     },
 
