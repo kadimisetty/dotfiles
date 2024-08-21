@@ -3548,6 +3548,7 @@ run_lazy_setup({
           group = vim.api.nvim_create_augroup("bad_whitespace_augroup", {}),
           pattern = {
             "alpha", -- startup window plugin
+            "minimap",
           },
           command = [[execute "HideBadWhitespace"]],
         })
@@ -3633,18 +3634,32 @@ run_lazy_setup({
     {
       "echasnovski/mini.map",
       event = "VeryLazy",
-      keys = {
-        {
-          "<cr>",
-          "<cmd>lua MiniMap.toggle()<cr>",
-          desc = "toggle mini map",
-        },
-        {
-          "<s-cr>",
-          "<cmd>lua MiniMap.toggle_side()<cr>",
-          desc = "toggle mini map side",
-        },
-      },
+      keys = function()
+        local minimap = require("mini.map")
+        return {
+          {
+            "<cr>",
+            function()
+              minimap.toggle()
+            end,
+            desc = "Toggle mini map",
+          },
+          {
+            "<m-cr>",
+            function()
+              minimap.toggle_focus({ use_previous_cursor = false })
+            end,
+            desc = "Toggle mini map focus",
+          },
+          {
+            "<s-cr>",
+            function()
+              minimap.toggle_side()
+            end,
+            desc = "Toggle mini map side",
+          },
+        }
+      end,
       init = function()
         vim.api.nvim_set_hl(
           0,
@@ -3676,10 +3691,18 @@ run_lazy_setup({
         local minimap = require("mini.map")
         return {
           window = {
-            -- focusable = true, -- when on, click transports but focus stays
             winblend = 20,
             show_integration_count = false,
-            width = 5, -- set width = 0 for just the scrollbar
+            -- NOTE: `width = 1` for just scrollbar, mind the whitespace
+            width = 5,
+            -- NOTE: Setting `focusable` to false, still allows for
+            -- `minimap.toggle_focus()` to work.
+            -- TODO: I'm using `<m-cr>` to toggle focus on mini.map window. But
+            -- I wouldn't like to do the same with mouse click though. Instead
+            -- I would like mouse click to act like `<cr>` inside the map i.e.
+            -- return to clicked area indicated by map. Add an autocommand for
+            -- this behavior.
+            focusable = false,
           },
           integrations = {
             minimap.gen_integration.builtin_search(),
@@ -3697,15 +3720,13 @@ run_lazy_setup({
           },
           symbols = {
             encode = minimap.gen_encode_symbols.dot("4x2"),
-            -- set both scroll values the same; distinguish by color
+            -- NOTE:L Set both scroll values the same; distinguish by color
             scroll_line = "│",
             scroll_view = "│",
           },
         }
       end,
-      dependencies = {
-        "lewis6991/gitsigns.nvim",
-      },
+      dependencies = { "lewis6991/gitsigns.nvim" },
     },
 
     -- smartcolumn {{{3
