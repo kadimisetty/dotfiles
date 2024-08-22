@@ -1893,7 +1893,7 @@ do -- KEEP: do block to localise local functions and variables
       local username_repo_combo = cfile:match("[%a%d%-%.%_]*%/[%a%d%-%.%_]*")
       if username_repo_combo then
         local github_repo_url = "https://github.com/" .. username_repo_combo
-        local cmd, err = vim.ui.open(github_repo_url)
+        local cmd, _ = vim.ui.open(github_repo_url)
         local retval = cmd and cmd:wait(1000) or nil
 
         -- 2. On failed open, display previous main error
@@ -3175,7 +3175,7 @@ local set_common_diagnostics_configuration = function()
 end
 
 -- LSP & DIAGNOSTICS CONFIGURATION {{{2
-local set_common_lsp_and_diagnostics_configuration = function(client, bufnr)
+local set_common_lsp_and_diagnostics_configuration = function(_, bufnr)
   -- TODO: Show signature help in a float in insert mode?
   set_common_lsp_keymaps(bufnr)
   set_common_diagnostics_configuration()
@@ -3208,65 +3208,6 @@ vim.keymap.set(
   "<cmd>Lazy<cr>",
   { desc = "Open `lazy.nvim` dashboard" }
 )
--- LAZY ICONS {{{3
-local lazy_icons = {
-  dap = {
-    Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-    Breakpoint = " ",
-    BreakpointCondition = " ",
-    BreakpointRejected = { " ", "DiagnosticError" },
-    LogPoint = ".>",
-  },
-  diagnostics = {
-    -- TODO: Extract these into common icon styledpreferences
-    Error = " ",
-    Warn = " ",
-    Hint = " ",
-    Info = " ",
-  },
-  git = {
-    added = " ",
-    modified = " ",
-    removed = " ",
-  },
-  kinds = {
-    Array = " ",
-    Boolean = " ",
-    Class = " ",
-    Color = " ",
-    Constant = " ",
-    Constructor = " ",
-    Copilot = " ",
-    Enum = " ",
-    EnumMember = " ",
-    Event = " ",
-    Field = " ",
-    File = " ",
-    Folder = " ",
-    Function = " ",
-    Interface = " ",
-    Key = " ",
-    Keyword = " ",
-    Method = " ",
-    Module = " ",
-    Namespace = " ",
-    Null = " ",
-    Number = " ",
-    Object = " ",
-    Operator = " ",
-    Package = " ",
-    Property = " ",
-    Reference = " ",
-    Snippet = " ",
-    String = " ",
-    Struct = " ",
-    Text = " ",
-    TypeParameter = " ",
-    Unit = " ",
-    Value = " ",
-    Variable = " ",
-  },
-}
 
 run_lazy_setup({
   -- LAZY OPTIONS  {{{2
@@ -4014,7 +3955,6 @@ run_lazy_setup({
       config = true,
       keys = function()
         local undotree = require("undotree")
-        local undotree_action = require("undotree.action")
         return {
           -- TODO: Add `<s-cr>` to update undo state and exit
           {
