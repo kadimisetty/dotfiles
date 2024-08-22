@@ -3820,9 +3820,10 @@ run_lazy_setup({
       },
     },
 
-    -- lualine {{{3
+    -- lualine - statusline {{{3
     {
       "nvim-lualine/lualine.nvim",
+      -- TODO: Consider moving to `echasnovski/mini.statusline`
       event = "VeryLazy",
       opts = function()
         return {
@@ -3839,6 +3840,7 @@ run_lazy_setup({
             lualine_a = {
               {
                 -- short mode
+                -- TODO: Extract into a lualine extension
                 function()
                   --  NOTE: vim mode codes (keys) are listed in `:help mode()`
                   local nvim_mode_code = vim.api.nvim_get_mode().mode
@@ -3886,7 +3888,7 @@ run_lazy_setup({
                     nvim_mode_code -- default
                   )
                 end,
-                padding = { left = 1, right = 1 },
+                padding = 1,
               },
             },
             lualine_b = {
@@ -3896,8 +3898,8 @@ run_lazy_setup({
                 -- NOTE: In order to hide the `main` branch and showing my icon
                 -- of choice the following "hack" needs to be done:
                 -- 1. Set `icon` to a blank string
-                -- 2. Set `padding` to accomodate hardcoded icon
-                -- 3. Define `fmt` with hardcoded icon  of choice
+                -- 2. Set `padding` to accommodate hard-coded icon
+                -- 3. Define `fmt` with hard-coded icon  of choice
                 icon = "",
                 padding = { left = 0, right = 1 },
                 fmt = function(branch_name)
@@ -3916,94 +3918,79 @@ run_lazy_setup({
                   end
                 end,
               },
+              {
+                "diff",
+                colored = true,
+                symbols = { added = "+", modified = "~", removed = "-" },
+                padding = { left = 0, right = 1 },
+              },
             },
             lualine_c = {
               {
-                -- NOTE: The `󰆧` icon is hardcoded in a "hackish" way to get
-                -- that symbol to print before the `navic` component. Using
-                -- `fmt` on `navic` is unsatisfactory as it's visible when
-                -- `navic` is not displayed as well.
-                component_separators = { left = "󰆧", right = "" },
                 "filename",
                 path = 1,
                 symbols = {
-                  modified = "󰐕", --      󰐕 
-                  readonly = "",
-                  unnamed = "NO NAME",
+                  unnamed = "UNNAMED",
+                  newfile = "NEWFILE",
+                  modified = "+",
+                  -- TODO: Show distinct symbols for `readonly` and
+                  -- `modifiable` as the current default ``readonly = "[-]"` is
+                  -- for both `readonly` and `nomodifiable`
                 },
+                padding = 1,
+                -- NOTE: Hard coding `󰆧` to appear before aerial
+                component_separators = { left = "󰆧", right = "" },
               },
               {
-                "navic",
+                "aerial",
+                padding = { left = 1, right = 0 },
               },
             },
             lualine_x = {
               {
                 "diagnostics",
-                symbols = {
-                  -- TODO: Get icons from common source
-                  error = "󰬌 ",
-                  warn = "󰬞 ",
-                  info = "󰬐 ",
-                  hint = " ",
-                },
+                -- NOTE: Equivalent custom "gitsign" symbols:  ""󰬌  󰬞  󰬐   "
+                symbols = { error = "E", warn = "W", info = "I", hint = "H" },
               },
-              "searchcount",
-              "selectioncount",
-              -- TODO: setup `dap` here like in  `lazy-distribution`
-              {
-                require("lazy.status").updates,
-                cond = require("lazy.status").has_updates,
-              },
-              {
-                "diff",
-                symbols = {
-                  added = lazy_icons.git.added,
-                  modified = lazy_icons.git.modified,
-                  removed = lazy_icons.git.removed,
-                },
-              },
-              {
-                "filetype",
-                icon_only = true,
-                colored = false,
-                padding = { left = 0, right = 1 },
-              },
+              -- NOTE: Preferring a simple buffer filetype
+              -- {
+              --   "filetype",
+              --   icon_only = false,
+              --   icon = { align = "right" },
+              --   colored = false,
+              --   padding = { left = 1, right = 1 },
+              -- },
+              "bo:filetype", -- TODO: Use uppercase
+              { "progress", padding = { left = 1, right = 0 } },
+              { "location", padding = { left = 1, right = 0 } },
             },
-            lualine_y = {
-              {
-                "progress",
-                padding = { left = 1, right = 1 },
-              },
-              {
-                "location",
-                padding = { left = 0, right = 1 },
-              },
+            lualine_y = {},
+            lualine_z = {
+              { "searchcount", padding = 1 },
+              { "selectioncount", padding = 1 },
             },
-            lualine_z = {},
           },
           inactive_sections = {
             lualine_a = { "filename" },
             lualine_b = {},
             lualine_c = {},
             lualine_x = {},
-            lualine_y = { "bo:filetype" },
-            lualine_z = { "location" },
+            lualine_y = {},
+            lualine_z = {},
           },
           extensions = {
+            "aerial",
             "fugitive",
             "lazy",
             "man",
-            "neo-tree",
+            "mason",
+            "oil",
             "quickfix",
             "trouble",
-            -- "nvim-dap-ui", -- UI for dap(debug adapter protocol)
-            -- "overseer", -- taskrunner
-            -- "symbols-outline", -- symbols tree
           },
         }
       end,
       dependencies = {
-        "SmiteshP/nvim-navic",
         "folke/trouble.nvim",
         "nvim-neo-tree/neo-tree.nvim",
         "nvim-tree/nvim-web-devicons",
@@ -4596,7 +4583,7 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- barbecue {{{3
+    -- barbecue -- breadcrumbs in a top bar {{{3
     -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but it's >= 0.10.0-dev. Try later.
     {
       "utilyre/barbecue.nvim",
