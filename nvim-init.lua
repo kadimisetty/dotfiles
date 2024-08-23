@@ -1,62 +1,46 @@
--- NVIM CONFIGURATION: {{{1
+-- NVIM CONFIGURATION {{{1
 -- vim: foldmethod=marker:foldlevel=0:nofoldenable:
--- Sri Kadimisetty
+-- Author: [Sri Kadimisetty](https://github.com/kadimisetty/dotfiles)
 
--- TODO:
--- - Check if common plugin dependency `plenary` can be removed in nvim +0.10.
--- - Ensure All Keymaps Have `Desc`.
--- - Convert Vim Fucntions Into Lua Functions.
--- - Places to Occasionally Purge:
---     - `Undodir` for Sake of `Mundo.Vim`,
---     - `Viewdir` for Clearing Out Old Saved Views.
--- - Ensure All Autocmds (and Mappings) Have
--- 		a Description Field. Consider Leaving Out The
--- 		Comment for Those, to Avoid Duplication.
--- - Remove the Default `Gs` (the Sleep Thing)
--- - Use lua for all functions
--- - Whitespace removal:
---     - Changed lines only
--- - Command with more options e.g. entire-file/changed-lines/tabs>spaces etc.
--- - something akin to `airline_mode_map`, which allows changing the symbols
--- for mode indicators. Refer to my shortcuts in my vimrc.
--- During unimpaired style movements, for e.g. `]s` to go to next spelling
--- mistake, it would not work if `spell`(`yos`) was disabled. However, make it
--- automatically turn `spell` on and jump to next/previous spelling mistake.
--- Extrapolate that to other similar unimpaired-style mappings
-
--- NOTE:
--- Keymap Grammar:
---  +------------------+--------------------------------+
---  | LEADERS          | SCOPE                          |
---  +------------------+--------------------------------+
---  |                  |                                |
---  | `<leader>x`      | Global actions                 |
---  | `<localleader>x` | Buffer actions                 |
---  | `gx`             | Auxiliary actions              |
---  |                  |                                |
---  | `<space>x`       | Search(Telescope)              |
---  |                  |                                |
---  | `<c-w>x`         | Windows                        |
---  | `<c-w>X`         | Tabs                           |
---  |                  |                                |
---  | `<m-x>`/`<m-X>`  | Overlays                       |
---  | `<c-x>`          | Actions                        |
---  |                  |                                |
---  | `,x`             | LSP?                           |
---  | `lx`             | LSP?                           |
---  | `<c-m-x>`        | LSP?                           |
---  |                  |                                |
---  | `dx`/`yod`/`[d`  | Diagnostics?                   |
---  |                  |                                |
---  | `<c-m-x>`        | jump to keyboard `x` position? |
---  |                  |                                |
---  | `yox`            | Toggle x                       |
---  | `]ox`            | Enable x                       |
---  | `[ox`            | Disable x                      |
---  | `]x`             | Do/go-to next x                |
---  | `[x`             | Do/go-to previous x            |
---  |                  |                                |
---  +------------------+--------------------------------+
+-- PREFERRED KEYMAP GRAMMAR {{{2
+--  +------------------+-----------------------------------+
+--  | LEADER/CHORD     | SCOPE                             |
+--  +------------------+-----------------------------------+
+--  | `<leader>x`      | Global actions                    |
+--  | `<localleader>x` | Buffer actions                    |
+--  |                  |                                   |
+--  |                  | TELESCOPE:                        |
+--  | `<space>x`       | Search                            |
+--  |                  |                                   |
+--  | `<c-w>x`         | Windows                           |
+--  | `<c-w>X`         | Tabs                              |
+--  |                  |                                   |
+--  | `<c-x>`          | Text manipulation actions         |
+--  |                  |                                   |
+--  | `gx`             | Auxiliary actions                 |
+--  | `Gx`             | Auxiliary actions in larger scope |
+--  |                  |                                   |
+--  |                  | OVERLAYS:                         |
+--  | `<m-x>`          | Native overlays                   |
+--  | `<M-x>`          | 3rd party Overlays                |
+--  |                  |                                   |
+--  |                  | LSP:                              |
+--  | `,x`             | Native LSP                        |
+--  | `,X`             | 3rd party LSP                     |
+--  |                  |                                   |
+--  | `dx`/`yod`/`[d`  | Diagnostics?                      |
+--  |                  |                                   |
+--  | `<c-m-x>`        | Motion                            |
+--  |                  |                                   |
+--  |                  | UNIMPAIRED STYLE:                 |
+--  | `]x`             | Do/go-to next x                   |
+--  | `[x`             | Do/go-to previous x               |
+--  | `]X`             | Do/go-to first x                  |
+--  | `[X`             | Do/go-to last x                   |
+--  | `]ox`            | Enable x                          |
+--  | `[ox`            | Disable x                         |
+--  | `yox`            | Toggle x                          |
+--  +------------------+-----------------------------------+
 
 -- GENERAL PREFERENCES {{{1
 -- LEADERS {{{2
