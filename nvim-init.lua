@@ -3891,6 +3891,12 @@ run_lazy_setup({
               {
                 "aerial",
                 padding = { left = 1, right = 0 },
+                colored = true,
+                -- NOTE:  Show only 1 symbol, i.e. 'depth = -1'
+                depth = -1,
+                -- sep = "  ", -- →
+                -- dense = true,
+                -- dense_sep = "·", --  ·
               },
             },
             lualine_x = {
