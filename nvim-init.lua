@@ -2085,6 +2085,51 @@ vim.keymap.set(
   { silent = true }
 )
 
+-- TOGGLE CURRENT WORD SINGULAR/PLURAL {{{2
+local toggle_current_word_between_singular_and_plural_forms = function()
+  -- NOTE:
+  -- 1. Do nothing if cword is nil, empty or just the letter "s"
+  -- 2. If cword ends with `s` then treat cword as plural
+  -- 3. If cword does not end with `s` then treat cword as singular.
+
+  local singular_to_plural = function(word)
+    -- BASIC: add trailing`s`
+    local plural_word = word .. "s"
+    return plural_word
+  end
+  local plural_to_singular = function(word)
+    -- BASIC: remove trailing `s`
+    local singular_word = word:sub(1, -2)
+    return singular_word
+  end
+  local replace_cword_with_string = function(new_cword)
+    -- NOTE: Restore cursor position as much as possible(check edge cases)
+    local cursor_position = vim.api.nvim_win_get_cursor(0)
+    vim.cmd.normal({ "diwi" .. new_cword, bang = true })
+    vim.api.nvim_win_set_cursor(0, cursor_position)
+  end
+
+  local cword = vim.fn.expand("<cword>")
+
+  if not (cword == nil or cword == "" or cword == "s") then
+    -- NOTE:
+    if vim.endswith(cword, "s") or vim.endswith(cword, "S") then
+      replace_cword_with_string(plural_to_singular(cword))
+    else
+      replace_cword_with_string(singular_to_plural(cword))
+    end
+  end
+end
+vim.keymap.set(
+  "n",
+  "<c-p>",
+  toggle_current_word_between_singular_and_plural_forms,
+  {
+    silent = true,
+    desc = "Toggle current word between singular/plural forms",
+  }
+)
+
 -- HEADER DIVIDER LINES {{{2
 -- Make heading divider lines above/below current line using characters:
 --  `-`/`_`/`=`
