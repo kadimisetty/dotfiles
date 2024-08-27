@@ -1437,7 +1437,7 @@ vim.keymap.set(
 -- SPLITTING {{{2
 --  TODO: Find better split keymaps
 --  NOTE: These are deliberately identical to my tmux pane keymaps
---  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim mapping system..
+--  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim keymap system..
 --        So temporarily relying on good ol' `<c-w>v` and `<c-w>s` for the splits.
 --        and freeing up `<c-w>-`. `vim-vinegar` can use it in the meantime.
 --  HORIZONTAL SPLIT
@@ -1621,7 +1621,7 @@ vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", { silent = true })
 --  1. I want to use `<c-w>` as prefix key to gel with the rest of my window/tab
 --     page keymaps and since views act on windows and sessions can be
 --     considered to include tabpages.
---  2. The perfect mapping set for views/sessions would have been `<c-w>s/S` for
+--  2. The perfect keymap set for views/sessions would have been `<c-w>s/S` for
 --     saving and `<c-w>l/L` for loading view/sessions. However `<c-w>l` is used
 --     to navigate split views and is too important to sacrifice, hence the
 --     current keymaps.
@@ -1687,7 +1687,7 @@ vim.keymap.set("n", "<c-w>v9", "<cmd>loadview 9<cr>", { silent = true })
 -- 2. By default I want to save/load `Session.vim` to/frpm global directory,
 --    but also allow using a current directory with the `g*` prefix.
 -- 3. Preferring overwrite variants (i.e. `mksession!`) because if I have only
---    mapping to spend for this, the overwriting one seems more useful.
+--    keymap to spend for this, the overwriting one seems more useful.
 
 -- Make/source `Session.vim` from global directory
 vim.keymap.set(
@@ -1921,7 +1921,7 @@ end
 --    use `g0`.
 -- 4. `gH` natively starts select mode but I never use it, so feeling opkay
 --    about overwriting it.
--- 5. `gM` natively jumos to 50%, but keeping custom mapping away for sake of
+-- 5. `gM` natively jumos to 50%, but keeping custom keymap away for sake of
 --    completion and description appearing in `which-key` etc.
 do
   -- JUMP TO HIGH(H)/MEDIUM(M)/LOW(L) POSITION IN CURRENT LINE {{{4
@@ -2134,7 +2134,7 @@ vim.keymap.set(
 -- Make heading divider lines above/below current line using characters:
 --  `-`/`_`/`=`
 -- TODO: Add surround heading mode that will put the lines above/below line.
--- TODO: Make current line into a heading (provide mapping/command).
+-- TODO: Make current line into a heading (provide keymap/command).
 -- TODO: Make line span length of current line or specific length e.g. 80.
 -- TODO: Put a space after the comment indicator e.g. `# -----` etc.
 vim.cmd([[
@@ -2328,7 +2328,7 @@ vim.api.nvim_create_autocmd({ "WinEnter" }, {
 -- - Add space after pasting the word
 -- - ISSUE: first word will pase fine, words after when going up with k move
 --   into space and copy that space along with word. If i use a h to just go
---   back one letter, them the entire mapping fails beause there is no h on the
+--   back one letter, them the entire keymap fails beause there is no h on the
 --   first word.
 --   FIXME: Move into a function and handle this case.
 --   FIXME: `<esc>` moves the cursor back on when entering normal mode, so
@@ -2407,9 +2407,9 @@ inoremap <s-tab> <c-d>
 --   command = "set nocursorline",
 -- })
 
--- RESTORE `<c-i>` TO DISTINGUISH IT FROM `<tab>` MAPPINGS {{{2
+-- RESTORE `<c-i>` TO DISTINGUISH IT FROM `<tab>` KEYMAPS {{{2
 -- NOTE: `<c-i>` and `<tab>` are same in vim but, thankfully, different in nvim
--- and so allows them to be used in different mappings, however, by default,
+-- and so allows them to be used in different keymaps, however, by default,
 -- remapping `<tab>` will do the same to `<c-i>` unless it's explicitly set to
 -- something else, hence the following.
 vim.keymap.set("n", "<c-i>", "<c-i>", {
@@ -2424,7 +2424,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { silent = true })
 
 -- TOGGLE MODIFIABLE {{{2
 -- Toggle modifiable current buffer
--- NOTE: Mapping `yom` is in the style of `tpope/vim-unimpaired`
+-- NOTE: Keymap `yom` is in the style of `tpope/vim-unimpaired`
 -- TODO: Use lua
 -- Turn on modifiable on current buffer
 vim.keymap.set(
@@ -2700,7 +2700,7 @@ vim.keymap.set("n", "[og", "<cmd>setlocal signcolumn=no<cr>", { silent = true })
 -- Set gutter (sign column) to turn on/off automatically
 -- TODO: Consider disabling this, as it's too unweildy
 -- NOTE: This is in the style of `tpope/vim-unimpaired` and since the about
---       mapping/function does not cover `auto` this does;
+--       keymap/function does not cover `auto` this does;
 --       the mnemonic `]oga` is for `turn on the gutter=auto`
 vim.keymap.set(
   "n",
@@ -3500,7 +3500,7 @@ run_lazy_setup({
         {
           "echasnovski/mini.splitjoin",
           version = "*",
-          -- NOTE: Disable default mappings because this is here as backup only
+          -- NOTE: Disable default keymaps because this is here as backup only
           opts = { mappings = { toggle = "", split = "", join = "" } },
         },
       },
@@ -4157,7 +4157,7 @@ run_lazy_setup({
         "MunifTanjim/nui.nvim",
         "nvim-tree/nvim-web-devicons",
         {
-          -- Required in mappings using `*_window_picker`
+          -- Required in keymaps using `*_window_picker`
           "s1n7ax/nvim-window-picker",
           name = "window-picker",
           event = "VeryLazy",
@@ -4238,7 +4238,7 @@ run_lazy_setup({
         on_attach = function(buffer)
           local gs = package.loaded.gitsigns
 
-          -- TODO: Add git buffer mappings on git load
+          -- TODO: Add git buffer keymaps on git load
           local function map(mode, l, r, desc)
             vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
           end
@@ -4376,7 +4376,7 @@ run_lazy_setup({
           desc = "Search jump list",
         },
         -- {
-        ---- TODO: Another mapping, using `t` for tabs
+        ---- TODO: Another keymap, using `t` for tabs
         --   "<space>t",
         --   "<cmd>Telescope current_buffer_tags<cr>",
         --   desc = "Search tags",
@@ -4547,7 +4547,7 @@ run_lazy_setup({
             -- "debugloop/telescope-undo.nvim",
             undo = {
               use_delta = false, -- do not use `delta` here
-              -- DEFAULT MAPPINGS:
+              -- DEFAULT KEYMAPS:
               -- mappings = {
               -- i = {
               --   ["<cr>"] = require("telescope-undo.actions").yank_additions,
@@ -4669,7 +4669,7 @@ run_lazy_setup({
       end,
       keys = {
         --[[
-        NOTE: Table shows vim's equivalent mappings(VIM), the mappings I
+        NOTE: Table shows vim's equivalent keymaps(VIM), the keymaps I
         added/overwrote(MINE) to use the features provided by foldnav.
         +-----+------+-------------------+----------------------------------+
         | VIM | MINE | FOLDNAV           | DESCRIPTION                      |
