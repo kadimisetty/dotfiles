@@ -3250,7 +3250,7 @@ run_lazy_setup({
   -- LAZY PLUGINS {{{2
   lazy_plugins = {
 
-    -- which key {{{3
+    -- which-key - show keymaps {{{3
     {
       "folke/which-key.nvim",
       event = "VeryLazy",
@@ -3266,7 +3266,7 @@ run_lazy_setup({
       dependencies = "echasnovski/mini.icons",
     },
 
-    -- surround {{{3
+    -- surround - act on surroundings {{{3
     {
       "tpope/vim-surround",
       event = "VeryLazy",
@@ -3276,7 +3276,7 @@ run_lazy_setup({
       end,
     },
 
-    -- abolish {{{3
+    -- abolish - search word variants {{{3
     {
       "tpope/tpope-vim-abolish",
       event = "VeryLazy",
@@ -3306,49 +3306,49 @@ run_lazy_setup({
       end,
     },
 
-    -- endwise {{{3
+    -- endwise - complete "end" like keyword {{{3
     {
       "tpope/vim-endwise",
       event = "VeryLazy",
     },
 
-    -- eunuch {{{3
+    -- eunuch - unix helpers {{{3
     {
       "tpope/vim-eunuch",
       event = "VeryLazy",
     },
 
-    -- fugitive {{{3
+    -- fugitive - git helpers {{{3
     {
       "tpope/vim-fugitive",
       event = "VeryLazy",
     },
 
-    -- liquid {{{3
+    -- liquid - jekyll support {{{3
     {
       "tpope/vim-liquid",
       event = "VeryLazy",
     },
 
-    -- repeat {{{3
+    -- repeat - repeat last command {{{3
     {
       "tpope/vim-repeat",
       event = "VeryLazy",
     },
 
-    -- rsi {{{3
+    -- rsi - readline insertion support  {{{3
     {
       "tpope/vim-rsi",
       event = "VeryLazy",
     },
 
-    -- vinegar {{{3
+    -- vinegar - netrw helpers {{{3
     {
       "tpope/vim-vinegar",
       event = "VeryLazy",
     },
 
-    -- oil {{{3
+    -- oil - filesystem helpers {{{3
     {
       "stevearc/oil.nvim",
       cmd = "Oil",
@@ -3391,7 +3391,7 @@ run_lazy_setup({
       dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
-    -- unimpaired {{{3
+    -- unimpaired - next/prev/toggle mappings {{{3
     -- TODO: Find a replacement that allows choosing/changing keymaps
     {
       "tpope/vim-unimpaired",
@@ -3441,7 +3441,7 @@ run_lazy_setup({
       },
     },
 
-    -- mini align {{{3
+    -- mini align - text alignment {{{3
     {
       "echasnovski/mini.align",
       version = false, -- KEEP(version): as per docs
@@ -3455,7 +3455,7 @@ run_lazy_setup({
       },
     },
 
-    -- split-join with treesj and mini.splitjoin {{{3
+    -- treesj/mini.splitjoin -- split join expressions {{{3
     {
       "Wansmer/treesj",
       -- NOTE:
@@ -3506,7 +3506,7 @@ run_lazy_setup({
       },
     },
 
-    -- highlight trailing whitespace {{{3
+    -- bad-whitespace - highlight trailing whitespace {{{3
     {
       "bitc/vim-bad-whitespace",
       -- TODO: Delete the provided command `EraseBadWhitespace`, I'm using a
@@ -3525,7 +3525,7 @@ run_lazy_setup({
       end,
     },
 
-    -- strip trailing whitespace {{{3
+    -- strip-trailing-whitespace - strip trailing whitespace {{{3
     -- TODO: Strip only in vcs(git) changed files.
     -- NOTE: This plugin is not currently being used for highlighting.
     -- NOTE: Strips trailing whitespace on changed lines only. To strip
@@ -3534,7 +3534,7 @@ run_lazy_setup({
     -- because they likely don't respect this behavior.
     "axelf4/vim-strip-trailing-whitespace",
 
-    -- indent blankline {{{3
+    -- indent-blankline - indent guides {{{3
     {
       "lukas-reineke/indent-blankline.nvim",
       event = "BufEnter",
@@ -3548,13 +3548,13 @@ run_lazy_setup({
       },
     },
 
-    -- emmet {{{3
+    -- emmet - html completions {{{3
     {
       "mattn/emmet-vim",
       event = "VeryLazy",
     },
 
-    -- mini.animate {{{3
+    -- mini.animate - animate movements/actions {{{3
     {
       "echasnovski/mini.animate",
       event = "VeryLazy",
@@ -3600,7 +3600,7 @@ run_lazy_setup({
       end,
     },
 
-    -- mini.map {{{3
+    -- mini.map - sidebar minimap {{{3
     {
       "echasnovski/mini.map",
       event = "VeryLazy",
@@ -3699,7 +3699,7 @@ run_lazy_setup({
       dependencies = { "lewis6991/gitsigns.nvim" },
     },
 
-    -- smartcolumn {{{3
+    -- smartcolumn - line over limit indicator {{{3
     {
       "m4xshen/smartcolumn.nvim",
       opts = {
@@ -3716,7 +3716,7 @@ run_lazy_setup({
       },
     },
 
-    -- boole (toggle/invert)  {{{3
+    -- boole - toggle/invert current word {{{3
     {
       "nat-418/boole.nvim",
       -- NOTE: Use `allow_caps_additions` over `additions` to preserve case.
@@ -3784,7 +3784,7 @@ run_lazy_setup({
       },
     },
 
-    -- tokyonight colorscheme {{{3
+    -- tokyonight - folke colorscheme {{{3
     {
       "folke/tokyonight.nvim",
       lazy = false, -- Load during startup if main colorscheme
@@ -3812,7 +3812,7 @@ run_lazy_setup({
       },
     },
 
-    -- lualine - statusline {{{3
+    -- lualine - statusline helper {{{3
     {
       "nvim-lualine/lualine.nvim",
       -- TODO: Consider moving to `echasnovski/mini.statusline`
@@ -3996,7 +3996,7 @@ run_lazy_setup({
       },
     },
 
-    -- taboo {{{3
+    -- taboo - tab bar helper {{{3
     {
       "gcmt/taboo.vim",
       init = function()
@@ -4006,7 +4006,7 @@ run_lazy_setup({
       dependencies = { "ryanoasis/vim-devicons" },
     },
 
-    -- undotree {{{3
+    -- undotree - undo tree helper {{{3
     {
       "jiaoshijie/undotree",
       config = true,
@@ -4032,7 +4032,7 @@ run_lazy_setup({
       dependencies = "nvim-lua/plenary.nvim",
     },
 
-    -- autopairs {{{3
+    -- autopairs - autocomplete brackets {{{3
     {
       "windwp/nvim-autopairs",
       event = "VeryLazy",
@@ -4078,7 +4078,7 @@ run_lazy_setup({
       },
     },
 
-    -- neo-tree {{{3
+    -- neo-tree - sidebar filesystem helper {{{3
     {
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v2.x",
@@ -4170,7 +4170,7 @@ run_lazy_setup({
       },
     },
 
-    -- alpha start page {{{3
+    -- alpha - start page {{{3
     {
       "goolord/alpha-nvim",
       config = function()
@@ -4222,7 +4222,7 @@ run_lazy_setup({
       end,
     },
 
-    -- gitsigns {{{3
+    -- gitsigns - git helper {{{3
     {
       "lewis6991/gitsigns.nvim",
       event = { "BufReadPre", "BufNewFile" },
@@ -4262,7 +4262,7 @@ run_lazy_setup({
       },
     },
 
-    -- lazygit {{{3
+    -- lazygit - git helper {{{3
     {
       "kdheepak/lazygit.nvim",
       -- TODO: [Use telescope extension?](https://github.com/kdheepak/lazygit.nvim#telescope-plug)
@@ -4300,7 +4300,7 @@ run_lazy_setup({
       },
     },
 
-    -- telescope {{{3
+    -- telescope - fuzzy search {{{3
     {
       "nvim-telescope/telescope.nvim",
       lazy = false,
@@ -4573,14 +4573,14 @@ run_lazy_setup({
       },
     },
 
-    -- narrow region {{{3
+    -- narrow region - focus on selected region {{{3
     -- TODO: Create keymaps
     {
       "chrisbra/NrrwRgn",
       event = "VeryLazy",
     },
 
-    -- barbecue -- breadcrumbs in a top bar {{{3
+    -- barbecue - breadcrumbs in top bar {{{3
     -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but it's >= 0.10.0-dev. Try later.
     {
       "utilyre/barbecue.nvim",
@@ -4619,7 +4619,7 @@ run_lazy_setup({
       },
     },
 
-    -- flit {{{3
+    -- flit - jump helper {{{3
     {
       "ggandor/flit.nvim",
       event = "VeryLazy",
@@ -4632,7 +4632,7 @@ run_lazy_setup({
       },
     },
 
-    -- skeleton(template) files {{{3
+    -- skel-nvim - skeleton/template files {{{3
     -- NOTE:  Load skeletons from `skeleton` directory within nepvim's config
     -- directory i.e. `vim.fn.stdpath('config)`. e.g.:
     -- `$HOME/.config/nvim/skeleton/rust.skel`
@@ -4654,7 +4654,7 @@ run_lazy_setup({
       },
     },
 
-    -- fold navigation {{{3
+    -- foldnav - fold navigation {{{3
     -- NOTE: Works only in folds (duh). Check if folds are active by opening
     -- `foldcolumn` with for e.g: `:set foldcolumn=5`.
     -- TODO: Add a `foldcolumn` toggler.
@@ -4719,11 +4719,8 @@ run_lazy_setup({
       },
     },
 
-    -- todo comments {{{3
-    -- Pragmas (todo/fixme/note etc.)
-    -- NOTE: `p` for pragma, like xcode pragma
+    -- todo-comments - highlight "pragmas" like `TODO` {{{3
     -- TODO: Toggle display in gutter
-    -- TODO: Make this into a separate plugin
     {
       "folke/todo-comments.nvim",
       event = { "BufReadPost", "BufNewFile" },
@@ -4754,8 +4751,8 @@ run_lazy_setup({
           exclude = {}, -- list of file types to exclude highlighting
         },
       },
-      -- TODO: Add keymaps that restrict searching for pragmas in current
-      -- buffer
+      -- NOTE: `p` for "pragma", like XCode pragma
+      -- TODO: Add keymaps that restrict pragma searching to current buffer
       keys = {
         {
           "]p",
@@ -4789,13 +4786,13 @@ run_lazy_setup({
       },
     },
 
-    -- vim-textobj-user {{{3
+    -- vim-textobj-user - text object framework {{{3
     {
       "kana/vim-textobj-user",
       event = "VeryLazy",
     },
 
-    -- vim-textobj-entire {{{3
+    -- vim-textobj-entire - text object for entire file {{{3
     -- `e`
     {
       "kana/vim-textobj-entire",
@@ -4803,7 +4800,7 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-indent {{{3
+    -- vim-textobj-indent - text object for indent {{{3
     -- `i`
     {
       "kana/vim-textobj-indent",
@@ -4811,7 +4808,7 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-parameter {{{3
+    -- vim-textobj-parameter - text object for function parameter {{{3
     -- `,`
     {
       "sgur/vim-textobj-parameter",
@@ -4819,7 +4816,7 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-chainmember {{{3
+    -- vim-textobj-chainmember - text object for chained method {{{3
     -- `m`
     {
       "D4KU/vim-textobj-chainmember",
@@ -4827,7 +4824,7 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-python {{{3
+    -- vim-textobj-python - text objects for python {{{3
     -- `f`/`c`
     {
       "bps/vim-textobj-python",
@@ -4835,23 +4832,22 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-lua {{{3
+    -- vim-textobj-lua -text objects for lua {{{3
     -- `l`
     -- {"spacewander/vim-textobj-lua",
     --     ft = "lua",
     --     dependencies = "kana/vim-textobj-user",
     -- },
 
-    -- vim-textobj-comment {{3
-    -- `c` FIXME: Collision with `bps/vim-textobj-python`'s `c`
+    -- vim-textobj-comment - text objects for comments {{3
+    -- `c` FIXME: Collision with `bps/vim-textobj-python`s`/`c`
     {
       "glts/vim-textobj-comment",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-fold {{{3
-    -- Fold areas as text objects
+    -- vim-textobj-fold - text objects for folds {{{3
     -- `z`
     {
       "kana/vim-textobj-fold",
@@ -4859,7 +4855,7 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-url  {{{3
+    -- vim-textobj-url  - text objects for urls {{{3
     -- `u`
     {
       "LeonB/vim-textobj-url",
@@ -4867,22 +4863,20 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-elixir {{{3
+    -- vim-textobj-elixir - text objects for elixir {{{3
     -- `e` FIXME: Collision with "entire", Change to `x`?
     -- {"andyl/vim-textobj-elixir",
     --      ft = "elixir",
     --      dependencies = "kana/vim-textobj-user",
     -- },
 
-    -- cool {{{3
-    -- Disable search highlight on moving after searching
+    -- cool - turn off serach highlight after search completed {{{3
     {
       "romainl/vim-cool",
       event = "VeryLazy",
     },
 
-    -- colorful-winsep {{{3
-    -- Colorful window border
+    -- colorful-winsep - colorful window borders {{{3
     {
       "nvim-zh/colorful-winsep.nvim",
       event = { "WinNew" },
@@ -4913,7 +4907,7 @@ run_lazy_setup({
       },
     },
 
-    -- rainbow_parentheses {{{3
+    -- rainbow_parentheses - multi-colored nested brackets {{{3
     -- FIXME: Place after any vim-unimpaired preferences because I'm
     -- overriding the default `r` for `relativenumber` using in
     -- vim-unimpaired. Finda better solution to this predicament as this won't
@@ -4948,8 +4942,7 @@ run_lazy_setup({
       },
     },
 
-    -- beacon {{{3
-    -- Find cursor
+    -- beacon - draw attention to cursor after jump {{{3
     {
       "rainbowhxch/beacon.nvim",
       opts = {
@@ -4971,7 +4964,7 @@ run_lazy_setup({
       },
     },
 
-    -- sort motion {{{3
+    -- sort-motion - sort operator {{{3
     -- `gs`
     -- TODO: Make a plugin `gs` that ignores comments
     {
@@ -4979,8 +4972,7 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- titlecase {{{3
-    -- Title case
+    -- titlecase - title case operator {{{3
     -- `gz`
     {
       "christoomey/vim-titlecase",
@@ -5061,8 +5053,7 @@ run_lazy_setup({
       },
     },
 
-    -- hlargs {{{3
-    -- LSP `highlight-args`
+    -- hlargs - LSP `highlight-args` {{{3
     {
       "m-demare/hlargs.nvim",
       event = "VeryLazy",
@@ -5072,8 +5063,7 @@ run_lazy_setup({
       },
     },
 
-    -- plenary {{{3
-    -- Nvim/Lua helpers (often used as a dependency as well)
+    -- plenary - nvim/Lua helpers {{{3
     {
       "nvim-lua/plenary.nvim",
       lazy = true,
@@ -5087,8 +5077,7 @@ run_lazy_setup({
       end,
     },
 
-    -- illuminate {{{3
-    -- Same word highlights (LSP/treesitter/regex)
+    -- illuminate - highlight same word (LSP/treesitter/regex) {{{3
     {
       "RRethy/vim-illuminate",
       event = { "BufReadPost", "BufNewFile" },
@@ -5146,15 +5135,13 @@ run_lazy_setup({
       },
     },
 
-    -- dressing {{{3
-    -- Better vim ui
+    -- dressing - better vim UI {{{3
     {
       "stevearc/dressing.nvim",
       event = "VeryLazy",
     },
 
-    -- fidget {{{3
-    -- LSP loading indicator
+    -- fidget - LSP loading indicator {{{3
     {
       "j-hui/fidget.nvim",
       tag = "legacy", -- TODO: Remove when fidget is eventually updated
@@ -5188,15 +5175,13 @@ run_lazy_setup({
       end,
     },
 
-    -- qf-edit {{{3
-    -- Edit quickfix list like a normal buffer
+    -- qf-edit - edit quickfix list like a normal buffer {{{3
     {
       "itchyny/vim-qfedit",
       ft = "qf",
     },
 
-    -- trouble {{{3
-    -- LSP reporting UI
+    -- trouble - reporting UI (lsp/make etc) {{{3
     -- TODO: clean keymap desc
     {
       "folke/trouble.nvim",
@@ -5256,8 +5241,7 @@ run_lazy_setup({
       },
     },
 
-    -- aerial {{{3
-    -- LSP symbol outline listing
+    -- aerial - LSP symbol outline helper {{{3
     -- NOTE: Choosing this over "simrat39/symbols-outline.nvim" because this
     -- is much simpler and easier on the eyes.
     {
@@ -5284,7 +5268,7 @@ run_lazy_setup({
       },
     },
 
-    -- code action with preview {{{3
+    -- actions-preview - code action with preview {{{3
     -- TODO: Only activate if lsp active
     {
       "aznhe21/actions-preview.nvim",
@@ -5448,7 +5432,7 @@ run_lazy_setup({
       end,
     },
 
-    -- mason {{{3
+    -- mason - tools provider {{{3
     {
       "williamboman/mason.nvim",
       lazy = false, -- because `keys` would make ahis default to true
@@ -5509,8 +5493,7 @@ run_lazy_setup({
       },
     },
 
-    -- none-ls / null-ls {{{3
-    -- formatting/code_actions/diagnostics/hover/completion
+    -- none-ls/null-ls - treat formatting/code_actions etc. like LSP {{{3
     {
       "nvimtools/none-ls.nvim",
       -- "jose-elias-alvarez/null-ls.nvim"
@@ -5598,7 +5581,7 @@ run_lazy_setup({
       },
     },
 
-    -- luasnip {{{3
+    -- luasnip - snippet manager {{{3
     {
       "L3MON4D3/LuaSnip",
       version = "2.*",
@@ -5713,7 +5696,7 @@ run_lazy_setup({
       },
     },
 
-    -- nvim-cmp  {{{3
+    -- nvim-cmp - auto-completion helpers {{{3
     {
       "hrsh7th/nvim-cmp",
       event = "InsertEnter",
