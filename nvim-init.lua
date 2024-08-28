@@ -5077,6 +5077,14 @@ run_lazy_setup({
       end,
     },
 
+    -- full_visual_line.nvim - highlights full screen line in `V` mode {{{3
+    {
+      "0xAdk/full_visual_line.nvim",
+      enabled = true,
+      keys = "V",
+      opts = {},
+    },
+
     -- illuminate - highlight same word (LSP/treesitter/regex) {{{3
     {
       "RRethy/vim-illuminate",
