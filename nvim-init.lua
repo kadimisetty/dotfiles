@@ -3812,6 +3812,15 @@ run_lazy_setup({
       },
     },
 
+    -- visual-split.vim - split from visual selection or text object {{{3
+    {
+      "wellle/visual-split.vim",
+      -- TODO: Only going to be using "split", so remove "resize" keymaps and
+      -- functions. Just use a single keymap and text object operator for
+      -- "split above", for example: `<c-w>gv` or something shorter.
+      event = "VeryLazy",
+    },
+
     -- lualine - statusline helper {{{3
     {
       "nvim-lualine/lualine.nvim",
