@@ -3716,6 +3716,35 @@ run_lazy_setup({
       },
     },
 
+    -- other.nvim - open alternate files {{{3
+    {
+      "rgroli/other.nvim",
+      -- FIXME: unable to detect "other" file in cargo projects
+      -- TODO:
+      -- 1. Consider using `tpope/vim-projectionist` instead becauses of it's
+      --    simpler pattern specification i.e. `{}`.
+      -- 1. Find good keymaps.
+      -- 2. Add custom language/framework Heuristics instead of the provided
+      --    built-ins.
+      cmd = {
+        "Other",
+        "OtherTabNew",
+        "OtherSplit",
+        "OtherVSplit",
+      },
+      config = function()
+        require("other-nvim").setup({
+          {
+            mappings = {
+              "golang",
+              "python",
+              "rust",
+            },
+          },
+        })
+      end,
+    },
+
     -- boole - toggle/invert current word {{{3
     {
       "nat-418/boole.nvim",
