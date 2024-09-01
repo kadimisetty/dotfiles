@@ -4830,54 +4830,48 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- vim-textobj-entire - text object for entire file {{{3
-    -- `e`
+    -- vim-textobj-entire `e` - text object for entire file {{{3
     {
       "kana/vim-textobj-entire",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-indent - text object for indent {{{3
-    -- `i`
+    -- vim-textobj-indent `i` - text object for indent {{{3
     {
       "kana/vim-textobj-indent",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-parameter - text object for function parameter {{{3
-    -- `,`
+    -- vim-textobj-parameter `,` - text object for function parameter {{{3
     {
       "sgur/vim-textobj-parameter",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-chainmember - text object for chained method {{{3
-    -- `m`
+    -- vim-textobj-chainmember `m` - text object for chained method {{{3
     {
       "D4KU/vim-textobj-chainmember",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-python - text objects for python {{{3
-    -- `f`/`c`
+    -- vim-textobj-python `f`,`c` - text objects for python {{{3
     {
       "bps/vim-textobj-python",
       ft = "python",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-lua -text objects for lua {{{3
-    -- `l`
+    -- vim-textobj-lua `l` - text objects for lua {{{3
     -- {"spacewander/vim-textobj-lua",
     --     ft = "lua",
     --     dependencies = "kana/vim-textobj-user",
     -- },
 
-    -- vim-textobj-comment - text objects for comments {{3
+    -- vim-textobj-comment `c` - text objects for comments {{3
     -- `c` FIXME: Collision with `bps/vim-textobj-python`s`/`c`
     {
       "glts/vim-textobj-comment",
@@ -4885,23 +4879,21 @@ run_lazy_setup({
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-fold - text objects for folds {{{3
-    -- `z`
+    -- vim-textobj-fold `z` - text objects for folds {{{3
     {
       "kana/vim-textobj-fold",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-url  - text objects for urls {{{3
-    -- `u`
+    -- vim-textobj-url `u` - text objects for urls {{{3
     {
       "LeonB/vim-textobj-url",
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
 
-    -- vim-textobj-elixir - text objects for elixir {{{3
+    -- vim-textobj-elixir `e` - text objects for elixir {{{3
     -- `e` FIXME: Collision with "entire", Change to `x`?
     -- {"andyl/vim-textobj-elixir",
     --      ft = "elixir",
