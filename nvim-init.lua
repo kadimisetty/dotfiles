@@ -581,15 +581,56 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
   end,
 })
 
--- Append prime character to curent word
--- TODO: Use a function to allow adding and removing trailing `'`
+-- Toggle trailing prime character on word under cursor
+-- TODO: Do variants of this for <cword>/<cWORD>/<cexpr> etc., SEE `:h cword`
+-- TODO: Make repeatable by setting operatorfunc (Here or at callsite?)
+-- TODO: Extract these functions into their own section to make them reusable
+-- NOTE: Adjust cursor position after toggle at call site
+local replace_cword_with_string = function(s)
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "ciw" .. s, bang = true })
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+end
+local toggle_trailing_pattern_on_string = function(s, trailing_pattern)
+  if vim.endswith(s, trailing_pattern) then
+    --  ON TRUE: remove trailing pattern
+    return string.sub(s, 1, -(trailing_pattern:len() + 1))
+  else
+    --  ON FALSE: add trailing pattern
+    return s .. trailing_pattern
+  end
+end
+local toggle_leading_pattern_on_string = function(s, leading_pattern)
+  if vim.startswith(s, leading_pattern) then
+    --  ON TRUE: remove leading pattern
+    return string.sub(s, (leading_pattern:len() + 1), -1)
+  else
+    --  ON FALSE: add leading pattern
+    return leading_pattern .. s
+  end
+end
+
 -- TODO: Make this a toggle to remove the prime character if present already.
 -- TODO: Achieve this without polluting registers (here `z`)
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = haskell_augroup,
   pattern = { "haskell" },
-  command = [[ nnoremap <silent> <localleader>'  mzea'<esc>`zh ]],
-  desc = "Append prime character to curent word",
+  callback = function()
+    vim.keymap.set("n", "<localleader>'", function()
+      local cword = vim.fn.expand("<cword>")
+      -- Only change if cword is neither empty nor whitesapce
+      if not (cword == "" or cword:match("%s")) then
+        replace_cword_with_string(toggle_trailing_pattern_on_string(cword, "'"))
+        -- FIXME: When the cursor is on the last trailing pattern character,
+        -- removing that character leaves the cursor outside the word,
+        -- which is not the desired behavior. The cursor should move back
+        -- one step to remain "inside" the word, allowing the action to
+        -- be repeated if necessary. This will be particularly useful
+        -- with dot repetition.
+      end
+    end)
+  end,
+  desc = "Toggkle trailing prime character on word under cursor",
 })
 
 -- Add `undefined` stub to function with type signature under cursor
