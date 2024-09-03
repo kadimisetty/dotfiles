@@ -4341,6 +4341,43 @@ run_lazy_setup({
       },
     },
 
+    -- diffview.nvim - git diff viewer/helper {{{3
+    {
+      "sindrets/diffview.nvim",
+      cmd = {
+        "DiffviewClose",
+        "DiffviewFileHistory",
+        "DiffviewFocusFiles",
+        "DiffviewLog",
+        "DiffviewOpen",
+        "DiffviewRefresh",
+        "DiffviewToggleFiles",
+      },
+      opts = function()
+        local actions = require("diffview.actions")
+        local common_keymaps = {
+          -- NOTE: I use tabs to switch between tag pages and they're too
+          -- important to be overwritten, so replacing their plugin behavior of
+          -- `select_next_entry`/`select_prev_entry` with `[f`/`]f` whose
+          -- "unimpaired" behavior of next/previous file is undesirable in this
+          -- context anyway and also because they are similar to plugin's
+          -- `[F`/`]F`(`select_first_entry`/`select_last_entry`).
+          ["<tab>"] = false,
+          ["<s-tab>"] = false,
+          ["]f"] = actions.select_next_entry,
+          ["[f"] = actions.select_prev_entry,
+        }
+        return {
+          keymaps = {
+            view = common_keymaps,
+            file_panel = common_keymaps,
+            file_history_panel = common_keymaps,
+          },
+        }
+      end,
+      dependencies = "nvim-lua/plenary.nvim",
+    },
+
     -- lazygit - git helper {{{3
     {
       "kdheepak/lazygit.nvim",
