@@ -618,8 +618,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.keymap.set("n", "<localleader>'", function()
       local cword = vim.fn.expand("<cword>")
-      -- Only change if cword is neither empty nor whitesapce
-      if not (cword == "" or cword:match("%s")) then
+      -- Verify cword is not empty, not nil and not whitesapce
+      if not (cword == nil or cword == "" or cword:match("%s")) then
         replace_cword_with_string(toggle_trailing_pattern_on_string(cword, "'"))
         -- FIXME: When the cursor is on the last trailing pattern character,
         -- removing that character leaves the cursor outside the word,
@@ -630,7 +630,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       end
     end)
   end,
-  desc = "Toggkle trailing prime character on word under cursor",
+  desc = "Toggle trailing prime character on word under cursor",
 })
 
 -- Add `undefined` stub to function with type signature under cursor
@@ -2143,21 +2143,24 @@ local toggle_current_word_between_singular_and_plural_forms = function()
     local singular_word = word:sub(1, -2)
     return singular_word
   end
-  local replace_cword_with_string = function(new_cword)
-    -- NOTE: Restore cursor position as much as possible(check edge cases)
+  local replace_cword_with_string = function(s)
     local cursor_position = vim.api.nvim_win_get_cursor(0)
-    vim.cmd.normal({ "diwi" .. new_cword, bang = true })
+    vim.cmd.normal({ "ciw" .. s, bang = true })
     vim.api.nvim_win_set_cursor(0, cursor_position)
   end
 
   local cword = vim.fn.expand("<cword>")
-
-  if not (cword == nil or cword == "" or cword == "s") then
-    -- NOTE:
-    if vim.endswith(cword, "s") or vim.endswith(cword, "S") then
-      replace_cword_with_string(plural_to_singular(cword))
-    else
-      replace_cword_with_string(singular_to_plural(cword))
+  -- Verify cword is not empty, not nil and not whitesapce
+  if not (cword == nil or cword == "" or cword:match("%s")) then
+    -- Verify cword isn't just single letter "s"
+    if cword ~= "s" then
+      if vim.endswith(cword, "s") or vim.endswith(cword, "S") then
+        --  ON TRUE: replace plural with singular
+        replace_cword_with_string(plural_to_singular(cword))
+      else
+        --  ON FALSE: replace singular with plural
+        replace_cword_with_string(singular_to_plural(cword))
+      end
     end
   end
 end
@@ -2167,7 +2170,7 @@ vim.keymap.set(
   toggle_current_word_between_singular_and_plural_forms,
   {
     silent = true,
-    desc = "Toggle current word between singular/plural forms",
+    desc = "Toggle singular/plural forms of word under cursor",
   }
 )
 
