@@ -4160,30 +4160,79 @@ run_lazy_setup({
       },
     },
 
+    -- mini.files - sidebar filesystem helper {{{3
+    -- TODO: Prevent going upwards from root `cwd` window!
+    -- TODO: In relation to neo-tree and mini.files:
+    -- 1. Use `-`/`_` to toggle plugin with ALL files in `cwd`
+    -- 2. Use `<m-->`/`<m-_>` to toggle plugin with GIT-RELATED files in `cwd`
+    -- TODO: Add decoration to focussed window SEE: minifiles highlights
+    -- TODO: Consider `<cr>` for `go_in` and `<s-cr>` keymap for `go_in_plus`
+    -- TODO: Use autocommands to set in-plugin keymaps of `<left>`/`<right>` as
+    -- additional `go_in`/`go_out` keymaps. `<s-left>` can be an additional
+    -- keymap for `go_out_plus`.
+    {
+      "echasnovski/mini.files",
+      version = false,
+      event = "VeryLazy",
+      opts = {
+        windows = {
+          width_focus = 30,
+          width_nofocus = 20,
+          preview = true,
+          width_preview = 36,
+        },
+        mappings = {
+          reset = "=", -- DEFAULT: "<bs>"
+          synchronize = "<c-s>", -- DEFAULT: "="
+          go_in = "<cr>", -- DEFAULT: "l"
+          go_in_plus = "<s-cr>", -- DEFAULT: "L"
+          -- TODO: Do not let "<esc>" keymaps for "go_out(_plus)s" go upwards
+          -- beyond root cwd. An "<esc>" in root should just close plugin.
+          go_out = "<esc>", -- DEFAULT: "h"
+          go_out_plus = "<s-esc>", -- DEFAULT: "H"
+        },
+      },
+      keys = function()
+        local minifiles = require("mini.files")
+        return {
+          {
+            "-",
+            function()
+              if not minifiles.close() then
+                minifiles.open()
+              end
+            end,
+            desc = "Toggle mini.files",
+          },
+        }
+      end,
+    },
+
     -- neo-tree - sidebar filesystem helper {{{3
+    -- TODO: Co-ordinate keymaps with "mini.files" SEE: mini.files's TODOs.
+    -- FIXME: Cleanup commands being used in keymaps because there are too many
+    -- loading errors, eg: `?` to show help within plugin window.
     {
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v2.x",
-      -- event = "VeryLazy",
-      lazy = false,
-      priority = 600,
+      event = "VeryLazy",
       init = function()
         -- Disable deprecated commands e.g. `:NeoTreeReveal`
         vim.g.neo_tree_remove_legacy_commands = 1
       end,
       keys = {
-        -- Filesystem with current file selected
+        -- All files with current file selected in cwd
         {
-          "-",
+          "_",
           "<cmd>Neotree action=focus source=filesystem position=left toggle=true reveal=true<cr>",
           desc = "Toggle NeoTree",
         },
-        -- Git relevant files with current file selected
-        {
-          "_",
-          "<cmd>Neotree action=focus source=git_status position=left toggle=true reveal=true<cr>",
-          desc = "Toggle NeoTree",
-        },
+        -- FIXME: Git relevant files with current file selected in cwd
+        -- {
+        --   "_",
+        --   "<cmd>Neotree action=focus source=git_status position=left toggle=true reveal=true<cr>",
+        --   desc = "Toggle NeoTree",
+        -- },
       },
       opts = {
         sources = {
