@@ -239,6 +239,12 @@ alias design-sandbox="cd $HOME/design/design-sandbox/"
 # ENABLE VI MODE:
 fish_vi_key_bindings
 
+# NOTE: Some terminals like wezterm have issues with displaying fish cursor
+# appropriately, use this option to explicitly set the vi cursor. SEE:
+# 1. https://github.com/wez/wezterm/issues/2781
+# 2. https://fishshell.com/docs/current/interactive.html
+set fish_vi_force_cursor 1
+
 # READLINE BINDINGS ENHANCEMENTS FOR VI MODE (INSERT + NORMAL) {{{2
 # NOTE: `bind --function-names` shows bindable input functions
 # TODO: Only bind when vi mode is enabled.
@@ -280,112 +286,114 @@ end
 
 
 # PROMPT {{{1
-# VIM MODE PROMPT:
+# LEFT PROMPT {{{2
+# VI MODE PROMPT:
+# NOTE: `fish_mode_prompt` has to return nothing in order to allow "vi mode
+# status" to be updated inside regular `fish_prompt` function.
 function fish_mode_prompt
-    # NOTE:
-    #		This function uses specific unicode symbols. Intended display font is
-    #		Jetpack Mono. [Enclosed Alphanumeric
-    #		Supplement](https://en.wikipedia.org/wiki/Enclosed_Alphanumeric_Supplement)
-
-    switch $fish_bind_mode
-        case insert
-            echo (set_color brblack --bold --dim) "🄸  "
-        case default
-            echo (set_color brblue --bold) "🅽  "
-        case replace_one
-            echo (set_color magenta --bold) "🆁  "
-        case replace
-            echo (set_color brmagenta --bold) "🆁  "
-        case visual
-            echo (set_color bryellow --bold) "🆅  "
-        case "*"
-            # TODO: Look into this mode.
-            echo (set_color brred --bold) "? "
-    end
-    set_color normal
 end
-# LEFT PROMPT:
-function fish_prompt --description "Left prompt"
-    # NOTE: `$status` has to be collected right away, so place first.
+function fish_prompt
+    # NOTE: `$status` has to be collected right away, so keep this at the top.
     set --local _previous_command_status $status
 
-    # If not sudo calculate prompt symbol based on success/failure.
-    if test $_previous_command_status -eq 0
-        # `$status` is SUCCESS i.e. 0
-        set _prompt_symbol ""
-    else
-        # `$status` is FAILURE i.e. 1/12/123/124/125/126//127
-        set _prompt_symbol ""
+    # SHOW ROOT USER:
+    if fish_is_root_user
+        set_color $fish_color_cwd_root
+        echo -ns "ROOT: "
     end
-    # Override prompt if root
-    fish_is_root_user; and set _prompt_symbol '#'
 
+    # SHOW CURRENT DIRECTORY:
+    set_color white
+    echo -ns (prompt_pwd) " "
+
+    # SHOW PROMPT SYMBOL:
+    # ALT PROMPT ICONS:              "" #     󰁜  󰁜  󱦲
+    set --local _prompt_ok_symbol " "
+    set --local _prompt_error_symbol " "
+    # `$_previous_command_status` SUCCESS codes: 0
+    # `$_previous_command_status` FAILURE codes: 1/12/123/124/125/126/127
     if test $_previous_command_status -eq 0
-        # `$status` is SUCCESS i.e. 0
-        # (set_color $fish_color_operator) $_prompt_symbol   \
-        echo -s \
-            (set_color white) (prompt_pwd) " " \
-            (set_color $fish_color_redirection --dim) $_prompt_symbol \
-            (set_color normal ) " "
+        # SEE: https://fishshell.com/docs/current/cmds/fish_mode_prompt.html
+        switch $fish_bind_mode
+            case insert
+                set_color brblack --dim
+            case default
+                set_color brblue --dim
+            case replace_one
+                set_color magenta --dim
+            case replace
+                set_color brmagenta --dim
+            case visual
+                set_color bryellow --dim
+            case "*"
+                set_color brred --dim
+        end
+        echo -ns $_prompt_ok_symbol " "
     else
-        # `$status` is FAILURE i.e. 1/12/123/124/125/126//127
-        echo -s \
-            (set_color white) (prompt_pwd) " " \
-            (set_color $fish_color_error) $_prompt_symbol \
-            (set_color normal ) " "
+        set_color $fish_color_error --bold
+        echo -ns $_prompt_error_symbol " "
     end
 end
-# RIGHT PROMPT:
-function fish_right_prompt --description "Right prompt"
-    # When previous command fails show the error code
+
+# RIGHT PROMPT {{{2
+function fish_right_prompt
+    # NOTE: `$status` has to be collected right away, so keep this at the top.
     set --local _previous_command_status $status
 
-    if test $_previous_command_status -ne 0
-        set_color brblack --bold --dim
-        echo 🅔 (fish_status_to_signal $_previous_command_status)
+    # SHOW ERROR STATUS CODE:
+    if test $_previous_command_status -ne 0 # i.e. not success status code (0)
+        set_color $fish_color_error
+        set --local _error_indicator_symbol " " # 🅔
+        echo -ns $_error_indicator_symbol
+        echo -ns "E"(fish_status_to_signal $_previous_command_status)
         set_color $fish_color_normal
     end
 
-    # Indicate private mode
+    # SHOW PRIVATE MOPE:
     if test -n "$fish_private_mode"
-        echo -s (set_color brblack --bold --dim)
-        set_color brblack --bold --dim
-        echo PRIVATE
+        set_color magenta --dim
+        echo -ns " PRIVATE"
         set_color $fish_color_normal
     end
 
-    # Always show git prompt
-    echo -s (set_color brblack) (fish_git_prompt)
+    # SHOW GIT PROMPT:
+    set_color brblack
+    echo -ns (fish_git_prompt)
 
-    # Always add 1 character-wide right margin
-    echo " "
+    # SHOW TRAILING WHITESPACE:
+    echo -ns " "
 end
-# GIT PROMPT SETTINGS:
+
+# GIT PROMPT SETTINGS {{{2
+# NOTE:
+# 1. Filled circle for staged file related states
+# 2. Unfilled circle for unstaged file related states
 set __fish_git_prompt_show_informative_status true
 set __fish_git_prompt_use_informative_chars true
 set __fish_git_prompt_char_stateseparator ""
 # GIT PROMPT GENERAL COLORS:
-set __fish_git_prompt_color brblack
+set __fish_git_prompt_color $fish_color_comment # ALTS: brblack
 set __fish_git_prompt_color_bare blue
-set __fish_git_prompt_color_prefix black
-set __fish_git_prompt_color_suffix black
+set __fish_git_prompt_color_prefix brblack
+set __fish_git_prompt_color_suffix brblack
 # GIT PROMPT CLEAN STATE:
-set __fish_git_prompt_char_cleanstate " "
-set __fish_git_prompt_color_cleanstate brblack
+set __fish_git_prompt_char_cleanstate "  " # ALTS:  , 󰊢 ,  , 
+set __fish_git_prompt_color_cleanstate $fish_color_comment
 # GIT PROMPT DIRTY STATE (UNSTAGED FILES) WITH CHANGES EXIST:
 set __fish_git_prompt_showdirtystate true
-set __fish_git_prompt_char_dirtystate " "
+set __fish_git_prompt_char_dirtystate " 󱨧 " # ALTS: , 
 set __fish_git_prompt_color_dirtystate brred
 # GIT PROMPT STAGED FILES WITHOUT ADDITIONAL CHANGES EXIST:
-set __fish_git_prompt_char_stagedstate " "
+set __fish_git_prompt_char_stagedstate "  "
 set __fish_git_prompt_color_stagedstate yellow
 # GIT PROMPT UNTRACKED FILES EXIST:
 set __fish_git_prompt_showuntrackedfiles true
-set __fish_git_prompt_char_untrackedfiles " "
+set __fish_git_prompt_char_untrackedfiles "  " # ALTS:   
 set __fish_git_prompt_color_untrackedfiles brmagenta
-# GIT PROMPT INVALID STATE (IN FISH "UNMERGED" CHANGES ARE ADDITIONAL CHANGES
-# TO ALREADY ADDED FILES):
-set __fish_git_prompt_char_invalidstate " "
+# GIT PROMPT INVALID STATE:
+# NOTE: In fish git prompt parlance, "unmerged" changes can be considered
+# additional changes to already added files.
+set __fish_git_prompt_char_invalidstate "  " # ALTS: 
 set __fish_git_prompt_color_invalidstate brred
 # GIT PROMPT UPSTREAM AND DOWNSTREAM DIFFERENCES:
 set __fish_git_prompt_showupstream auto
@@ -397,8 +405,8 @@ set __fish_git_prompt_color_upstream yellow
 #   set __fish_git_prompt_color_upstream_done "green"
 # GIT PROMPT STASH:
 set __fish_git_prompt_showstashstate true
-set __fish_git_prompt_char_stashstate " "
-set __fish_git_prompt_color_stashstate brblack
+set __fish_git_prompt_char_stashstate "  " # ALTS:   
+set __fish_git_prompt_color_stashstate $fish_color_comment # ALTS: brblack
 
 
 # LSD {{{1
