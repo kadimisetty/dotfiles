@@ -468,6 +468,55 @@ vim.opt.iskeyword:append({ "_", "$", "@", "%", "#", "-" })
 --      2. the second item
 vim.opt.formatoptions:append({ n = true })
 
+-- LIB {{{1
+-- TODO: Replace unnecessary functions with their `vim.fs.`* equivalents
+-- TODO: Add docstrings and validate parameter types
+-- TODO: Add a function that updates cword with given string
+-- TODO: Add a function that generates the fold level marker strings
+
+-- normalize_path(path) {{{2
+--- Normalizes given path
+local normalize_path = function(path)
+  -- Normalize path
+  local result = vim.fn.fnamemodify(path, ":p")
+  -- Remove trailing separator
+  result = result:gsub("[\\/]$", "")
+  return result
+end
+
+-- are_paths_equal(paths) {{{2
+--- Check if given paths are equivalent
+local are_paths_equal = function(paths)
+  -- 0 is an empty list and 1 is a single path
+  if #paths < 2 then
+    return true
+  end
+  -- Check all paths one by one
+  local first_path = normalize_path(paths[1])
+  for i = 2, #paths do
+    if normalize_path(paths[i]) ~= first_path then
+      return false
+    end
+  end
+  return true
+end
+
+-- does_parent_path_contain_given_path(given_path, parent_path) {{{2
+local does_parent_path_contain_given_path = function(path, parent_path)
+  local parent_path_normalized = vim.fn.fnamemodify(parent_path, ":p")
+  local given_path_normalized = vim.fn.fnamemodify(path, ":p")
+  -- Remove trailing separator if present
+  parent_path_normalized = parent_path_normalized:gsub("[\\/]$", "")
+  given_path_normalized = given_path_normalized:gsub("[\\/]$", "")
+  -- Check if given path starts with parent path and is longer
+  if
+    string.find(given_path_normalized, parent_path_normalized, 1, true) == 1
+  then
+    return #given_path_normalized > #parent_path_normalized
+  end
+  return false
+end
+
 -- LANGUAGE-SPECIFIC GENERIC PREFERENCES {{{1
 -- MARKDOWN {{{2
 -- Enable fiolding in markdown
@@ -4161,15 +4210,11 @@ run_lazy_setup({
     },
 
     -- mini.files - sidebar filesystem helper {{{3
-    -- TODO: Prevent going upwards from root `cwd` window!
-    -- TODO: In relation to neo-tree and mini.files:
+    -- TODO: Delete to trash (IMPORTANT)
+    -- TODO: Co-ordinate with `neo-tree.nvim`:
     -- 1. Use `-`/`_` to toggle plugin with ALL files in `cwd`
     -- 2. Use `<m-->`/`<m-_>` to toggle plugin with GIT-RELATED files in `cwd`
-    -- TODO: Add decoration to focussed window SEE: minifiles highlights
-    -- TODO: Consider `<cr>` for `go_in` and `<s-cr>` keymap for `go_in_plus`
-    -- TODO: Use autocommands to set in-plugin keymaps of `<left>`/`<right>` as
-    -- additional `go_in`/`go_out` keymaps. `<s-left>` can be an additional
-    -- keymap for `go_out_plus`.
+    -- TODO: Add decoration to focussed window. SEE: mini.files `highlights`
     {
       "echasnovski/mini.files",
       version = false,
@@ -4182,34 +4227,91 @@ run_lazy_setup({
           width_preview = 36,
         },
         mappings = {
-          reset = "=", -- DEFAULT: "<bs>"
           synchronize = "<c-s>", -- DEFAULT: "="
-          go_in = "<cr>", -- DEFAULT: "l"
-          go_in_plus = "<s-cr>", -- DEFAULT: "L"
-          -- TODO: Do not let "<esc>" keymaps for "go_out(_plus)s" go upwards
-          -- beyond root cwd. An "<esc>" in root should just close plugin.
-          go_out = "<esc>", -- DEFAULT: "h"
-          go_out_plus = "<s-esc>", -- DEFAULT: "H"
+          reset = "=", -- DEFAULT: "<bs>"
+          -- NOTE:
+          -- 1. Disabling `go_in` behavior and only keeping `go_in_plus`
+          -- 2. Disabling `go_out`/`go_out_p;us` behavior in favor of custom
+          --    `<esc>` behavior.
+          go_in = "", -- DEFAULT: "l"
+          go_in_plus = "<cr>", -- DEFAULT: "L"
+          go_out = "", -- DEFAULT: "h"
+          go_out_plus = "", -- DEFAULT: "H"
         },
       },
-      keys = function()
+      init = function()
         local minifiles = require("mini.files")
-        return {
-          {
-            "-",
-            function()
-              if not minifiles.close() then
-                minifiles.open()
+        local go_out_upto_root_dir_only_and_close_afterwards = function()
+          -- NOTE: `explorer_state` is nil when mini.files is closed
+          local explorer_state = minifiles.get_explorer_state()
+          if explorer_state ~= nil then
+            -- POSSIBLE CHILD PATH: path in first branch
+            local possible_child_path = explorer_state["branch"][1]
+            -- PARENT PATH: `root_dir` in current mini.files instance
+            local parent_path = explorer_state["anchor"]
+            if
+              are_paths_equal({ possible_child_path, parent_path })
+              or does_parent_path_contain_given_path(
+                possible_child_path,
+                parent_path
+              )
+            then
+              if explorer_state["depth_focus"] == 1 then
+                minifiles.close()
+              else
+                minifiles.go_out()
               end
-            end,
-            desc = "Toggle mini.files",
-          },
-        }
+            else
+              minifiles.close()
+            end
+          end
+        end
+
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "MiniFilesBufferCreate",
+          group = vim.api.nvim_create_augroup("mini-files-augroup", {}),
+          callback = function(args)
+            -- NOTE:
+            -- 1. `<esc>` goes outward and closes when attempting to go beyond
+            --    root_dir.
+            -- 2. `<s-esc>` just closes minifiles, just like the toggle would
+            --    have done. This is a convenience keymap.
+            local buf_id = args.data.buf_id
+            vim.keymap.set(
+              "n",
+              "<esc>",
+              go_out_upto_root_dir_only_and_close_afterwards,
+              {
+                buffer = buf_id,
+                desc = "Go outwards in mini.files (closes at root dir)",
+              }
+            )
+            vim.keymap.set("n", "<s-esc>", function()
+              minifiles.close()
+            end, { desc = "Close mini.files" })
+          end,
+        })
       end,
+      keys = {
+        {
+          "-",
+          function()
+            -- TODO: Currently using `minifiles.reset()` to avoid starting from
+            -- previous location, but provide an alternative when I *want* to
+            -- start from previous location,
+            local minifiles = require("mini.files")
+            if not minifiles.close() then
+              minifiles.open()
+              minifiles.reset()
+            end
+          end,
+          desc = "Toggle mini.files",
+        },
+      },
     },
 
     -- neo-tree - sidebar filesystem helper {{{3
-    -- TODO: Co-ordinate keymaps with "mini.files" SEE: mini.files's TODOs.
+    -- TODO: Co-ordinate keymaps with mini.files. SEE: mini.files TODO.
     -- FIXME: Cleanup commands being used in keymaps because there are too many
     -- loading errors, eg: `?` to show help within plugin window.
     {
