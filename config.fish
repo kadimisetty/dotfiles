@@ -303,7 +303,7 @@ function fish_prompt
     end
 
     # SHOW CURRENT DIRECTORY:
-    set_color white
+    set_color white --dim
     echo -ns (prompt_pwd) " "
 
     # SHOW PROMPT SYMBOL:
@@ -316,7 +316,7 @@ function fish_prompt
         # SEE: https://fishshell.com/docs/current/cmds/fish_mode_prompt.html
         switch $fish_bind_mode
             case insert
-                set_color brblack --dim
+                set_color $fish_color_comment --dim
             case default
                 set_color brblue --dim
             case replace_one
