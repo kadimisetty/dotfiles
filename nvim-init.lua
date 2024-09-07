@@ -471,7 +471,6 @@ vim.opt.formatoptions:append({ n = true })
 -- LIB {{{1
 -- TODO: Replace unnecessary functions with their `vim.fs.`* equivalents
 -- TODO: Add docstrings and validate parameter types
--- TODO: Add a function that updates cword with given string
 -- TODO: Add a function that generates the fold level marker strings
 
 -- normalize_path(path) {{{2
@@ -501,8 +500,31 @@ local are_paths_equal = function(paths)
   return true
 end
 
--- does_parent_path_contain_given_path(given_path, parent_path) {{{2
-local does_parent_path_contain_given_path = function(path, parent_path)
+-- replace_cword_with_string(s) {{{2
+-- TODO: Do variants of this for <cexpr> and <cfile>
+-- TODO: Make repeatable by setting operatorfunc (Here or at callsite?)
+-- TODO: Make best effort to return cursor position at call-site
+--- Replaces `<cword>` with given string
+local replace_cword_with_string = function(s)
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "ciw" .. s, bang = true })
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+end
+
+-- replace_cWORD_with_string(s) {{{2
+--- Replaces `<cWORD>` with given string
+local replace_cWORD_with_string = function(s)
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "ciW" .. s, bang = true })
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+end
+
+-- replace_cexpr_with_string(s) {{{2 TODO:: SEE: `:help <cexpr>` not `:h cexpr`
+
+-- replace_cfile_with_string(s) {{{2 TODO: SEE: `:help <cfile>`
+
+-- does_parent_path_contain_given_path(path, parent_path) {{{2
+local does_parent_path_contain_given_path = function(parent_path, path)
   local parent_path_normalized = vim.fn.fnamemodify(parent_path, ":p")
   local given_path_normalized = vim.fn.fnamemodify(path, ":p")
   -- Remove trailing separator if present
@@ -630,29 +652,22 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
   end,
 })
 
--- Toggle trailing prime character on word under cursor
--- TODO: Do variants of this for <cword>/<cWORD>/<cexpr> etc., SEE `:h cword`
--- TODO: Make repeatable by setting operatorfunc (Here or at callsite?)
--- TODO: Extract these functions into their own section to make them reusable
--- NOTE: Adjust cursor position after toggle at call site
-local replace_cword_with_string = function(s)
-  local cursor_position = vim.api.nvim_win_get_cursor(0)
-  vim.cmd.normal({ "ciw" .. s, bang = true })
-  vim.api.nvim_win_set_cursor(0, cursor_position)
-end
+--- Toggle trailing pattern on word under cursor
 local toggle_trailing_pattern_on_string = function(s, trailing_pattern)
   if vim.endswith(s, trailing_pattern) then
     --  ON TRUE: remove trailing pattern
-    return string.sub(s, 1, -(trailing_pattern:len() + 1))
+    return string.sub(s, 1, -(#trailing_pattern + 1))
   else
     --  ON FALSE: add trailing pattern
     return s .. trailing_pattern
   end
 end
+
+--- Toggle leading pattern on word under cursor
 local toggle_leading_pattern_on_string = function(s, leading_pattern)
   if vim.startswith(s, leading_pattern) then
     --  ON TRUE: remove leading pattern
-    return string.sub(s, (leading_pattern:len() + 1), -1)
+    return string.sub(s, (#leading_pattern + 1), -1)
   else
     --  ON FALSE: add leading pattern
     return leading_pattern .. s
@@ -2181,7 +2196,6 @@ local toggle_current_word_between_singular_and_plural_forms = function()
   -- 1. Do nothing if cword is nil, empty or just the letter "s"
   -- 2. If cword ends with `s` then treat cword as plural
   -- 3. If cword does not end with `s` then treat cword as singular.
-
   local singular_to_plural = function(word)
     -- BASIC: add trailing`s`
     local plural_word = word .. "s"
@@ -2191,11 +2205,6 @@ local toggle_current_word_between_singular_and_plural_forms = function()
     -- BASIC: remove trailing `s`
     local singular_word = word:sub(1, -2)
     return singular_word
-  end
-  local replace_cword_with_string = function(s)
-    local cursor_position = vim.api.nvim_win_get_cursor(0)
-    vim.cmd.normal({ "ciw" .. s, bang = true })
-    vim.api.nvim_win_set_cursor(0, cursor_position)
   end
 
   local cword = vim.fn.expand("<cword>")
@@ -4215,6 +4224,10 @@ run_lazy_setup({
     -- 1. Use `-`/`_` to toggle plugin with ALL files in `cwd`
     -- 2. Use `<m-->`/`<m-_>` to toggle plugin with GIT-RELATED files in `cwd`
     -- TODO: Add decoration to focussed window. SEE: mini.files `highlights`
+    -- TODO: As of now, I "disabled" history (remembering previous location)
+    -- because I don't want plugin to open at a possibly irrelevant location
+    -- but consider enabling it as long as the previous location is a child
+    -- directory of current plugin parent root directory.
     {
       "echasnovski/mini.files",
       version = false,
@@ -4252,8 +4265,8 @@ run_lazy_setup({
             if
               are_paths_equal({ possible_child_path, parent_path })
               or does_parent_path_contain_given_path(
-                possible_child_path,
-                parent_path
+                parent_path,
+                possible_child_path
               )
             then
               if explorer_state["depth_focus"] == 1 then
