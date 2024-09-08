@@ -524,6 +524,7 @@ end
 -- replace_cfile_with_string(s) {{{2 TODO: SEE: `:help <cfile>`
 
 -- does_parent_path_contain_given_path(path, parent_path) {{{2
+--- Check if given parent path contains given path
 local does_parent_path_contain_given_path = function(parent_path, path)
   local parent_path_normalized = vim.fn.fnamemodify(parent_path, ":p")
   local given_path_normalized = vim.fn.fnamemodify(path, ":p")
@@ -537,6 +538,30 @@ local does_parent_path_contain_given_path = function(parent_path, path)
     return #given_path_normalized > #parent_path_normalized
   end
   return false
+end
+
+-- toggle_trailing_pattern_on_string(s, trailing_pattern) {{{2
+--- Toggle trailing pattern on string
+local toggle_trailing_pattern_on_string = function(s, trailing_pattern)
+  if vim.endswith(s, trailing_pattern) then
+    --  Remove trailing pattern
+    return string.sub(s, 1, -(#trailing_pattern + 1))
+  else
+    --  Add trailing pattern
+    return s .. trailing_pattern
+  end
+end
+
+-- toggle_leading_pattern_on_string(s, leading_pattern) {{{2
+--- Toggle leading pattern on string
+local toggle_leading_pattern_on_string = function(s, leading_pattern)
+  if vim.startswith(s, leading_pattern) then
+    --  Remove leading pattern
+    return string.sub(s, (#leading_pattern + 1), -1)
+  else
+    --  Add leading pattern
+    return leading_pattern .. s
+  end
 end
 
 -- LANGUAGE-SPECIFIC GENERIC PREFERENCES {{{1
@@ -651,28 +676,6 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
     vim.api.nvim_buf_set_lines(0, 0, 0, false, content)
   end,
 })
-
---- Toggle trailing pattern on word under cursor
-local toggle_trailing_pattern_on_string = function(s, trailing_pattern)
-  if vim.endswith(s, trailing_pattern) then
-    --  ON TRUE: remove trailing pattern
-    return string.sub(s, 1, -(#trailing_pattern + 1))
-  else
-    --  ON FALSE: add trailing pattern
-    return s .. trailing_pattern
-  end
-end
-
---- Toggle leading pattern on word under cursor
-local toggle_leading_pattern_on_string = function(s, leading_pattern)
-  if vim.startswith(s, leading_pattern) then
-    --  ON TRUE: remove leading pattern
-    return string.sub(s, (#leading_pattern + 1), -1)
-  else
-    --  ON FALSE: add leading pattern
-    return leading_pattern .. s
-  end
-end
 
 -- TODO: Make this a toggle to remove the prime character if present already.
 -- TODO: Achieve this without polluting registers (here `z`)
