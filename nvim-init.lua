@@ -2193,48 +2193,6 @@ vim.keymap.set(
   { silent = true }
 )
 
--- TOGGLE CURRENT WORD SINGULAR/PLURAL {{{2
-local toggle_current_word_between_singular_and_plural_forms = function()
-  -- NOTE:
-  -- 1. Do nothing if cword is nil, empty or just the letter "s"
-  -- 2. If cword ends with `s` then treat cword as plural
-  -- 3. If cword does not end with `s` then treat cword as singular.
-  local singular_to_plural = function(word)
-    -- BASIC: add trailing`s`
-    local plural_word = word .. "s"
-    return plural_word
-  end
-  local plural_to_singular = function(word)
-    -- BASIC: remove trailing `s`
-    local singular_word = word:sub(1, -2)
-    return singular_word
-  end
-
-  local cword = vim.fn.expand("<cword>")
-  -- Verify cword is not empty, not nil and not whitesapce
-  if not (cword == nil or cword == "" or cword:match("%s")) then
-    -- Verify cword isn't just single letter "s"
-    if cword ~= "s" then
-      if vim.endswith(cword, "s") or vim.endswith(cword, "S") then
-        --  ON TRUE: replace plural with singular
-        replace_cword_with_string(plural_to_singular(cword))
-      else
-        --  ON FALSE: replace singular with plural
-        replace_cword_with_string(singular_to_plural(cword))
-      end
-    end
-  end
-end
-vim.keymap.set(
-  "n",
-  "<c-p>",
-  toggle_current_word_between_singular_and_plural_forms,
-  {
-    silent = true,
-    desc = "Toggle singular/plural forms of word under cursor",
-  }
-)
-
 -- HEADER DIVIDER LINES {{{2
 -- Make heading divider lines above/below current line using characters:
 --  `-`/`_`/`=`
@@ -6155,7 +6113,20 @@ run_lazy_setup({
       },
     },
 
-    -- LOCAL PLUGINS {{{3
+    -- LOCAL: plural-thing - toggle plural on `cword` {{{3
+    {
+      -- "kadimisetty/nvim-plural-thing",
+      dir = "~/code/personal/nvim-plural-thing/",
+      init = function()
+        vim.keymap.set("n", "<c-p>", function()
+          require("plural-thing").toggle_plural_on_cword()
+        end, {
+          desc = "Toggle plural form of word under cursor",
+        })
+      end,
+    },
+
+    -- LOCAL: my playground {{{3
     {
       dir = "~/code/playground/nvim-play/PROJECTS/play/",
     },
