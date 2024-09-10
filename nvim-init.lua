@@ -3817,8 +3817,8 @@ run_lazy_setup({
       -- 2. Allow symbold pairs like`==`/`!=`, `&&`/`||` etc.
       opts = {
         mappings = { increment = "<c-a>", decrement = "<c-x>" },
+        -- i.e. enable/disable, Enable/Disable, ENABLE/DISABLE
         allow_caps_additions = {
-          -- eg: enable/disable, Enable/Disable, ENABLE/DISABLE
           { "enable", "disable" },
           { "enabled", "disabled" },
           { "enables", "disables" },
@@ -3828,8 +3828,12 @@ run_lazy_setup({
           { "yes", "no" },
           { "on", "off" },
           { "and", "not", "or" },
-          { "if", "then", "else", "elseif", "end" },
-          -- NOTE: numbers upto 20 because it becomes 2 word numbers after that.
+          { "if", "then", "else", "elif", "end" }, -- TODO: Split per language
+          { "const", "let", "var" }, -- TODO: Split per language
+          { "struct", "enum", "impl" }, -- TODO: Split per language
+          -- `folke/todo-comments.nvim`
+          { "TODO", "NOTE", "XXX", "WARN", "FIXME" },
+          -- NOTE: Numbers up to 20 because it becomes 2 word numbers after that
           {
             "zero",
             "one",
