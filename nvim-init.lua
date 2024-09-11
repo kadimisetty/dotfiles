@@ -1935,6 +1935,63 @@ end, {
   expr = true,
   desc = "Go down(`<c-n>`) when in command mode completion popup",
 })
+
+-- `cd` variants to go up to "git root directory" {{{2
+-- NOTE: VARIANTS FOR:
+-- 1. `GLCD`: cd upto window scoped dir (`lcd`)
+-- 2. `GTCD`: cd upto tab scoped dir (`tcd`)
+-- 3. `GCD`: cd upto global scoped dir (`cd`)
+-- 4. `GCHDIR`: cd upto dir scoped to what was set in following order (`chdir`):
+--      1. window scoped dir set via `lcd`
+--      2. tab scoped dir set via `tcd`
+--      3. global scoped dir via `cd`
+-- NOTE: Using uppercase `GCD` format to avoid conflicts with fugitive plugin
+-- which uses `Gcd` and `Glcd` which provide a similar feature but also
+-- additional can cd to a directory relative to git_root _dir like`Gcd
+-- <dir-relative-to-git-root>`. However fugitive does not provide a `tcd`
+-- variant, which these commands do.
+-- NOTE: `cd_kind` parameter can be one of `lcd`/`tcd`/`cd`/`chdir`
+-- NOTE: `bang` parameter boolean and is to be the bang in `cd!` etc.
+-- TODO: Validate parameters' values
+local cd_to_git_root_directory = function(cd_kind, bang)
+  -- GET GIT ROOT DIRECTORY
+  local result = vim
+    -- RESULT FORMAT: { code = 0, signal = 0, stdout = 'ok', stderr = '' }
+    .system({ "git", "rev-parse", "--show-toplevel" }, { text = true })
+    -- SYNCHRONOUS CALL
+    :wait()
+  -- CHECK: `pwd` is inside a git repo?
+  if result["code"] ~= 0 then -- ERROR: `pwd` is not inside a git repo
+    vim.notify("ERROR: " .. result["stderr"], vim.log.levels.ERROR, {})
+  else -- OK: `pwd` is inside a git repo
+    local git_root_dir = vim.trim(result["stdout"])
+    if cd_kind == "lcd" then
+      vim.cmd.lcd({ git_root_dir, bang = bang })
+    elseif cd_kind == "tcd" then
+      vim.cmd.tcd({ git_root_dir, bang = bang })
+    elseif cd_kind == "cd" then
+      vim.cmd.cd({ git_root_dir, bang = bang })
+    elseif cd_kind == "chdir" then
+      -- ignoring `chdir` return value
+      local _ = vim.cmd.chdir({ git_root_dir, bang = bang })
+    end
+  end
+end
+
+vim.tbl_map(function(cd_kind)
+  vim.api.nvim_create_user_command("G" .. cd_kind:upper(), function(cargs)
+    cd_to_git_root_directory(cd_kind, cargs["bang"])
+  end, {
+    bang = true,
+    desc = cd_kind .. " to git root directory",
+  })
+end, {
+  "lcd",
+  "tcd",
+  "cd",
+  "chdir",
+})
+
 -- WRITE(ALL) AND QUIT(ALL) {{{2
 -- `W`:  Write all changed buffers to disk: `W`
 -- `W!`: Write all changed buffers to disk, even read-only ones
