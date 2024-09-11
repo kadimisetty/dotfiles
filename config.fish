@@ -502,75 +502,8 @@ bind \ck\ct --mode insert kt
 
 
 # GIT {{{1
-# GIT ADD {{{2
-alias gadd='git add'
-alias gadd.='git add .'
-# GIT CHECKOUT {{{2
-alias gcheckout='git checkout'
-# GIT BRANCH {{{2
-alias gbranch='git branch'
-# GIT SWITCH {{{2
-alias gswitch='git switch'
-alias gswitchprev='git switch -'
-# GIT COMMIT {{{2
-alias gcommit='git commit'
-alias gcommitamend='git commit --amend'
-alias gcommitmessage='git commit --message'
-alias gcommitmessageall='git commit --all --message'
-# GIT DIFF {{{2
-alias gdiff='git diff'
-alias gdiffnames='git diff --name-status'
-alias gdiffstaged='git diff --staged'
-alias gdiffstagednames='git diff --staged --name-status'
-# GIT LOG {{{2
-alias gloglast='git log --oneline --decorate --graph'
-alias gloglast1='git log HEAD --stat --max-count=1'
-alias gloglast10='git log --oneline --decorate --graph --max-count=10'
-# GIT STASH {{{2
-alias gstashpush='git stash push'
-alias gstashpushmessage='git stash push --message'
-alias gstashapply='git stash apply'
-alias gstashdrop='git stash drop'
-alias gstashlist='git stash list'
-alias gstashpop='git stash pop'
-alias gstashshow='git stash show'
-alias gstashshowpatch='git stash show --patch'
-# Use `WIP` label to indicate that unstaged work gets stashed
-alias gstashwip='git stash'
-# NOTE: Disable `clear` because a mistaken selection is too dangerous
-# alias gstashclear='git stash clear'
-# GIT CLONE {{{2
-function gclonecd \
-    --description "`git clone`s given repo url and `cd`s inside" \
-    --argument repo_url \
-    --argument target_directory_name
-
-    # Exit if no `repo_url` argument passed in:
-    if test -z $repo_url
-        echoerr "no repo url given"
-    else
-        if test -z $target_directory_name
-            # `target_directory_name` not given, do a regular `git clone`:
-            # NOTE: If a directory with the repo name already exists in current
-            # directory, let `git clone` handle that error-reporting.
-
-            # Clone given repo url into current directory
-            git clone $repo_url
-            # If `git clone` succeeds, `cd` into the cloned directory
-            and cd (echo $repo_url |
-            tr -d '[:space:]' |
-            string split '/' --right --field 2 |
-            string split '.git' --right --field 1)
-        else
-            # `target_directory_name` was given, use that in `git clone`:
-            # Clone given repo url into current directory
-            git clone $repo_url $target_directory_name
-            # If `git clone` succeeds, `cd` into the cloned directory
-            and cd $target_directory_name
-        end
-    end
-end
-
+# TODO: Import the git aliases section back here as soon as possible.
+source ~/code/personal/fish-git-thing/gitaliases.fish
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
