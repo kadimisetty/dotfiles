@@ -630,7 +630,7 @@ alias vt='vim -p'
 # NVIM {{{1
 alias n="nvim"
 alias nview="nvim -R"
-alias nclean="vim --clean"
+alias nclean="nvim --clean"
 alias nsession="nvim -S ./Session.vim"
 alias nwindows='nvim -O' # vertical splits
 alias ntabs='nvim -p'
