@@ -6201,13 +6201,7 @@ run_lazy_setup({
     {
       -- "kadimisetty/nvim-plural-thing",
       dir = "~/code/personal/nvim-plural-thing/",
-      init = function()
-        vim.keymap.set("n", "<c-p>", function()
-          require("plural-thing").toggle_plural_on_cword()
-        end, {
-          desc = "Toggle plural form of word under cursor",
-        })
-      end,
+      opts = { keymap = "<c-p>" },
     },
 
     -- LOCAL: my playground {{{3
