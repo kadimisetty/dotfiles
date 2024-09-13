@@ -2164,25 +2164,27 @@ vim.keymap.set("n", "Y", "y$", {
 -- RESTORE CURSOR POSITION AFTER YANK WITH `y` {{{2
 -- SEE: https://nanotipsforvim.prose.sh/sticky-yank
 -- TODO: See if this can be put inside a single block like with `J`
-do
-  -- Store cursor position right before yanking and then finish yank
-  local cursor_position_before_yank = nil
-  vim.keymap.set({ "n", "x" }, "y", function()
-    cursor_position_before_yank = vim.api.nvim_win_get_cursor(0)
-    return "y"
-  end, { expr = true })
-
-  -- Return cursor position
-  vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Restore cursor position after yank",
-    group = utilities_augroup,
-    callback = function()
-      if vim.v.event.operator == "y" and cursor_position_before_yank then
-        vim.api.nvim_win_set_cursor(0, cursor_position_before_yank)
-      end
-    end,
-  })
-end
+-- FIXME: Sometimes, depending on previous yank location, this messes up my
+-- duplicate line keymap, so disabling until fixed
+-- do
+--   -- Store cursor position right before yanking and then finish yank
+--   local cursor_position_before_yank = nil
+--   vim.keymap.set({ "n", "x" }, "y", function()
+--     cursor_position_before_yank = vim.api.nvim_win_get_cursor(0)
+--     return "y"
+--   end, { expr = true })
+--
+--   -- Return cursor position
+--   vim.api.nvim_create_autocmd("TextYankPost", {
+--     desc = "Restore cursor position after yank",
+--     group = utilities_augroup,
+--     callback = function()
+--       if vim.v.event.operator == "y" and cursor_position_before_yank then
+--         vim.api.nvim_win_set_cursor(0, cursor_position_before_yank)
+--       end
+--     end,
+--   })
+-- end
 
 -- RESTORE CURSOR POSITION AFTER JOINING TWO LINES WITH `J` {{{2
 vim.keymap.set("n", "J", function()
