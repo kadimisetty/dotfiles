@@ -4852,10 +4852,31 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- barbecue - breadcrumbs in top bar {{{3
-    -- NOTE: Wanted 'Bekaboo/dropbar.nvim' but it's >= 0.10.0-dev. Try later.
+    -- dropbar - clockable breadcrumb (barbecue alternative) {{{2
+    -- FIXME: Has issue with completions in insert menu
+    -- TODO: Allow navigation through list wihtout selecting the list, i.e.
+    -- select only on <cr`>`.
+    {
+      "Bekaboo/dropbar.nvim",
+      init = function()
+        local dropbar_api = require("dropbar.api")
+        vim.keymap.set("n", "<c-6>", function()
+          dropbar_api.pick()
+        end, {
+          silent = true,
+          desc = "Choose dropbar breadcrumb",
+        })
+      end,
+      -- NOTE: optional, but required for fuzzy finder support
+      dependencies = {
+        "nvim-telescope/telescope-fzf-native.nvim",
+      },
+    },
+
+    -- barbecue - breadcrumbs in top bar (dropbar alternative) {{{3
     {
       "utilyre/barbecue.nvim",
+      enabled = false,
       name = "barbecue",
       event = "VeryLazy",
       version = "*",
@@ -6063,6 +6084,10 @@ run_lazy_setup({
             vim.cmd.normal("i\r")
           end,
         }
+        -- FIXME: Disable for specific filetypes
+        -- cmp.setup.filetype({ "dropbar_menu" }, {
+        --   sources = {},
+        -- })
         -- Command line search mode(`/`) completion
         cmp.setup.cmdline("/", {
           mapping = cmp.mapping.preset.cmdline(common_mappings),
