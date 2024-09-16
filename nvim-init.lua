@@ -2217,74 +2217,6 @@ vim.keymap.set(
   { silent = true }
 )
 
--- HEADER DIVIDER LINES {{{2
--- Make heading divider lines above/below current line using characters:
---  `-`/`_`/`=`
--- TODO: Add surround heading mode that will put the lines above/below line.
--- TODO: Make current line into a heading (provide keymap/command).
--- TODO: Make line span length of current line or specific length e.g. 80.
--- TODO: Put a space after the comment indicator e.g. `# -----` etc.
-vim.cmd([[
-    function DrawHeadingLineWithCharacter(character, aboveOrBelow)
-        " Arguments:
-        "   character: Character to use to draw in heading line
-        "   aboveOrBelow: ['above', 'below']
-
-        if !(index(['above', 'below'], a:aboveOrBelow) >= 0)
-            " Invalid a:aboveOrBelow
-            echoerr 'Invalid a:aboveOrBelow given. Should be `above` or `below`'
-
-        elseif (strlen(a:character) != 1)
-            "Invalid a:character length. Should be 1.
-            echoerr 'Currently only supports a sigle character.'
-        else
-            let current_line_length = strdisplaywidth(getline('.'))
-            let line_content = repeat(a:character, current_line_length)
-            if a:aboveOrBelow == 'above'
-                call append(line('.')-1, line_content)
-            else " belo
-                call append(line('.'), line_content)
-            endif
-        endif
-    endfunction
-]])
-vim.keymap.set(
-  "n",
-  "[-",
-  "<cmd>call DrawHeadingLineWithCharacter('-', 'above')<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "]-",
-  "<cmd>call DrawHeadingLineWithCharacter('-', 'below')<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "[_",
-  "<cmd>call DrawHeadingLineWithCharacter('_', 'above')<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "]_",
-  "<cmd>call DrawHeadingLineWithCharacter('_', 'below')<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "[=",
-  "<cmd>call DrawHeadingLineWithCharacter('=', 'above')<cr>",
-  { silent = true }
-)
-vim.keymap.set(
-  "n",
-  "]=",
-  "<cmd>call DrawHeadingLineWithCharacter('=', 'below')<cr>",
-  { silent = true }
-)
-
 -- SELECT ITEM AND CLOSE QUICKFIX/LOCLIST  {{{2
 vim.api.nvim_create_autocmd("FileType", {
   desc = "Select item and close quickfix/location list",
@@ -6180,6 +6112,13 @@ run_lazy_setup({
       opts = {
         keymap = "gx", -- use different keymap to not overload `gx`
       },
+    },
+
+    -- LOCAL: header-line-thing - draw header lines {{{3
+    {
+      -- "kadimisetty/nvim-header-line-thing",
+      dir = "~/code/personal/nvim-header-line-thing/",
+      opts = {},
     },
 
     -- LOCAL: my playground {{{3
