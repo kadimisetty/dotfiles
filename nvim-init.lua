@@ -6114,11 +6114,15 @@ run_lazy_setup({
       },
     },
 
-    -- LOCAL: header-line-thing - draw header lines {{{3
+    -- LOCAL: header-thing - draw decorative header lines {{{3
     {
-      -- "kadimisetty/nvim-header-line-thing",
-      dir = "~/code/personal/nvim-header-line-thing/",
-      opts = {},
+      -- "kadimisetty/nvim-header-thing",
+      dir = "~/code/personal/nvim-header-thing/",
+      opts = {
+        -- above_leader = "[", -- DEFAULT: `[`
+        -- below_keader = "]", -- DEFAULT: `]`
+        fill_chars = { "*", "-", "=" }, -- DEFAULT: `-`
+      },
     },
 
     -- LOCAL: my playground {{{3
