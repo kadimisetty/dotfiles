@@ -6114,14 +6114,12 @@ run_lazy_setup({
       },
     },
 
-    -- LOCAL: header-thing - draw decorative header lines {{{3
+    -- LOCAL: line-thing - decorative lines for headers/dividers etc. {{{3
     {
-      -- "kadimisetty/nvim-header-thing",
-      dir = "~/code/personal/nvim-header-thing/",
+      -- "kadimisetty/nvim-line-thing",
+      dir = "~/code/personal/nvim-line-thing/",
       opts = {
-        -- above_leader = "[", -- DEFAULT: `[`
-        -- below_keader = "]", -- DEFAULT: `]`
-        fill_chars = { "*", "-", "=" }, -- DEFAULT: `-`
+        fill_chars = { "*", "-", "=", "X" }, -- DEFAULT: `{ "-" }`
       },
     },
 
