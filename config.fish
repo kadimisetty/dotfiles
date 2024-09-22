@@ -865,7 +865,7 @@ alias gr='go run'
 alias gt='go test'
 function gmi \
     --description "Run `go mod init` with given arg (default: \$PWD)" \
-    --argument module_path
+    --argument-names module_path
 
     # If no `module_path` argument passed in, use current directory name.
     if not test -n "$module_path"
@@ -876,7 +876,7 @@ function gmi \
 end
 function gncd \
     --description "`mcd`s into given dir name and runs `go mod init` there" \
-    --argument module_path
+    --argument-names module_path
 
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
