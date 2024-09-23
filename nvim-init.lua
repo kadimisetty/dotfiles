@@ -3735,6 +3735,13 @@ run_lazy_setup({
       },
     },
 
+    -- helpview - help file dwecorations {{{3
+    {
+      "OXY2DEV/helpview.nvim",
+      lazy = false, -- NOTE: Disable lazy loading
+      dependencies = { "nvim-treesitter/nvim-treesitter" },
+    },
+
     -- other.nvim - open alternate files {{{3
     {
       "rgroli/other.nvim",
