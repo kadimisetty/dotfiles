@@ -156,6 +156,19 @@ vim.opt.foldopen = {
   -- `all`    -- everything
 }
 
+-- FOLDS UI {{{3
+-- TODO: replace default `foldtexxt` content from `foldtext()` with custom.
+-- TODO: Make foldcolumn more distinguishable.
+-- TODO: Use a fold label description that shortents word "lines" to "l"
+-- TODO: Place line count information at end of line.
+vim.opt.fillchars:append({
+  -- FOLD LABEL ENDING LINE:
+  fold = [[─]],
+  -- FOLDCOLUMN CHARACTERS:
+  foldopen = "▾",
+  foldclose = "▸",
+})
+
 -- INDENTS {{{2
 -- Use same indentation of current line when creating new line
 vim.opt.autoindent = true
