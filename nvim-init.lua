@@ -3350,12 +3350,6 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- fugitive - git helpers {{{3
-    {
-      "tpope/vim-fugitive",
-      event = "VeryLazy",
-    },
-
     -- liquid - jekyll support {{{3
     {
       "tpope/vim-liquid",
@@ -3378,6 +3372,44 @@ run_lazy_setup({
     {
       "tpope/vim-vinegar",
       event = "VeryLazy",
+    },
+
+    -- fugitive - git helper {{{3
+    {
+      "tpope/vim-fugitive",
+      event = "VeryLazy",
+    },
+
+    -- flog - git helper {{{3
+    -- TODO: CONSIDER: Give flog my main git overlay leader key, instead of
+    -- "lazygit"? (as of now it is `<m-g>`).
+    -- TODO: CONSIDER: Add keymap to show flog's git status split?
+    -- FIXME: The commit marker dot symbold is not showing the same glyph in
+    -- plugin's README screenshots, might be term issue.
+    {
+      "rbong/vim-flog",
+      cmd = {
+        "Flog",
+        "Flogsplit",
+        -- "Floggit",
+      },
+      keys = {
+        {
+          "<leader>g",
+          "<cmd>Flogsplit<cr>",
+          mode = "n",
+          desc = "Open flog git log in split",
+        },
+        {
+          "<leader>G",
+          "<cmd>Flog<cr>",
+          mode = "n",
+          desc = "Open flog git log in new tab",
+        },
+      },
+      dependencies = {
+        "tpope/vim-fugitive",
+      },
     },
 
     -- oil - filesystem helpers {{{3
