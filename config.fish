@@ -345,7 +345,7 @@ function fish_right_prompt
         set_color $fish_color_error
         set --local _error_indicator_symbol " " # 🅔
         echo -ns $_error_indicator_symbol
-        echo -ns "E"(fish_status_to_signal $_previous_command_status)
+        echo -ns "E:"(fish_status_to_signal $_previous_command_status)
         set_color $fish_color_normal
     end
 
