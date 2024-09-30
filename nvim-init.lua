@@ -3827,12 +3827,14 @@ run_lazy_setup({
         mappings = { increment = "<c-a>", decrement = "<c-x>" },
         -- i.e. enable/disable, Enable/Disable, ENABLE/DISABLE
         allow_caps_additions = {
+          { "true", "false" },
           { "enable", "disable" },
           { "enabled", "disabled" },
           { "enables", "disables" },
           { "right", "left" },
           { "up", "down" },
-          { "true", "false" },
+          { "top", "bottom" },
+          { "with", "without" },
           { "yes", "no" },
           { "on", "off" },
           { "and", "not", "or" },
