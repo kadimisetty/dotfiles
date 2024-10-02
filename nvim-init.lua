@@ -4898,17 +4898,12 @@ run_lazy_setup({
       },
     },
 
-    -- flit - jump helper {{{3
+    -- mini.jump - jump helper {{{3
     {
-      "ggandor/flit.nvim",
+      "echasnovski/mini.jump",
+      version = false,
       event = "VeryLazy",
-      opts = {
-        multiline = true,
-      },
-      dependencies = {
-        "ggandor/leap.nvim",
-        "tpope/vim-repeat",
-      },
+      opts = { delay = { highlight = 10 } },
     },
 
     -- skel-nvim - skeleton/template files {{{3
