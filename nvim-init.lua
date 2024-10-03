@@ -6169,6 +6169,20 @@ run_lazy_setup({
       dir = "~/code/personal/nvim-line-thing/",
       opts = {
         fill_chars = { "*", "-", "=", "X" }, -- DEFAULT: `{ "-" }`
+        keymap_prefix_above = "[",
+        keymap_prefix_above_without_indent = "g[",
+        keymap_prefix_below = "]",
+        keymap_prefix_below_without_indent = "g]",
+
+        keymap_prefix_surround = "<localleader>{",
+        keymap_prefix_surround_alt = "<localleader>}",
+        keymap_prefix_surround_without_indent = "<localleader>g{",
+        keymap_prefix_surround_alt_without_indent = "<localleader>g}",
+
+        keymap_prefix_inverted_surround = "<localleader>(",
+        keymap_prefix_inverted_surround_without_indent = "<localleader>g(",
+        keymap_prefix_inverted_surround_reversed = "<localleader>)",
+        keymap_prefix_inverted_surround_without_indent_reversed = "<localleader>g)",
       },
     },
 
