@@ -3378,6 +3378,13 @@ run_lazy_setup({
     {
       "tpope/vim-fugitive",
       event = "VeryLazy",
+      init = function()
+        vim.api.nvim_create_user_command(
+          "Gcommit",
+          "G commit",
+          { desc = "alias for fugitive's `G commit`" }
+        )
+      end,
     },
 
     -- flog - git helper {{{3
