@@ -5281,12 +5281,13 @@ run_lazy_setup({
       opts = {
         -- A list of parser names, or "all" (the five listed parsers should always be installed)
         ensure_installed = {
+          "go",
           "lua",
-          "vim",
-          "vimdoc",
+          "nix",
           "query",
           "rust",
-          "go",
+          "vim",
+          "vimdoc",
         },
 
         -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -5643,6 +5644,12 @@ run_lazy_setup({
           capabilities = capabilities,
         })
 
+        -- NIX
+        require("lspconfig").nixd.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- PURESCRIPT
         require("lspconfig").purescriptls.setup({
           on_attach = common_on_attach,
@@ -5818,6 +5825,11 @@ run_lazy_setup({
             null_ls.builtins.formatting.prettierd, -- TODO: custom config
             -- rust
             -- null_ls.builtins.formatting.rustfmt,-- FIXME: Deprecated?
+            -- nix
+            null_ls.builtins.formatting.alejandra,
+            -- null_ls.builtins.formatting.nixfmt,
+            null_ls.builtins.diagnostics.statix,
+            null_ls.builtins.diagnostics.deadnix,
             -- lua
             null_ls.builtins.formatting.stylua.with({
               timeout = 40000, --default: 5k, -1 is no_timeout
