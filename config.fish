@@ -504,6 +504,10 @@ bind \ck\ct --mode insert kt
 # GIT {{{1
 # TODO: Import the git aliases section back here as soon as possible.
 source ~/code/personal/fish-git-thing/gitaliases.fish
+# `cd` upwards to root git directory
+# TODO: Accept argument sub directory with heirarchy calculated from git root
+# directory, like in fugitive's `Gcd`.
+alias gcd='cd (git rev-parse --show-toplevel)'
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
