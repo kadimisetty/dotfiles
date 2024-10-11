@@ -2757,6 +2757,71 @@ P = function(...)
   print(vim.inspect(...))
 end
 
+-- MAKEFILE SHORTCUTS {{{2
+-- NOTE: Keep in tandem with fish shell.
+-- NOTE: "<m-*>" for vertical splits and "<s-m-*>" for horizontal splits.
+-- NOTE:
+-- - `<m-m><m-m>`: `make`
+-- - `<m-m><m-b>`: `make build`
+-- - `<m-m><m-r>`: `make run`
+-- - `<m-m><m-c>`: `make clean`
+-- - `<m-m><m-f>`: `make fmt`
+-- - `<m-m><m-t>`: `make test`
+-- `make` {{{3
+vim.keymap.set("n", "<m-m><m-m>", "<cmd>vsplit term://make<cr>", {
+  silent = true,
+  desc = "Run `make` in a vertical split terminal ",
+})
+vim.keymap.set("n", "<s-m-m><s-m-m>", "<cmd>split term://make<cr>", {
+  silent = true,
+  desc = "Run `make` in a horizontal split terminal ",
+})
+-- `make build` {{{3
+vim.keymap.set("n", "<m-m><m-b>", "<cmd>vsplit term://make build<cr>", {
+  silent = true,
+  desc = "Run `make build` in a vertical split terminal",
+})
+vim.keymap.set("n", "<s-m-m><s-m-b>", "<cmd>split term://make build<cr>", {
+  silent = true,
+  desc = "Run `make build` in a horizontal split terminal",
+})
+-- `make run` {{{3
+vim.keymap.set("n", "<m-m><m-r>", "<cmd>vsplit term://make run<cr>", {
+  silent = true,
+  desc = "Run `make run` in a vertical split terminal",
+})
+vim.keymap.set("n", "<s-m-m><s-m-r>", "<cmd>split term://make run<cr>", {
+  silent = true,
+  desc = "Run `make run` in a horizontal split terminal",
+})
+-- `make clean` {{{3
+vim.keymap.set("n", "<s-m-m><s-m-c>", "<cmd>split term://make clean<cr>", {
+  silent = true,
+  desc = "Run `make clean` in a horizontal split terminal",
+})
+vim.keymap.set("n", "<m-m><m-c>", "<cmd>vsplit term://make clean<cr>", {
+  silent = true,
+  desc = "Run `make clean` in a vertical split terminal",
+})
+-- `make fmt` {{{3
+vim.keymap.set("n", "<m-m><m-f>", "<cmd>vsplit term://make fmt<cr>", {
+  silent = true,
+  desc = "Run `make fmt` in a vertical split terminal",
+})
+vim.keymap.set("n", "<s-m-m><s-m-f>", "<cmd>split term://make fmt<cr>", {
+  silent = true,
+  desc = "Run `make fmt` in a horizontal split terminal",
+})
+-- `make test` {{{3
+vim.keymap.set("n", "<m-m><m-f>", "<cmd>vsplit term://make test<cr>", {
+  silent = true,
+  desc = "Run `make test` in a vertical split terminal",
+})
+vim.keymap.set("n", "<s-m-m><s-m-f>", "<cmd>split term://make test<cr>", {
+  silent = true,
+  desc = "Run `make test` in a horizontal split terminal",
+})
+
 -- SAVE SHORTCUTS {{{2
 -- Save with `<c-s>`
 -- NOTE:
@@ -5735,14 +5800,6 @@ run_lazy_setup({
           },
         })
       end,
-      keys = {
-        {
-          "<m-m>",
-          "<cmd>Mason<cr>",
-          mode = "n",
-          desc = "Open Mason UI",
-        },
-      },
       dependencies = {
         {
           "WhoIsSethDaniel/mason-tool-installer.nvim", -- {{{4
