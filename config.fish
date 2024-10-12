@@ -437,15 +437,19 @@ alias ....="cd ../../../"
 alias .....="cd ../../../../"
 
 
-# MAKE {{{1
-# NOTE: I'm using `c-k` as a stand-in for `make`. The terminal primarily treats
-# `c-k` as vertical tab(`\v`), which has no every day use for me. `c-k` is
-# actually my second-best option to `c-m`, which is treated by the terminal as
-# `enter` and so obviously impossible to use. Hence sticking with `c-k` here.
+# `make` SHORTCUTS {{{1
 # TODO:
-#   1. Make a function generator here to avoid repetition
+#   1. Generate automatically to avoid repetition.
 #   2. Grab content of echo from function meta description. Tied to "1".
-function kk --description make --wraps make
+# NOTE: Keep keybindings in tandem with equivalents in neovim config:
+# - `\em\em`: `make`
+# - `\em\eb`: `make build`
+# - `\em\er`: `make run`
+# - `\em\ec`: `make clean`
+# - `\em\ef`: `make fmt`
+# - `\em\et`: `make test`
+# `make` {{{2
+function _make --description make --wraps make
     set_color normal
     set_color --bold --italics
     echo make
@@ -453,21 +457,10 @@ function kk --description make --wraps make
     make
     commandline --function repaint
 end
-bind \ck\ck --mode default kk
-bind \ck\ck --mode insert kk
-
-function kr --description "make run" --wraps "make run"
-    set_color normal
-    set_color --bold --italics
-    echo "make run"
-    set_color normal
-    make run
-    commandline --function repaint
-end
-bind \ck\cr --mode default kr
-bind \ck\cr --mode insert kr
-
-function kb --description "make build" --wraps "make build"
+bind \em\em --mode default _make
+bind \em\em --mode insert _make
+# `make build` {{{2
+function _make_build --description "make build" --wraps "make build"
     set_color normal
     set_color --bold --italics
     echo "make build"
@@ -475,10 +468,21 @@ function kb --description "make build" --wraps "make build"
     make build
     commandline --function repaint
 end
-bind \ck\cb --mode default kb
-bind \ck\cb --mode insert kb
-
-function kc --description "make clean" --wraps "make clean"
+bind \em\eb --mode default _make_build
+bind \em\eb --mode insert _make_build
+# `make run` {{{2
+function _make_run --description "make run" --wraps "make run"
+    set_color normal
+    set_color --bold --italics
+    echo "make run"
+    set_color normal
+    make run
+    commandline --function repaint
+end
+bind \em\er --mode default _make_run
+bind \em\er --mode insert _make_run
+# `make clean` {{{2
+function _make_clean --description "make clean" --wraps "make clean"
     set_color normal
     set_color --bold --italics
     echo "make clean"
@@ -486,10 +490,21 @@ function kc --description "make clean" --wraps "make clean"
     make clean
     commandline --function repaint
 end
-bind \ck\cc --mode default kc
-bind \ck\cc --mode insert kc
-
-function kt --description "make test" --wraps "make test"
+bind \em\ec --mode default _make_clean
+bind \em\ec --mode insert _make_clean
+# `make fmt` {{{2
+function _make_fmt --description "make fmt" --wraps "make fmt"
+    set_color normal
+    set_color --bold --italics
+    echo "make fmt"
+    set_color normal
+    make fmt
+    commandline --function repaint
+end
+bind \em\ef --mode default _make_fmt
+bind \em\ef --mode insert _make_fmt
+# `make test` {{{2
+function _make_test --description "make test" --wraps "make test"
     set_color normal
     set_color --bold --italics
     echo "make test"
@@ -497,8 +512,8 @@ function kt --description "make test" --wraps "make test"
     make test
     commandline --function repaint
 end
-bind \ck\ct --mode default kt
-bind \ck\ct --mode insert kt
+bind \em\et --mode default _make_test
+bind \em\et --mode insert _make_test
 
 
 # GIT {{{1

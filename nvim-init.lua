@@ -2757,10 +2757,10 @@ P = function(...)
   print(vim.inspect(...))
 end
 
--- MAKEFILE SHORTCUTS {{{2
--- NOTE: Keep in tandem with fish shell.
--- NOTE: "<m-*>" for vertical splits and "<s-m-*>" for horizontal splits.
--- NOTE:
+-- `make` SHORTCUTS {{{2
+-- TODO: Generate automatically to avoid repetition.
+-- NOTE: `<m-*>` for vertical splits and `<s-m-*>` for horizontal splits.
+-- NOTE: Keep keymaps in tandem with equivalents in fish shell config:
 -- - `<m-m><m-m>`: `make`
 -- - `<m-m><m-b>`: `make build`
 -- - `<m-m><m-r>`: `make run`
