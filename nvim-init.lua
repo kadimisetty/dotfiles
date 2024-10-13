@@ -3484,49 +3484,6 @@ run_lazy_setup({
       },
     },
 
-    -- oil - filesystem helpers {{{3
-    {
-      "stevearc/oil.nvim",
-      cmd = "Oil",
-      opts = {
-        columns = {
-          -- "mtime",
-          -- "size",
-          -- "permissions",
-          "icon",
-        },
-        float = {
-          padding = 2,
-          max_width = 40,
-          max_height = 0,
-          border = "rounded",
-          win_options = {
-            winblend = 10,
-          },
-        },
-        win_options = {
-          cursorline = true,
-        },
-      },
-      keys = {
-        -- TODO: Check if `<esc>` can be mapped to exiting the oil window or
-        -- if it is necessary in oil usage.
-        {
-          "<m-o>",
-          "<cmd>Oil --float<cr>",
-          mode = "n",
-          desc = "Open Oil in floating window",
-        },
-        {
-          "<m-O>",
-          "<cmd>Oil<cr>",
-          mode = "n",
-          desc = "Open Oil in full window",
-        },
-      },
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
-
     -- unimpaired - next/prev/toggle mappings {{{3
     -- TODO: Find a replacement that allows choosing/changing keymaps
     {
@@ -4910,7 +4867,7 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- dropbar - clockable breadcrumb (barbecue alternative) {{{2
+    -- dropbar - clockable breadcrumb (barbecue alternative) {{{3
     -- FIXME: Has issue with completions in insert menu
     -- TODO: Allow navigation through list wihtout selecting the list, i.e.
     -- select only on <cr`>`.
@@ -4928,45 +4885,6 @@ run_lazy_setup({
       -- NOTE: optional, but required for fuzzy finder support
       dependencies = {
         "nvim-telescope/telescope-fzf-native.nvim",
-      },
-    },
-
-    -- barbecue - breadcrumbs in top bar (dropbar alternative) {{{3
-    {
-      "utilyre/barbecue.nvim",
-      enabled = false,
-      name = "barbecue",
-      event = "VeryLazy",
-      version = "*",
-      keys = {
-        {
-          -- NOTE: If barbecuw hasn't loaded yet, this will stall one time
-          "<m-b>",
-          mode = { "n", "i" },
-          function()
-            require("barbecue.ui").toggle()
-          end,
-          desc = "Toggle barbecue globally",
-        },
-      },
-      opts = {
-        theme = "tokyonight",
-        -- Replace file icon with modified symbol when buffer is modified
-        show_modified = true,
-        -- Context text should follow its icon's color?
-        context_follow_icon_color = false, -- TODO: try true
-        symbols = {
-          -- EXAMPLE RIGHT CHEVRONS:
-          --        󰁔 󰅂 󰍟 󰮺         󰁕 󰄾 󰶻 󰨃 
-          separator = "", -- default: ""
-          -- TODO: use vim's modified file character here?
-          -- modified = "●",
-        },
-      },
-      dependencies = {
-        "folke/tokyonight.nvim", -- for the theme
-        "SmiteshP/nvim-navic",
-        "nvim-tree/nvim-web-devicons",
       },
     },
 
