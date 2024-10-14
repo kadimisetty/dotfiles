@@ -745,10 +745,27 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- HASKELL STACK {{{3
 -- TODO
-vim.cmd([[
-]])
 
--- HASKELL HELPERS {{{3
+-- DJANGO {{{2
+-- TODO: Provide django base and component skeleton template files
+local django_augroup = vim.api.nvim_create_augroup("django_augroup", {})
+
+-- TODO: Set `htmldjango` filetype automatically by checking if html file
+-- belongs to a django project using django file layout Heuristics.
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  desc = "Add keymap to set `filetype` to `htmldjango`",
+  group = django_augroup,
+  pattern = { "html" },
+  callback = function()
+    vim.keymap.set("n", "<localleader>fd", function()
+      vim.opt_local.filetype = "htmldjango"
+    end, {
+      desc = "Set `filetype` to `htmldjango`",
+      silent = true,
+      buffer = true,
+    })
+  end,
+})
 
 -- RUST {{{2
 local rust_augroup = vim.api.nvim_create_augroup("rust_augroup", {})
