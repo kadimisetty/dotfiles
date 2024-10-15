@@ -5801,6 +5801,9 @@ run_lazy_setup({
             -- null_ls.builtins.diagnostics.flake8, -- FIXME: Deprecated?
             -- TODO: MIGRATE TO RUFF
             -- null_ls.builtins.diagnostics.ruff,
+            -- django
+            null_ls.builtins.diagnostics.djlint,
+            null_ls.builtins.formatting.djlint, -- NOTE: DEFAULT: `--max-line-length=120`
             -- purescript
             null_ls.builtins.formatting.purs_tidy,
             -- swift
