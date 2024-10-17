@@ -2775,69 +2775,46 @@ P = function(...)
 end
 
 -- `make` SHORTCUTS {{{2
--- TODO: Generate automatically to avoid repetition.
 -- NOTE: `<m-*>` for vertical splits and `<s-m-*>` for horizontal splits.
+-- TODO: For `<s-m-m><m-*>`, also do `<s-m-m><s-m-*>` versions i.e. account for
+-- the second key to include shift modifier to account for mistaken presses.
 -- NOTE: Keep keymaps in tandem with equivalents in fish shell config:
--- - `<m-m><m-m>`: `make`
--- - `<m-m><m-b>`: `make build`
--- - `<m-m><m-r>`: `make run`
--- - `<m-m><m-c>`: `make clean`
--- - `<m-m><m-f>`: `make fmt`
--- - `<m-m><m-t>`: `make test`
--- `make` {{{3
-vim.keymap.set("n", "<m-m><m-m>", "<cmd>vsplit term://make<cr>", {
-  silent = true,
-  desc = "Run `make` in a vertical split terminal ",
-})
-vim.keymap.set("n", "<s-m-m><s-m-m>", "<cmd>split term://make<cr>", {
-  silent = true,
-  desc = "Run `make` in a horizontal split terminal ",
-})
--- `make build` {{{3
-vim.keymap.set("n", "<m-m><m-b>", "<cmd>vsplit term://make build<cr>", {
-  silent = true,
-  desc = "Run `make build` in a vertical split terminal",
-})
-vim.keymap.set("n", "<s-m-m><s-m-b>", "<cmd>split term://make build<cr>", {
-  silent = true,
-  desc = "Run `make build` in a horizontal split terminal",
-})
--- `make run` {{{3
-vim.keymap.set("n", "<m-m><m-r>", "<cmd>vsplit term://make run<cr>", {
-  silent = true,
-  desc = "Run `make run` in a vertical split terminal",
-})
-vim.keymap.set("n", "<s-m-m><s-m-r>", "<cmd>split term://make run<cr>", {
-  silent = true,
-  desc = "Run `make run` in a horizontal split terminal",
-})
--- `make clean` {{{3
-vim.keymap.set("n", "<s-m-m><s-m-c>", "<cmd>split term://make clean<cr>", {
-  silent = true,
-  desc = "Run `make clean` in a horizontal split terminal",
-})
-vim.keymap.set("n", "<m-m><m-c>", "<cmd>vsplit term://make clean<cr>", {
-  silent = true,
-  desc = "Run `make clean` in a vertical split terminal",
-})
--- `make fmt` {{{3
-vim.keymap.set("n", "<m-m><m-f>", "<cmd>vsplit term://make fmt<cr>", {
-  silent = true,
-  desc = "Run `make fmt` in a vertical split terminal",
-})
-vim.keymap.set("n", "<s-m-m><s-m-f>", "<cmd>split term://make fmt<cr>", {
-  silent = true,
-  desc = "Run `make fmt` in a horizontal split terminal",
-})
--- `make test` {{{3
-vim.keymap.set("n", "<m-m><m-f>", "<cmd>vsplit term://make test<cr>", {
-  silent = true,
-  desc = "Run `make test` in a vertical split terminal",
-})
-vim.keymap.set("n", "<s-m-m><s-m-f>", "<cmd>split term://make test<cr>", {
-  silent = true,
-  desc = "Run `make test` in a horizontal split terminal",
-})
+vim
+  .iter({
+    -- { keymap_suffix, make_command }
+    { "<m-m>", "make" },
+    { "<m-b>", "make build" },
+    { "<m-r>", "make run" },
+    { "<m-c>", "make clean" },
+    { "<m-f>", "make fmt" },
+    { "<m-t>", "make test" },
+  })
+  :map(function(v)
+    local vertical_split_keymap_prefix = "<m-m>"
+    local horizontal_split_keymap_prefix = "<s-m-m>"
+    local keymap_suffix = v[1]
+    local make_command = v[2]
+
+    vim.keymap.set(
+      "n",
+      vertical_split_keymap_prefix .. keymap_suffix,
+      "<cmd>vsplit term://" .. make_command .. "<cr>",
+      {
+        silent = true,
+        desc = "Run `" .. make_command .. "` in a vertical split terminal ",
+      }
+    )
+
+    vim.keymap.set(
+      "n",
+      horizontal_split_keymap_prefix .. keymap_suffix,
+      "<cmd>split term://" .. make_command .. "<cr>",
+      {
+        silent = true,
+        desc = "Run `" .. make_command .. "` in a horizontal split terminal ",
+      }
+    )
+  end)
 
 -- SAVE SHORTCUTS {{{2
 -- Save with `<c-s>`
