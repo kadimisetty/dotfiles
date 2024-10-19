@@ -1779,9 +1779,11 @@ vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", { silent = true })
 --     it only applies to manually named view files.
 --  2. Unlike sessions, views created via `:mkview` (with no filename as
 --     argument) aren't saved in the local direcinry but in vim's `viewdir`.
---  TODO:
---  2. Use a function here that can report save/overwrite information like their
---     session counterparts do.
+-- TODO: Convert `mkview` commands to lua
+-- TODO: Use a function here that can report save/overwrite info/errors like
+-- their session counterparts do.
+-- TODO: Generate numbered `mkview` commands with iteration
+-- TODO: Add keymap descriptions
 -- Make and load views:
 vim.keymap.set("n", "<c-w>m", "<cmd>mkview<cr>", { silent = true })
 vim.keymap.set("n", "<c-w>v", "<cmd>loadview<cr>", { silent = true })
@@ -1809,118 +1811,144 @@ vim.keymap.set("n", "<c-w>v8", "<cmd>loadview 8<cr>", { silent = true })
 vim.keymap.set("n", "<c-w>v9", "<cmd>loadview 9<cr>", { silent = true })
 
 -- SESSIONS {{{2
--- +---------+----------------------------------------------------+
--- |`g<c-w>M` | Save/overwrite `Session.vim` to current directory |
--- |`g<c-w>S` | Load `Session.vim` in current directory           |
--- +---------+----------------------------------------------------+
--- |`<c-w>M`  | Save/overwrite `Session.vim` to global directory  |
--- |`<c-w>S`  | Load `Session.vim` in global directory            |
--- +---------+----------------------------------------------------+
--- NOTE:
--- 1. *Global directory* in this section refers to the directory vim was
---    launched from and which can be considered to be the *project root
---    directory*. Working on this global directory comes especially handy when
---    working with sessions with one *rogue* tabpage that used `:tcd` to a
---    different working directory.
--- 2. By default I want to save/load `Session.vim` to/frpm global directory,
---    but also allow using a current directory with the `g*` prefix.
--- 3. Preferring overwrite variants (i.e. `mksession!`) because if I have only
---    keymap to spend for this, the overwriting one seems more useful.
-
--- Make/source `Session.vim` from global directory
-vim.keymap.set(
-  "n",
-  "<c-w>M",
-  "<cmd>call MakeSessionInGlobalDirectoryOverwriteIfNeeded()<cr>",
-  { silent = true, desc = "Make `Session.vim` in global directory" }
-)
-vim.keymap.set(
-  "n",
-  "<c-w>S",
-  "<cmd>call SourceSessionFileInGlobalDirectory()<cr>",
-  { silent = true, desc = "Source `Session.vim` from global directory" }
-)
-
--- Make/source `Session.vim` from current directory
-vim.keymap.set(
-  "n",
-  "g<c-w>M",
-  "<cmd>call MakeSessionInCurrentDirectoryOverwriteIfNeeded()<cr>",
-  { silent = true, desc = "Make `Session.vim` in current directory" }
-)
-vim.keymap.set(
-  "n",
-  "g<c-w>S",
-  "<cmd>call SourceSessionFileInCurrentDirectory()<cr>",
-  { silent = true, desc = "Source `Session.vim` from current directory" }
-)
-
--- SESSION HELPERS {{{3
-vim.cmd([[
-    function! SourceSessionFileInCurrentDirectory()
-        try
-            execute 'source Session.vim'
-        catch /E484/ "Can't open `Session.vim``because it likely doesn't exist
-            echoerr "ERROR E484: A `Session.vim` cannot be opened from current directory."
-            return
-        endtry
-        echo "Sourced `Session.vim` from current directory."
-    endfunction
-    function! SourceSessionFileInGlobalDirectory()
-        let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
-        try
-            execute 'source' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-        catch /E484/ "Can't open `Session.vim``because it likely doesn't exist
-            echoerr "ERROR E484: A `Session.vim` cannot be opened from global directory."
-            return
-        endtry
-        echo "Sourced `Session.vim` from global directory."
-    endfunction
-    function! MakeSessionInGlobalDirectory()
-        " TODO: DATED 11MAY23: This function is not being called anymore. Keep for a
-        "   while just in case and then remove it.
-        "
-        let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
-        try
-            execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-        catch /E189/ "Session already exists
-            echoerr "ERROR E189: A `Session.vim` file already exists at this location."
-            return
-        endtry
-        echo "Session.vim saved in global directory."
-    endfunction
-    function! MakeSessionInGlobalDirectoryOverwriteIfNeeded()
-        let path_separator = execute('version') =~# 'Windows' ? '\' : '/'
-        try
-            execute 'mksession' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-        catch /E189/ "Session already exists
-            execute 'mksession!' fnameescape(getcwd(-1) . path_separator . "Session.vim")
-            echo "Session.vim overwritten in global directory."
-            return
-        endtry
-        echo "Session.vim saved in global directory."
-    endfunction
-    function! MakeSessionInCurrentDirectoryOverwriteIfNeeded()
-        try
-            execute 'mksession Session.vim'
-        catch /E189/ "Session already exists
-            execute 'mksession! Session.vim'
-            echo "Session.vim overwritten in current directory."
-            return
-        endtry
-        echo "Session.vim saved in current directory."
-    endfunction
-]])
-
 -- SESSION OPTIONS {{{3
---   VIM:
+-- - VIM DEFAULT:
 --    `blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal`
---   NVIM:
---     `blank,buffers,curdir,folds,help,tabpages,winsize,terminal` (No `options`)
---   DESIRED:
---      `blank,buffers,curdir,folds,help,tabpages,winsize,globals`
+-- - NEOVIM DEFAULT:
+--    `blank,buffers,curdir,folds,help,tabpages,winsize,terminal` (No `options`)
+-- - DESIRED:
+--    `blank,buffers,curdir,folds,help,tabpages,winsize,globals`
 vim.opt.sessionoptions:remove({ "terminal" })
 vim.opt.sessionoptions:append({ "tabpages", "globals" })
+
+-- CREATE/SOURCE SESSIONS {{{3
+-- CREATE/SOURCE SESSIONS HELPERS {{{4
+-- TODO: Validate helper functions' arguments
+local source_session_file_from_current_directory = function(opts)
+  local scope = opts.scope or "window" -- default: window
+  local session_filepath
+  if scope == "window" then
+    session_filepath = "Session.vim"
+  elseif scope == "global" then
+    -- NOTE: getcwd(-1, -1) returns globally scoped current directory
+    session_filepath = vim.fs.joinpath(vim.fn.getcwd(-1, -1), "Session.vim")
+  end
+  local ok, res = pcall(vim.cmd.source, session_filepath)
+  if ok then
+    vim.notify(
+      "Sourced `Session.vim` from " .. scope .. " current directory",
+      vim.log.levels.INFO
+    )
+  else
+    if string.match(res, "E484") then
+      vim.notify(
+        "ERROR E484: `Session.vim` from "
+          .. scope
+          .. " current directory cannot be opened",
+        vim.log.levels.ERROR
+      )
+    else
+      -- any other error
+      vim.notify(res, vim.log.levels.ERROR)
+    end
+  end
+end
+
+local create_session_file_in_current_directory = function(opts)
+  local session_filepath
+  local scope = opts.scope or "window" -- default: window
+  local overwrite = opts.overwrite
+  if scope == "window" then
+    session_filepath = "Session.vim"
+  elseif scope == "global" then
+    -- NOTE: getcwd(-1, -1) returns globally scoped current directory
+    session_filepath = vim.fs.joinpath(vim.fn.getcwd(-1, -1), "Session.vim")
+  end
+  local ok, res = pcall(vim.cmd.mksession, { session_filepath, bang = false })
+  if ok then
+    vim.notify(
+      "Created `Session.vim` in " .. scope .. " current directory",
+      vim.log.levels.INFO
+    )
+  else
+    if string.match(res, "E189") then
+      if not overwrite then
+        vim.notify(
+          "ERROR E189: A `Session.vim` file already exists in "
+            .. scope
+            .. " current directory",
+          vim.log.levels.ERROR
+        )
+      else
+        local ok2, res2 = pcall(vim.cmd.mksession, {
+          session_filepath,
+          bang = true,
+        })
+        if ok2 then
+          vim.notify(
+            "`Session.vim` in " .. scope .. " current directory overwritten",
+            vim.log.levels.INFO
+          )
+        else
+          -- any other error
+          vim.notify(res2, vim.log.levels.ERROR)
+        end
+      end
+    else
+      vim.notify(
+        res, -- any other error
+        vim.log.levels.ERROR
+      )
+    end
+  end
+end
+
+-- SESSION KEYMAPS {{{4
+-- +---------+-----------------------------------------------------------------+
+-- |`<c-w>M`  | Create session in globally scoped current directory(overwrite) |
+-- |`<c-w>S`  | Source session from globally scoped current directory          |
+-- +---------+-----------------------------------------------------------------+
+-- |`g<c-w>M` | Create session in window scoped current directory(overwrite)   |
+-- |`g<c-w>S` | Source session from window scoped current directory            |
+-- +---------+-----------------------------------------------------------------+
+--
+-- NOTE: Using `<c-w>m` for creating views; so using `<c-w>M` for creating
+-- sessions with just the overwrite variants for now.
+-- TODO: Add a function to delete `Session.vim` as well.
+
+-- GLOBALLY SCOPED CURRENT DIRECTORY:
+vim.keymap.set("n", "<c-w>M", function()
+  create_session_file_in_current_directory({
+    scope = "global",
+    overwrite = true,
+  })
+end, {
+  silent = true,
+  desc = "Create `Session.vim` in globally scoped current directory(overwrite)",
+})
+vim.keymap.set("n", "<c-w>S", function()
+  source_session_file_from_current_directory({ scope = "global" })
+end, {
+  silent = true,
+  desc = "Source `Session.vim` from globally scoped current directory",
+})
+
+-- WINDOW SCOPED CURRENT DIRECTORY:
+vim.keymap.set("n", "g<c-w>M", function()
+  create_session_file_in_current_directory({
+    scope = "window",
+    overwrite = true,
+  })
+end, {
+  silent = true,
+  desc = "Create `Session.vim` in window scoped current directory(overwrite)",
+})
+vim.keymap.set("n", "g<c-w>S", function()
+  source_session_file_from_current_directory({ scope = "window" })
+end, {
+  silent = true,
+  desc = "Source `Session.vim` from window scoped current directory",
+})
 
 -- UTILITIES {{{1
 local utilities_augroup = vim.api.nvim_create_augroup("utilities_augroup", {})
