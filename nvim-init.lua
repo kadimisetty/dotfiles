@@ -3913,11 +3913,41 @@ run_lazy_setup({
       },
     },
 
+    -- catppuccin - pastel colorscheme {{{3
+    -- TODO: Use non-colorscheme features in this plugin
+    {
+      "catppuccin/nvim",
+      name = "catppuccin", -- Keep, because "nvim"(of `catppuccin/nvim`) is bad
+      priority = 1000, -- keep high for colorschemes
+      init = function()
+        vim.cmd.colorscheme(
+          -- "catppuccin"
+          -- catppuccin-macchiato"
+          "catppuccin-mocha"
+        )
+      end,
+      opts = {
+        -- FIX: Flavor isn't working, so manually setting in `init` for now.
+        flavor = "auto",
+        -- flavor = "latte", -- lightest
+        -- flavor = "frappe", -- muted
+        -- flavor = "macchiato", -- gentle
+        -- flavor = "mocha", -- darkest
+        --
+        -- TODO: Replace dedicated inactive window dimming plugin with this
+        -- dim_inactive = {
+        --   enabled = false,
+        --   shade = "dark",
+        --   percentage = 0.15, -- shade percentage
+        -- },
+      },
+    },
+
     -- tokyonight - folke colorscheme {{{3
     {
       "folke/tokyonight.nvim",
-      lazy = false, -- Load during startup if main colorscheme
-      priority = 1000, -- Load before all other start plugins
+      enabled = false,
+      priority = 1000, -- Keep high for colorschemes
       init = function()
         vim.cmd.colorscheme("tokyonight")
       end,
