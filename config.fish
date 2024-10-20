@@ -23,6 +23,7 @@
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin Markcial/upto
+fundle plugin catppuccin/fish
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
 fundle plugin oh-my-fish/plugin-gi
@@ -172,14 +173,22 @@ end
 set fish_greeting ""
 
 # THEME{{{2
-# Dracula
-fish_config theme choose Dracula
+# DRACULA {{{3
+# fish_config theme choose Dracula
 
-# Tokyo Night:
+# TOKYO NIGHT {{{3
 # fish_config theme choose tokyonight_day
 # fish_config theme choose tokyonight_moon
 # fish_config theme choose tokyonight_night
 # fish_config theme choose tokyonight_storm
+
+# CATPPUCCIN {{{3
+# FIX: fundle isn't installing theme; for now manually installing in fish's
+# theme location
+# fish_config theme save "Catppuccin Latte"
+# fish_config theme save "Catppuccin Frappe"
+# fish_config theme save "Catppuccin Macchiato"
+fish_config theme choose "Catppuccin Mocha"
 
 # SET VIM AS DEFAULT EDITOR {{{2
 set --export EDITOR nvim
