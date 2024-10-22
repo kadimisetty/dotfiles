@@ -5287,6 +5287,15 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
+    -- zig {{{3
+    {
+      "ziglang/zig.vim",
+      ft = { "zig", "zon" },
+      init = function()
+        -- vim.g.zig_fmt_autosave = 0 -- 0 disables format_on_save
+      end,
+    },
+
     -- elixir {{{3
     "elixir-editors/vim-elixir",
 
@@ -5724,6 +5733,12 @@ run_lazy_setup({
 
         -- SWIFT(SOURCEKIT)
         require("lspconfig").sourcekit.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
+        -- ZIG
+        require("lspconfig").zls.setup({
           on_attach = common_on_attach,
           capabilities = capabilities,
         })
