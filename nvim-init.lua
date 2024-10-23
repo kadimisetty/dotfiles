@@ -2809,13 +2809,13 @@ end
 -- NOTE: Keep keymaps in tandem with equivalents in fish shell config:
 vim
   .iter({
-    -- { keymap_suffix, make_command }
-    { "<m-m>", "make" },
-    { "<m-b>", "make build" },
-    { "<m-r>", "make run" },
-    { "<m-c>", "make clean" },
-    { "<m-f>", "make fmt" },
-    { "<m-t>", "make test" },
+    -- { keymap_suffix(x in `<m-m><m-x>`), make_command }
+    { "m", "make" },
+    { "b", "make build" },
+    { "r", "make run" },
+    { "c", "make clean" },
+    { "f", "make fmt" },
+    { "t", "make test" },
   })
   :map(function(v)
     local vertical_split_keymap_prefix = "<m-m>"
@@ -2823,9 +2823,10 @@ vim
     local keymap_suffix = v[1]
     local make_command = v[2]
 
+    -- vertical split e.g. `<m-m><m-r>`
     vim.keymap.set(
       "n",
-      vertical_split_keymap_prefix .. keymap_suffix,
+      vertical_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
       "<cmd>vsplit term://" .. make_command .. "<cr>",
       {
         silent = true,
@@ -2833,9 +2834,21 @@ vim
       }
     )
 
+    -- horizontal split e.g. `<s-m-m><m-r>`
     vim.keymap.set(
       "n",
-      horizontal_split_keymap_prefix .. keymap_suffix,
+      horizontal_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
+      "<cmd>split term://" .. make_command .. "<cr>",
+      {
+        silent = true,
+        desc = "Run `" .. make_command .. "` in a horizontal split terminal ",
+      }
+    )
+
+    -- horizontal split with oth keys using shift e.g. `<s-m-m><s-m-r>`
+    vim.keymap.set(
+      "n",
+      horizontal_split_keymap_prefix .. "<s-m-" .. keymap_suffix .. ">",
       "<cmd>split term://" .. make_command .. "<cr>",
       {
         silent = true,
