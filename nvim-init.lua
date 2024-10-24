@@ -5483,35 +5483,30 @@ run_lazy_setup({
     -- fidget - LSP loading indicator {{{3
     {
       "j-hui/fidget.nvim",
-      tag = "legacy", -- TODO: Remove when fidget is eventually updated
-      lazy = false,
-      config = function()
-        require("fidget").setup({
-          text = {
-            spinner = "dots_snake",
-            done = "",
-            commenced = "", -- "DOING"
-            completed = "", -- "DONE"
-          },
-          window = {
-            -- anchor point: win(default)/editor
-            relative = "editor",
-            blend = 30, -- &winblend, ideal: 0-30
-            border = "none",
-          },
-          fmt = {
-            max_width = 60,
-            task = function(task_name, message, percentage)
-              return string.format(
-                "%s%s:%s",
-                message,
-                percentage and string.format(" %s%%", percentage) or "",
-                task_name
-              )
+      opts = {
+        progress = {
+          display = {
+            render_limit = 12, -- Default 16
+            done_icon = "",
+            format_message = function(msg)
+              local message = msg.message
+              if not message then
+                message = msg.done and "" or ""
+              end
+              if msg.percentage ~= nil then
+                return string.format("%s %.0f%%", message, msg.percentage)
+              else
+                return message
+              end
             end,
           },
-        })
-      end,
+        },
+        notification = {
+          window = {
+            max_width = 24, -- default: 0 for none
+          },
+        },
+      },
     },
 
     -- qf-edit - edit quickfix list like a normal buffer {{{3
