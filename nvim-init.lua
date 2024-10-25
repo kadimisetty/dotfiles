@@ -1953,6 +1953,30 @@ end, {
 -- UTILITIES {{{1
 local utilities_augroup = vim.api.nvim_create_augroup("utilities_augroup", {})
 
+-- NOTIFY MORE MACRO ACTIONS {{{2
+vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
+  group = utilities_augroup,
+  desc = "Notify more macro actions (like cleared)",
+  callback = function()
+    local register_name = vim.v.event.regname
+    local register_contents = vim.fn.keytrans(vim.v.event.regcontents)
+    if register_contents == "" then
+      -- CLEARED MACRO REGISTER:
+      vim.schedule_wrap(function()
+        vim.notify("cleared @" .. register_name, vim.log.levels.WARN)
+      end)()
+    else
+      -- UPDATED MACRO REGISTER:
+      vim.schedule_wrap(function()
+        vim.notify(
+          "recorded @" .. register_name .. ": " .. register_contents,
+          vim.log.levels.INFO
+        )
+      end)()
+    end
+  end,
+})
+
 -- XCODE SHORTCUTS PARITY {{{2
 -- FORMATTING {{{3
 -- NOTE: This is a custom Xcode shortcut
