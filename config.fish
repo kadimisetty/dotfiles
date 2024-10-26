@@ -358,6 +358,9 @@ function fish_right_prompt
         set_color $fish_color_normal
     end
 
+    # SHOW JOBS PROMPT:
+    jobs_prompt
+
     # SHOW PRIVATE MOPE:
     if test -n "$fish_private_mode"
         set_color magenta --dim
@@ -371,6 +374,16 @@ function fish_right_prompt
 
     # SHOW TRAILING WHITESPACE:
     echo -ns " "
+end
+
+# JOBS PROMPT {{{3
+function jobs_prompt
+    set --local background_jobs_count (jobs | wc -l | string trim)
+    set_color $fish_color_command --bold
+    if test $background_jobs_count -gt 0
+        echo -n " 󰒲 "$background_jobs_count
+    end
+    set_color $fish_color_normal
 end
 
 # GIT PROMPT SETTINGS {{{2
