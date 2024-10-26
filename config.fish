@@ -295,33 +295,40 @@ end
 
 
 # PROMPT {{{1
-# LEFT PROMPT {{{2
-# VI MODE PROMPT:
-# NOTE: `fish_mode_prompt` has to return nothing in order to allow "vi mode
-# status" to be updated inside regular `fish_prompt` function.
-function fish_mode_prompt
-end
-function fish_prompt
-    # NOTE: `$status` has to be collected right away, so keep this at the top.
-    set --local _previous_command_status $status
+# PROMPT COMPONENTS {{{2
+# TODO: Give component factory functions left/right margin arguments
 
-    # SHOW ROOT USER:
+# SPACER PROMPT COMPONENT {{{3
+function _spacer_prompt_component
+    echo -ns " "
+end
+
+# ROOT PROMPT COMPONENT {{{3
+function _root_prompt_component
     if fish_is_root_user
         set_color $fish_color_cwd_root
-        echo -ns "ROOT: "
+        echo -ns ROOT
+        set_color $fish_color_normal
     end
+end
 
-    # SHOW CURRENT DIRECTORY:
+# CURRENT DIRECTORY PROMPT COMPONENT {{{3
+function _cwd_prompt_component
+    set_color white --dim # FIXME: Don't use hardcoded colors like `white`
+    echo -ns (prompt_pwd)
+    set_color $fish_color_normal
+end
+
+# INPUT INDICATOR PROMPT COMPONENT {{{3
+function _input_indicator_prompt_component \
+    --argument-names previous_command_status
     set_color white --dim
-    echo -ns (prompt_pwd) " "
-
-    # SHOW PROMPT SYMBOL:
     # ALT PROMPT ICONS:              "" #     󰁜  󰁜  󱦲
     set --local _prompt_ok_symbol " "
     set --local _prompt_error_symbol " "
     # `$_previous_command_status` SUCCESS codes: 0
     # `$_previous_command_status` FAILURE codes: 1/12/123/124/125/126/127
-    if test $_previous_command_status -eq 0
+    if test $previous_command_status -eq 0
         # SEE: https://fishshell.com/docs/current/cmds/fish_mode_prompt.html
         switch $fish_bind_mode
             case insert
@@ -337,53 +344,81 @@ function fish_prompt
             case "*"
                 set_color brred --dim
         end
-        echo -ns $_prompt_ok_symbol " "
+        echo -ns $_prompt_ok_symbol
     else
         set_color $fish_color_error --bold
-        echo -ns $_prompt_error_symbol " "
+        echo -ns $_prompt_error_symbol
+    end
+    set_color $fish_color_normal
+end
+
+# BACKGROUND JOBS PROMPT COMPONENT {{{3
+function _background_jon_prompt_component
+    set --local background_jobs_count (jobs | wc -l | string trim)
+    if test $background_jobs_count -gt 0
+        _spacer_prompt_component
+        set_color $fish_color_command --bold
+        echo -ns "󰒲 "$background_jobs_count
+        set_color $fish_color_normal
     end
 end
 
-# RIGHT PROMPT {{{2
-function fish_right_prompt
-    # NOTE: `$status` has to be collected right away, so keep this at the top.
-    set --local _previous_command_status $status
-
-    # SHOW ERROR STATUS CODE:
-    if test $_previous_command_status -ne 0 # i.e. not success status code (0)
+# ERROR STATUS INDICATOR PROMPT COMPONENT {{{3
+function _error_status_prompt_component \
+    --argument-names previous_command_status
+    if test $previous_command_status -ne 0 # i.e. not success status code (0)
+        _spacer_prompt_component
         set_color $fish_color_error
         set --local _error_indicator_symbol " " # 🅔
         echo -ns $_error_indicator_symbol
-        echo -ns "E:"(fish_status_to_signal $_previous_command_status)
+        echo -ns "E:"(fish_status_to_signal $previous_command_status)
         set_color $fish_color_normal
     end
-
-    # SHOW JOBS PROMPT:
-    jobs_prompt
-
-    # SHOW PRIVATE MOPE:
-    if test -n "$fish_private_mode"
-        set_color magenta --dim
-        echo -ns " PRIVATE"
-        set_color $fish_color_normal
-    end
-
-    # SHOW GIT PROMPT:
-    set_color brblack
-    echo -ns (fish_git_prompt)
-
-    # SHOW TRAILING WHITESPACE:
-    echo -ns " "
 end
 
-# JOBS PROMPT {{{3
-function jobs_prompt
-    set --local background_jobs_count (jobs | wc -l | string trim)
-    set_color $fish_color_command --bold
-    if test $background_jobs_count -gt 0
-        echo -n " 󰒲 "$background_jobs_count
+# PRIVATE MODE PROMPT COMPONENT {{{3
+function _private_mode_component
+    if test -n "$fish_private_mode"
+        _spacer_prompt_component
+        set_color magenta --dim
+        echo -ns PRIVATE
+        set_color $fish_color_normal
     end
+end
+
+# GIT PROMPT COMPONENT {{{3
+function _git_prompt_component
+    set_color brblack
+    echo -ns (fish_git_prompt)
     set_color $fish_color_normal
+end
+
+# MAIN PROMPT {{{2
+# NOTE: VI MODE PROMPT: `fish_mode_prompt` has to return nothing in order to
+# allow "vi mode status" to be updated inside regular `fish_prompt` function.
+function fish_mode_prompt # KEEP EMPTY
+end
+function fish_prompt
+    # NOTE: `$status` has to be collected right away, so keep this at the top.
+    set --local previous_command_status $status
+    # COMPONENTS IN ORDER(LEFT TO RIGHT):
+    _spacer_prompt_component
+    _root_prompt_component
+    _spacer_prompt_component
+    _cwd_prompt_component
+    _spacer_prompt_component
+    _input_indicator_prompt_component $previous_command_status
+    _spacer_prompt_component
+end
+function fish_right_prompt
+    # NOTE: `$status` has to be collected right away, so keep this at the top.
+    set --local previous_command_status $status
+    # COMPONENTS IN ORDER(LEFT TO RIGHT):
+    _private_mode_component
+    _error_status_prompt_component $previous_command_status
+    _background_jon_prompt_component
+    _git_prompt_component
+    _spacer_prompt_component
 end
 
 # GIT PROMPT SETTINGS {{{2
