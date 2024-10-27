@@ -296,38 +296,58 @@ end
 
 # PROMPT {{{1
 # PROMPT COMPONENTS {{{2
-# TODO: Give component factory functions left/right margin arguments
-
 # SPACER PROMPT COMPONENT {{{3
-function _spacer_prompt_component
-    echo -ns " "
+# TODO: Squash condition guards
+function _spacer_prompt_component \
+    --argument-names number_of_spaces
+    if not test -n "$number_of_spaces" # assert argument provided
+        return
+    end
+    if not math $number_of_spaces &>/dev/null # assert argument is a numnber
+        return
+    end
+    if test $number_of_spaces -le 0 &>/dev/null # assert argument number is >= 0
+        return
+    end
+    echo -ns (string repeat --count $number_of_spaces " ")
 end
 
 # ROOT PROMPT COMPONENT {{{3
-function _root_prompt_component
+function _root_prompt_component \
+    --argument-names left_margin right_margin
     if fish_is_root_user
+        _spacer_prompt_component $left_margin
         set_color $fish_color_cwd_root
         echo -ns ROOT
         set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
     end
 end
 
-# CURRENT DIRECTORY PROMPT COMPONENT {{{3
-function _cwd_prompt_component
-    set_color white --dim # FIXME: Don't use hardcoded colors like `white`
+# CURRENT WORKING DIRECTORY PROMPT COMPONENT {{{3
+function _cwd_prompt_component \
+    --argument-names left_margin right_margin
+    _spacer_prompt_component $left_margin
+    if fish_is_root_user
+        set_color $fish_color_cwd_root --bold
+    else
+        set_color white --dim # ALTERNATES: `fish_color_cwd`
+    end
     echo -ns (prompt_pwd)
     set_color $fish_color_normal
+    _spacer_prompt_component $right_margin
 end
 
 # INPUT INDICATOR PROMPT COMPONENT {{{3
-function _input_indicator_prompt_component \
-    --argument-names previous_command_status
+function _vi_aware_input_indicator_prompt_component \
+    --argument-names previous_command_status left_margin right_margin
+    _spacer_prompt_component $left_margin
     set_color white --dim
-    # ALT PROMPT ICONS:              "" #     󰁜  󰁜  󱦲
+    # ALTERNATES:              "" #     󰁜  󰁜  󱦲
     set --local _prompt_ok_symbol " "
     set --local _prompt_error_symbol " "
     # `$_previous_command_status` SUCCESS codes: 0
-    # `$_previous_command_status` FAILURE codes: 1/12/123/124/125/126/127
+    # `$_previous_command_status` FAILURE codes: 1/12/123/124/125/126/127…
     if test $previous_command_status -eq 0
         # SEE: https://fishshell.com/docs/current/cmds/fish_mode_prompt.html
         switch $fish_bind_mode
@@ -350,75 +370,78 @@ function _input_indicator_prompt_component \
         echo -ns $_prompt_error_symbol
     end
     set_color $fish_color_normal
+    _spacer_prompt_component $right_margin
 end
 
 # BACKGROUND JOBS PROMPT COMPONENT {{{3
-function _background_jon_prompt_component
+function _background_jon_prompt_component \
+    --argument-names left_margin right_margin
     set --local background_jobs_count (jobs | wc -l | string trim)
     if test $background_jobs_count -gt 0
-        _spacer_prompt_component
+        _spacer_prompt_component $left_margin
         set_color $fish_color_command --bold
         echo -ns "󰒲 "$background_jobs_count
         set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
     end
 end
 
 # ERROR STATUS INDICATOR PROMPT COMPONENT {{{3
 function _error_status_prompt_component \
-    --argument-names previous_command_status
+    --argument-names previous_command_status left_margin right_margin
     if test $previous_command_status -ne 0 # i.e. not success status code (0)
-        _spacer_prompt_component
+        _spacer_prompt_component $left_margin
         set_color $fish_color_error
         set --local _error_indicator_symbol " " # 🅔
         echo -ns $_error_indicator_symbol
         echo -ns "E:"(fish_status_to_signal $previous_command_status)
         set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
     end
 end
 
 # PRIVATE MODE PROMPT COMPONENT {{{3
-function _private_mode_component
+function _private_mode_component \
+    --argument-names left_margin right_margin
     if test -n "$fish_private_mode"
-        _spacer_prompt_component
+        _spacer_prompt_component $left_margin
         set_color magenta --dim
         echo -ns PRIVATE
         set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
     end
 end
 
 # GIT PROMPT COMPONENT {{{3
-function _git_prompt_component
+function _git_prompt_component \
+    --argument-names left_margin right_margin
+    _spacer_prompt_component $left_margin
     set_color brblack
     echo -ns (fish_git_prompt)
     set_color $fish_color_normal
+    _spacer_prompt_component $right_margin
 end
 
 # MAIN PROMPT {{{2
-# NOTE: VI MODE PROMPT: `fish_mode_prompt` has to return nothing in order to
-# allow "vi mode status" to be updated inside regular `fish_prompt` function.
-function fish_mode_prompt # KEEP EMPTY
+function fish_mode_prompt
+    # NOTE: KEEP EMPTY: `fish_mode_prompt` has to return nothing in order to
+    # allow "vi mode status" to get called inside `fish_prompt`.
 end
 function fish_prompt
-    # NOTE: `$status` has to be collected right away, so keep this at the top.
+    # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
     set --local previous_command_status $status
-    # COMPONENTS IN ORDER(LEFT TO RIGHT):
-    _spacer_prompt_component
-    _root_prompt_component
-    _spacer_prompt_component
-    _cwd_prompt_component
-    _spacer_prompt_component
-    _input_indicator_prompt_component $previous_command_status
-    _spacer_prompt_component
+    _spacer_prompt_component 1
+    _root_prompt_component 0 1
+    _cwd_prompt_component 0 1
+    _vi_aware_input_indicator_prompt_component $previous_command_status 0 1
 end
 function fish_right_prompt
-    # NOTE: `$status` has to be collected right away, so keep this at the top.
+    # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
     set --local previous_command_status $status
-    # COMPONENTS IN ORDER(LEFT TO RIGHT):
-    _private_mode_component
-    _error_status_prompt_component $previous_command_status
-    _background_jon_prompt_component
-    _git_prompt_component
-    _spacer_prompt_component
+    _private_mode_component 1 0
+    _error_status_prompt_component $previous_command_status 1 0
+    _background_jon_prompt_component 1 0
+    _git_prompt_component 0 0
 end
 
 # GIT PROMPT SETTINGS {{{2
