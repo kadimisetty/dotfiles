@@ -2814,12 +2814,41 @@ vim.keymap.set(
 -- TODO
 -- Consider using `-` and `|` so like  `yo-` and `yo|`?
 
--- VIMRC UTILITIES {{{2
--- " Load `vimrc` quickly
--- TODO: Switch this to `init.lua`
--- TODO: Set `nomodifiable` on loaded vimrc? or provided a read-only variant
--- nnoremap <silent> <leader>v :edit $MYVIMRC<CR>
-vim.keymap.set("n", "<leader>v", "<cmd>edit $MYVIMRC<cr>", { silent = true })
+-- LOAD NEOVIM CONFIG (`init.lua`) {{{2
+-- KEYMAPS:
+--  `<leader>v`: open `init.lua` in current window.
+--  `<leader>V`: open `init.lua` in a new tabpage.
+do
+  local neovim_config_init_filename = "init.lua"
+  local neovim_config_init_full_path =
+    vim.fs.joinpath(vim.fn.stdpath("config"), neovim_config_init_filename)
+  -- OPEN IN CURRENT WINDOW:
+  vim.keymap.set("n", "<leader>v", function()
+    local ok, err = pcall(vim.cmd.edit, neovim_config_init_full_path)
+    if not ok then
+      vim.notify(
+        "ERROR: Failed to open `init.lua` neovim config file: " .. err,
+        vim.log.levels.ERROR
+      )
+    end
+  end, {
+    silent = true,
+    desc = "Open `init.lua` neovim config file in current window",
+  })
+  -- OPEN IN NEW TAB:
+  vim.keymap.set("n", "<leader>V", function()
+    local ok, err = pcall(vim.cmd.tabedit, neovim_config_init_full_path)
+    if not ok then
+      vim.notify(
+        "ERROR: Failed to open `init.lua` neovim config file: " .. err,
+        vim.log.levels.ERROR
+      )
+    end
+  end, {
+    silent = true,
+    desc = "Open `init.lua` neovim config file in a new tabpage",
+  })
+end
 
 -- PRINT/INSPECT HELPER {{{2
 P = function(...)
