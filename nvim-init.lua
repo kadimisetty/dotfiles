@@ -79,7 +79,10 @@ vim.opt.diffopt:append("vertical")
 if vim.fn.executable("par") == 1 then
   vim.opt.formatprg = "par -w79"
 else
-  vim.notify("WARN: please install `par` for `formatprg`", vim.log.levels.WARN)
+  vim.notify(
+    "WARNING: Please install `par` for `formatprg`",
+    vim.log.levels.WARN
+  )
 end
 
 -- MODELINE {{{2
@@ -190,27 +193,57 @@ vim.cmd([[ filetype plugin on ]])
 -- Activate builtin and computed indentations
 vim.cmd([[ filetype indent on ]])
 
--- BACKUP {{{2
--- Make a backup before writing the file
-vim.opt.backup = true
+-- BACKUPS {{{2
+-- TODO: Directories mentioned here might need to occasionally be cleaned.
 
--- Make a backup and then overwrite orginal file
-vim.opt.backupcopy = "yes"
+-- BACKUP BEFORE OVERWRITING A FILE {{{3
+-- ----------------------------------------------------------------------------
+-- `backup` |	`writebackup` | RESULTING BEHAVIOR
+-- ---------+---------------+--------------------------------------------------
+-- false    | false         | no backup made
+-- false    | true          | backup current file, deleted afterwards (DEFAULT)
+-- true     | false         | delete old backup, backup current file
+-- true     | true          | delete old backup, backup current file (DESIRED)
+-- ---------+---------------+--------------------------------------------------
+vim.o.backup = true
+vim.o.writebackup = true
 
--- Do not make backups for these file patterns
--- TODO: Use lua
--- vim.opt.backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
-vim.cmd([[ set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/* ]])
+-- WRITE BACKUP SAFELY {{{3
+-- Make a copy of the file and overwrite the original one
+-- NOTE: `no`/`auto` are faster but `yes` is safer
+vim.o.backupcopy = "yes"
 
+-- IGNORE BACKUPS FOR PATTERNS {{{3
+-- Do not make backups for these file patterns (especially temporary files
+-- NOTE: Environment variables need to be expanded/normalized i.e. `$HOME` etc.
+-- NOTE: Current defaults:
+--        - UNIX: `/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*`
+--        - MACOS: `/private/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*`
+-- Ignore files in `/tmp/*` also:
+vim.opt.backupskip:append({
+  vim.fs.joinpath(vim.fs.normalize("/tmp"), "*"),
+})
+
+-- BACKUP FILE LOCATIONS {{{3
 -- Use this directory to store backups
--- NOTE: The `backupdir` will have to be created.
--- TODO: Use a nvim specific backup dir.
--- TODO: Use lua
-vim.cmd([[ set backupdir=~/.vim/backup ]])
+-- NOTE: Default backup directories are in this order. Current directory, first
+--       in list, is undesirable, so removing it:
+--        1. Current directory (`"."`)  - UNDESIRED
+--        2. `$HOME/nvim/backup/`       - DESIRED
+-- vim.opt.backupdir:remove(".")
+-- Notify if there are no backup locations set
+vim.o.backupdir = ""
+if vim.o.backupdir:len() == 0 then
+  vim.notify(
+    "WARNING: Backups are not being created (`backupdir` is empty)",
+    vim.log.levels.WARN
+  )
+end
 
--- List of directory names to create the swp files in
--- TODO: Use lua
-vim.cmd([[ set directory=/tmp/ ]])
+-- SWAP FILE LOCATIONS {{{3
+-- Locations to store swap files
+-- NOTE: Using neovim default: `vim.fn.stdpath("state")/swap/`
+-- vim.o.directory
 
 -- WILDIGNORE {{{2
 -- File patterns to ignore.  Used throughout in situations like expansions,
