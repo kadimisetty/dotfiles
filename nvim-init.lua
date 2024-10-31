@@ -230,9 +230,8 @@ vim.opt.backupskip:append({
 --       in list, is undesirable, so removing it:
 --        1. Current directory (`"."`)  - UNDESIRED
 --        2. `$HOME/nvim/backup/`       - DESIRED
--- vim.opt.backupdir:remove(".")
--- Notify if there are no backup locations set
-vim.o.backupdir = ""
+vim.opt.backupdir:remove(".")
+-- Warn when `backupdir` has no directories
 if vim.o.backupdir:len() == 0 then
   vim.notify(
     "WARNING: Backups are not being created (`backupdir` is empty)",
