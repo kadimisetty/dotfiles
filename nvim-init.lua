@@ -2297,40 +2297,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 -- TODO: Use lua
 vim.cmd([[ command! -nargs=* Wrap set wrap linebreak nolist ]])
 
--- WRITE MODE {{{2
--- TODO: enable automatically in certain filetypes like markdown, commits etc.
--- Create Write-friendly environment
--- NOTE: This is very basic, for more use a plugin like goyo.vim
--- FIXME: Make this a toggle
-vim.cmd([[
-    function! WriteMode()
-        setlocal formatoptions=1
-        setlocal noexpandtab
-        "gj and gk move with wrapped lines
-        map j gj
-        map k gk
-        "Set spelling dictionry to US
-        setlocal spell spelllang=en_us
-        set complete+=s
-        "Use external program `par` to format paragraph
-        set formatprg=par
-        setlocal wrap
-        setlocal linebreak
-    endfunction
-]])
--- FIXME: This is too broken
-vim.api.nvim_create_user_command(
-  "WriteMode",
-  "call WriteMode()",
-  { bang = false, desc = "Make environment writing friendly" }
-)
-vim.keymap.set(
-  "n",
-  "<localleader>w",
-  "<cmd>call WriteMode()<cr>",
-  { silent = true }
-)
-
 -- SELECT ITEM AND CLOSE QUICKFIX/LOCLIST  {{{2
 vim.api.nvim_create_autocmd("FileType", {
   desc = "Select item and close quickfix/location list",
@@ -3448,13 +3414,6 @@ local run_lazy_setup = function(opts)
   assert(opts.lazy_plugins ~= nil and opts.lazy_opts ~= nil)
   require("lazy").setup(opts.lazy_plugins, opts.lazy_opts)
 end
-vim.keymap.set(
-  "n",
-  "<m-z>",
-  "<cmd>Lazy<cr>",
-  { desc = "Open `lazy.nvim` dashboard" }
-)
-
 run_lazy_setup({
   -- LAZY OPTIONS  {{{2
   lazy_opts = {
@@ -5286,6 +5245,13 @@ run_lazy_setup({
           end
         end,
       },
+    },
+
+    -- zen-mode - focus helper {{{3
+    {
+      "folke/zen-mode.nvim",
+      opts = { window = { backdrop = 1 } },
+      keys = { { "<m-z>", "<cmd>ZenMode<cr>", desc = "Toggle ZenMode" } },
     },
 
     -- rainbow_parentheses - multi-colored nested brackets {{{3
