@@ -5250,8 +5250,58 @@ run_lazy_setup({
     -- zen-mode - focus helper {{{3
     {
       "folke/zen-mode.nvim",
+      -- TODO: Configure terminal emulator hooks(wezterm etc.)
+      -- NOTE: Where possible, prefer specific configuration set within keymaps
+      -- rather than global configuration set here in `opts`.
       opts = { window = { backdrop = 1 } },
-      keys = { { "<m-z>", "<cmd>ZenMode<cr>", desc = "Toggle ZenMode" } },
+      keys = function()
+        -- NOTE: KEYMAP GRAMMAR:
+        -- +---------+--------------+----------------------+
+        -- | KEYMAP  | CONTENT TYPE | UI MINIMALISM LEVEL  |
+        -- +---------+--------------+----------------------+
+        -- | `<m-z>` | CODE         | BASIC                |
+        -- | `<m-Z>` | CODE         | EXTREME              |
+        -- | TODO:   | PROSE        | BASIC                |
+        -- | TODO:   | PROSE        | EXTREME              |
+        -- +---------+--------------+----------------------+
+        local zenmode = require("zen-mode")
+        return {
+          --  CODE (BASIC UI MINIMALISM)
+          {
+            "<m-z>",
+            function()
+              zenmode.toggle({ window = { width = 0.94, height = 1 } })
+            end,
+            desc = "Toggle ZenMode (CODE - BASIC UI MINIMALISM)",
+          },
+          --  CODE (EXTREME UI MINIMALISM)
+          {
+            "<m-Z>",
+            function()
+              zenmode.toggle({
+                window = {
+                  width = 0.8,
+                  height = 0.9,
+                  -- WINDOW OPTIONS(`vim.wo.*`):
+                  options = {
+                    number = false, -- disable number column
+                  },
+                },
+                plugins = {
+                  -- GLOBAL OPTIONS(`vim.o.*`):
+                  options = {
+                    enabled = true,
+                    ruler = false, -- disables ruler text in command line area
+                    showcmd = false, -- disables command in last line of screen
+                    laststatus = 0, -- 0 hides and 3 shows `statusline`
+                  },
+                },
+              })
+            end,
+            desc = "Toggle ZenMode (CODE - EXTREME UI MINIMALISM)",
+          },
+        }
+      end,
     },
 
     -- rainbow_parentheses - multi-colored nested brackets {{{3
