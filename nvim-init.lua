@@ -2268,16 +2268,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 --]]
 
--- LIMIT HELP PAGES TEXT WIDTH (for plugin help files) {{{2
--- TODO: Check if I meant this for 3rd part help pages, because internal help
---       is generally < 80, no
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = utilities_augroup,
-  pattern = { "help" },
-  command = "setlocal textwidth=78",
-  desc = "Limit help pages text width",
-})
-
 -- MOVE HELP TO A NEW TAB {{{2
 -- NOTE: `BufWinEnter` uses `*.txt` patterns, so just detect `help` later.
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
