@@ -422,6 +422,45 @@ function _git_prompt_component \
     _spacer_prompt_component $right_margin
 end
 
+# GIT COMMIT INDICATOR PROMPT COMPONENT {{{3
+# TODO: Change color intensity (like in a github user's 'contribution graph).
+# TODO: Make a multiple day(weekly/monthly etc.) component variant.
+# TODO: Allow configuring direction LTR/RTL (useful for multiple day variants).
+# TODO: Allow activation under a particular "root directory"" only. For
+# example, activate only when one of the parent directories is "personal" which
+# could indicate that this component be activated only on "personal repos".
+# TODO: Use `argparse` to handle function arguments.
+# TODO: Accept symbols/duration/intensity as function parameters.
+#
+# Displays indicator that conveys whether commits were made in given duration
+function _git_commit_count_indicator_prompt_component \
+    --argument-names left_margin right_margin date_specificier
+    # TODO: Set `date_specificier` default to "midnight"
+    # IS WITHIN GIT REPO (GUARD CONDITION):
+    if test true = \
+            (git rev-parse --is-inside-work-tree 1>&1 2>/dev/null) 2>/dev/null
+        set --query
+        set --local symbol_no_commit " " # ALTERNATES: 󱓼
+        set --local symbol_one_or_more_commits " " # ALTERNATES:    󱓻
+        _spacer_prompt_component $left_margin
+        # NOTE: This condition includes the case of a git repo with no initial
+        # commit made yet. Exercise caution when changing.
+        if test 1 -gt (git log --oneline --since=$date_specificier 2>/dev/null \
+          | string trim \
+          | wc -l)
+            # COMMITS MADE TODAY: 0
+            set_color red --dim
+            echo -ns $symbol_no_commit
+        else
+            # COMMITS MADE TODAY: 1 OR MORE
+            set_color $fish_color_comment --dim
+            echo -ns $symbol_one_or_more_commits
+        end
+        _spacer_prompt_component $right_margin
+        set_color $fish_color_normal
+    end
+end
+
 # MAIN PROMPT {{{2
 function fish_mode_prompt
     # NOTE: KEEP EMPTY: `fish_mode_prompt` has to return nothing in order to
@@ -438,8 +477,9 @@ end
 function fish_right_prompt
     # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
     set --local previous_command_status $status
-    _private_mode_component 1 0
     _error_status_prompt_component $previous_command_status 1 0
+    _git_commit_count_indicator_prompt_component 1 0 midnight
+    _private_mode_component 1 0
     _background_jon_prompt_component 1 0
     _git_prompt_component 0 0
 end
