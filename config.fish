@@ -42,20 +42,18 @@ fundle init
 
 # HELPER FUNCTIONS {{{1
 # ECHOERR {{{2
+# USAGE 1:        `echoerr "incorrect configuration file: conf.json"
+# OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
+# USAGE 2:        `echo "incorrect configuration file: conf.json" | echoerr`
+# OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echoerr \
     --description "print given msg to stderr and exit with error exit status"
-    # USAGE 1:        `echoerr "incorrect configuration file: conf.json"
-    # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-    # USAGE 2:        `echo "incorrect configuration file: conf.json" | echoerr`
-    # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-
-    # SETUP
+    # SETUP:
     # Use current theme's error color
     set_color $fish_color_error
     # Init message to eventually print
     set --function msg $argv
-
-    # APPEND PIPED INPUTS
+    # APPEND PIPED INPUTS:
     if not isatty stdin
         # Append a space f any arugments were supplied
         if test (count $argv) -ne 0
@@ -66,8 +64,7 @@ function echoerr \
             set --append msg $eachline
         end
     end
-
-    # WRITE TO STDERR
+    # WRITE TO STDERR:
     # Bail if no arguments were given/piped in
     if test "$msg" = "" || test "$msg" = " "
         # Print error (i.e. no arguments given) to stderr
@@ -76,8 +73,7 @@ function echoerr \
         # Print error to stderr as desired
         echo -s "ERROR: " $msg >&2
     end
-
-    # CLEANUP
+    # CLEANUP:
     # Restore fish shell print color
     set_color $fish_color_normal
     # Return with error status code 1 (i.e. EPERM 1 operation not permitted)
