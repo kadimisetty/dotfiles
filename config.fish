@@ -53,7 +53,7 @@ function echoerr \
     # Use current theme's error color
     set_color $fish_color_error
     # Init message to eventually print
-    set --local msg $argv
+    set --function msg $argv
 
     # APPEND PIPED INPUTS
     if not isatty stdin
@@ -344,8 +344,8 @@ function _vi_aware_input_indicator_prompt_component \
     _spacer_prompt_component $left_margin
     set_color white --dim
     # ALTERNATES:              "" #     󰁜  󰁜  󱦲
-    set --local _prompt_ok_symbol " "
-    set --local _prompt_error_symbol " "
+    set --function _prompt_ok_symbol " "
+    set --function _prompt_error_symbol " "
     # `$_previous_command_status` SUCCESS codes: 0
     # `$_previous_command_status` FAILURE codes: 1/12/123/124/125/126/127…
     if test $previous_command_status -eq 0
@@ -376,7 +376,7 @@ end
 # BACKGROUND JOBS PROMPT COMPONENT {{{3
 function _background_jon_prompt_component \
     --argument-names left_margin right_margin
-    set --local background_jobs_count (jobs | wc -l | string trim)
+    set --function background_jobs_count (jobs | wc -l | string trim)
     if test $background_jobs_count -gt 0
         _spacer_prompt_component $left_margin
         set_color $fish_color_command --bold
@@ -392,7 +392,7 @@ function _error_status_prompt_component \
     if test $previous_command_status -ne 0 # i.e. not success status code (0)
         _spacer_prompt_component $left_margin
         set_color $fish_color_error
-        set --local _error_indicator_symbol " " # 🅔
+        set --function _error_indicator_symbol " " # 🅔
         echo -ns $_error_indicator_symbol
         echo -ns "E:"(fish_status_to_signal $previous_command_status)
         set_color $fish_color_normal
@@ -440,8 +440,8 @@ function _git_commit_count_indicator_prompt_component \
     if test true = \
             (git rev-parse --is-inside-work-tree 1>&1 2>/dev/null) 2>/dev/null
         set --query
-        set --local symbol_no_commit " " # ALTERNATES: 󱓼
-        set --local symbol_one_or_more_commits " " # ALTERNATES:    󱓻
+        set --function symbol_no_commit " " # ALTERNATES: 󱓼
+        set --function symbol_one_or_more_commits " " # ALTERNATES:    󱓻
         _spacer_prompt_component $left_margin
         # NOTE: This condition includes the case of a git repo with no initial
         # commit made yet. Exercise caution when changing.
@@ -468,7 +468,7 @@ function fish_mode_prompt
 end
 function fish_prompt
     # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
-    set --local previous_command_status $status
+    set --function previous_command_status $status
     _spacer_prompt_component 1
     _root_prompt_component 0 1
     _cwd_prompt_component 0 1
@@ -476,7 +476,7 @@ function fish_prompt
 end
 function fish_right_prompt
     # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
-    set --local previous_command_status $status
+    set --function previous_command_status $status
     _error_status_prompt_component $previous_command_status 1 0
     _git_commit_count_indicator_prompt_component 1 0 midnight
     _private_mode_component 1 0
@@ -728,11 +728,10 @@ function _fzf_search_history --description "Search command history with `fzf`"
         # Remove end-of-file blank line in "multi-selections"
         string collect |
         # Store received string into `$result`
-        read --local --null result
+        read --function --null result
     # Run only if previous command succeeds,
     # replacing commandline with previous result.
     and commandline --replace -- $result
-
     # Repaint commandline. Necessary to avoid UI glitches.
     commandline --function repaint
 end
