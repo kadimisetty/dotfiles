@@ -49,8 +49,6 @@ vim.g.maplocalleader = [[\\]]
 
 -- ENCODING {{{2
 -- NOTE: Skip setting encoding as nvim utf-8 defaults are satisfactory.
--- set encoding=utf-8
--- scriptencoding  utf-8
 
 -- SEARCH {{{2
 -- Infer case matching while doing keyword completions
@@ -132,7 +130,7 @@ vim.opt.complete:append({
 
 -- FOLDS {{{2
 -- FOLD SPECIFICS {{{3
--- Disable Folds by deafult
+-- Disable Folds by default
 vim.opt.foldenable = false
 
 -- How to detect folds by default
@@ -148,11 +146,11 @@ vim.opt.foldlevelstart = 1
 vim.opt.foldopen = {
   "block", -- blockwise movements `(`, `{`, `[[`, `[{`, etc.
   "insert", -- insert mode commands
-  "mark", -- jumping to marks etc. like `'m`, via `CTRL-O` etc.
+  "mark", -- jumping to marks etc. like `'m`, via `<c-O>` etc.
   "percent", -- `%`
   "quickfix", -- :cn`, `:crew`, `:make`, etc.
   "search", -- triggering search patterns
-  "tag", -- tag jumps like `:ta`, `CTRL-T` etc.
+  "tag", -- tag jumps like `:ta`, `<c-T>` etc.
   "undo", -- undo or redo
   "hor", -- horizontal movement like `l`,`w`, `fx` etc.
   -- "jump", -- far jumps like `G`, `gg` etc.
@@ -162,7 +160,7 @@ vim.opt.foldopen = {
 -- FOLDS UI {{{3
 -- TODO: replace default `foldtexxt` content from `foldtext()` with custom.
 -- TODO: Make foldcolumn more distinguishable.
--- TODO: Use a fold label description that shortents word "lines" to "l"
+-- TODO: Use a fold label description that shortens word "lines" to "l"
 -- TODO: Place line count information at end of line.
 vim.opt.fillchars:append({
   -- FOLD LABEL ENDING LINE:
@@ -227,9 +225,9 @@ vim.opt.backupskip:append({
 -- BACKUP FILE LOCATIONS {{{3
 -- Use this directory to store backups
 -- NOTE: Default backup directories are in this order. Current directory, first
---       in list, is undesirable, so removing it:
---        1. Current directory (`"."`)  - UNDESIRED
---        2. `$HOME/nvim/backup/`       - DESIRED
+-- in list, is undesirable, so removing it:
+--    1. Current directory (`"."`)  - UNDESIRED
+--    2. `$HOME/nvim/backup/`       - DESIRED
 vim.opt.backupdir:remove(".")
 -- Warn when `backupdir` has no directories
 if vim.o.backupdir:len() == 0 then
@@ -286,11 +284,7 @@ vim.opt.wildignore:append({
   -- Haskell
   ".stack-work",
   ".stackwork/*",
-  -- TODO: JS/Node
-  -- TODO: Rust
-  -- TODO: Go
-  -- TODO: Elm
-  -- TODO: etc.
+  -- TODO: JS/Node/Rust/Go/Elm etc.
 })
 
 -- UI {{{2
@@ -366,10 +360,10 @@ vim.opt.matchtime = 5
 -- Don't show visual bell (enabled when audio bell is turned off)
 vim.opt.visualbell = false
 
--- Set vertical window sepertor to pipelike symbol │ with no vertical gaps
+-- Set vertical window seperator to pipelike symbol │ with no vertical gaps
 vim.opt.fillchars:append({ vert = [[│]] })
 
--- Stop all error bellsof
+-- Stop all error bells
 vim.opt.belloff = "all"
 
 -- Show error messages and throw exceptions that are otherwise omitted
@@ -377,7 +371,7 @@ vim.opt.belloff = "all"
 -- DEFAULT: ""
 -- vim.opt.debug = "msg,throw"
 
--- For performance, only do syntax highlight upto these columns
+-- For performance, only do syntax highlight up to these columns
 vim.opt.synmaxcol = 2048
 
 -- Highlight the screen line and column of cursor
@@ -419,7 +413,7 @@ vim.opt.scrolloff = 1
 
 -- This option changes how text is displayed.
 -- It doesn't change the text in the buffer, see 'textwidth' for that.
--- TODO: Shirten description.
+-- TODO: Shorten description.
 vim.opt.wrap = false
 
 -- Number of spaces `<Tab>` i the file counts for.
@@ -440,7 +434,7 @@ vim.opt.shiftround = true
 -- `2`: `indent,eol,start` (default)
 vim.opt.backspace = { "indent", "eol", "start" }
 
--- FILE SPECIFIC WHITESPACES {{{4
+-- FILE SPECIFIC WHITESPACE {{{4
 -- NOTE:
 --   `softtabstop` set to 0 disables it.
 --   `shiftwidth` set to 0 makes it use `tabstop` value.
@@ -463,7 +457,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 -- MISC PREFERENCES {{{2
-
 -- Turn on syntax highlighting
 -- NOTE:
 --  `syntax enable`  Will turn on syntax highlighting.
@@ -472,7 +465,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 vim.cmd([[ syntax enable ]])
 -- vim.cmd([[ syntax on ]]) -- DISABLED
 
--- Unsaved bufers are allowed to move to the background
+-- Unsaved buffers are allowed to move to the background
 vim.opt.hidden = true
 
 -- Don't print mode changes upon entering a new mode e.g. --INSERT--
@@ -881,7 +874,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --  Preferably use unimpaired style, i.e.
 --  - `yox` to toggle `x`
 --  - `]ox` to enable `x`
---  - `[ox` to disalbe `x`
+--  - `[ox` to disable `x`
 
 -- ELIXIR TOGGLES {{{2
 local elixir_toggles_augroup =
@@ -1463,7 +1456,8 @@ vim.keymap.set("n", "<m-t>", "<cmd>split term://fish<cr>", { silent = true })
 vim.keymap.set("n", "<m-T>", "<cmd>tabnew term://fish<cr>", { silent = true })
 
 -- WINDOWS AND TABS {{{1
--- NOTES: When possible, Window keymaps use lower case and tabs use upper case.
+-- NOTE: In keymaps prefer lower case for window and upper case for tabs.
+-- TODO: Add keymap descriptions
 
 -- CREATING/DUPLICATING {{{2
 -- Opening new tab pages
@@ -1549,7 +1543,7 @@ end
 
 -- RENAMING {{{2
 -- Rename current tab
--- TODO: Use lua
+-- TODO: Convert to lua
 -- NOTE: Requires the `gcmt/taboo.vim` plugin.
 -- TODO: Refactor to remove `gcmt/taboo.vim` plugin!
 vim.cmd([[
@@ -1593,14 +1587,15 @@ vim.keymap.set(
 
 -- SPLITTING {{{2
 --  TODO: Find better split keymaps
+--  TODO: Add keymap descriptions
 --  NOTE: These are deliberately identical to my tmux pane keymaps
---  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim keymap system..
---        So temporarily relying on good ol' `<c-w>v` and `<c-w>s` for the splits.
---        and freeing up `<c-w>-`. `vim-vinegar` can use it in the meantime.
---  HORIZONTAL SPLIT
---  nnoremap <silent> <c-w>-        :split<CR>
---  VERTICAL SPLIT
---  nnoremap <silent> <c-w>\|       :vsplit<CR>
+--  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim keymap system.. So
+--  temporarily relying on good ol' `<c-w>v` and `<c-w>s` for the splits. and
+--  freeing up `<c-w>-`. `vim-vinegar` can use it in the meantime.
+--    HORIZONTAL SPLIT:
+--    `nnoremap <silent> <c-w>-        :split<CR>`
+--    VERTICAL SPLIT:
+--    `nnoremap <silent> <c-w>\|       :vsplit<CR>`
 
 -- SIZING {{{2
 -- Equal size windows
@@ -1777,7 +1772,7 @@ vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", { silent = true })
 -- NOTE:
 --  1. I want to use `<c-w>` as prefix key to gel with the rest of my window/tab
 --     page keymaps and since views act on windows and sessions can be
---     considered to include tabpages.
+--     considered to include tabs.
 --  2. The perfect keymap set for views/sessions would have been `<c-w>s/S` for
 --     saving and `<c-w>l/L` for loading view/sessions. However `<c-w>l` is used
 --     to navigate split views and is too important to sacrifice, hence the
@@ -1794,10 +1789,10 @@ vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", { silent = true })
 --  | ... applies for view numbers 1..9                                           |
 --  +-----------+---------------+-------------------------------------------------+
 --  NOTE:
---  1. Using the overwriting variant `mkview!` isn't necssary because AFAICT
+--  1. Using the overwriting variant `mkview!` isn't necessary because AFAICT
 --     it only applies to manually named view files.
 --  2. Unlike sessions, views created via `:mkview` (with no filename as
---     argument) aren't saved in the local direcinry but in vim's `viewdir`.
+--     argument) aren't saved in the local directory but in vim's `viewdir`.
 -- TODO: Convert `mkview` commands to lua
 -- TODO: Use a function here that can report save/overwrite info/errors like
 -- their session counterparts do.
@@ -2014,7 +2009,7 @@ vim.keymap.set("v", "<d-/>", [[:<c-u>'<,'>normal gcc<cr>]], {
   desc = "Comment selection (XCode shortcut)",
 })
 
--- IN COMMAND LINE AUTOCMOPLETE USE `UP`/`DOWN` LIKE `<c-n>`/`<c-p>` {{{2
+-- IN COMMAND LINE AUTOCOMPLETE USE `UP`/`DOWN` LIKE `<c-n>`/`<c-p>` {{{2
 -- TODO: Check if this still works with `*cmp*` still on
 vim.keymap.set("c", "<up>", function()
   if vim.fn.pumvisible() == 1 then
@@ -2129,7 +2124,7 @@ vim.keymap.set("v", ">", ">gv", {
 --    use `g0`.
 -- 4. `gH` natively starts select mode but I never use it, so feeling opkay
 --    about overwriting it.
--- 5. `gM` natively jumos to 50%, but keeping custom keymap away for sake of
+-- 5. `gM` natively jumps to 50%, but keeping custom keymap away for sake of
 --    completion and description appearing in `which-key` etc.
 do
   -- JUMP TO HIGH(H)/MEDIUM(M)/LOW(L) POSITION IN CURRENT LINE {{{4
@@ -2340,7 +2335,7 @@ vim.keymap.set("n", "<leader>Z", function()
   -- Close helper windows in all tabs, one by one
   local store_tab = vim.api.nvim_get_current_tabpage()
   for _, t in ipairs(vim.api.nvim_list_tabpages()) do
-    -- TODO: See if you can do this without switcing to each tab
+    -- TODO: See if you can do this without switching to each tab
     vim.api.nvim_set_current_tabpage(t)
     vim.cmd.pclose()
     vim.cmd.lclose()
@@ -2402,9 +2397,9 @@ vim.api.nvim_create_autocmd({ "WinEnter" }, {
 -- - Move into a function/plugin. (and do things like choose target anywhere else)
 -- - edge case: letter immediately above is empty
 -- - Add space after pasting the word
--- - ISSUE: first word will pase fine, words after when going up with k move
+-- - ISSUE: first word will pass fine, words after when going up with k move
 --   into space and copy that space along with word. If i use a h to just go
---   back one letter, them the entire keymap fails beause there is no h on the
+--   back one letter, them the entire keymap fails because there is no h on the
 --   first word.
 --   FIXME: Move into a function and handle this case.
 --   FIXME: `<esc>` moves the cursor back on when entering normal mode, so
@@ -2425,7 +2420,7 @@ vim.keymap.set(
   { silent = true, desc = "Complete word in line below cursor" }
 )
 
--- GET HIGLIGHT GROUP NAME UNDER CURSOR {{{2
+-- GET HIGHLIGHT GROUP NAME UNDER CURSOR {{{2
 -- SOURCE: https://stackoverflow.com/a/58244921/225903
 vim.cmd([[
     function! SynStack()
@@ -2502,6 +2497,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { silent = true })
 -- Toggle modifiable current buffer
 -- NOTE: Keymap `yom` is in the style of `tpope/vim-unimpaired`
 -- TODO: Use lua
+-- TODO: Add keymap descriptions
 -- Turn on modifiable on current buffer
 vim.keymap.set(
   "n",
@@ -2513,15 +2509,9 @@ vim.keymap.set(
   { silent = true }
 )
 -- Turn off modifiable on current buffer
-vim.keymap.set(
-  "n",
-  "[om",
-  -- "<cmd>setlocal nomodifiable<cr>",
-  function()
-    vim.bo.modifiable = false
-  end,
-  { silent = true }
-)
+vim.keymap.set("n", "[om", function()
+  vim.bo.modifiable = false
+end, { silent = true })
 -- Toggle modifiable on current buffer
 vim.keymap.set("n", "yom", function()
   vim.bo.modifiable = not vim.bo.modifiable
@@ -2640,7 +2630,7 @@ vim.keymap.set("n", "<m-left><c-s-m-down>", [[hv^""p]], {
 -- 1. Allow multiple lines(esp. remember original position to get back to)
 -- 3. Consider: After first duplication, continuing to hold `c-m` but
 --    "retapping" direction keys should just move like with `m-`direction)?
---    or keep dpoing current behavior of duplicating another line
+--    or keep doing current behavior of duplicating another line
 vim.keymap.set(
   "n",
   "<c-m-up>",
@@ -2742,11 +2732,12 @@ vim.keymap.set("n", "<m-left><m-s-down>", "mzd^o<esc>pJV=`z", {
 
 -- TOGGLE GUTTER (SIGN COLUMN)  {{{2
 -- Toggle gutter (sign column)
--- NOTE: keymaps set in tandem with unimpaired plugi
+-- TODO: Add keymap descriptions
+-- NOTE: keymaps set in tandem with unimpaired plugin
 -- NOTE: Using `g` instead of `s` as mnemonic for keymap because:
 --  1. `s` is being used by `spell`
 --  2. `g` for `gutter`
---  3. I seem to remember it more as gutter than signcolumn anyway.
+--  3. I seem to remember it more as gutter than `signcolumn` anyway.
 -- Toggle gutter (sign column)
 vim.keymap.set(
   "n",
@@ -2774,7 +2765,7 @@ vim.keymap.set(
 -- Turn off gutter (sign column)
 vim.keymap.set("n", "[og", "<cmd>setlocal signcolumn=no<cr>", { silent = true })
 -- Set gutter (sign column) to turn on/off automatically
--- TODO: Consider disabling this, as it's too unweildy
+-- TODO: Consider disabling this, as it's too unwieldy
 -- NOTE: This is in the style of `tpope/vim-unimpaired` and since the about
 --       keymap/function does not cover `auto` this does;
 --       the mnemonic `]oga` is for `turn on the gutter=auto`
@@ -2786,13 +2777,12 @@ vim.keymap.set(
 )
 
 -- TOGGLE CURSOR LINES {{{2
--- TODO
--- Consider using `-` and `|` so like  `yo-` and `yo|`?
+-- TODO: Consider using `-` and `|` so like  `yo-` and `yo|`?
 
 -- LOAD NEOVIM CONFIG (`init.lua`) {{{2
--- KEYMAPS:
---  `<leader>v`: open `init.lua` in current window.
---  `<leader>V`: open `init.lua` in a new tabpage.
+-- NOTE:
+--  - `<leader>v`: Open `init.lua` in current window.
+--  - `<leader>V`: Open `init.lua` in a new tab.
 do
   local neovim_config_init_filename = "init.lua"
   local neovim_config_init_full_path =
@@ -2831,10 +2821,10 @@ P = function(...)
 end
 
 -- `make` SHORTCUTS {{{2
--- NOTE: `<m-*>` for vertical splits and `<s-m-*>` for horizontal splits.
--- TODO: For `<s-m-m><m-*>`, also do `<s-m-m><s-m-*>` versions i.e. account for
--- the second key to include shift modifier to account for mistaken presses.
 -- NOTE: Keep keymaps in tandem with equivalents in fish shell config:
+-- NOTE: `<m-*>` for vertical splits and `<s-m-*>` for horizontal splits.
+-- NOTE: Doing both  `<s-m-m><m-*>` and `<s-m-m><s-m-*>` versions to account
+-- for accidentally holding the shift modifier too long.
 vim
   .iter({
     -- { keymap_suffix(x in `<m-m><m-x>`), make_command }
@@ -2851,7 +2841,7 @@ vim
     local keymap_suffix = v[1]
     local make_command = v[2]
 
-    -- vertical split e.g. `<m-m><m-r>`
+    -- Vertical split e.g. `<m-m><m-r>`
     vim.keymap.set(
       "n",
       vertical_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
@@ -2862,7 +2852,7 @@ vim
       }
     )
 
-    -- horizontal split e.g. `<s-m-m><m-r>`
+    -- Horizontal split e.g. `<s-m-m><m-r>`
     vim.keymap.set(
       "n",
       horizontal_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
@@ -2873,7 +2863,7 @@ vim
       }
     )
 
-    -- horizontal split with oth keys using shift e.g. `<s-m-m><s-m-r>`
+    -- Horizontal split with both keys using shift e.g. `<s-m-m><s-m-r>`
     vim.keymap.set(
       "n",
       horizontal_split_keymap_prefix .. "<s-m-" .. keymap_suffix .. ">",
@@ -3092,8 +3082,8 @@ end
 local set_common_lsp_toggling_keymaps = function()
   -- Add keymap and command to start/stop/toggle LSP (lspconfig)
   local toggle_lspconfig_lsp = function()
-    -- TODO: Check if can receive `client`via argument from `common_on_attach`
-    -- rather than getting all active clients again here
+    -- TODO: Check if able to receive `client` via argument from
+    -- `common_on_attach` rather than getting all active clients again here
     local active_clients = vim.lsp.get_active_clients()
     if vim.tbl_isempty(active_clients) then
       vim.cmd([[LspStart]])
@@ -3142,10 +3132,10 @@ local set_common_lsp_formatting = function(opts)
   -- 1. PREFER SYNC FORMATTING
   --  REASON: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#async-formatting
   -- 2. RECOMMENDED KEYMAPPING CONVENTION:
-  --  Lf   : sync format    (primary e.g. via lspconfig)
-  --  Glf  : async format   (primary e.g. via lspconfig)
-  --  LF   : sync format    (secondary e.g. null-ls)
-  --  GlF  : async format   (secondary e.g. null-ls)
+  --  <lsp>f   : sync format    (primary e.g. via lspconfig)
+  --  g<lsp>f  : async format   (primary e.g. via lspconfig)
+  --  <lsp>F   : sync format    (secondary e.g. null-ls)
+  --  g<lsp>F  : async format   (secondary e.g. null-ls)
   --
   -- opts: {
   --  bufnr: bufnr,
@@ -3424,7 +3414,7 @@ run_lazy_setup({
       "tpope/vim-surround",
       event = "VeryLazy",
       init = function()
-        -- NOTE: Do'nt use vim.keymap.set for this one.
+        -- NOTE: Don't use vim.keymap.set for this one.
         vim.cmd([[ vmap s S ]])
       end,
     },
@@ -3512,7 +3502,7 @@ run_lazy_setup({
     -- TODO: CONSIDER: Give flog my main git overlay leader key, instead of
     -- "lazygit"? (as of now it is `<m-g>`).
     -- TODO: CONSIDER: Add keymap to show flog's git status split?
-    -- FIXME: The commit marker dot symbold is not showing the same glyph in
+    -- FIXME: The commit marker dot symbol is not showing the same glyph in
     -- plugin's README screenshots, might be term issue.
     {
       "rbong/vim-flog",
@@ -3548,12 +3538,12 @@ run_lazy_setup({
       event = "VeryLazy",
       keys = {
         -- LINES:
-        -- NOTE: Remaining related utilities in line utlities section
+        -- NOTE: Remaining related utilities in line utilities section
         -- TODO: Refactor lines out of unimpaired section
         { "<m-up>", "[e", remap = true, desc = "Move line downwards" },
         { "<m-down>", "]e", remap = true, desc = "Move line upwards" },
         -- VISUAL SELECTION
-        -- TODO: Refactor visual selectionout of unimpaired section
+        -- TODO: Refactor visual selection out of unimpaired section
         {
           mode = "v",
           "<m-up>",
@@ -3568,13 +3558,13 @@ run_lazy_setup({
           remap = true,
           desc = "Move visual selection downwards",
         },
-        -- Cursorline
+        -- cursorline
         -- (default: `c`, duplicated to: `_`)
         { "yo-", "yoc", remap = true, desc = "Toggle cursorline" },
         { "[o-", "[oc", remap = true, desc = "Enable cursorline" },
         { "]o-", "]oc", remap = true, desc = "Disable cursorline" },
 
-        -- Cursorcolumn
+        -- cursorcolumn
         -- (default: `u`, duplicated to: `|`)
         { "yo|", "you", remap = true, desc = "Toggle cursorcolumn" },
         { "[o|", "[ou", remap = true, desc = "Enable cursorcolumn" },
@@ -3865,7 +3855,7 @@ run_lazy_setup({
       },
     },
 
-    -- helpview - help file dwecorations {{{3
+    -- helpview - help file decorations {{{3
     {
       "OXY2DEV/helpview.nvim",
       lazy = false, -- NOTE: Disable lazy loading
@@ -3907,7 +3897,7 @@ run_lazy_setup({
       -- NOTE: Use `allow_caps_additions` over `additions` to preserve case.
       -- TODO:
       -- 1. Disable unnecessary default values. See source for examples.
-      -- 2. Allow symbold pairs like`==`/`!=`, `&&`/`||` etc.
+      -- 2. Allow symbol pairs like`==`/`!=`, `&&`/`||` etc.
       opts = {
         mappings = { increment = "<c-a>", decrement = "<c-x>" },
         -- i.e. enable/disable, Enable/Disable, ENABLE/DISABLE
@@ -4928,9 +4918,9 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
-    -- dropbar - clockable breadcrumb (barbecue alternative) {{{3
+    -- dropbar - clickable breadcrumb (barbecue alternative) {{{3
     -- FIXME: Has issue with completions in insert menu
-    -- TODO: Allow navigation through list wihtout selecting the list, i.e.
+    -- TODO: Allow navigation through list without selecting the list, i.e.
     -- select only on <cr`>`.
     {
       "Bekaboo/dropbar.nvim",
@@ -5187,7 +5177,7 @@ run_lazy_setup({
     --      dependencies = "kana/vim-textobj-user",
     -- },
 
-    -- cool - turn off serach highlight after search completed {{{3
+    -- cool - turn off search highlight after search completed {{{3
     {
       "romainl/vim-cool",
       event = "VeryLazy",
@@ -5284,7 +5274,7 @@ run_lazy_setup({
     -- rainbow_parentheses - multi-colored nested brackets {{{3
     -- FIXME: Place after any vim-unimpaired preferences because I'm
     -- overriding the default `r` for `relativenumber` using in
-    -- vim-unimpaired. Finda better solution to this predicament as this won't
+    -- vim-unimpaired. Find a better solution to this predicament as this won't
     -- work if I'm loading "lazily".
     {
       "junegunn/rainbow_parentheses.vim",
@@ -5325,7 +5315,7 @@ run_lazy_setup({
         fade = true,
         minimal_jump = 5,
         show_jumps = true,
-        focus_gained = false, -- TODO: Consider enabling.
+        focus_gained = false, -- TODO: Consider enabling
         shrink = true,
         timeout = 200,
         -- ignore_buffers = {},
@@ -5670,7 +5660,7 @@ run_lazy_setup({
       },
     },
 
-    -- lspconfig {{{3
+    -- lspconfig - lsp server configurations {{{3
     {
       "neovim/nvim-lspconfig",
       event = "VeryLazy",
@@ -6228,7 +6218,7 @@ run_lazy_setup({
             end,
           },
           -- NOTE: Order assigns implicit priority
-          -- TODO: Explitly Assign priority to the source
+          -- TODO: Expertly assign priority to the source
           sources = cmp.config.sources({
             {
               name = "nvim_lsp",
