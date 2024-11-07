@@ -1438,42 +1438,29 @@ function! ToggleLetKeyword (line_number, toggle_let_mut, toggle_let)
 endfunction
 ]])
 
--- TERMINAL {{{1
--- TODO:
--- 1. Consider setting shell to `fish` or let it remain default `bash`
--- 2. After terminal  window is done, it is deleted with any key in it,
---    consider changing that to closing done_terminal_window with regular
---    window closing commands only like `zz`?
---
+-- TERMINAL EMULATOR {{{1
 local terminal_augroup = vim.api.nvim_create_augroup("terminal_augroup", {})
 
--- Open `fish` terminal in a window within current tab
+-- CUSTOMIZE TERMINAL {{{2
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  desc = "Customize built-in terminal",
+  group = terminal_augroup,
+  callback = function()
+    -- Keep UI basic
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    -- Show cursorline during normal mode
+    vim.wo.cursorline = true
+    -- Start in insert mode
+    vim.cmd.startinsert()
+  end,
+})
+
+-- TERMINAL QUICK OPEN KEYMAPS {{{2
+-- Open within current tab
 vim.keymap.set("n", "<m-t>", "<cmd>split term://fish<cr>", { silent = true })
-
--- Open `fish` terminal in a new tab
--- TODO: Remove hard coded `fish` shell reference
+-- Open in new tab
 vim.keymap.set("n", "<m-T>", "<cmd>tabnew term://fish<cr>", { silent = true })
-
--- Keep the terminal UI basic
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  group = terminal_augroup,
-  command = [[ setlocal listchars= nonumber norelativenumber ]],
-  desc = "Keep the terminal UI basic",
-})
-
--- Show cursorline in terminal insert mode
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  group = terminal_augroup,
-  command = [[ setlocal cursorline ]],
-  desc = "Keep the terminal UI basic",
-})
-
--- Start terminal in insert mode
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  group = terminal_augroup,
-  command = [[ startinsert ]],
-  desc = "Start terminal in insert mode",
-})
 
 -- WINDOWS AND TABS {{{1
 -- NOTES: When possible, Window keymaps use lower case and tabs use upper case.
