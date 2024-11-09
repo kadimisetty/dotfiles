@@ -2032,7 +2032,36 @@ end, {
   desc = "Go down(`<c-n>`) when in command mode completion popup",
 })
 
--- `cd` variants to go up to "git root directory" {{{2
+-- `bonly` TO DELETE ALL OTHER BUFFERS {{{2
+-- Close all other buffers. Similar to `:only`(windows) and `:tabonly`(tabs).
+-- TODO: Add variant `:Bufonly!` that force deletes even unsaved buffers.
+-- TODO: Keymaps `<c-w><c-b/B>` are currently bound to "open all buffers in
+-- windows/tabs", so find a keymap that works; until then it's ommands only.
+vim.api.nvim_create_user_command("Bufonly", function(opts)
+  vim
+    .iter(vim.api.nvim_list_bufs())
+    :filter(function(bufnr)
+      return not (
+        1 ~= vim.fn.buflisted(bufnr) -- Current buffer
+        or bufnr == vim.api.nvim_get_current_buf() -- Unlisted buffers
+      )
+    end)
+    :map(function(bufnr) -- Delete unwanted buffers
+      local bufname = vim.fn.bufname(bufnr)
+      local ok, _ = pcall(vim.api.nvim_buf_delete, bufnr, { force = opts.bang })
+      if not ok then
+        vim.notify(
+          "Failed to delete buffer: " .. bufnr .. " " .. bufname,
+          vim.log.levels.ERROR
+        )
+      end
+    end)
+end, {
+  desc = "Delete all other buffers",
+  bang = true,
+})
+
+-- `cd` VARIANTS TO GO UP TO "git root" DIR {{{2
 -- NOTE: VARIANTS FOR:
 -- 1. `GLCD`: cd upto window scoped dir (`lcd`)
 -- 2. `GTCD`: cd upto tab scoped dir (`tcd`)
