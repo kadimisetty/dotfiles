@@ -1,41 +1,58 @@
--- ESCAPE CHARACTERS
+-- GHCI CONFIGURATION {{{1
+-- vim: foldmethod=marker:foldlevel=0:nofoldenable:filetype=haskell:
+-- https://downloads.haskell.org/ghc/latest/docs/users_guide/ghci.html#the-ghci-and-haskeline-files
+--
+-- WARN: Sourcing untrusted ./.ghci files is a security risk. They can contain
+-- arbitrary commands that will be executed as the user. Use :set
+-- local-config to inhibit the processing of ./.ghci files.
+-- NOTE: To ignore `.ghci`, run with the following option: `-ignore-dot-ghci`
+-- NOTE: To load automatically, make available at (ordered):
+--          1. $XDG_CONFIG_HOME/ghc/ghci.conf`
+--          2. `~/.ghci`
+-- NOTE: To load local project-specific configuration, make file available at:
+--          3. `$PROJECT/.ghci`: Local project-specific configuration
+
+
+-- ESCAPE CHARACTERS {{{1
 -- To allow strings like [a] -> [b] etc.
 let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'" else [c]) arg ++ "'"
 
 
--- HOOGLE
--- Requires hoogle command line program. Get with `$ stack install hoogle`
--- Search hoogle for given arguement
+-- HOOGLE {{{1
+-- NOTE: Requires binary `hoogle`.
+-- Search hoogle for given argument
 :def! hoogle return . (":! hoogle " ++) . ghciEscapeShellArg
 -- Docs from hoogle of given argument
 :def! hoogledoc return . (":! hoogle --info " ++) . ghciEscapeShellArg
 
 
--- ERRORS
+-- ERRORS {{{1
 -- Better errors
 :set -ferror-spans -freverse-errors -fprint-expanded-synonyms
 
 
--- PROMPT
--- Customize λ prompt
+-- PROMPT {{{1
+-- SYMBOL CANDIDATES: λ 
+-- Uncolored custom prompt
 -- :set prompt "λ "
--- Colored λ prompt
+-- Colored prompt, Symbol: λ
 -- :set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
--- Colored  prompt
+-- Colored prompt, Symbol: 
 :set prompt "\ESC[38;5;208m\STX\ESC[m\STX "
--- Colored continuation line prompt
+-- Colored continuation line prompt, Symbol: |
 :set prompt-cont "\ESC[38;5;208m\STX|\ESC[m\STX "
 
 -- Allow Multiline commands to properly display with prompt-cont
 :set +m
 
--- POINTFREE
--- Makes the [pointfree-fancy](https://hackage.haskell.org/package/pointfree-fancy)
--- plugin availabe within ghci as a function named `pointfree`.
--- While a long name than a shortcut like `pf` it's easier to remember and also
--- can be mitigated with ghci's autocompletion anyway.
--- This is an encapsulation of the lambdabot pointfree facility.
--- Should be installed with `stack exec pointfree-fancy` so the executable would
--- avaiable with `stack exec pointfree-fancy`.
+
+-- POINTFREE {{{1
+-- NOTE: Makes the [pointfree-fancy](https://hackage.haskell.org/package/pointfree-fancy)
+-- plugin available within ghci as a function named `pointfree`.
+-- NOTE: This is an encapsulation of the lambdabot pointfree facility.
+-- NOTE: While a long name than a shortcut like `pf` it's easier to remember
+-- and also can be mitigated with ghci's autocompletion anyway.
+-- NOTE: Should be installed with `stack exec pointfree-fancy` so the executable would
+-- available with `stack exec pointfree-fancy`.
 :def pointfree \str -> return $ ":! stack exec pointfree \"" ++ str ++ "\""
 
