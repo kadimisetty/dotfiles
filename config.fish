@@ -841,82 +841,102 @@ set --export FLYCTL_INSTALL "$HOME/.fly"
 fish_add_path $FLYCTL_INSTALL/bin/
 
 
+# PYTHON {{{1
+# TODO: Print all `manage.py` aliases with a cmd such as `malias`
+function activate \
+    --description "Activate python virtual environment using `./venv/`"
+    if test -e "./venv/bin/activate.fish"
+        source ./venv/bin/activate.fish
+    else
+        echo -e "./venv/bin/activate.fish" |
+            echoerr "Fish file to activate python environment not found:"
+    end
+end
+
+
 # DJANGO {{{1
+# HELPERS {{{2
 function _exit_if_not_in_active_python_virtual_env \
     --description "Exit w/ failure if not in python virtual environment"
     if ! test -n "$VIRTUAL_ENV"
         echoerr "not in active python environment"
     end
 end
-# MANAGE.PY ALIASES:
-# TODO: Print all `manage.py` aliases with a cmd such as `malias`
-function activate \
-    --description "activate python virtual environment in `./venv`"
-    if test -e "./venv/bin/activate.fish"
-        source ./venv/bin/activate.fish
-    else
-        echo -e "./venv/bin/activate.fish" |
-            echoerr "file to activate python environment not found:"
-    end
-end
-function m --description "./manage.py"
+# MANAGE.PY ALIASES {{{2
+function mg \
+    --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py $argv
 end
-function mrs --description "./manage.py runserver"
+function mg_runserver \
+    --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver
 end
-function mcs --description "./manage.py collectstatic"
+function mg_collect_static \
+    --description "./manage.py collectstatic"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py collectstatic
 end
-function mcsu --description "./manage.py createsuperuser"
+function mg_create_superuser \
+    --description "./manage.py createsuperuser"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py createsuperuser
 end
-function mm --description "./manage.py migrate"
+function mg_migrate \
+    --description "./manage.py migrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py migrate $argv
 end
-function mmm --description "./manage.py makemigrations"
+function mg_make_migrations \
+    --description "./manage.py makemigrations"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py makemigrations $argv
 end
-function ms --description "./manage.py shell"
+function mg_shell --description \
+    "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell
 end
-function msa --description "./manage.py startapp"
+function mg_startapp --description \
+    "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py startapp $argv
 end
-function msm --description "./manage.py sqlmigrate"
+function mg_sqlmigrate \
+    --description "./manage.py sqlmigrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py sqlmigrate $argv
 end
-function mt --description "./manage.py test"
+function mg_test \
+    --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py test $argv
 end
-function mts --description "./manage.py testserver"
+# TODO: Check whether `testserver` flag is valid
+function mg_test_server \
+    --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py testserver
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
-function msu --description "./manage.py show_urls"
+function mg_show_urls \
+    --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py show_urls $argv
 end
-function mvt --description "./manage.py validate_templates"
+function mg_validate_templates \
+    --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py validate_templates
 end
-function msp --description "./manage.py shell_plus"
+function mg_shell_PLUS \
+    --description "./manage.py shell_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell_plus
 end
-function mrsp --description "./manage.py runserver_plus"
+function mg_runserver_PLUS \
+    --description "./manage.py runserver_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver_plus
 end
