@@ -42,6 +42,7 @@ fundle init
 
 # HELPER FUNCTIONS {{{1
 # ECHOERR {{{2
+# TODO: Consider whether `echoerr` should end with `false` or not.
 # USAGE 1:        `echoerr "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 # USAGE 2:        `echo "incorrect configuration file: conf.json" | echoerr`
@@ -842,9 +843,22 @@ fish_add_path $FLYCTL_INSTALL/bin/
 
 
 # PYTHON {{{1
-# TODO: Print all `manage.py` aliases with a cmd such as `malias`
-function activate \
-    --description "Activate python virtual environment using `./venv/`"
+# VIRTUAL ENVIRONMENT UTILITIES {{{2
+# TODO: Accept a virtual environment name (other than "venv").
+# CREATE VIRTUAL ENVIRONMENT {{{3
+function venv-create \
+    --description "Create python virtual environment in `./venv/`"
+    # TODO: Check for proper python version
+    if test -e "./venv"
+        echoerr "`./venv/` exists"
+    else
+        python3 -m venv ./venv
+    end
+end
+
+# ACTIVATE VIRTUAL ENVIRONMENT {{{3
+function venv-activate \
+    --description "Activate python virtual environment from `./venv/`"
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
@@ -853,13 +867,28 @@ function activate \
     end
 end
 
+# DEACTIVATE VIRTUAL ENVIRONMENT {{{3
+function venv-deactivate \
+    --description "Deactivate python virtual environment from `./venv/`"
+    if test -n "$VIRTUAL_ENV"
+        deactivate
+        and echo "Deactivated python virtual environment from `./venv/`"
+    else
+        echoerr "Not in active python environment"
+    end
+end
 
-# DJANGO {{{1
-# HELPERS {{{2
+# CREATE AND ACTIVATE VIRTUAL ENVIRONMENT {{{3
+function venv-create_activate \
+    --description "Create and activate python virtual environment `./venv/`"
+    venv-create and venv-activate
+end
+
+# EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{3
 function _exit_if_not_in_active_python_virtual_env \
-    --description "Exit w/ failure if not in python virtual environment"
+    --description "Exit with failure if python virtual environment not active"
     if ! test -n "$VIRTUAL_ENV"
-        echoerr "not in active python environment"
+        echoerr "Not in active python environment"
     end
 end
 # MANAGE.PY ALIASES {{{2
