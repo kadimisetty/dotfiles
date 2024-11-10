@@ -445,11 +445,11 @@ function _git_commit_count_indicator_prompt_component \
           | string trim \
           | wc -l)
             # COMMITS MADE TODAY: 0
-            set_color red --dim
+            set_color $fish_color_operator
             echo -ns $symbol_no_commit
         else
             # COMMITS MADE TODAY: 1 OR MORE
-            set_color $fish_color_comment --dim
+            set_color $fish_color_comment
             echo -ns $symbol_one_or_more_commits
         end
         _spacer_prompt_component $right_margin
