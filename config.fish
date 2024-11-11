@@ -217,12 +217,13 @@ end
 
 
 # COMMON SHELL SPECIFIC ALIASES {{{1
-alias l="ls -A" # on macos `-A` exist but not longform `--almost-all`
-alias rmi="rm -i"
+# TODO: Move `mcd` into LIB section
 function mcd --description "`mkdir` and `cd` into new directory"
     mkdir $argv
     and cd $argv
 end
+alias l="ls -A" # On macos `-A` exist but not longform `--almost-all`
+alias rm-confirm="rm -i" # Request confirmation
 # QUICK `cd` INTO DIRS IN HERE:
 set CDPATH $HOME/code/
 # COMMONLY VISITED DIRS:
@@ -528,18 +529,18 @@ set __fish_git_prompt_color_stashstate $fish_color_comment # ALTS: brblack
 
 # LSD {{{1
 # TODO: [Setup configuration](https://github.com/Peltoche/lsd#configuration)
-alias lsdll='lsd --long'
-alias lsdt='lsd --tree'
-alias lsdl='lsd --tree --depth'
-alias lsdl1='lsd --tree --depth 1'
-alias lsdl2='lsd --tree --depth 2'
-alias lsdl3='lsd --tree --depth 3'
+alias lsd-long='lsd --long'
+alias lsd-tree='lsd --tree'
+alias lsd-tree_depth_1='lsd --tree --depth 1'
+alias lsd-tree_depth_2='lsd --tree --depth 2'
+alias lsd-tree_depth_3='lsd --tree --depth 3'
+alias lsd-tree_depth='lsd --tree --depth' # User supplies "depth"
 
 
 # EXA {{{1
-alias exat="exa --tree"
-alias exatg="exa --tree --git-ignore --git"
-alias exagt="exa --tree --git-ignore --git"
+# TODO: exa is abandoned, switch to [eza](https://github.com/eza-community/eza)
+alias exa-tree="exa --tree"
+alias exa-tree_GIT="exa --tree --git-ignore --git"
 
 
 # CD UPWARDS WITH `..`S {{{1
@@ -551,7 +552,6 @@ alias exagt="exa --tree --git-ignore --git"
 #   3. Not doing `alias ..="cd ../"` because `..` works natively.
 alias ...="cd ../../"
 alias ....="cd ../../../"
-alias .....="cd ../../../../"
 
 
 # `make` SHORTCUTS {{{1
@@ -799,42 +799,48 @@ end
 
 
 # TMUX/TMUXINATOR {{{1
-# TMUX:
 alias t="tmux"
-alias tls="tmux list-sessions"
-function tat
+alias t-list_sessions="tmux list-sessions"
+function t-attach \
     --description "Attach tmux to a running session with name provided as arg"
     tmux attach -t $argv
 end
-# TMUXINATOR:
-alias tst="tmuxinator start ./.tmuxinator.yml"
+alias t-start_tmuxinator_config="tmuxinator start ./.tmuxinator.yml"
 
 
 # ELIXIR/MIX/PHOENIX {{{1
-function mxncd --description "Does `mix new` and `cd`s into the new dir"
+# MIX {{{2
+alias x="mix"
+alias x-build="mix build"
+alias x-compile="mix compile"
+alias x-deps_get="mix deps.get"
+alias x-test="mix test"
+alias x-test_trace="mix test --trace" # run tests synchronously
+alias x-new="mix new"
+function x-new_cd --description "Does `mix new` and `cd`s into the new dir"
     if mix new $argv
         cd $argv
     end
 end
-function mxpncd --description "Does `mix phx.new` and `cd`s into the new dir"
+
+# IEX {{{2
+alias x-iex="iex"
+alias x-iex_MIX="iex -S mix"
+
+# ECTO {{{2
+alias x-ecto_create="mix ecto.create"
+alias x-ecto_migrate="mix ecto.migrate"
+alias x-ecto_reset="mix ecto.reset"
+
+# PHOENIX {{{2
+alias x-phx_new="mix phx.new" # TODO: add a variant with `cd`
+alias x-phx_server="mix phx.server"
+function x-phx_new_cd \
+    --description "Does `mix phx.new` and `cd`s into the new dir"
     if mix phx.new $argv
         cd $argv
     end
 end
-alias ix="iex"
-alias ixsm="iex -S mix"
-alias mx="mix"
-alias mxn="mix new"
-alias mxb="mix build"
-alias mxc="mix compile"
-alias mxdg="mix deps.get"
-alias mxec="mix ecto.create"
-alias mxem="mix ecto.migrate"
-alias mxer="mix ecto.reset"
-alias mxt="mix test"
-alias mxtt="mix test --trace" # run tests synchronously
-alias mxpn="mix phx.new"
-alias mxps="mix phx.server"
 
 
 # FLY {{{1
@@ -846,7 +852,7 @@ fish_add_path $FLYCTL_INSTALL/bin/
 # VIRTUAL ENVIRONMENT UTILITIES {{{2
 # TODO: Accept a virtual environment name (other than "venv").
 # CREATE VIRTUAL ENVIRONMENT {{{3
-function venv-create \
+function v-create \
     --description "Create python virtual environment in `./venv/`"
     # TODO: Check for proper python version
     if test -e "./venv"
@@ -857,7 +863,7 @@ function venv-create \
 end
 
 # ACTIVATE VIRTUAL ENVIRONMENT {{{3
-function venv-activate \
+function v-activate \
     --description "Activate python virtual environment from `./venv/`"
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
@@ -868,7 +874,7 @@ function venv-activate \
 end
 
 # DEACTIVATE VIRTUAL ENVIRONMENT {{{3
-function venv-deactivate \
+function v-deactivate \
     --description "Deactivate python virtual environment from `./venv/`"
     if test -n "$VIRTUAL_ENV"
         deactivate
@@ -879,9 +885,9 @@ function venv-deactivate \
 end
 
 # CREATE AND ACTIVATE VIRTUAL ENVIRONMENT {{{3
-function venv-create_activate \
+function v-create_activate \
     --description "Create and activate python virtual environment `./venv/`"
-    venv-create and venv-activate
+    v-create and v-activate
 end
 
 # EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{3
@@ -891,80 +897,86 @@ function _exit_if_not_in_active_python_virtual_env \
         echoerr "Not in active python environment"
     end
 end
+
+
+# DJANGO {{{1
 # MANAGE.PY ALIASES {{{2
-function mg \
+# TODO: Print all `manage.py` aliases with a cmd such as `m-aliases`
+# TODO: Use a generator function to generate these aliases in order to do the
+# `_exit_if_not_in_active_python_virtual_env` automatically.
+function m \
     --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py $argv
 end
-function mg_runserver \
+function m-runserver \
     --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver
 end
-function mg_collect_static \
+function m-collect_static \
     --description "./manage.py collectstatic"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py collectstatic
 end
-function mg_create_superuser \
+function m-create_superuser \
     --description "./manage.py createsuperuser"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py createsuperuser
 end
-function mg_migrate \
+function m-migrate \
     --description "./manage.py migrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py migrate $argv
 end
-function mg_make_migrations \
+function m-make_migrations \
     --description "./manage.py makemigrations"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py makemigrations $argv
 end
-function mg_shell --description \
-    "./manage.py shell"
+function m-shell \
+    --description "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell
 end
-function mg_startapp --description \
-    "./manage.py startapp"
+function m-startapp \
+    --description "./manage.py startapp"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py startapp $argv
 end
-function mg_sqlmigrate \
+function m-sqlmigrate \
     --description "./manage.py sqlmigrate"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py sqlmigrate $argv
 end
-function mg_test \
+function m-test \
     --description "./manage.py test"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py test $argv
 end
 # TODO: Check whether `testserver` flag is valid
-function mg_test_server \
+function m-test_server \
     --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py testserver
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
-function mg_show_urls \
+function m-show_urls \
     --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py show_urls $argv
 end
-function mg_validate_templates \
+function m-validate_templates \
     --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py validate_templates
 end
-function mg_shell_PLUS \
+function m-shell_PLUS \
     --description "./manage.py shell_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py shell_plus
 end
-function mg_runserver_PLUS \
+function m-runserver_PLUS \
     --description "./manage.py runserver_plus"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py runserver_plus
@@ -973,30 +985,30 @@ end
 
 # RUST/CARGO {{{1
 fish_add_path $HOME/.cargo/bin/
-function cncd --description "Does `cargo new` and `cd`s into the new dir"
+function c-new_cd \
+    --description "Does `cargo new` and `cd`s into the new dir"
     if cargo new $argv
         cd $argv[1]
     end
 end
 alias c="cargo"
-alias ca="cargo add"
-alias cb="cargo build"
-alias cbq="cargo build --quiet"
-alias ccheck="cargo check"
-alias cclippy="cargo clippy"
-alias cdo="cargo doc --open"
-alias cds="rustup doc --std"
-alias cfix="cargo fix"
-alias cfmt="cargo fmt"
-alias cn="cargo new"
-alias cr="cargo run"
-alias crq="cargo run --quiet"
-alias ct="cargo test"
-alias ctq="cargo test --quiet"
-alias ctreed1="cargo tree --depth 1"
-alias cw="cargo watch"
-alias cwq="cargo watch --quiet"
-
+alias c-add="cargo add"
+alias c-build="cargo build"
+alias c-build_QUIET="cargo build --quiet"
+alias c-check="cargo check"
+alias c-clippy="cargo clippy"
+alias c-doc_open="cargo doc --open"
+alias c-doc_std="rustup doc --std"
+alias c-fix="cargo fix"
+alias c-format="cargo fmt"
+alias c-new="cargo new"
+alias c-run="cargo run"
+alias c-run_QUIET="cargo run --quiet"
+alias c-test="cargo test"
+alias c-test_QUIET="cargo test --quiet"
+alias c-tree_DEPTH1="cargo tree --depth 1"
+alias c-watch="cargo watch"
+alias c-watch_QUIET="cargo watch --quiet"
 
 # HASKELL {{{1
 # GHCUP {{{2
@@ -1007,23 +1019,22 @@ fish_add_path $HOME/.ghcup/bin
 fish_add_path $HOME/.cabal/bin
 
 #TODO: `cabal init` with lib/exe/both
-alias binit="cabal init"
-alias binit_interactive_ON="cabal init --interactive"
-alias binit_interactive_OFF="cabal init --non-interactive"
-alias bbuild_dryrun="cabal build --dry-run"
-alias bbuild_reinstall_OFF="cabal build --avoid-reinstalls"
-alias bbuild_reinstall_ON="cabal build --reinstall"
-alias bbuild_reinstall_ON_FORCED="cabal build --force-reinstalls"
-alias bbuild_dependencies_ONLY="cabal build --only-dependencies"
-alias bbuild_dependencies_UPGRADE="cabal build --upgrade-dependencies"
-alias brun="cabal run"
-alias bexec="cabal exec"
-alias bcheck="cabal check"
-alias bclean="cabal clean"
-alias btest="cabal test"
-alias bupdate="cabal update"
-
-function binit_cd \
+alias b-init="cabal init"
+alias b-init_interactive_ON="cabal init --interactive"
+alias b-init_interactive_OFF="cabal init --non-interactive"
+alias b-build_dryrun="cabal build --dry-run"
+alias b-build_reinstall_OFF="cabal build --avoid-reinstalls"
+alias b-build_reinstall_ON="cabal build --reinstall"
+alias b-build_reinstall_ON_FORCED="cabal build --force-reinstalls"
+alias b-build_dependencies_ONLY="cabal build --only-dependencies"
+alias b-build_dependencies_UPGRADE="cabal build --upgrade-dependencies"
+alias b-run="cabal run"
+alias b-exec="cabal exec"
+alias b-check="cabal check"
+alias b-clean="cabal clean"
+alias b-test="cabal test"
+alias b-update="cabal update"
+function b-init_cd \
     --description "Creates new dir and runs `cabal init` inside" \
     --argument-names project_name
     # TODO: Make template customizable and with a default
@@ -1040,16 +1051,15 @@ end
 
 # STACK {{{2
 # NOTE: stack now uses `~/local/bin`, so not adding `~/.stack/bin` to $PATH
-alias sbuild="stack build"
-alias sbuild_FAST="stack build --fast"
-alias sclean="stack clean"
-alias sexec="stack exec"
-alias sghci="stack ghci"
-alias snew="stack new"
-alias srun="stack run"
-alias stest='stack test'
-
-function snew_cd \
+alias s-build="stack build"
+alias s-build_FAST="stack build --fast"
+alias s-clean="stack clean"
+alias s-exec="stack exec"
+alias s-ghci="stack ghci"
+alias s-new="stack new"
+alias s-run="stack run"
+alias s-test='stack test'
+function s-new_cd \
     --description "Runs `stack new` and `cd`s into the reated dir" \
     --argument-names project_name
     # TODO: Make template customizable and with a default
@@ -1068,30 +1078,26 @@ end
 
 # GO {{{1
 fish_add_path $HOME/go/bin
-alias gb='go build'
-alias gb.='go build .'
-alias gf='go fmt'
-alias gm="go mod"
-alias gmi="go mod init"
-alias gmt="go mod tidy"
-alias gr.='go run .'
-alias gr='go run'
-alias gt='go test'
-function gmi \
+alias go-build='go build'
+alias go-build_ALL='go build .'
+alias go-format='go fmt'
+alias go-mod="go mod"
+alias go-mod_tidy="go mod tidy"
+alias go-run='go run'
+alias go-run_ALL='go run .'
+alias go-test='go test'
+function go-mod_init \
     --description "Run `go mod init` with given arg (default: \$PWD)" \
     --argument-names module_path
-
     # If no `module_path` argument passed in, use current directory name.
     if not test -n "$module_path"
         set module_path (basename $PWD)
     end
-
     go mod init $module_path
 end
-function gncd \
+function go-new_cd \
     --description "`mcd`s into given dir name and runs `go mod init` there" \
     --argument-names module_path
-
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
         echoerr "no module path given"
@@ -1102,7 +1108,7 @@ function gncd \
         # Create a new directory with the name, move into it and run `go mod
         # init` there
         mcd "$module_path"
-        and gmi "$module_path"
+        and go-mod_init "$module_path"
     end
 end
 
@@ -1146,23 +1152,23 @@ set --export luarocks "luarocks --local"
 
 
 # GREP {{{1
-alias grepi="grep --ignore-case"
+alias grep-IGNORECASE="grep --ignore-case"
 
 
 # RG {{{1
-alias rgi="rg --ignore-case"
-alias rgs="rg --smart-case"
+alias rg-IGNORECASE="rg --ignore-case"
+alias rg-SMARTCASE="rg --smart-case"
 
 
 # EMACS {{{1
-# TERMINAL {{{2
-alias et="emacs --no-window-system"
-alias etfresh="emacs --no-window-system --no-init-file"
-alias etquick="emacs --no-window-system --quick"
 # GUI {{{2
 # alias e="emacs"
-# alias efresh="emacs --no-init-file"
-# alias equick="emacs --quick"
+# alias e-FRESH="emacs --no-init-file"
+# alias e-QUICK="emacs --quick"
+# TERMINAL {{{2
+alias et="emacs --no-window-system"
+alias et-FRESH="emacs --no-window-system --no-init-file"
+alias et-QUICK="emacs --no-window-system --quick"
 
 
 # WC {{{1
@@ -1170,45 +1176,44 @@ alias etquick="emacs --no-window-system --quick"
 #   1. Using short form flags because macos coreutils by default do not have
 #      the long flags available (as of macOS Sonoma).
 #   2. Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
-#      I still want to use `wcc` for `--chars` and `wcb` for `--bytes` in the
-#      alias for mnemonic sake.
-alias wcwords="wc -w" # --words
-alias wclines="wc -l" # --lines
+#      I still want to use distinct names for `--chars` and `--bytes` in the
+#      for mnemonic sake.
+alias wc-words="wc -w" # --words
+alias wc-lines="wc -l" # --lines
 # NOTE:
-alias wcchars="wc -m" # --chars
-alias wcbytes="wc -c" # --bytes
+alias wc-chars="wc -m" # --chars
+alias wc-bytes="wc -c" # --bytes
 
 
 # CURL {{{1
 # [-s|--silent]: Silent mode
-alias curls="curl --silent"
+alias curl-SILENT="curl --silent"
 # [-O|--remote-name]: Write output to a file named as the remote file
-alias curlO="curl --remote-name"
+alias curl-remote_name="curl --remote-name"
 # [[-o|--output] <file>]: Write to <file> instead of stdout
-alias curlo="curl --output"
+alias curl-output="curl --output"
 # [-i|--include]: Include protocol response headers in the output
-alias curli="curl --include"
+alias curl-include="curl --include"
 
 
 # BAT {{{1
 # [[-l|--language] <language>]:
 #   Explicitly set the language for syntax highlighting.
-#   Available languages can be listed with `bat --list-languages`
-#   Example: `json`
-alias batl="bat --language"
+alias bat-language-list="bat --list-languages"
+alias bat-language="bat --language" # User supplies language, example: `json`
 
 
 # SQLITE-UTILS {{{1
-alias sqm="sqlite-utils memory"
-alias sqmt="sqlite-utils memory --table"
-alias sqms="sqlite-utils memory --schema"
+alias sql-memory="sqlite-utils memory"
+alias sql-memory_TABLE="sqlite-utils memory --table"
+alias sql-memory_SCHEMA="sqlite-utils memory --schema"
 
 
 # FISH ALIASES {{{2
 # OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED
-alias fp="fish --private"
+alias fish-PRIVATE="fish --private"
 # RELOAD CONFIG
-function fr --description "Reload fish configuration"
+function fish-reload --description "Reload fish configuration"
     source "$__fish_config_dir/config.fish"
 end
 
