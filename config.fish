@@ -116,6 +116,7 @@ bind \ez --mode insert fg
 if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
     source $HOME/.nix-profile/etc/profile.d/nix.fish
 end
+
 # LOCALE {{{2
 if type -q nix && test $(uname) = Linux
     # TODO: See if there's a better way to check for nix presence than `type -q
@@ -145,24 +146,26 @@ if type -q nix && test $(uname) = Linux
         end
     end
 end
+
 # ALIASES {{{2
-alias ne='nix-env'
-alias neh='nix-env --help'
-alias nei='nix-env --install'
-alias neiattr='nix-env --install --attr'
-alias neuninstall='nix-env --uninstall'
-alias neq='nix-env --query --description'
-alias neqi='nix-env --query --installed --description'
-alias neqa='nix-env --query --available --description'
-alias nelg='nix-env --list-generations'
-alias nesg='nix-env --switch-generation'
-alias ns='nix-shell'
-alias nixx='nix --extra-experimental-features "nix-command flakes repl-flake"'
-function noption --description "value of given config option"
-    nix-instantiate \
-        --eval \
-        --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
-end
+#TODO: Repalce `nix-env` aliases with `nix profile`
+#alias ne='nix-env'
+#alias neh='nix-env --help'
+#alias nei='nix-env --install'
+#alias neiattr='nix-env --install --attr'
+#alias neuninstall='nix-env --uninstall'
+#alias neq='nix-env --query --description'
+#alias neqi='nix-env --query --installed --description'
+#alias neqa='nix-env --query --available --description'
+#alias nelg='nix-env --list-generations'
+#alias nesg='nix-env --switch-generation'
+#alias ns='nix-shell'
+#alias nixx='nix --extra-experimental-features "nix-command flakes repl-flake"'
+#function noption --description "value of given config option"
+#    nix-instantiate \
+#        --eval \
+#        --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
+#end
 
 
 # COMMON FISH SPECIFIC PREFERENCES {{{1
@@ -216,30 +219,42 @@ function fish_command_not_found
 end
 
 
-# COMMON SHELL SPECIFIC ALIASES {{{1
+# SHELL SPECIFIC ALIASES {{{1
+# MISC {{{2
 # TODO: Move `mcd` into LIB section
 function mcd --description "`mkdir` and `cd` into new directory"
     mkdir $argv
     and cd $argv
 end
 alias l="ls -A" # On macos `-A` exist but not longform `--almost-all`
+alias ls-ALL="ls -A" # Same as my earlier `l` alias; just for clarity's sake.
 alias rm-confirm="rm -i" # Request confirmation
-# QUICK `cd` INTO DIRS IN HERE:
-set CDPATH $HOME/code/
-# COMMONLY VISITED DIRS:
-# CODE:
+# Quick `cd` into specified directories like `$HOME/code/`
+# set CDPATH $HOME/code/
+
+# DESIGN {{{2
+set --export DESIGN_DIR "$HOME/design//"
+alias design-EXTERNAL="cd $HOME/design/design-external/"
+alias design-KEEP="cd $HOME/design/design-keep/"
+alias design-PERSONAL="cd $HOME/design/design-personal/"
+alias design-PLAYGROUND="cd $HOME/design/design-playground/"
+alias design-SANDBOX="cd $HOME/design/design-sandbox/"
+
+# CODE {{{2
+set --export CODE_DIR "$HOME/code/"
+# NOTE: Using both `code-*` and `*` alias variations for convenience sake.
 alias dotfiles="cd $HOME/code/personal/dotfiles/"
 alias external="cd $HOME/code/external/"
 alias keep="cd $HOME/code/keep/"
 alias personal="cd $HOME/code/personal/"
 alias playground="cd $HOME/code/playground/"
 alias sandbox="cd $HOME/code/sandbox/"
-# DESIGN:
-alias design-external="cd $HOME/design/design-external/"
-alias design-keep="cd $HOME/design/design-keep/"
-alias design-personal="cd $HOME/design/design-personal/"
-alias design-playground="cd $HOME/design/design-playground/"
-alias design-sandbox="cd $HOME/design/design-sandbox/"
+alias code-DOTFILES="cd $HOME/code/personal/dotfiles/"
+alias code-EXTERNAL="cd $HOME/code/external/"
+alias code-KEEP="cd $HOME/code/keep/"
+alias code-PERSONAL="cd $HOME/code/personal/"
+alias code-PLAYGROUND="cd $HOME/code/playground/"
+alias code-SANDBOX="cd $HOME/code/sandbox/"
 
 
 # VI MODE ENHANCEMENTS {{{1
@@ -531,10 +546,10 @@ set __fish_git_prompt_color_stashstate $fish_color_comment # ALTS: brblack
 # TODO: [Setup configuration](https://github.com/Peltoche/lsd#configuration)
 alias lsd-long='lsd --long'
 alias lsd-tree='lsd --tree'
-alias lsd-tree_depth_1='lsd --tree --depth 1'
-alias lsd-tree_depth_2='lsd --tree --depth 2'
-alias lsd-tree_depth_3='lsd --tree --depth 3'
-alias lsd-tree_depth='lsd --tree --depth' # User supplies "depth"
+alias lsd-tree_DEPTH_1='lsd --tree --depth 1'
+alias lsd-tree_DEPTH_2='lsd --tree --depth 2'
+alias lsd-tree_DEPTH_3='lsd --tree --depth 3'
+alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 
 
 # EXA {{{1
@@ -746,6 +761,7 @@ direnv hook fish | source
 
 
 # VIM {{{1
+# TODO: update alias grammar
 alias v="vim"
 alias vc="vim --clean"
 alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
@@ -763,6 +779,7 @@ alias vt='vim -p'
 
 
 # NVIM {{{1
+# TODO: update alias grammar
 alias n="nvim"
 alias nview="nvim -R"
 alias nclean="nvim --clean"
@@ -815,7 +832,7 @@ alias x-build="mix build"
 alias x-compile="mix compile"
 alias x-deps_get="mix deps.get"
 alias x-test="mix test"
-alias x-test_trace="mix test --trace" # run tests synchronously
+alias x-test_TRACE="mix test --trace" # run tests synchronously
 alias x-new="mix new"
 function x-new_cd --description "Does `mix new` and `cd`s into the new dir"
     if mix new $argv
@@ -998,7 +1015,7 @@ alias c-build_QUIET="cargo build --quiet"
 alias c-check="cargo check"
 alias c-clippy="cargo clippy"
 alias c-doc_open="cargo doc --open"
-alias c-doc_std="rustup doc --std"
+alias c-doc_open_STD="rustup doc --std"
 alias c-fix="cargo fix"
 alias c-format="cargo fmt"
 alias c-new="cargo new"
@@ -1172,28 +1189,26 @@ alias et-QUICK="emacs --no-window-system --quick"
 
 
 # WC {{{1
-# NOTE:
-#   1. Using short form flags because macos coreutils by default do not have
-#      the long flags available (as of macOS Sonoma).
-#   2. Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
-#      I still want to use distinct names for `--chars` and `--bytes` in the
-#      for mnemonic sake.
-alias wc-words="wc -w" # --words
-alias wc-lines="wc -l" # --lines
-# NOTE:
-alias wc-chars="wc -m" # --chars
-alias wc-bytes="wc -c" # --bytes
+# NOTE: Using short form flags because macos coreutils by default do not have
+# the long flags available (as of macOS Sonoma).
+# NOTE: Even though `wc` uses `-m` for `--chars` and `-c` for bytes by default,
+# I still want to use distinct names for `--chars` and `--bytes` in the for
+# mnemonic sake.
+alias wc-WORDS="wc -w" # words
+alias wc-LINES="wc -l" # lines
+alias wc-CHARS="wc -m" # characters
+alias wc-BYTES="wc -c" # bytes
 
 
 # CURL {{{1
 # [-s|--silent]: Silent mode
 alias curl-SILENT="curl --silent"
 # [-O|--remote-name]: Write output to a file named as the remote file
-alias curl-remote_name="curl --remote-name"
+alias curl-write_to_file_with_name_same_as_REMOTE="curl --remote-name"
 # [[-o|--output] <file>]: Write to <file> instead of stdout
-alias curl-output="curl --output"
+alias curl-write_to_file_NOT_STDOUT="curl --output"
 # [-i|--include]: Include protocol response headers in the output
-alias curl-include="curl --include"
+alias curl-show_protocol_headers="curl --include"
 
 
 # BAT {{{1
@@ -1204,9 +1219,9 @@ alias bat-language="bat --language" # User supplies language, example: `json`
 
 
 # SQLITE-UTILS {{{1
-alias sql-memory="sqlite-utils memory"
-alias sql-memory_TABLE="sqlite-utils memory --table"
-alias sql-memory_SCHEMA="sqlite-utils memory --schema"
+alias sqliteutils-memory="sqlite-utils memory"
+alias sqliteutils-memory_TABLE="sqlite-utils memory --table"
+alias sqliteutils-memory_SCHEMA="sqlite-utils memory --schema"
 
 
 # FISH ALIASES {{{2
