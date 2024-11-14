@@ -795,12 +795,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- RUST {{{2
 local rust_augroup = vim.api.nvim_create_augroup("rust_augroup", {})
 
--- Set `formatprg` to `rustfmt`
+-- Set rust specific settings
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = rust_augroup,
   pattern = { "rust" },
-  command = [[ setlocal formatprg=rustfmt ]],
-  desc = "Set `formatprg` to `rustfmt`",
+  callback = function()
+    -- Set `formatprg` to `rustfmt`
+    vim.bo.formatprg = "rustfmt"
+    -- Put a space between comment marker and comment content
+    vim.bo.commentstring = [[// %s]] -- DEFAULT: `//%s` (no space)
+  end,
+  desc = "Set rust specific settings",
 })
 
 -- GITCONFIG {{{2
@@ -853,15 +858,19 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 })
 
 -- FISH {{{2
+local fish_augroup = vim.api.nvim_create_augroup("fish_augroup", {})
+
+-- Set fish specific settings
 vim.api.nvim_create_autocmd({ "FileType" }, {
   desc = "Set fish specific settings",
-  group = vim.api.nvim_create_augroup("fish_augroup", {}),
+  group = fish_augroup,
   pattern = { "fish" },
   callback = function()
+    -- Put a space between comment marker and comment content
+    vim.bo.commentstring = [[# %s]] -- DEFAULT: `#%s` (no space)
     -- FIXME: `blankname/vim-fish` recommends `compiler fish` in a `autocmd
     -- FileType` to use `:make` for syntax checking in fish files.
     -- vim.cmd.compiler("fish")
-
     -- NOTE: I prefer `expr` folding for fish in general, except in
     -- `config.fish` which is explicitly set there to `marker` via modeline.
     vim.opt_local.foldmethod = "expr"
