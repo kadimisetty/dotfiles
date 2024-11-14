@@ -5771,7 +5771,7 @@ run_lazy_setup({
         })
 
         -- HASKELL
-        require("lspconfig")["hls"].setup({
+        require("lspconfig").hls.setup({
           filetypes = { "haskell", "lhaskell", "cabal" },
           on_attach = common_on_attach,
           capabilities = capabilities,
@@ -5808,13 +5808,13 @@ run_lazy_setup({
           end,
         })
 
-        -- PYTHON/RUFF
-        require("lspconfig").ruff_lsp.setup({
+        -- PYTHON(RUFF)
+        require("lspconfig").ruff.setup({
           on_attach = common_on_attach,
           capabilities = capabilities,
         })
 
-        -- PYTHON/PYRIGHT
+        -- PYTHON(PYRIGHT)
         require("lspconfig").pyright.setup({
           on_attach = common_on_attach,
           capabilities = capabilities,
