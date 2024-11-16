@@ -882,6 +882,7 @@ end
 # ACTIVATE VIRTUAL ENVIRONMENT {{{3
 function v-activate \
     --description "Activate python virtual environment from `./venv/`"
+    # TODO: Accept virtual environment name other than just hard-coded `venv`
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
@@ -893,9 +894,20 @@ end
 # DEACTIVATE VIRTUAL ENVIRONMENT {{{3
 function v-deactivate \
     --description "Deactivate python virtual environment from `./venv/`"
+    # NOTE: Consider replacing the "deactivate" command (should be set somwhere
+    # in `v-activate` function perhaps).
     if test -n "$VIRTUAL_ENV"
+        set --function virtual_env_name $VIRTUAL_ENV
         deactivate
-        and echo "Deactivated python virtual environment from `./venv/`"
+        # TODO: Make this report only the relative name of the virtual
+        # environment not the entire path i.e. relative to current directory
+        # e.g. "./venv" and not "~/code/project/venv".
+        set --function dir_separator / # NOTE: Assuming *nix OS
+        and echo -s "Deactivated python virtual environment: " \
+            (set_color --dim) \
+            (path dirname $virtual_env_name)$dir_separator \
+            (set_color --bold) \
+            (path basename $virtual_env_name)
     else
         echoerr "Not in active python environment"
     end
