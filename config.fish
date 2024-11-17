@@ -82,21 +82,59 @@ function echoerr \
 end
 
 
-# BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{1
-# TODO:
-# 1. Consider the whole breadth of bash expansions.
-# 2. Investigate fish issues with `!$`.
-function last_history_item
-    echo $history[1]
+# HISTORY {{{1
+# BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
+# TODO: Consider more bash expansions?
+# NOTE: Fish cannot do `!$` because it uses `$` for something else, hence `!!!`
+function _last_history_item
+    echo $history[1] # FIXME: Rewrite, look into `history --null` and `--max` ??
 end
-function last_history_item_argument
+function _last_history_item_argument
     # Use `printf` instead of echo according to general recommendation.
     printf '%s' $history[1] | read --tokenize --list last_command_tokens
     and echo $last_command_tokens[-1]
 end
 # NOTE: `!!!` instead of `!$` because of fish's issues with `$` in strings.
-abbr --add '!!!' --position anywhere --function last_history_item_argument
-abbr --add '!!' --position anywhere --function last_history_item
+abbr --add '!!!' --position anywhere --function _last_history_item_argument
+abbr --add '!!' --position anywhere --function _last_history_item
+
+# HISTORY ALIASES {{{2
+# NOTE: Main variants are `--exact`/`--prefix`/`--contains` but history
+# provides another dimension of variants with `--max`, `--show-time` and
+# `--case-sensitive`, but currently mostly implementing just `--show-time` in
+# order to keep the number of aliases manageable.
+# HISTORY LIST {{{3
+# NOTE: "list" aliases include "search".
+# NOTE: I prefer to use `--reverse` on "list" results.
+# WITHOUT TIME {{{4
+alias history-list-ALL="history"
+alias history-list-LAST_1="history --max=1 --reverse"
+alias history-list-LAST_5="history --max=5 --reverse"
+alias history-list-LAST_10="history --max=10 --reverse"
+alias history-list_EXACT_MATCH="history search --exact"
+alias history-list_PREFIX_MATCH="history search --prefix"
+alias history-list_CONTAINS="history search --contains"
+
+# WITH TIME {{{4
+alias history-list-ALL_WITH_TIME="history --show-time"
+alias history-list-LAST_1_WITH_TIME="history --max=1 --reverse --show-time"
+alias history-list-LAST_5_WITH_TIME="history --max=5 --reverse --show-time"
+alias history-list-LAST_10_WITH_TIME="history --max=10 --reverse --show-time"
+alias history-list_EXACT_MATCH_WITH_TIME="history search --exact --show-time"
+alias history-list_PREFIX_MATCH_WITH_TIME="history search --prefix --show-time"
+alias history-list_CONTAINS_WITH_TIME="history search --contains --show-time"
+
+# HISTORY DELETE {{{3
+# NOTE: `delete` aliases include `clear` and `clear-session`
+alias history-delete="history delete"
+alias history-delete_ALL="history clear"
+alias history-delete_CURRENT_SESSION="history clear-session"
+alias history-delete_EXACT_MATCH="history delete --exact"
+alias history-delete_PREFIX_MATCH="history delete --prefix"
+alias history-delete_CONTAINS="history delete --contains"
+
+# HISTORY MERGE {{{3
+alias history-merge_FROM_OTHER_SESSIONS="history merge"
 
 
 # `fg` SHORTCUT {{{1
