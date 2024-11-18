@@ -40,7 +40,26 @@ fundle init
 # CONFIGURE PLUGINS:
 # TODO
 
-# HELPER FUNCTIONS {{{1
+# LIB {{{1
+# IS `pwd` INSIDE GIT REPO? {{{2
+# Reports whether `pwd` is within a git repo by setting status code
+# `is_inside_git_repo_STATUS; if test $status -eq 0; echo "T"; else; echo "F"; end`
+function is_inside_git_repo_STATUS \
+    --description "Is `pwd` within a git repo? (with status code)"
+    test true = \
+        (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
+end
+# Reports whether `pwd` is within a git repo using `echo` on "true"/"false"
+function is_inside_git_repo_EXPLICIT \
+    --description "Is `pwd` within a git repo? (with true/false)"
+    if test true = \
+            (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
+        echo -ns true
+    else
+        echo -ns false
+    end
+end
+
 # ECHOERR {{{2
 # TODO: Consider whether `echoerr` should end with `false` or not.
 # USAGE 1:        `echoerr "incorrect configuration file: conf.json"
@@ -487,10 +506,7 @@ end
 function _git_commit_count_indicator_prompt_component \
     --argument-names left_margin right_margin date_specificier
     # TODO: Set `date_specificier` default to "midnight"
-    # IS WITHIN GIT REPO (GUARD CONDITION):
-    if test true = \
-            (git rev-parse --is-inside-work-tree 1>&1 2>/dev/null) 2>/dev/null
-        set --query
+    if test true = (is_inside_git_repo_EXPLICIT)
         set --function symbol_no_commit " " # ALTERNATES: 󱓼
         set --function symbol_one_or_more_commits " " # ALTERNATES:    󱓻
         _spacer_prompt_component $left_margin
