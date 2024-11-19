@@ -1245,13 +1245,13 @@ alias rg-SMARTCASE="rg --smart-case"
 
 # EMACS {{{1
 # GUI {{{2
-# alias e="emacs"
-# alias e-FRESH="emacs --no-init-file"
-# alias e-QUICK="emacs --quick"
+alias emacs-gui="emacs"
+alias emacs-gui_FRESH="emacs --no-init-file"
+alias emacs-gui_QUICK="emacs --quick"
 # TERMINAL {{{2
-alias et="emacs --no-window-system"
-alias et-FRESH="emacs --no-window-system --no-init-file"
-alias et-QUICK="emacs --no-window-system --quick"
+alias emacs-term="emacs --no-window-system"
+alias emacs-term_FRESH="emacs --no-window-system --no-init-file"
+alias emacs-term_QUICK="emacs --no-window-system --quick"
 
 
 # WC {{{1
