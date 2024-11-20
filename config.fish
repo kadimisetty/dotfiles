@@ -41,15 +41,28 @@ fundle init
 # TODO
 
 # LIB {{{1
-# IS `pwd` INSIDE GIT REPO? {{{2
-# Reports whether `pwd` is within a git repo by setting status code
-# `is_inside_git_repo_STATUS; if test $status -eq 0; echo "T"; else; echo "F"; end`
+# IS `pwd` INSIDE GIT REPO? (STATUS/EXPLICIT) {{{2
+# Reports if `pwd` is within a git repo by setting status code {{{3
+# USAGE: ```
+# is_inside_git_repo_STATUS
+# if test $status -eq 0
+#   echo "OK"
+# else
+#   echo "FAIL"
+# end```
 function is_inside_git_repo_STATUS \
     --description "Is `pwd` within a git repo? (with status code)"
     test true = \
         (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
 end
-# Reports whether `pwd` is within a git repo using `echo` on "true"/"false"
+
+# Reports if `pwd` is within a git repo explicitly with "true"/"false" {{{3
+# USAGE: ```
+# if test true = (is_inside_git_repo_EXPLICIT)
+#   echo "OK"
+# else
+#   echo "FAIL";
+# end```
 function is_inside_git_repo_EXPLICIT \
     --description "Is `pwd` within a git repo? (with true/false)"
     if test true = \
@@ -98,6 +111,17 @@ function echoerr \
     set_color $fish_color_normal
     # Return with error status code 1 (i.e. EPERM 1 operation not permitted)
     false
+end
+
+# SOURCE FILE IF IT EXISTS OR FAIL SILENTLY {{{2
+# TODO: Provided argument might be 0/singular/plural
+# USAGE: `$ source_if_exists ./XXX.md`
+function source_if_exists \
+    --description "Sources file if it exists" \
+    --argument-names file_to_source
+    if test -e $file_to_source
+        source $file_to_source
+    end
 end
 
 
@@ -170,9 +194,7 @@ bind \ez --mode insert fg
 # NIX {{{1
 # SETUP {{{2
 # NOTE: Place as close to top as possible to make nix available immediately.
-if test -e $HOME/.nix-profile/etc/profile.d/nix.fish
-    source $HOME/.nix-profile/etc/profile.d/nix.fish
-end
+source_if_exists $HOME/.nix-profile/etc/profile.d/nix.fish
 
 # LOCALE {{{2
 if type -q nix && test $(uname) = Linux
