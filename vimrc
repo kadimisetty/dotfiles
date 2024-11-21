@@ -1,6 +1,6 @@
-" Vim Initialization File {{{1
+"  VIM FULL CONFIGURATION {{{1
 " vim: foldmethod=marker:foldlevel=0:nofoldenable:
-" Author: Sri Kadimisetty
+" Author: [Sri Kadimisetty](https://github.com/kadimisetty)
 
 
 "PLUGINS {{{1
