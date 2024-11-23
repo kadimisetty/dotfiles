@@ -5590,6 +5590,14 @@ run_lazy_setup({
       },
     },
 
+    -- debugprint - print debug statements {{{3
+    -- TODO: Consider treesitter-aware alternative: `Goose97/timber.nvim`
+    {
+      "andrewferrier/debugprint.nvim",
+      version = "*", -- * is stable version
+      opts = {},
+    },
+
     -- qf-edit - edit quickfix list like a normal buffer {{{3
     {
       "itchyny/vim-qfedit",
