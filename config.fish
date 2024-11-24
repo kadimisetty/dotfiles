@@ -1273,6 +1273,52 @@ alias bat-language-list="bat --list-languages"
 alias bat-language="bat --language" # User supplies language, example: `json`
 
 
+# HOMEBREW {{{1
+# INFO {{{2
+alias brew-info="brew desc"
+alias brew-info_VERBOSE="brew info"
+alias brew-info_HOMEPAGE="brew home"
+
+# INSTALLATION {{{2
+# NOTE: Provide `--dry-run` variants
+alias brew-install="brew install"
+alias brew-uninstall="brew uninstall"
+alias brew-install_DRYRUN="brew install --dry-run"
+alias brew-uninstall_DRYRUN="brew uninstall --dry-run"
+alias brew-upgrade_SELF="brew update"
+alias brew-upgrade_PACKAGES="brew upgrade"
+alias brew-upgrade_PACKAGES_DRYRUN="brew upgrade --dry-run"
+alias brew-outdated="brew outdated"
+alias brew-outdated_QUIET="brew outdated --quiet"
+
+# LISTING {{{2
+# TODO: Consider `-r`(reverse) which shows older at top and newer at bottom.
+alias brew-list_ALL=" brew list"
+alias brew-list_INSTALLED_ON_REQUEST="brew list --installed-on-request"
+alias brew-list_INSTALLED_AS_DEPENDENCIES="brew list --installed-as-dependency"
+alias brew-list_FORMULAE="brew list --formulae"
+alias brew-list_CASKS="brew list --casks"
+
+# SERVICES {{{2
+alias brew-services_list="brew services"
+alias brew-services_info="brew services info"
+alias brew-services_run="brew services run"
+alias brew-services_restart="brew services restart"
+alias brew-services_start="brew services start"
+alias brew-services_stop="brew services kill"
+alias brew-services_stop_AND_REMOVE_FROM_STARTUP="brew services stop"
+alias brew-services_cleanup="brew services cleanup"
+# NOTE: Provide `--all` variants:
+alias brew-services_list_ALL="brew services --all"
+alias brew-services_info_ALL="brew services info --all"
+alias brew-services_run_ALL="brew services run --all"
+alias brew-services_restart_ALL="brew services restart --all"
+alias brew-services_start_ALL="brew services start --all"
+alias brew-services_stop_ALL="brew services kill --all"
+alias brew-services_stop_AND_REMOVE_FROM_STARTUP_ALL="brew services stop --all"
+alias brew-services_cleanup_ALL="brew services cleanup --all"
+
+
 # SQLITE-UTILS {{{1
 alias sqliteutils-memory="sqlite-utils memory"
 alias sqliteutils-memory_TABLE="sqlite-utils memory --table"
