@@ -1227,6 +1227,58 @@ set --export luarocks "luarocks --local"
 alias grep-IGNORECASE="grep --ignore-case"
 
 
+# GIT {{{1
+# GIT STASH {{{2
+# TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
+#         1. Make user specify stash number explicitly, even for the latest one.
+#         2. Make convenience variant `gstash-pop_LATEST`(or RECENT).
+# TODO: Insist on user confirmation for destructive operations like `clear` etc.
+# STASH OPERATIONS {{{3
+# FIXME: Interactive stashing?
+alias gstash-push='git stash push'
+alias gstash-push_with_message='git stash push --message'
+alias gstash-push_INTERACTIVE='git stash push --patch'
+alias gstash-push_with_message_INTERACTIVE='git stash push --patch --message'
+alias gstash-wip='git stash' # NOTE: `WIP` indicates unstaged work
+alias gstash-apply='git stash apply'
+alias gstash-apply_WITH_STAGED='git stash apply --index'
+alias gstash-delete='git stash drop' # TODO: CONSIDER: Provide `gstash-drop`?
+alias gstash-delete_ALL='git stash clear' # TODO: Insist on user confirmation
+alias gstash-pop='git stash pop'
+
+# STASH SHOWINGS {{{3
+alias gstash-show_NAMES='git stash show --name-status'
+alias gstash-show_STAT='git stash show --stat'
+alias gstash-show_PATCH='git stash show --patch'
+alias gstash-show_PATCH_WITH_STAT='git stash show --patch-with-stat'
+
+# STASH CONVERSIONS {{{3
+# TODO: gstash-into_commit
+alias gstash-into_branch='git stash branch' # expects: `<branch> [<stash>]`
+
+# STASH LISTINGS {{{3
+# NOTE: Time duration variants: (LAST/THIS) (DAY/WEEK/MONTH)
+# UNBOUND {{{4
+alias gstash-list='git stash list'
+alias gstash-list_NAMES='git stash list --name-status'
+alias gstash-list_STAT='git stash list --stat'
+# LAST DAY {{{4
+alias gstash-list_LAST_DAY='git stash list --since=1.day'
+alias gstash-list_NAMES_LAST_DAY='git stash list --name-status --since=1.day'
+alias gstash-list_STAT_LAST_DAY='git stash list --stat --since=1.day'
+# LAST WEEK {{{4
+alias gstash-list_LAST_WEEK='git stash list --since=1.week'
+alias gstash-list_NAMES_LAST_WEEK='git stash list --name-status --since=1.week'
+alias gstash-list_STAT_LAST_WEEK='git stash list --stat --since=1.week'
+# LAST MONTH {{{4
+alias gstash-list_LAST_MONTH='git stash list --since=1.month'
+alias gstash-list_NAMES_LAST_MONTH='git stash list --name-status --since=1.month'
+alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
+# TODO: THIS DAY {{{4
+# TODO: THIS WEEK {{{4
+# TODO: THIS MONTH {{{4
+
+
 # RG {{{1
 alias rg-IGNORECASE="rg --ignore-case"
 alias rg-SMARTCASE="rg --smart-case"
