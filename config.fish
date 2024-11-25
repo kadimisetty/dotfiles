@@ -837,33 +837,29 @@ direnv hook fish | source
 
 
 # VIM {{{1
-# TODO: update alias grammar
 alias v="vim"
-alias vc="vim --clean"
-alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
-alias vn='vim -c "NERDTree"'
-alias vno='vim -c "NERDTree | normal O"'
-alias vs="vim -S ./Session.vim"
-alias viewn='view -c "NERDTree"'
-alias viewno='vim -c "NERDTree | normal O"'
-alias vg='vim -c "call ToggleGVCommitBrowser(\'GV\')"'
-alias vp="vim -c FZFFiles"
-alias vpr="vim -c FZFRg"
-alias vo='vim -o'
-alias vO='vim -O'
-alias vt='vim -p'
+alias v-config_NONE="vim --clean"
+# TODO: alias v-config_BASIC="vim --clean -S ~/basic.vim"
+alias v-session="vim -S ./Session.vim" # WARN: Hardcoded session file name
+alias v-readonly='view'
+alias v-HORIZONTAL='vim -o' # Horizontal splits
+alias v-VERTICAL='vim -O' # Vertical splits
+alias v-TABS='vim -p'
 
 
 # NVIM {{{1
-# TODO: update alias grammar
+# TODO: Add alias for opening with a plugin-free minimal configuration.
+# TODO: Add alias for opening with `neotree` open (regular/readonly variants).
+# TODO: Add alias for opening with a git commit log open.
 alias n="nvim"
-alias nview="nvim -R"
-alias nclean="nvim --clean"
-alias nsession="nvim -S ./Session.vim"
-alias nwindows='nvim -O' # vertical splits
-alias ntabs='nvim -p'
-function nman --description "Open man page for given command name"
-    if test (count $argv) -ne 1
+alias n-readonly="nvim -R"
+alias n-config_NONE="nvim --clean"
+alias n-session="nvim -S ./Session.vim" # WARN: Hardcoded session file name
+alias n-HORIZONTAL='nvim -o' # Horizontal splits
+alias n-VERTICAL='nvim -O' # Vertical splits
+alias n-TABS='nvim -p'
+function n-man --description "Open man page for given command name in neovim"
+    if test 1 -ne (count $argv)
         # ENSURE SINGLE ARGUMENT:
         echoerr "takes one argument"
     else if not man $argv &>/dev/null
@@ -872,23 +868,16 @@ function nman --description "Open man page for given command name"
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
         nvim \
-            # Open man page for command supplied by given argument
+            # Open man page for given command
             -c "Man $argv" \
-            # Move opened man page to it's own tabpage
+            # Move that opened man page to it's own tabpage
             -c "execute \"normal! \<c-w>T\"" \
-            # Make only tabpage open
+            # Make that the only tabpage open
             -c "execute \"tabonly\"" \
-            # Delete inital blank buffer
+            # Delete initial blank buffer
             -c "execute \"bd 1\""
     end
 end
-# TODO: Finish converting these remaining vim aliases into nvim aliases
-# alias vf="vim --clean -S ~/.fresh-new-vimrc.vim"
-# alias vn='vim -c "NERDTree"'
-# alias vno='vim -c "NERDTree | normal O"'
-# alias viewn='view -c "NERDTree"'
-# alias viewno='vim -c "NERDTree | normal O"'
-# alias vg='vim -c "call ToggleGVCommitBrowser(\'G\')"'
 
 
 # TMUX/TMUXINATOR {{{1
