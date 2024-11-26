@@ -1267,6 +1267,44 @@ alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
 # TODO: THIS WEEK {{{4
 # TODO: THIS MONTH {{{4
 
+# GIT BRANCH {{{2
+# BRANCH LISTINGS {{{3
+alias gbranch-list_MERGED='git branch --merged'
+alias gbranch-list_UNMERGED='git branch --no-merged'
+alias gbranch-list_CONTAINS_COMMIT_HASH='git branch --all --contains commit_hash'
+# QUIET {{{4
+alias gbranch-list_LOCAL='git branch'
+alias gbranch-list_REMOTE='git branch --remotes'
+alias gbranch-list_ALL='git branch --all'
+# VERBOSE {{{4
+alias gbranch-list_LOCAL_VERBOSE='git branch --verbose'
+alias gbranch-list_REMOTE_VERBOSE='git branch --remotes --verbose'
+alias gbranch-list_ALL_VERBOSE='git branch --all --verbose'
+
+# BRANCH SWITCHINGS {{{3
+alias gbranch-switch_to='git switch'
+alias gbranch-switch_to_MAIN_BRANCH='git switch main'
+alias gbranch-switch_to_NEW_BRANCH='git switch --create'
+alias gbranch-switch_to_PREV_BRANCH='git switch -'
+
+# BRANCH DELETIONS {{{3
+alias gbranch-delete_LOCAL='git branch --delete'
+alias gbranch-delete_LOCAL_FORCE='git branch --delete --force'
+alias gbranch-delete_REMOTE_COUNTERPART='git push origin --delete'
+alias gbranch-delete_REMOTE_WITH_NAME='git push remote_name --delete remote_branch'
+alias gbranch-delete_REMOTE_ALL_WITHOUT_LOCAL_COUNTERPARTS='git push --prune remote_name'
+
+# BRANCH DESCRIPTIONS {{{3
+# TODO: READ DESCRIOTION: check `git config branch.<NAME>.description`. Note
+# that it will fail if either the branch name doesn't have a description or the
+# branch doesn't exist.
+# TODO: EDIT DESCRIPTION: Use the new `git branch --edit-description`.
+# BRANCH RENAMING {{{3
+alias gbranch-rename_LOCAL='git branch --move'
+# TODO: `alias gbranch-rename_LOCAL_AND_REMOTE=?`. FOR REMOTE CONSIDER:
+#           [`git push --force --mirror`]
+#           (https://stackoverflow.com/questions/6591213/how-can-i-rename-a-local-git-branch#comment11232312_6591218)
+
 
 # RG {{{1
 alias rg-IGNORECASE="rg --ignore-case"
