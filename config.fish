@@ -1295,10 +1295,20 @@ alias gbranch-delete_REMOTE_WITH_NAME='git push remote_name --delete remote_bran
 alias gbranch-delete_REMOTE_ALL_WITHOUT_LOCAL_COUNTERPARTS='git push --prune remote_name'
 
 # BRANCH DESCRIPTIONS {{{3
-# TODO: READ DESCRIOTION: check `git config branch.<NAME>.description`. Note
-# that it will fail if either the branch name doesn't have a description or the
-# branch doesn't exist.
-# TODO: EDIT DESCRIPTION: Use the new `git branch --edit-description`.
+alias gbranch-description_EDIT='git branch --edit-description'
+function gbranch-description_SHOW \
+    --argument-names branch_name \
+    --wraps "git branch" # NOTE: Wrapping `git branch` only for completion sake
+    # FIXME: Use current branch name if the branch_name argument is not
+    # supplied. Consider `git symbolic-ref --short HEAD` to get that name.
+    begin
+        git config branch.$branch_name.description # NOTE: prints desc if OK
+        if test $status -ne 0
+            echoerr "No description available for git branch: $branch_name"
+        end
+    end
+end
+
 # BRANCH RENAMING {{{3
 alias gbranch-rename_LOCAL='git branch --move'
 # TODO: `alias gbranch-rename_LOCAL_AND_REMOTE=?`. FOR REMOTE CONSIDER:
