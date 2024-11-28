@@ -180,6 +180,14 @@ alias history-delete_CONTAINS="history delete --contains"
 alias history-merge_FROM_OTHER_SESSIONS="history merge"
 
 
+# COMPLETION HELPERS {{{1
+# NOTE: Using "meta-tab" seems like a better fit to open completion with search
+# enabled i.e. `complete-and-search`, rather than default "shift tab"(`btab`).
+bind \e\t complete-and-search
+bind \e\t --mode default complete-and-search
+bind \e\t --mode insert complete-and-search
+
+
 # `fg` SHORTCUT {{{1
 # `c-z` sends active process to background, adding shortcut binding `m-z` to
 # send to foreground i.e. `fg`.
