@@ -1377,11 +1377,9 @@ alias brew-info_VERBOSE="brew info"
 alias brew-info_HOMEPAGE="brew home"
 
 # INSTALLATION {{{2
-# NOTE: Provide `--dry-run` variants
 alias brew-install="brew install"
-alias brew-uninstall="brew uninstall"
 alias brew-install_DRYRUN="brew install --dry-run"
-alias brew-uninstall_DRYRUN="brew uninstall --dry-run"
+alias brew-uninstall="brew uninstall"
 alias brew-upgrade_SELF="brew update"
 alias brew-upgrade_PACKAGES="brew upgrade"
 alias brew-upgrade_PACKAGES_DRYRUN="brew upgrade --dry-run"
