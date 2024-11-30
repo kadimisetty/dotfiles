@@ -602,7 +602,7 @@ local toggle_leading_pattern_on_string = function(s, leading_pattern)
   end
 end
 
--- LANGUAGE-SPECIFIC GENERIC PREFERENCES {{{1
+-- LANGUAGE/FILETYPE SPECIFIC PREFERENCES {{{1
 -- MARKDOWN {{{2
 -- Enable fiolding in markdown
 -- local markdown_augroup =
@@ -874,6 +874,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     -- NOTE: I prefer `expr` folding for fish in general, except in
     -- `config.fish` which is explicitly set there to `marker` via modeline.
     vim.opt_local.foldmethod = "expr"
+  end,
+})
+
+-- GITCOMMIT WINDOW {{{2
+local git_commit_augroup = vim.api.nvim_create_augroup("git_commit_augroup", {})
+
+-- Set git comimit window specific settings
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  desc = "Set git commit window specific settings",
+  group = git_commit_augroup,
+  pattern = { "gitcommit" },
+  callback = function()
+    -- Enable spell-checking
+    vim.wo.spell = true
   end,
 })
 
