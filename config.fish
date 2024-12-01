@@ -907,7 +907,9 @@ alias x-deps_get="mix deps.get"
 alias x-test="mix test"
 alias x-test_TRACE="mix test --trace" # run tests synchronously
 alias x-new="mix new"
-function x-new_cd --description "Does `mix new` and `cd`s into the new dir"
+function x-new_cd \
+    --wraps "mix new" \
+    --description "Does `mix new` and `cd`s into the new dir"
     if mix new $argv
         cd $argv
     end
@@ -918,6 +920,7 @@ alias x-iex="iex"
 alias x-iex_MIX="iex -S mix"
 
 # ECTO {{{2
+alias x-ecto_setup="mix ecto.setup"
 alias x-ecto_create="mix ecto.create"
 alias x-ecto_migrate="mix ecto.migrate"
 alias x-ecto_reset="mix ecto.reset"
@@ -926,6 +929,7 @@ alias x-ecto_reset="mix ecto.reset"
 alias x-phx_new="mix phx.new" # TODO: add a variant with `cd`
 alias x-phx_server="mix phx.server"
 function x-phx_new_cd \
+    --wraps "mix phx.new" \
     --description "Does `mix phx.new` and `cd`s into the new dir"
     if mix phx.new $argv
         cd $argv
