@@ -632,13 +632,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- ELM {{{2
 local elm_augroup = vim.api.nvim_create_augroup("elm_augroup", {})
 
--- Abbreviates `::` into `:` as it is a common typo in elm.
--- TODO: Replace `<buffer>` with lua equivalent`
+-- Fix common elm typos with abbreviations
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  desc = "Abbreviates `::` into `:` as it is a common typo in elm.",
+  desc = "Fix common elm typos with abbreviations",
   group = elm_augroup,
   pattern = { "elm" },
-  command = [[ abbreviate <buffer> :: : ]],
+  callback = function()
+    vim
+      .iter({
+        { "::", ":" },
+      })
+      :map(function(v)
+        vim.cmd.abbreviate("<buffer>", v[1], v[2])
+      end)
+  end,
 })
 
 -- Insert module header when creating new elm file
@@ -658,7 +665,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
         "",
         "",
         "",
-        "--MAIN",
+        "-- MAIN",
       }
     else
       content = {
@@ -667,8 +674,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
         "",
       }
     end
-    -- NOTE: using last_line_index as 0 sets cursor at end of added lines
-    -- which is where I want the cursor to be.
+    -- NOTE: Using 0 for last line index to place cursor at end of added lines
     vim.api.nvim_buf_set_lines(0, 0, 0, false, content)
   end,
 })
