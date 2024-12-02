@@ -1390,7 +1390,13 @@ alias brew-upgrade_PACKAGES_DRYRUN="brew upgrade --dry-run"
 alias brew-outdated="brew outdated"
 alias brew-outdated_QUIET="brew outdated --quiet"
 
-# LISTING {{{2
+# SEARCH {{{2
+alias brew-search_ALL="brew search" # NOTE: Searches both formulae and casks
+alias brew-search_FORMULAE="brew search --formulae"
+alias brew-search_CASKS="brew search --casks"
+alias brew-search_DESCRIPTIONS="brew search --desc"
+
+# LIST {{{2
 # TODO: Consider `-r`(reverse) which shows older at top and newer at bottom.
 alias brew-list_ALL=" brew list"
 alias brew-list_INSTALLED_ON_REQUEST="brew list --installed-on-request"
