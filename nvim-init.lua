@@ -2331,9 +2331,19 @@ vim.cmd([[ command! -nargs=* Wrap set wrap linebreak nolist ]])
 vim.api.nvim_create_autocmd("FileType", {
   desc = "Select item and close quickfix/location list",
   group = utilities_augroup,
-  pattern = { "qf" }, -- acts on both quickfix and loclist windows
-  -- TODO: make lua an split up `cclose` and `lclose`
-  command = "nnoremap <buffer> <s-cr> <cr><cmd>cclose<cr><cmd>lclose<cr>",
+  pattern = { "qf" }, -- Matches both quickfix and location list
+  callback = function()
+    vim.keymap.set(
+      "n",
+      "<s-cr>",
+      "<cr><cmd>cclose<cr><cmd>lclose<cr>", -- NOTE: Unable to convert to lua
+      {
+        silent = true,
+        buffer = true,
+        desc = "Select item and close quickfix/loclist",
+      }
+    )
+  end,
 })
 
 -- CLOSE FLOATING/HELPER WINDOWS (quickfix/location list etc.) {{{2
