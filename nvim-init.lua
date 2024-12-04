@@ -3910,16 +3910,23 @@ run_lazy_setup({
     {
       "m4xshen/smartcolumn.nvim",
       opts = {
-        -- default: {}
-        -- example: { python = "80", haskell = { "80", "120"} }
-        colorcolumn = { "80", "100" }, -- default: "80"
-        --
-        -- file: whole file (default)
-        -- window: visible part of current window
-        -- line: current line
-        scope = "window",
-        --
-        -- exampledisabled_filetypes = default: { "help", "text", "markdown" }
+        colorcolumn = {
+          "80", -- Default is only 80
+          "100",
+        },
+        -- custom_colorcolumn = { python = "80", haskell = { "80", "120"}}
+        scope = "window", -- AVAILABLE: file/window/line
+        disabled_filetypes = {
+          "help", -- Default
+          "text", -- Default
+          "markdown", -- Default
+          "qf", -- quickfix/location list
+          "checkhealth",
+          "neo-tree",
+          "alpha",
+          "lazy",
+          "mason",
+        },
       },
     },
 
