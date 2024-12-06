@@ -74,14 +74,30 @@ function is_inside_git_repo_EXPLICIT \
 end
 
 # ECHO VARIANTS {{{2
-# TODO: Consider same echo variants as in neovim's '`vim.log.levels.*`.
+# NOTE: Variants inspired by neovim's '`vim.log.levels.*`.
+# TODO: Sync function definitions/description with this table's contents.
+# ---------------+-------------------------------------------------------------
+#        VARIANT | DESCRIPTION
+#        LABEL   |
+# ---------------+-------------------------------------------------------------
+#                | REGULAR(`echo`): Print message to `stdout`
+#        ERROR   | Print message as error(`ERROR`) with status code to stderr
+#        WARN    | Print message as warning('WARN') to `stdout`
+#        DEBUG   | Print message for debugging purposes('DEBUG')
+#        INFO    | Print message as informational('INFO')
+#  TODO: INIT    | Print message when task is initiated('INIT')
+#  TODO: DONE    | Print message when task is done('DONE')
+#        HEADER  | Print message as a section header('BEGIN')
+#        FOOTER  | Print message as a section header('END')
+# ---------------+-------------------------------------------------------------
+
 # ECHO ERROR {{{3
 # TODO: Consider whether `echo-err` should end with `false` or not.
+# TODO: Accept error status code as an argument
 # USAGE 1:        `echo-ERROR "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 # USAGE 2:        `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-# TODO: Accept error status code as an argument
 function echo-ERROR \
     --description "Print to stderr and exit with error status"
     # SETUP:
@@ -91,13 +107,13 @@ function echo-ERROR \
     set --function msg $argv
     # APPEND PIPED INPUTS:
     if not isatty stdin
-        # Append a space f any arugments were supplied
+        # Append a space f any arguments were supplied
         if test (count $argv) -ne 0
             set --append msg " "
         end
         # Append piped inputs
-        cat /dev/stdin | while read eachline
-            set --append msg $eachline
+        cat /dev/stdin | while read each_line
+            set --append msg $each_line
         end
     end
     # WRITE TO STDERR:
@@ -120,21 +136,47 @@ end
 # USAGE:          `echo-WARN "This section is being deprecated."
 # OUTPUT(stdout): `WARN: This section is being deprecated.`
 # TODO: Pick appropriate color
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
 # NOTE: Printing to`stdout` and not `stderr` on purpose.
 function echo-WARN \
-    --description "Print message as warning to `stdout`(label: WARN)"
-    echo
-    set_color $fish_color_cancel
+    --description "Print message as warning('WARN') to `stdout`"
+    set_color $fish_color_operator
     echo ">>> WARN:" $argv
+    set_color $fish_color_normal
+end
+
+# ECHO INFO {{{3
+# USAGE:          `echo-INFO "Formatting files in this directory"
+# OUTPUT(stdout): `INFO: Formatting files in this directory.`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
+# TODO: Pick appropriate color
+function echo-INFO \
+    --description "Print message as informational('INFO')"
+    set_color $fish_color_command
+    echo ">>> INFO:" $argv
+    set_color $fish_color_normal
+end
+
+# ECHO DEBUG {{{3
+# USAGE:          `echo-DEBUG "Can you see me?"
+# OUTPUT(stdout): `DEBUG: Can you see me?`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
+# TODO: Pick appropriate color
+function echo-DEBUG \
+    --description "Print message for debugging purposes('DEBUG')"
+    set_color $fish_color_param
+    echo ">>> DEBUG:" $argv
     set_color $fish_color_normal
 end
 
 # ECHO HEADER {{{3
 # USAGE:          `echo-HEADER "Configuration Section"
 # OUTPUT(stdout): `>>> INIT: Configuration Section`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
 # TODO: Pick appropriate color
+# TODO: Change message label to "BEGIN"
 function echo-HEADER \
-    --description "Print message as a header(label: INIT)"
+    --description "Print message as a header('INIT')"
     echo
     set_color $fish_color_operator
     echo ">>> INIT:" $argv
@@ -144,9 +186,11 @@ end
 # ECHO FOOTER {{{3
 # USAGE:          `echo-FOOTER "Configuration Section"
 # OUTPUT(stdout): `>>> DONE: Configuration Section`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
 # TODO: Pick appropriate color
+# TODO: Change message label to "END"
 function echo-FOOTER \
-    --description "Print message as footer(label: DONE)"
+    --description "Print message as footer'('DONE)"
     set_color $fish_color_operator
     echo ">>> DONE:" $argv
     set_color $fish_color_normal
