@@ -14,6 +14,7 @@
 # USAGE:
 #   - If this file is made executable, it can be run with `$ djangoinit.fish`
 #   - The file can also be executed directly by passing to fish like `$ fish ./djangoinit.fish`
+# TODO: Use echo variants from my "LIB" section in `config.fish`.
 
 
 function djangoinit

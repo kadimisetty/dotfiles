@@ -73,14 +73,17 @@ function is_inside_git_repo_EXPLICIT \
     end
 end
 
-# ECHOERR {{{2
-# TODO: Consider whether `echoerr` should end with `false` or not.
-# USAGE 1:        `echoerr "incorrect configuration file: conf.json"
+# ECHO VARIANTS {{{2
+# TODO: Consider same echo variants as in neovim's '`vim.log.levels.*`.
+# ECHO ERROR {{{3
+# TODO: Consider whether `echo-err` should end with `false` or not.
+# USAGE 1:        `echo-ERROR "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-# USAGE 2:        `echo "incorrect configuration file: conf.json" | echoerr`
+# USAGE 2:        `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-function echoerr \
-    --description "print given msg to stderr and exit with error exit status"
+# TODO: Accept error status code as an argument
+function echo-ERROR \
+    --description "Print to stderr and exit with error status"
     # SETUP:
     # Use current theme's error color
     set_color $fish_color_error
@@ -101,7 +104,7 @@ function echoerr \
     # Bail if no arguments were given/piped in
     if test "$msg" = "" || test "$msg" = " "
         # Print error (i.e. no arguments given) to stderr
-        echo "ERROR: echoerr: no argument(s) provided" >&2
+        echo "echo-ERROR: ERROR: No argument(s) provided" >&2
     else
         # Print error to stderr as desired
         echo -s "ERROR: " $msg >&2
@@ -113,11 +116,48 @@ function echoerr \
     false
 end
 
+# ECHO WARN {{{3
+# USAGE:          `echo-WARN "This section is being deprecated."
+# OUTPUT(stdout): `WARN: This section is being deprecated.`
+# TODO: Pick appropriate color
+# NOTE: Printing to`stdout` and not `stderr` on purpose.
+function echo-WARN \
+    --description "Print message as warning to `stdout`(label: WARN)"
+    echo
+    set_color $fish_color_cancel
+    echo ">>> WARN:" $argv
+    set_color $fish_color_normal
+end
+
+# ECHO HEADER {{{3
+# USAGE:          `echo-HEADER "Configuration Section"
+# OUTPUT(stdout): `>>> INIT: Configuration Section`
+# TODO: Pick appropriate color
+function echo-HEADER \
+    --description "Print message as a header(label: INIT)"
+    echo
+    set_color $fish_color_operator
+    echo ">>> INIT:" $argv
+    set_color $fish_color_normal
+end
+
+# ECHO FOOTER {{{3
+# USAGE:          `echo-FOOTER "Configuration Section"
+# OUTPUT(stdout): `>>> DONE: Configuration Section`
+# TODO: Pick appropriate color
+function echo-FOOTER \
+    --description "Print message as footer(label: DONE)"
+    set_color $fish_color_operator
+    echo ">>> DONE:" $argv
+    set_color $fish_color_normal
+    echo
+end
+
 # SOURCE FILE IF IT EXISTS OR FAIL SILENTLY {{{2
 # TODO: Provided argument might be 0/singular/plural
 # USAGE: `$ source_if_exists ./XXX.md`
 function source_if_exists \
-    --description "Sources file if it exists" \
+    --description "Source file if it exists" \
     --argument-names file_to_source
     if test -e $file_to_source
         source $file_to_source
@@ -869,10 +909,10 @@ alias n-TABS='nvim -p'
 function n-man --description "Open man page for given command name in neovim"
     if test 1 -ne (count $argv)
         # ENSURE SINGLE ARGUMENT:
-        echoerr "takes one argument"
+        echo-ERROR "takes one argument"
     else if not man $argv &>/dev/null
         # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
-        echoerr "no man page for: $argv"
+        echo-ERROR "no man page for: $argv"
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
         nvim \
@@ -950,7 +990,7 @@ function v-create \
     --description "Create python virtual environment in `./venv/`"
     # TODO: Check for proper python version
     if test -e "./venv"
-        echoerr "`./venv/` exists"
+        echo-ERROR "`./venv/` exists"
     else
         python3 -m venv ./venv
     end
@@ -964,7 +1004,7 @@ function v-activate \
         source ./venv/bin/activate.fish
     else
         echo -e "./venv/bin/activate.fish" |
-            echoerr "Fish file to activate python environment not found:"
+            echo-ERROR "Fish file to activate python environment not found:"
     end
 end
 
@@ -986,7 +1026,7 @@ function v-deactivate \
             (set_color --bold) \
             (path basename $virtual_env_name)
     else
-        echoerr "Not in active python environment"
+        echo-ERROR "Not in active python environment"
     end
 end
 
@@ -1000,7 +1040,7 @@ end
 function _exit_if_not_in_active_python_virtual_env \
     --description "Exit with failure if python virtual environment not active"
     if ! test -n "$VIRTUAL_ENV"
-        echoerr "Not in active python environment"
+        echo-ERROR "Not in active python environment"
     end
 end
 
@@ -1147,7 +1187,7 @@ function b-init_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echoerr "path with given name already exists"
+        echo-ERROR "path with given name already exists"
     else
         mkdir $project_name
         and cd $project_name
@@ -1172,7 +1212,7 @@ function s-new_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echoerr "path with given name already exists"
+        echo-ERROR "path with given name already exists"
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
         stack new $project_name kadimisetty/basic
@@ -1206,10 +1246,10 @@ function go-new_cd \
     --argument-names module_path
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
-        echoerr "no module path given"
+        echo-ERROR "no module path given"
         # Exit if path with given name exists in current dir
     else if test -e "$module_path"
-        echoerr "path with given name exists"
+        echo-ERROR "path with given name exists"
     else
         # Create a new directory with the name, move into it and run `go mod
         # init` there
@@ -1316,7 +1356,7 @@ function gbranch-description_SHOW \
     begin
         git config branch.$branch_name.description # NOTE: prints desc if OK
         if test $status -ne 0
-            echoerr "No description available for git branch: $branch_name"
+            echo-ERROR "No description available for git branch: $branch_name"
         end
     end
 end
