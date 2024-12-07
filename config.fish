@@ -982,14 +982,12 @@ end
 alias t-start_tmuxinator_config="tmuxinator start ./.tmuxinator.yml"
 
 
-# ELIXIR/MIX/PHOENIX {{{1
+# MIX/PHOENIX(ELIXIR) {{{1
 # MIX {{{2
 alias x="mix"
+alias x-version="mix --version"
 alias x-build="mix build"
 alias x-compile="mix compile"
-alias x-deps_get="mix deps.get"
-alias x-test="mix test"
-alias x-test_TRACE="mix test --trace" # run tests synchronously
 alias x-new="mix new"
 function x-new_cd \
     --wraps "mix new" \
@@ -998,6 +996,26 @@ function x-new_cd \
         cd $argv
     end
 end
+
+# DEPS {{{2
+alias x-deps_get="mix deps.get"
+alias x-deps_clean="mix deps.clean"
+alias x-deps_clean_ECTO="mix deps.clean ecto"
+alias x-deps_clean_ALL="mix deps.clean --all"
+alias x-deps_clean_UNUSED="mix deps.clean --unused"
+alias x-deps_clean_COMPILED_ONLY="mix deps.clean --build"
+alias x-deps_compile="mix deps.compile"
+alias x-deps_compile_ECTO="mix deps.compile ecto"
+alias x-deps_tree="mix deps.tree"
+alias x-deps_update="mix deps.update"
+alias x-deps_update_ALL="mix deps.update --all"
+
+# TEST {{{2
+alias x-test="mix test"
+alias x-test_SYNC="mix test --max-cases=1"
+alias x-test_VERBOSE="mix test --trace" # Also forces running tests in sync
+alias x-test-COVERAGE="mix test --cover"
+alias x-test_FAILED_PREV="mix test --failed"
 
 # IEX {{{2
 alias x-iex="iex"
@@ -1010,13 +1028,37 @@ alias x-ecto_migrate="mix ecto.migrate"
 alias x-ecto_reset="mix ecto.reset"
 
 # PHOENIX {{{2
-alias x-phx_new="mix phx.new" # TODO: add a variant with `cd`
+alias x-phx_new="mix phx.new"
 alias x-phx_server="mix phx.server"
+alias x-phx_version="mix phx.new --version"
+alias x-phx_update="mix archive.install hex phx_new"
 function x-phx_new_cd \
     --wraps "mix phx.new" \
     --description "Does `mix phx.new` and `cd`s into the new dir"
     if mix phx.new $argv
         cd $argv
+    end
+end
+# TODO: Update with relevant `echo` variants
+function x-phx_new_cd_setup \
+    --wraps "mix phx.new" \
+    --description "Does `mix phx.new` and sets up new project"
+    set --function app_name $argv
+    # PROJECT INIT
+    echo-HEADER "CREATING NEW PHOENIX PROJECT: "$app_name
+    if mix phx.new $argv --install # Create new phoenix project and install deps
+        echo "DONE: "$app_name" created"
+        cd $argv # `cd` into new project
+        mix setup
+        # GIT INIT
+        echo "INIT: SETTING UP GIT"
+        git init
+        git add --all
+        git commit --message "mix phx.new"
+        echo "DONE: SETTING UP GIT"
+        # SERVER RUN
+        echo "INIT: STARTING PHOENIX SERVER ..."
+        mix phx.server --open # Run server and open hosted site in browser
     end
 end
 
