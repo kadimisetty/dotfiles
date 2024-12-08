@@ -85,6 +85,7 @@ end
 #        WARN    | Print message as warning('WARN') to `stdout`
 #        DEBUG   | Print message for debugging purposes('DEBUG')
 #        INFO    | Print message as informational('INFO')
+#  TODO: TASK    | Run given function and print message before('INIT')/after('DONE').
 #  TODO: INIT    | Print message when task is initiated('INIT')
 #  TODO: DONE    | Print message when task is done('DONE')
 #        HEADER  | Print message as a section header('BEGIN')
@@ -1015,7 +1016,7 @@ alias x-test="mix test"
 alias x-test_SYNC="mix test --max-cases=1"
 alias x-test_VERBOSE="mix test --trace" # Also forces running tests in sync
 alias x-test-COVERAGE="mix test --cover"
-alias x-test_FAILED_PREV="mix test --failed"
+alias x-test_FAILED_PREVIOUS="mix test --failed"
 
 # IEX {{{2
 alias x-iex="iex"
@@ -1362,10 +1363,6 @@ alias grep-IGNORECASE="grep --ignore-case"
 # TODO: Insist on user confirmation for destructive operations like `clear` etc.
 # STASH OPERATIONS {{{3
 # FIXME: Interactive stashing?
-alias gstash-push='git stash push'
-alias gstash-push_with_message='git stash push --message'
-alias gstash-push_INTERACTIVE='git stash push --patch'
-alias gstash-push_with_message_INTERACTIVE='git stash push --patch --message'
 alias gstash-wip='git stash' # NOTE: `WIP` indicates unstaged work
 alias gstash-apply='git stash apply'
 alias gstash-apply_WITH_STAGED='git stash apply --index'
@@ -1373,17 +1370,53 @@ alias gstash-delete='git stash drop' # TODO: CONSIDER: Provide `gstash-drop`?
 alias gstash-delete_ALL='git stash clear' # TODO: Insist on user confirmation
 alias gstash-pop='git stash pop'
 
-# STASH SHOWINGS {{{3
+# STASH PUSH {{{3
+# TODO: Ensure all aliases have interactive versions
+alias gstash-push='git stash push'
+alias gstash-push_with_message='git stash push --message'
+alias gstash-push_INTERACTIVE='git stash push --patch'
+alias gstash-push_with_message_INTERACTIVE='git stash push --patch --message'
+alias gstash-push_PRESERVE_STAGING_STATUS='git stash push --keep-index' # TODO: VERIFY
+alias gstash-push_STAGED='git stash push --staged'
+alias gstash-push_STAGED_with_message='git stash push --staged --message'
+function gstash-push_UNSTAGED_with_message \
+    --description 'Run `git stash push` for unstaged changes' \
+    --wraps 'git stash push' \
+    --argument-names stash_name
+    if test -z "$stash_name" # Insist on `$stash_name`
+        echo-ERROR "Stash name not supplied"
+    else
+        # Create temporary commit of STAGED changes and bypass commit hooks
+        git commit --quiet --no-verify \
+            --message "DELETEME: TEMPORARY STASH OPERATION ARTIFACT"
+        # Push UNSTAGED changes onto stash with given `$stash_name`
+        and git stash push --message $argv # `$stash_name` is first in `$argv`
+        # Reset to previous HEAD state and restore the committed STAGED changes
+        # TODO: Assert temporary commit has been removed here at the end since
+        # it might remain if there is an error with above stash operation.
+        and git reset --quiet --soft HEAD~1
+    end
+end
+# TODO: `function gstash-push_UNSTAGED_with_message_INTERACTIVE`
+# TODO: `function gstash-push_UNSTAGED`: Similar to
+# `gstash-push_UNSTAGED_with_message` but will not be receiving a stash name,
+# so make a decision on the stash name since by default unnamed stashes will
+# derive a name from the latest commit which in this case would be the
+# temporary commit which would be unwanted as nothing should remain of the
+# temporary commit once this whole operation completes.
+
+
+# STASH SHOW {{{3
 alias gstash-show_NAMES='git stash show --name-status'
 alias gstash-show_STAT='git stash show --stat'
 alias gstash-show_PATCH='git stash show --patch'
 alias gstash-show_PATCH_WITH_STAT='git stash show --patch-with-stat'
 
-# STASH CONVERSIONS {{{3
+# STASH CONVERT {{{3
 # TODO: gstash-into_commit
-alias gstash-into_branch='git stash branch' # expects: `<branch> [<stash>]`
+alias gstash-into_BRANCH='git stash branch' # expects: `<branch> [<stash>]`
 
-# STASH LISTINGS {{{3
+# STASH LIST {{{3
 # NOTE: Time duration variants: (LAST/THIS) (DAY/WEEK/MONTH)
 # UNBOUND {{{4
 alias gstash-list='git stash list'
@@ -1421,9 +1454,9 @@ alias gbranch-list_ALL_VERBOSE='git branch --all --verbose'
 
 # BRANCH SWITCHINGS {{{3
 alias gbranch-switch_to='git switch'
-alias gbranch-switch_to_MAIN_BRANCH='git switch main'
-alias gbranch-switch_to_NEW_BRANCH='git switch --create'
-alias gbranch-switch_to_PREV_BRANCH='git switch -'
+alias gbranch-switch_to_MAIN='git switch main'
+alias gbranch-switch_to_NEW='git switch --create'
+alias gbranch-switch_to_PREVIOUS='git switch -'
 
 # BRANCH DELETIONS {{{3
 alias gbranch-delete_LOCAL='git branch --delete'
