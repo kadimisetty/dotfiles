@@ -2346,6 +2346,22 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- RESTORE QUICKFIX SELECTION KEYMAP(`<cr>`) {{{2
+-- Restore default item selection behavior of `<cr>` in quickfix/loclist,
+-- because I tend to override `<cr>` in plugin configs etc. e.g. "mini.map".
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Restore `<cr>` original selection behavior in quickfix",
+  group = utilities_augroup,
+  pattern = { "qf" }, -- Matches both quickfix and location list
+  callback = function()
+    vim.keymap.set("n", "<cr>", "<cr>", {
+      silent = true,
+      buffer = true,
+      desc = "Select item in current line inside quickfix window",
+    })
+  end,
+})
+
 -- CLOSE FLOATING/HELPER WINDOWS (quickfix/location list etc.) {{{2
 -- TODO: Add feature: also close `help` windows
 
