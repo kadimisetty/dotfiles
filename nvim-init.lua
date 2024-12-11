@@ -3692,12 +3692,12 @@ run_lazy_setup({
       --    - github.com/jackieaskins/dotfiles/blob/main/nvim/lua/plugins/mini-splitjoin.lua
       --    - github.com/sid-6581/NeovimConfig/blob/main/lua/plugins/mini_splitjoin.lua
       event = "VeryLazy",
+      opts = { use_default_keymaps = false },
       cmd = {
         "TSJToggle",
         "TSJSplit",
         "TSJJoin",
       },
-      opts = { use_default_keymaps = false },
       keys = {
         {
           "<c-t>",
@@ -4062,13 +4062,6 @@ run_lazy_setup({
       "catppuccin/nvim",
       name = "catppuccin", -- Keep, because "nvim"(of `catppuccin/nvim`) is bad
       priority = 1000, -- keep high for colorschemes
-      init = function()
-        vim.cmd.colorscheme(
-          -- "catppuccin"
-          -- catppuccin-macchiato"
-          "catppuccin-mocha"
-        )
-      end,
       opts = {
         -- FIX: Flavor isn't working, so manually setting in `init` for now.
         flavor = "auto",
@@ -4084,6 +4077,13 @@ run_lazy_setup({
         --   percentage = 0.15, -- shade percentage
         -- },
       },
+      init = function()
+        vim.cmd.colorscheme(
+          -- "catppuccin"
+          -- catppuccin-macchiato"
+          "catppuccin-mocha"
+        )
+      end,
     },
 
     -- tokyonight - folke colorscheme {{{3
@@ -4091,9 +4091,6 @@ run_lazy_setup({
       "folke/tokyonight.nvim",
       enabled = false,
       priority = 1000, -- Keep high for colorschemes
-      init = function()
-        vim.cmd.colorscheme("tokyonight")
-      end,
       opts = {
         style = "moon", -- @type `storm` | `moon`| `night`(darkest) | `day` (light)
         terminal_colors = true,
@@ -4112,6 +4109,9 @@ run_lazy_setup({
         dim_inactive = true, -- do not dim, use alternate dimmer like `shade.nvim`
         lualine_bold = true, -- Lualine section headers will be bold
       },
+      init = function()
+        vim.cmd.colorscheme("tokyonight")
+      end,
     },
 
     -- visual-split.vim - split from visual selection or text object {{{3
@@ -4320,7 +4320,7 @@ run_lazy_setup({
     -- undotree - undo tree helper {{{3
     {
       "jiaoshijie/undotree",
-      config = true,
+      opts = {},
       keys = function()
         local undotree = require("undotree")
         return {
@@ -4477,24 +4477,6 @@ run_lazy_setup({
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v2.x",
       event = "VeryLazy",
-      init = function()
-        -- Disable deprecated commands e.g. `:NeoTreeReveal`
-        vim.g.neo_tree_remove_legacy_commands = 1
-      end,
-      keys = {
-        -- All files with current file selected in cwd
-        {
-          "_",
-          "<cmd>Neotree action=focus source=filesystem position=left toggle=true reveal=true<cr>",
-          desc = "Toggle NeoTree",
-        },
-        -- FIXME: Git relevant files with current file selected in cwd
-        -- {
-        --   "_",
-        --   "<cmd>Neotree action=focus source=git_status position=left toggle=true reveal=true<cr>",
-        --   desc = "Toggle NeoTree",
-        -- },
-      },
       opts = {
         sources = {
           "filesystem", -- "buffers", "git_status",
@@ -4543,6 +4525,24 @@ run_lazy_setup({
             ["zR"] = "expand_all_nodes", -- like in folds
           },
         },
+      },
+      init = function()
+        -- Disable deprecated commands e.g. `:NeoTreeReveal`
+        vim.g.neo_tree_remove_legacy_commands = 1
+      end,
+      keys = {
+        -- All files with current file selected in cwd
+        {
+          "_",
+          "<cmd>Neotree action=focus source=filesystem position=left toggle=true reveal=true<cr>",
+          desc = "Toggle NeoTree",
+        },
+        -- FIXME: Git relevant files with current file selected in cwd
+        -- {
+        --   "_",
+        --   "<cmd>Neotree action=focus source=git_status position=left toggle=true reveal=true<cr>",
+        --   desc = "Toggle NeoTree",
+        -- },
       },
       dependencies = {
         "nvim-lua/plenary.nvim",
@@ -5130,7 +5130,6 @@ run_lazy_setup({
     {
       "folke/todo-comments.nvim",
       event = { "BufReadPost", "BufNewFile" },
-      cmd = { "TodoTelescope" },
       opts = {
         -- Hide pragma signs in gutter, until a toggling option via `yop` is
         -- available
@@ -5157,6 +5156,7 @@ run_lazy_setup({
           exclude = {}, -- list of file types to exclude highlighting
         },
       },
+      cmd = { "TodoTelescope" },
       -- NOTE: `p` for "pragma", like XCode pragma
       -- TODO: Add keymaps that restrict pragma searching to current buffer
       keys = {
@@ -5545,9 +5545,9 @@ run_lazy_setup({
     -- full_visual_line.nvim - highlights full screen line in `V` mode {{{3
     {
       "0xAdk/full_visual_line.nvim",
-      enabled = true,
-      keys = "V",
+      enabled = false,
       opts = {},
+      keys = "V",
     },
 
     -- illuminate - highlight same word (LSP/treesitter/regex) {{{3
