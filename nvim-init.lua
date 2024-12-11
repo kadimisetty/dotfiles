@@ -77,10 +77,7 @@ vim.opt.diffopt:append("vertical")
 if vim.fn.executable("par") == 1 then
   vim.opt.formatprg = "par -w79"
 else
-  vim.notify(
-    "WARNING: Please install `par` for `formatprg`",
-    vim.log.levels.WARN
-  )
+  vim.notify("WARN: Please install `par` for `formatprg`", vim.log.levels.WARN)
 end
 
 -- MODELINE {{{2
@@ -232,7 +229,7 @@ vim.opt.backupdir:remove(".")
 -- Warn when `backupdir` has no directories
 if vim.o.backupdir:len() == 0 then
   vim.notify(
-    "WARNING: Backups are not being created (`backupdir` is empty)",
+    "WARN: Backups are not being created (HINT: Is `backupdir` set?)",
     vim.log.levels.WARN
   )
 end
@@ -1571,48 +1568,56 @@ do
 end
 
 -- RENAMING {{{2
--- Rename current tab
--- TODO: Convert to lua
--- NOTE: Requires the `gcmt/taboo.vim` plugin.
--- TODO: Refactor to remove `gcmt/taboo.vim` plugin!
-vim.cmd([[
-    function! RenameTabpageWithTaboo(prefillCurrentTabpageName)
-        " Renames current tab page name using a `Taboo.vim` plugin helper.
-        " Arguments: prefillCurrentTabpageName (0 is False, 1 is True)
-        " NOTE: It is desirable to go through the taboo plugin to rename the
-        " tabpage over native commands.
-
-        " Assert supplied argument values are valid first
-        if !(index([0, 1], a:prefillCurrentTabpageName) >= 0)
-            " Invalid a:prefillCurrentTabpageName:
-            echoerr 'Invalid a:prefillCurrentTabpageName given. Should be `0` for False or `1` for True'
-        else
-            " Valid a:prefillCurrentTabpageName:
-            if get(g:, 'loaded_taboo', 0) && exists("*TabooTabName")
-                let l:currentTabPageName = TabooTabName(tabpagenr())
-                if (len(l:currentTabPageName) == 0)
-                    let l:newName = input("TAB NAME: ")
-                else
-                    if (a:prefillCurrentTabpageName == 0)
-                        let l:newName = input("TAB NAME (" . l:currentTabPageName . "): ")
-                    else
-                        let l:newName = input("TAB NAME (" . l:currentTabPageName . "): ", l:currentTabPageName)
-                    endif
-                endif
-                execute 'TabooRename ' . l:newName
-            else
-                " Taboo plugin is not loaded
-                echoerr "Unable to rename tab (`gcmt/taboo.vim` plugin is not loaded)."
-            endif
-        endif
-    endfunction
-]])
-vim.keymap.set(
-  "n",
-  "<c-w>,",
-  "<cmd>call RenameTabpageWithTaboo(0)<cr>",
-  { silent = true }
-)
+-- Rename current tab (uses plugin `gcmt/taboo.vim`)
+-- TODO: Remove dependency on plugin `gcmt/taboo.vim`.
+local rename_tab_with_taboo_plugin = function(show_current_tab_name_in_prompt)
+  if not vim.g.loaded_taboo == 1 then -- Assert plugin `gcmt/taboo.vim` loaded.
+    vim.notify(
+      "ERROR: Dependency not found: `gcmt/taboo.vim`",
+      vim.log.levels.ERROR
+    )
+  else
+    vim.validate({
+      show_current_tab_name_in_prompt = {
+        show_current_tab_name_in_prompt,
+        "boolean",
+      },
+    })
+    local prompt
+    local current_tabpage_number = vim.fn.tabpagenr()
+    if show_current_tab_name_in_prompt then
+      local current_taboo_tabpage_name =
+        vim.fn.TabooTabName(current_tabpage_number)
+      if current_taboo_tabpage_name == "" then
+        prompt = "RENAME TAB: "
+      else
+        prompt = "RENAME TAB(" .. current_taboo_tabpage_name .. "): "
+      end
+    else
+      prompt = "RENAME TAB: "
+    end
+    local ok, new_tab_name = pcall(vim.fn.input, { prompt = prompt })
+    local report_rename_failed = function()
+      vim.notify("WARN: Tabpage not renamed", vim.log.levels.WARN)
+    end
+    if not ok then -- User cancelled with `<c-c>`
+      report_rename_failed()
+    else
+      local ok2, err = pcall(vim.cmd.TabooRename, new_tab_name)
+      if not ok2 then -- User gave empty string or cancelled with `<esc>`
+        report_rename_failed()
+      else
+        print("") -- Clear command line prompt line
+      end
+    end
+  end
+end
+vim.keymap.set("n", "<c-w>,", function()
+  rename_tab_with_taboo_plugin(true)
+end, {
+  silent = true,
+  desc = "Rename current tabpage",
+})
 
 -- SPLITTING {{{2
 --  TODO: Find better split keymaps
