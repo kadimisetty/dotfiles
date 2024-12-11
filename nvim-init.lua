@@ -4233,8 +4233,8 @@ run_lazy_setup({
                 "filename",
                 path = 1,
                 symbols = {
-                  unnamed = "UNNAMED",
-                  newfile = "NEWFILE",
+                  unnamed = "NO NAME",
+                  newfile = "NEW FILE",
                   modified = "+",
                   -- TODO: Show distinct symbols for `readonly` and
                   -- `modifiable` as the current default ``readonly = "[-]"` is
