@@ -77,34 +77,30 @@ end
 # ECHO REFERENCE {{{3
 # NOTE: Variants inspired by neovim's '`vim.log.levels.*`.
 # TODO: Sync function definitions/description with this table's contents.
-# ----------------+------------------------------------------------------------+
-#        VARIANT  | DESCRIPTION                                                |
-# ----------------+------------------------------------------------------------+
-#                 |                                                            |
-#        -        | REGULAR(`echo`) UNTOUCHED: Print message to `stdout`       |
-#                 |                                                            |
-# -------MISC-----+------------------------------------------------------------+
-#                 |                                                            |
-#        INFO     | Print message as informational(`INFO`)                     |
-#        DEBUG    | Print message for debugging purposes(`DEBUG`)              |
-#        WARN     | Print message as warning(`WARN`) to `stdout`               |
-#        ERROR    | Print message as error(`ERROR`) with status code to stderr |
-#                 |                                                            |
-# -------TASKS----+------------------------------------------------------------+
-#                 |                                                            |
-#  TODO: INIT     | Print message to indicate a task is initiated(`INIT`)      |
-#  TODO: DONE     | Print message to indicate a task is done(`DONE`)           |
-#  TODO: WRAP     | Run task(given function) and print message before(`INIT`)  |
-#                 | and after(`DONE`) it's execution                           |
-#                 |                                                            |
-# -------SECTIONS-+------------------------------------------------------------+
-#                 |                                                            |
-#  FIX:  BEGIN    | Print message as a section "header"(`BEGIN`)               |
-#  FIX:  END      | Print message as a section "footer"(`END`)                 |
-#  TODO: WARP     | Run section(given function) and print message "header"     |
-#                 | before(`BEGIN`) and "footer" after(`END`) it's execution   |
-#                 |                                                            |
-# ----------------+------------------------------------------------------------+
+# -------------------+--------------------------------------------------------+
+# VARIANT            | DESCRIPTION                                            |
+# -------------------+--------------------------------------------------------+
+# echo               | REGULAR/UNTOUCHED: Print message to `stdout`.          |
+#                    |                                                        |
+# MISC: -------------+--------------------------------------------------------+
+# echo-INFO          | Print message as informational(`INFO`).                |
+# echo-DEBUG         | Print message for debugging purposes(`DEBUG`).         |
+# echo-WARN          | Print message as warning(`WARN`) to `stdout`.          |
+# echo-ERROR         | Print message as error(`ERROR`) with status code       |
+#                    | to `stderr`.                                           |
+#                    |                                                        |
+# TASKS: ------------+--------------------------------------------------------+
+# echo-task_INIT     | Print message to indicate a task is initiated(`INIT`). |
+# echo-task_DONE     | Print message to indicate a task is done(`DONE`).      |
+# echo-task_WRAP     | Run task(given function) and print message             |
+#                    | before(`INIT`) and after(`DONE`) it's execution.       |
+#                    |                                                        |
+# SECTIONS: ---------+--------------------------------------------------------+
+# echo-section_INIT  | Print message as a section beginning (`INIT`).         |
+# echo-section_DONE  | Print message as a section ending (`DONE`).            |
+# echo-section_WRAP  | Run section(given function) and print messages at      |
+#                    | the beginning(`INIT`) and ending(`DONE`) of execution. |
+# -------------------+--------------------------------------------------------+
 
 # ECHO LIB {{{3
 # TODO: Validate arguments.
@@ -123,8 +119,9 @@ function _echo_with_customized_message \
 end
 
 
-# ECHO INFO {{{3
-# USAGE:          `echo-INFO "Formatting files in this directory"
+# ECHO MISC {{{3
+# ECHO INFO
+# USAGE: `echo-INFO "Formatting files in this directory"
 # OUTPUT(stdout): `INFO: Formatting files in this directory.`
 # TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
 # TODO: Pick appropriate color
@@ -133,8 +130,8 @@ function echo-INFO \
     _echo_with_customized_message $argv INFO $fish_color_command
 end
 
-# ECHO DEBUG {{{3
-# USAGE:          `echo-DEBUG "Can you see me?"
+# ECHO DEBUG
+# USAGE: `echo-DEBUG "Can you see me?"
 # OUTPUT(stdout): `DEBUG: Can you see me?`
 # TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
 # TODO: Pick appropriate color
@@ -143,8 +140,8 @@ function echo-DEBUG \
     _echo_with_customized_message $argv DEBUG $fish_color_param
 end
 
-# ECHO WARN {{{3
-# USAGE:          `echo-WARN "This section is being deprecated."
+# ECHO WARN
+# USAGE: `echo-WARN "This section is being deprecated."
 # OUTPUT(stdout): `WARN: This section is being deprecated.`
 # TODO: Pick appropriate color
 # NOTE: Printing to`stdout`(i.e. not `stderr`) on purpose because this is
@@ -154,12 +151,12 @@ function echo-WARN \
     _echo_with_customized_message $argv WARN $fish_color_operator
 end
 
-# ECHO ERROR {{{3
-# TODO: Consider whether `echo-err` should return a non-zero status code.
-# TODO: Accept error status code as an argument
-# USAGE 1:        `echo-ERROR "incorrect configuration file: conf.json"
+# ECHO ERROR
+# TODO: Should return a non-zero status code?
+# TODO: Accept error status code as an argument?
+# USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
-# USAGE 2:        `echo "incorrect configuration file: conf.json" | echo-ERROR`
+# USAGE 2: `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echo-ERROR \
     --description "Print to stderr and exit with error status"
@@ -194,28 +191,43 @@ function echo-ERROR \
     return 1 # STATUS CODE 1: ` EPERM 1 operation not permitted
 end
 
-# ECHO HEADER {{{3
-# USAGE:          `echo-HEADER "Configuration Section"
-# OUTPUT(stdout): `>>> INIT: Configuration Section`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
-# TODO: Change message label to "BEGIN"
-function echo-HEADER \
-    --description "Print message as a header('INIT')"
-    echo # Blank line on purpose
+# ECHO SECTIONS {{{3
+# TODO: Add indention hierarchy for child sections?
+# TODO: Add `--description.`
+# USAGE: `echo-section_INIT "Configuration Section"
+# OUTPUT(stdout): ```\n>>> INIT: Configuration Section`
+function echo-section_INIT
+    echo # Blank line intentional
     _echo_with_customized_message $argv ">>> INIT" $fish_color_operator
 end
 
-# ECHO FOOTER {{{3
-# USAGE:          `echo-FOOTER "Configuration Section"
-# OUTPUT(stdout): `>>> DONE: Configuration Section`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
-# TODO: Change message label to "END"
-function echo-FOOTER \
-    --description "Print message as footer'('DONE)"
+# TODO: Add `--description.`
+# USAGE: `echo-section_DONE "Configuration Section"
+# OUTPUT(stdout): ```<<< DONE: Configuration Section\n`
+function echo-section_DONE
     _echo_with_customized_message $argv "<<< DONE" $fish_color_operator
-    echo # Blank line on purpose
+    echo # Blank line intentional
+end
+
+# TODO: Add `--description.`
+# TODO: Validate arguments.
+# TODO: Use `argparse`.
+# USAGE: `echo-SECTION_WRAP function_that_prints_abc "SECTION"
+# OUTPUT(stdout): ```
+# \n>>> INIT: SECTION
+# abc
+# <<< DONE: SECTION\n```
+function echo-section_WRAP \
+    --argument-names section_function message
+    # TODO: Don't just get `$message`, get the entire `$argv`.
+    if functions --query $section_function
+        echo-section_INIT $message
+        eval "$section_function"
+        echo-section_DONE $message
+    else
+        echo-ERROR "Function with given name does not exist: $section_function"
+        return 1
+    end
 end
 
 
