@@ -74,26 +74,88 @@ function is_inside_git_repo_EXPLICIT \
 end
 
 # ECHO VARIANTS {{{2
+# ECHO REFERENCE {{{3
 # NOTE: Variants inspired by neovim's '`vim.log.levels.*`.
 # TODO: Sync function definitions/description with this table's contents.
-# ---------------+-------------------------------------------------------------
-#        VARIANT | DESCRIPTION
-#        LABEL   |
-# ---------------+-------------------------------------------------------------
-#                | REGULAR(`echo`): Print message to `stdout`
-#        ERROR   | Print message as error(`ERROR`) with status code to stderr
-#        WARN    | Print message as warning('WARN') to `stdout`
-#        DEBUG   | Print message for debugging purposes('DEBUG')
-#        INFO    | Print message as informational('INFO')
-#  TODO: TASK    | Run given function and print message before('INIT')/after('DONE').
-#  TODO: INIT    | Print message when task is initiated('INIT')
-#  TODO: DONE    | Print message when task is done('DONE')
-#        HEADER  | Print message as a section header('BEGIN')
-#        FOOTER  | Print message as a section header('END')
-# ---------------+-------------------------------------------------------------
+# ----------------+------------------------------------------------------------+
+#        VARIANT  | DESCRIPTION                                                |
+# ----------------+------------------------------------------------------------+
+#                 |                                                            |
+#        -        | REGULAR(`echo`) UNTOUCHED: Print message to `stdout`       |
+#                 |                                                            |
+# -------MISC-----+------------------------------------------------------------+
+#                 |                                                            |
+#        INFO     | Print message as informational(`INFO`)                     |
+#        DEBUG    | Print message for debugging purposes(`DEBUG`)              |
+#        WARN     | Print message as warning(`WARN`) to `stdout`               |
+#        ERROR    | Print message as error(`ERROR`) with status code to stderr |
+#                 |                                                            |
+# -------TASKS----+------------------------------------------------------------+
+#                 |                                                            |
+#  TODO: INIT     | Print message to indicate a task is initiated(`INIT`)      |
+#  TODO: DONE     | Print message to indicate a task is done(`DONE`)           |
+#  TODO: WRAP     | Run task(given function) and print message before(`INIT`)  |
+#                 | and after(`DONE`) it's execution                           |
+#                 |                                                            |
+# -------SECTIONS-+------------------------------------------------------------+
+#                 |                                                            |
+#  FIX:  BEGIN    | Print message as a section "header"(`BEGIN`)               |
+#  FIX:  END      | Print message as a section "footer"(`END`)                 |
+#  TODO: WARP     | Run section(given function) and print message "header"     |
+#                 | before(`BEGIN`) and "footer" after(`END`) it's execution   |
+#                 |                                                            |
+# ----------------+------------------------------------------------------------+
+
+# ECHO LIB {{{3
+# TODO: Validate arguments.
+# TODO: Use `argparse`.
+# TODO: Handle piping. Look at `echo-ERROR` for inspiration.
+function _echo_with_customized_message \
+    --description "" \
+    --argument-names message prefix_label message_color
+    set_color $message_color
+    echo -s \
+        (set_color --bold) \
+        $prefix_label": " \
+        (set_color --dim --italic) \
+        $message
+    set_color $fish_color_normal
+end
+
+
+# ECHO INFO {{{3
+# USAGE:          `echo-INFO "Formatting files in this directory"
+# OUTPUT(stdout): `INFO: Formatting files in this directory.`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
+# TODO: Pick appropriate color
+function echo-INFO \
+    --description "Print message as informational('INFO')"
+    _echo_with_customized_message $argv INFO $fish_color_command
+end
+
+# ECHO DEBUG {{{3
+# USAGE:          `echo-DEBUG "Can you see me?"
+# OUTPUT(stdout): `DEBUG: Can you see me?`
+# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
+# TODO: Pick appropriate color
+function echo-DEBUG \
+    --description "Print message for debugging purposes('DEBUG')"
+    _echo_with_customized_message $argv DEBUG $fish_color_param
+end
+
+# ECHO WARN {{{3
+# USAGE:          `echo-WARN "This section is being deprecated."
+# OUTPUT(stdout): `WARN: This section is being deprecated.`
+# TODO: Pick appropriate color
+# NOTE: Printing to`stdout`(i.e. not `stderr`) on purpose because this is
+# a warning and not an error.
+function echo-WARN \
+    --description "Print message as warning('WARN') to `stdout`"
+    _echo_with_customized_message $argv WARN $fish_color_operator
+end
 
 # ECHO ERROR {{{3
-# TODO: Consider whether `echo-err` should end with `false` or not.
+# TODO: Consider whether `echo-err` should return a non-zero status code.
 # TODO: Accept error status code as an argument
 # USAGE 1:        `echo-ERROR "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
@@ -129,45 +191,7 @@ function echo-ERROR \
     # CLEANUP:
     # Restore fish shell print color
     set_color $fish_color_normal
-    # Return with error status code 1 (i.e. EPERM 1 operation not permitted)
-    false
-end
-
-# ECHO WARN {{{3
-# USAGE:          `echo-WARN "This section is being deprecated."
-# OUTPUT(stdout): `WARN: This section is being deprecated.`
-# TODO: Pick appropriate color
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# NOTE: Printing to`stdout` and not `stderr` on purpose.
-function echo-WARN \
-    --description "Print message as warning('WARN') to `stdout`"
-    set_color $fish_color_operator
-    echo ">>> WARN:" $argv
-    set_color $fish_color_normal
-end
-
-# ECHO INFO {{{3
-# USAGE:          `echo-INFO "Formatting files in this directory"
-# OUTPUT(stdout): `INFO: Formatting files in this directory.`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
-function echo-INFO \
-    --description "Print message as informational('INFO')"
-    set_color $fish_color_command
-    echo ">>> INFO:" $argv
-    set_color $fish_color_normal
-end
-
-# ECHO DEBUG {{{3
-# USAGE:          `echo-DEBUG "Can you see me?"
-# OUTPUT(stdout): `DEBUG: Can you see me?`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
-function echo-DEBUG \
-    --description "Print message for debugging purposes('DEBUG')"
-    set_color $fish_color_param
-    echo ">>> DEBUG:" $argv
-    set_color $fish_color_normal
+    return 1 # STATUS CODE 1: ` EPERM 1 operation not permitted
 end
 
 # ECHO HEADER {{{3
@@ -178,10 +202,8 @@ end
 # TODO: Change message label to "BEGIN"
 function echo-HEADER \
     --description "Print message as a header('INIT')"
-    echo
-    set_color $fish_color_operator
-    echo ">>> INIT:" $argv
-    set_color $fish_color_normal
+    echo # Blank line on purpose
+    _echo_with_customized_message $argv ">>> INIT" $fish_color_operator
 end
 
 # ECHO FOOTER {{{3
@@ -192,11 +214,10 @@ end
 # TODO: Change message label to "END"
 function echo-FOOTER \
     --description "Print message as footer'('DONE)"
-    set_color $fish_color_operator
-    echo ">>> DONE:" $argv
-    set_color $fish_color_normal
-    echo
+    _echo_with_customized_message $argv "<<< DONE" $fish_color_operator
+    echo # Blank line on purpose
 end
+
 
 # SOURCE FILE IF IT EXISTS OR FAIL SILENTLY {{{2
 # TODO: Provided argument might be 0/singular/plural
