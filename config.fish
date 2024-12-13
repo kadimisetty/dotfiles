@@ -109,6 +109,7 @@ end
 function _echo_with_customized_message \
     --description "" \
     --argument-names message prefix_label message_color
+    set_color normal # Reset all formatting, not just color
     set_color $message_color
     echo -s \
         (set_color --bold) \
