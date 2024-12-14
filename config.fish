@@ -192,6 +192,43 @@ function echo-ERROR \
     return 1 # STATUS CODE 1: ` EPERM 1 operation not permitted
 end
 
+# ECHO TASKS {{{3
+# TODO: Add `--description.`
+# USAGE: `echo-task_INIT "Started task"
+# OUTPUT(stdout): `INIT: Started task`
+function echo-task_INIT
+    _echo_with_customized_message $argv INIT $fish_color_operator
+end
+
+# TODO: Add `--description.`
+# USAGE: `echo-task_DONE "Completed task"
+# OUTPUT(stdout): `DONE: Completed task`
+function echo-task_DONE
+    _echo_with_customized_message $argv DONE $fish_color_operator
+end
+
+# TODO: Add `--description.`
+# TODO: Validate arguments.
+# TODO: Use `argparse`.
+# TODO: Include task function name in message output?
+# USAGE: `echo-task_WRAP function_that_prints_abc "Running task"
+# OUTPUT(stdout): ```
+# INIT: Running task
+# abc
+# DONE: Running task```
+function echo-task_WRAP \
+    --argument-names task_function message
+    # TODO: Don't just limit to `$message`, use the entire `$argv` here.
+    if functions --query $task_function
+        echo-section_INIT $message
+        eval "$task_function"
+        echo-section_DONE $message
+    else
+        echo-ERROR "Function with given name does not exist: $task_function"
+        return 1
+    end
+end
+
 # ECHO SECTIONS {{{3
 # TODO: Add indention hierarchy for child sections?
 # TODO: Add `--description.`
