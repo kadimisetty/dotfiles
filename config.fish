@@ -196,15 +196,17 @@ end
 # TODO: Add `--description.`
 # USAGE: `echo-task_INIT "Started task"
 # OUTPUT(stdout): `INIT: Started task`
-function echo-task_INIT
-    _echo_with_customized_message $argv INIT $fish_color_operator
+function echo-task_INIT \
+    --argument-names message
+    _echo_with_customized_message $message INIT $fish_color_operator
 end
 
 # TODO: Add `--description.`
 # USAGE: `echo-task_DONE "Completed task"
 # OUTPUT(stdout): `DONE: Completed task`
-function echo-task_DONE
-    _echo_with_customized_message $argv DONE $fish_color_operator
+function echo-task_DONE \
+    --argument-names message
+    _echo_with_customized_message $message DONE $fish_color_operator
 end
 
 # TODO: Add `--description.`
@@ -242,16 +244,18 @@ end
 # TODO: Add `--description.`
 # USAGE: `echo-section_INIT "Configuration Section"
 # OUTPUT(stdout): ```\n>>> INIT: Configuration Section`
-function echo-section_INIT
+function echo-section_INIT \
+    --argument-names message
     echo # Blank line intentional
-    _echo_with_customized_message $argv ">>> INIT" $fish_color_operator
+    _echo_with_customized_message $message ">>> INIT" $fish_color_operator
 end
 
 # TODO: Add `--description.`
 # USAGE: `echo-section_DONE "Configuration Section"
 # OUTPUT(stdout): ```<<< DONE: Configuration Section\n`
-function echo-section_DONE
-    _echo_with_customized_message $argv "<<< DONE" $fish_color_operator
+function echo-section_DONE \
+    --argument-names message
+    _echo_with_customized_message $message "<<< DONE" $fish_color_operator
     echo # Blank line intentional
 end
 
