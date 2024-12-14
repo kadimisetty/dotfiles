@@ -82,12 +82,15 @@ end
 # -------------------+--------------------------------------------------------+
 # echo               | REGULAR/UNTOUCHED: Print message to `stdout`.          |
 #                    |                                                        |
-# MISC: -------------+--------------------------------------------------------+
+# LOG LEVELS: -------+--------------------------------------------------------+
 # echo-INFO          | Print message as informational(`INFO`).                |
 # echo-DEBUG         | Print message for debugging purposes(`DEBUG`).         |
 # echo-WARN          | Print message as warning(`WARN`) to `stdout`.          |
 # echo-ERROR         | Print message as error(`ERROR`) with status code       |
 #                    | to `stderr`.                                           |
+#                    |                                                        |
+# MISC: -------------+--------------------------------------------------------+
+# echo-USAGE         | Print message as a function's usage info(`USAGE`).     |
 #                    |                                                        |
 # TASKS: ------------+--------------------------------------------------------+
 # echo-task_INIT     | Print message to indicate a task is initiated(`INIT`). |
@@ -120,7 +123,7 @@ function _echo_with_customized_message \
 end
 
 
-# ECHO MISC {{{3
+# ECHO LOG LEVELS {{{3
 # ECHO INFO
 # USAGE: `echo-INFO "Formatting files in this directory"
 # OUTPUT(stdout): `INFO: Formatting files in this directory.`
@@ -128,7 +131,7 @@ end
 # TODO: Pick appropriate color
 function echo-INFO \
     --description "Print message as informational('INFO')"
-    _echo_with_customized_message $argv INFO $fish_color_command
+    _echo_with_customized_message $argv INFO $fish_color_quote
 end
 
 # ECHO DEBUG
@@ -190,6 +193,16 @@ function echo-ERROR \
     # Restore fish shell print color
     set_color $fish_color_normal
     return 1 # STATUS CODE 1: ` EPERM 1 operation not permitted
+end
+
+# ECHO MISC {{{3
+# ECHO USAGE
+# USAGE: `echo-USAGE "xxx (REQ:option1) (OPT:flag)"
+# OUTPUT(stdout): `USAGE: xxx (REQ:option1) (OPT:flag)`
+# TODO: Pick appropriate color
+function echo-USAGE \
+    --description "Print message as a function's usage info('USAGE')"
+    _echo_with_customized_message "`$argv`" USAGE $fish_color_quote
 end
 
 # ECHO TASKS {{{3
