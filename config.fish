@@ -116,7 +116,7 @@ function _echo_with_customized_message \
         $prefix_label": " \
         (set_color --dim --italic) \
         $message
-    set_color $fish_color_normal
+    set_color normal # Reset all formatting, not just color
 end
 
 
@@ -211,6 +211,7 @@ end
 # TODO: Validate arguments.
 # TODO: Use `argparse`.
 # TODO: Include task function name in message output?
+# TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-task_WRAP function_that_prints_abc "Running task"
 # OUTPUT(stdout): ```
 # INIT: Running task
@@ -218,14 +219,21 @@ end
 # DONE: Running task```
 function echo-task_WRAP \
     --argument-names task_function message
-    # TODO: Don't just limit to `$message`, use the entire `$argv` here.
-    if functions --query $task_function
-        echo-section_INIT $message
-        eval "$task_function"
-        echo-section_DONE $message
-    else
+    if not test -n "$task_function"
+        echo-ERROR "USAGE: echo-task_WRAP (REQ:task_function) (OPT:message)"
+        return 1
+    end
+    if not test -n "$message"
+        # NOTE: If message wasn't given, use the function name as message.
+        set --function message "`$task_function`"
+    end
+    if not functions --query $task_function
         echo-ERROR "Function with given name does not exist: $task_function"
         return 1
+    else
+        echo-task_INIT $message
+        eval "$task_function"
+        echo-task_DONE $message
     end
 end
 
@@ -250,21 +258,29 @@ end
 # TODO: Add `--description.`
 # TODO: Validate arguments.
 # TODO: Use `argparse`.
+# TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-SECTION_WRAP function_that_prints_abc "SECTION"
 # OUTPUT(stdout): ```
-# \n>>> INIT: SECTION
+# \n>>> INIT:
 # abc
 # <<< DONE: SECTION\n```
 function echo-section_WRAP \
     --argument-names section_function message
-    # TODO: Don't just get `$message`, get the entire `$argv`.
-    if functions --query $section_function
+    if not test -n "$section_function"
+        echo-ERROR "USAGE: echo-section_WRAP (REQ:section_function) (OPT:message)"
+        return 1
+    end
+    if not test -n "$message"
+        # NOTE: If message wasn't given, use the function name as message.
+        set --function message "`$section_function`"
+    end
+    if not functions --query $section_function
+        echo-ERROR "Function with given name does not exist: $section_function"
+        return 1
+    else
         echo-section_INIT $message
         eval "$section_function"
         echo-section_DONE $message
-    else
-        echo-ERROR "Function with given name does not exist: $section_function"
-        return 1
     end
 end
 
