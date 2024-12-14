@@ -74,6 +74,13 @@ function is_inside_git_repo_EXPLICIT \
 end
 
 # ECHO VARIANTS {{{2
+# TODO: Validate arguments in all variants.
+# TODO: Pick appropriate color to print `echo` with.
+# TODO: Add `--description` and provide regular description as well.
+# TODO: Handle piping in all variants. Look at `echo-ERROR` for inspiration.
+# TODO: Use `argparse` as much as possible. and where not possible use
+#       `echo-USAGE` to print basic usage info.
+
 # ECHO REFERENCE {{{3
 # NOTE: Variants inspired by neovim's '`vim.log.levels.*`.
 # TODO: Sync function definitions/description with this table's contents.
@@ -93,69 +100,66 @@ end
 # echo-USAGE         | Print message as a function's usage info(`USAGE`).     |
 #                    |                                                        |
 # TASKS: ------------+--------------------------------------------------------+
-# echo-task_INIT     | Print message to indicate a task is initiated(`INIT`). |
-# echo-task_DONE     | Print message to indicate a task is done(`DONE`).      |
+# echo-task_INIT     | Print message as a task is initiated(`INIT`).          |
+# echo-task_DONE     | Print message as a task is done(`DONE`).               |
 # echo-task_WRAP     | Run task(given function) and print message             |
 #                    | before(`INIT`) and after(`DONE`) it's execution.       |
 #                    |                                                        |
 # SECTIONS: ---------+--------------------------------------------------------+
-# echo-section_INIT  | Print message as a section beginning (`INIT`).         |
-# echo-section_DONE  | Print message as a section ending (`DONE`).            |
+# echo-section_INIT  | Print message as a section beginning(`INIT`).          |
+# echo-section_DONE  | Print message as a section ending(`DONE`).             |
 # echo-section_WRAP  | Run section(given function) and print messages at      |
 #                    | the beginning(`INIT`) and ending(`DONE`) of execution. |
 # -------------------+--------------------------------------------------------+
 
 # ECHO LIB {{{3
-# TODO: Validate arguments.
-# TODO: Use `argparse`.
-# TODO: Handle piping. Look at `echo-ERROR` for inspiration.
 function _echo_with_customized_message \
     --description "" \
     --argument-names message prefix_label message_color
-    set_color normal # Reset all formatting, not just color
+    # NOTE: When resetting use `normal` to reset all formatting, not just color.
+    set_color normal
     set_color $message_color
     echo -s \
         (set_color --bold) \
         $prefix_label": " \
         (set_color --dim --italic) \
         $message
-    set_color normal # Reset all formatting, not just color
+    set_color normal
 end
 
 
 # ECHO LOG LEVELS {{{3
 # ECHO INFO
+# Print message as informational(`INFO`)
 # USAGE: `echo-INFO "Formatting files in this directory"
 # OUTPUT(stdout): `INFO: Formatting files in this directory.`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
 function echo-INFO \
-    --description "Print message as informational('INFO')"
+    --description "Print message as informational"
     _echo_with_customized_message $argv INFO $fish_color_quote
 end
 
 # ECHO DEBUG
+# Print message for debugging purposes(`DEBUG`)
 # USAGE: `echo-DEBUG "Can you see me?"
 # OUTPUT(stdout): `DEBUG: Can you see me?`
-# TODO: Receive message from `stdin` pipe(SEE: `echo-ERROR`).
-# TODO: Pick appropriate color
 function echo-DEBUG \
-    --description "Print message for debugging purposes('DEBUG')"
+    --description "Print message for debugging purposes"
     _echo_with_customized_message $argv DEBUG $fish_color_param
 end
 
 # ECHO WARN
-# USAGE: `echo-WARN "This section is being deprecated."
-# OUTPUT(stdout): `WARN: This section is being deprecated.`
-# TODO: Pick appropriate color
+# Print message as warning(`WARN`) to `stdout`.
+# USAGE: `echo-WARN "This will be deprecated soon."
+# OUTPUT(stdout): `WARN: This will be deprecated soon.`
 # NOTE: Printing to`stdout`(i.e. not `stderr`) on purpose because this is
 # a warning and not an error.
 function echo-WARN \
-    --description "Print message as warning('WARN') to `stdout`"
+    --description "Print message as warning to `stdout`"
     _echo_with_customized_message $argv WARN $fish_color_operator
 end
 
 # ECHO ERROR
+# Print message as error(`ERROR`) with status code to `stderr`.
 # TODO: Should return a non-zero status code?
 # TODO: Accept error status code as an argument?
 # USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
@@ -163,7 +167,7 @@ end
 # USAGE 2: `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echo-ERROR \
-    --description "Print to stderr and exit with error status"
+    --description "Print message as error to `stderr`"
     # SETUP:
     # Use current theme's error color
     set_color $fish_color_error
@@ -197,34 +201,38 @@ end
 
 # ECHO MISC {{{3
 # ECHO USAGE
+# Print message as a function's usage info(`USAGE`)
 # USAGE: `echo-USAGE "xxx (REQ:option1) (OPT:flag)"
 # OUTPUT(stdout): `USAGE: xxx (REQ:option1) (OPT:flag)`
-# TODO: Pick appropriate color
 function echo-USAGE \
-    --description "Print message as a function's usage info('USAGE')"
+    --description "Print message as a function's usage info"
     _echo_with_customized_message "`$argv`" USAGE $fish_color_quote
 end
 
 # ECHO TASKS {{{3
-# TODO: Add `--description.`
+# ECHO TASK INIT
+# Print message as a task is initiated(`INIT`)
 # USAGE: `echo-task_INIT "Started task"
 # OUTPUT(stdout): `INIT: Started task`
 function echo-task_INIT \
+    --description "Print message as a task is initiated" \
     --argument-names message
     _echo_with_customized_message $message INIT $fish_color_operator
 end
 
-# TODO: Add `--description.`
+# ECHO TASK DONE
+# Print message as a task is done(`DONE`).
 # USAGE: `echo-task_DONE "Completed task"
 # OUTPUT(stdout): `DONE: Completed task`
 function echo-task_DONE \
+    --description "Print message as a task is done" \
     --argument-names message
     _echo_with_customized_message $message DONE $fish_color_operator
 end
 
-# TODO: Add `--description.`
-# TODO: Validate arguments.
-# TODO: Use `argparse`.
+# ECHO TASK WRAP
+# Run task(given function) and print message before(`INIT`) and after(`DONE`)
+# it's execution.
 # TODO: Include task function name in message output?
 # TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-task_WRAP function_that_prints_abc "Running task"
@@ -233,9 +241,10 @@ end
 # abc
 # DONE: Running task```
 function echo-task_WRAP \
+    --description "Print message before/after given task is executed" \
     --argument-names task_function message
     if not test -n "$task_function"
-        echo-ERROR "USAGE: echo-task_WRAP (REQ:task_function) (OPT:message)"
+        echo-USAGE "echo-task_WRAP (REQ:task_function) (OPT:message)"
         return 1
     end
     if not test -n "$message"
@@ -253,28 +262,32 @@ function echo-task_WRAP \
 end
 
 # ECHO SECTIONS {{{3
+# ECHO SECTION INIT
+# Print message as a section beginning (`INIT`)
 # TODO: Add indention hierarchy for child sections?
-# TODO: Add `--description.`
 # USAGE: `echo-section_INIT "Configuration Section"
 # OUTPUT(stdout): ```\n>>> INIT: Configuration Section`
 function echo-section_INIT \
+    --description "Print message as a section beginning" \
     --argument-names message
-    echo # Blank line intentional
+    echo # Blank line intended
     _echo_with_customized_message $message ">>> INIT" $fish_color_operator
 end
 
-# TODO: Add `--description.`
+# ECHO SECTION DONE
+# Print message as a section ending (`DONE`)
 # USAGE: `echo-section_DONE "Configuration Section"
 # OUTPUT(stdout): ```<<< DONE: Configuration Section\n`
 function echo-section_DONE \
+    --description "Print message as a section ending" \
     --argument-names message
     _echo_with_customized_message $message "<<< DONE" $fish_color_operator
-    echo # Blank line intentional
+    echo # Blank line intended
 end
 
-# TODO: Add `--description.`
-# TODO: Validate arguments.
-# TODO: Use `argparse`.
+# ECHO SECTION WRAP
+# Run section(given function) and print messages at      the beginning(`INIT`)
+# and ending(`DONE`) of execution.
 # TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-SECTION_WRAP function_that_prints_abc "SECTION"
 # OUTPUT(stdout): ```
@@ -282,9 +295,10 @@ end
 # abc
 # <<< DONE: SECTION\n```
 function echo-section_WRAP \
+    --description "Print message before/after given section is executed" \
     --argument-names section_function message
     if not test -n "$section_function"
-        echo-ERROR "USAGE: echo-section_WRAP (REQ:section_function) (OPT:message)"
+        echo-USAGE "echo-section_WRAP (REQ:section_function) (OPT:message)`"
         return 1
     end
     if not test -n "$message"
@@ -292,7 +306,7 @@ function echo-section_WRAP \
         set --function message "`$section_function`"
     end
     if not functions --query $section_function
-        echo-ERROR "Function with given name does not exist: $section_function"
+        echo-ERROR "Function with given name does not exist: `$section_function`"
         return 1
     else
         echo-section_INIT $message
