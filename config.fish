@@ -139,12 +139,17 @@ function echo-INFO \
 end
 
 # ECHO DEBUG
+# TODO: Consider `echo-DEBUG` variants for variable/message/function.
 # Print message for debugging purposes(`DEBUG`)
-# USAGE: `echo-DEBUG "Can you see me?"
-# OUTPUT(stdout): `DEBUG: Can you see me?`
+# USAGE 1: `echo-DEBUG "Incrmenting counter"
+# OUTPUT(stdout): `DEBUG: Incrementing counter
+# USAGE 2: `ECHO_DEBUG_DISABLE=1; echo-DEBUG "Can you see me?"
+# OUTPUT(stdout): ``
 function echo-DEBUG \
     --description "Print message for debugging purposes"
-    _echo_with_customized_message $argv DEBUG $fish_color_param
+    if not test -n "$ECHO_DEBUG_DISABLE"
+        _echo_with_customized_message $argv DEBUG $fish_color_param
+    end
 end
 
 # ECHO WARN
