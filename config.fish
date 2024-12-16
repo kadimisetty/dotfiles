@@ -403,6 +403,7 @@ bind \e\t --mode insert complete-and-search
 # process is closed, there is a message displayed "Send job 1 (vim) to
 # foreground" and the shell is also unresponsive awaiting a newline. Make
 # these side-effects not show.
+bind \ez fg
 bind \ez --mode default fg
 bind \ez --mode insert fg
 
@@ -881,6 +882,7 @@ function _make --description make --wraps make
     make
     commandline --function repaint
 end
+bind \em\em _make
 bind \em\em --mode default _make
 bind \em\em --mode insert _make
 # `make build` {{{2
@@ -892,6 +894,7 @@ function _make_build --description "make build" --wraps "make build"
     make build
     commandline --function repaint
 end
+bind \em\eb _make_build
 bind \em\eb --mode default _make_build
 bind \em\eb --mode insert _make_build
 # `make run` {{{2
@@ -903,6 +906,7 @@ function _make_run --description "make run" --wraps "make run"
     make run
     commandline --function repaint
 end
+bind \em\er _make_run
 bind \em\er --mode default _make_run
 bind \em\er --mode insert _make_run
 # `make clean` {{{2
@@ -914,6 +918,7 @@ function _make_clean --description "make clean" --wraps "make clean"
     make clean
     commandline --function repaint
 end
+bind \em\ec _make_clean
 bind \em\ec --mode default _make_clean
 bind \em\ec --mode insert _make_clean
 # `make fmt` {{{2
@@ -925,6 +930,7 @@ function _make_fmt --description "make fmt" --wraps "make fmt"
     make fmt
     commandline --function repaint
 end
+bind \em\ef _make_fmt
 bind \em\ef --mode default _make_fmt
 bind \em\ef --mode insert _make_fmt
 # `make test` {{{2
@@ -936,6 +942,7 @@ function _make_test --description "make test" --wraps "make test"
     make test
     commandline --function repaint
 end
+bind \em\et _make_test
 bind \em\et --mode default _make_test
 bind \em\et --mode insert _make_test
 
@@ -1040,6 +1047,7 @@ function _fzf_search_history --description "Search command history with `fzf`"
     commandline --function repaint
 end
 # Trigger fzf search with `<C-r>`
+bind \cr _fzf_search_history
 bind \cr --mode default _fzf_search_history
 bind \cr --mode insert _fzf_search_history
 
