@@ -2326,11 +2326,29 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "Move help to a new tab",
 })
 
--- SOFT WRAPS {{{2
--- Add command `Wrap` to set settings required for soft wrap:
--- TODO: Move to user commands
--- TODO: Use lua
-vim.cmd([[ command! -nargs=* Wrap set wrap linebreak nolist ]])
+-- WRAP TEXT {{{2
+-- SOFT WRAP TEXT (TEXT VIEW){{{3
+-- Soft wrap text view for readability etc.
+-- NOTE: Cnly the displayed "text view" is wrapped, not actual text content.
+vim.api.nvim_create_user_command("WrapSoft", function()
+  vim.wo.wrap = true -- Wrap only on display not content
+  vim.wo.linebeak = true -- Break lines smartly
+end, {
+  bang = true,
+  nargs = 0,
+  desc = "Soft warp text view for readability(text not changed)",
+})
+
+-- TODO: HARD WRAP TEXT (TEXT CONTENT){{{3
+-- Hard wrap text content for readability etc.
+-- NOTE: Text content is changed if necessary.
+vim.api.nvim_create_user_command("WrapSoft", function()
+  -- TODO: This is a stub, Customize hard wrap with preferences. Be gentle.
+end, {
+  bang = true,
+  nargs = 0,
+  desc = "Hard warp text content(text might change)",
+})
 
 -- SELECT ITEM AND CLOSE QUICKFIX/LOCLIST  {{{2
 vim.api.nvim_create_autocmd("FileType", {
