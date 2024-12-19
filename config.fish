@@ -608,15 +608,11 @@ end
 # SPACER PROMPT COMPONENT {{{3
 # TODO: Squash condition guards
 function _spacer_prompt_component \
-    --argument-names number_of_spaces
-    if not test -n "$number_of_spaces" # assert argument provided
-        return
-    end
-    if not math $number_of_spaces &>/dev/null # assert argument is a numnber
-        return
-    end
-    if test $number_of_spaces -le 0 &>/dev/null # assert argument number is >= 0
-        return
+    --argument-names space_count
+    if not test -n "$space_count" # Argument exists?
+        or not math $space_count &>/dev/null # Argument is a number?
+        or test $space_count -le 0 &>/dev/null # Argument is greater than 0?
+        return 1
     end
     echo -ns (string repeat --count $number_of_spaces " ")
 end
