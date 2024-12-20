@@ -614,7 +614,7 @@ function _spacer_prompt_component \
         or test $space_count -le 0 &>/dev/null # Argument is greater than 0?
         return 1
     end
-    echo -ns (string repeat --count $number_of_spaces " ")
+    echo -ns (string repeat --count $space_count " ")
 end
 
 # ROOT PROMPT COMPONENT {{{3
