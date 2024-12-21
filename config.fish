@@ -41,8 +41,9 @@ fundle init
 # TODO
 
 # LIB {{{1
-# IS `pwd` INSIDE GIT REPO? (STATUS/EXPLICIT) {{{2
-# Reports if `pwd` is within a git repo by setting status code {{{3
+# GIT LIB {{{2
+# IS `pwd` INSIDE GIT REPO? (STATUS/EXPLICIT) {{{3
+# Reports if `pwd` is within a git repo by setting status code
 # USAGE: ```
 # is_inside_git_repo_STATUS
 # if test $status -eq 0
@@ -56,7 +57,7 @@ function is_inside_git_repo_STATUS \
         (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
 end
 
-# Reports if `pwd` is within a git repo explicitly with "true"/"false" {{{3
+# Reports if `pwd` is within a git repo explicitly with "true"/"false"
 # USAGE: ```
 # if test true = (is_inside_git_repo_EXPLICIT)
 #   echo "OK"
@@ -72,6 +73,27 @@ function is_inside_git_repo_EXPLICIT \
         echo -ns false
     end
 end
+
+# TODO: Docs and usage
+# TODO: Consider failure cases
+function _reponame_from_git_repo_url \
+    --argument-names repo_url
+    echo $repo_url |
+        tr -d '[:space:]' |
+        string split / --right --field 2 |
+        string split '.git' --right --field 1
+end
+
+# TODO: Docs and usage
+# TODO: Consider failure cases
+function _username_from_git_repo_url \
+    --argument-names repo_url
+    echo $repo_url |
+        tr -d "[:space:]" |
+        string split / --right --field 1 |
+        string split : --right --field 2
+end
+
 
 # ECHO VARIANTS {{{2
 # TODO: Validate arguments in all variants.
@@ -943,13 +965,6 @@ bind \em\et --mode default _make_test
 bind \em\et --mode insert _make_test
 
 
-# GIT {{{1
-# TODO: Import the git aliases section back here as soon as possible.
-source ~/code/personal/fish-git-thing/gitaliases.fish
-# `cd` upwards to root git directory
-# TODO: Accept argument sub directory with heirarchy calculated from git root
-# directory, like in fugitive's `Gcd`.
-alias gcd='cd (git rev-parse --show-toplevel)'
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
@@ -1483,6 +1498,62 @@ alias grep-IGNORECASE="grep --ignore-case"
 
 
 # GIT {{{1
+
+# `cd` UPWARDS TO ROOT GIT DIRECTORY {{{2
+# TODO: Accept argument sub directory with hierarchy calculated from git root
+# directory, like in fugitive's `Gcd`.
+alias g-cd='cd (git rev-parse --show-toplevel)'
+
+# GIT CUSTOM ALIASES {{{2
+# TODO: Import finished WIP aliases from this external file back here ASAP.
+source ~/code/personal/fish-git-thing/gitaliases.fish
+
+# GIT CLONE {{{2
+# GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
+function gclone-cd \
+    --description "`git clone`s given repo url and `cd` inside" \
+    --argument-names repo_url target_directory_name
+    if test -z $repo_url
+        echo-ERROR "Git repo url not given"
+        return 1
+    else
+        if not test -z $target_directory_name
+            git clone $repo_url $target_directory_name
+            and cd $target_directory_name
+        else
+            # NOTE: Let git handle failure cases like if a directory with name
+            # of repo exists in current directory.
+            git clone $repo_url
+            and cd (_reponame_from_git_repo_url $repo_url)
+        end
+    end
+end
+
+# GIT CLONE WITH USERNAME + REPO NAME AND THEN `cd` INTO IT {{{3
+function gclone-cd_USERNAME \
+    --description "`git clone`s given repo url with username and `cd` inside" \
+    --argument-names repo_url target_directory_name
+    if test -z $repo_url
+        echo-ERROR "Git repo url not given"
+        return 1
+    else
+        if not test -z $target_directory_name
+            git clone $repo_url $target_directory_name
+            and cd $target_directory_name
+        else
+            set --local target_directory_name \
+                (string join "-" \
+              (_username_from_git_repo_url $repo_url) \
+              (_reponame_from_git_repo_url $repo_url ) \
+              )
+            git clone $repo_url $target_directory_name
+            and cd $target_directory_name
+        end
+    end
+end
+
+
+
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
 #         1. Make user specify stash number explicitly, even for the latest one.
