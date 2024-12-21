@@ -42,36 +42,17 @@ fundle init
 
 # LIB {{{1
 # GIT LIB {{{2
-# IS `pwd` INSIDE GIT REPO? (STATUS/EXPLICIT) {{{3
-# Reports if `pwd` is within a git repo by setting status code
+# IS `pwd` INSIDE GIT REPO? {{{3
+# Check if `pwd` is within a git repo by setting status code
 # USAGE: ```
-# is_inside_git_repo_STATUS
-# if test $status -eq 0
-#   echo "OK"
+# if is_pwd_inside_git_repo
+#   echo "INSIDE GIT REPO"
 # else
-#   echo "FAIL"
+#   echo "NOT INSIDE GIT REPO"
 # end```
-function is_inside_git_repo_STATUS \
+function is_pwd_inside_git_repo \
     --description "Is `pwd` within a git repo? (with status code)"
-    test true = \
-        (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
-end
-
-# Reports if `pwd` is within a git repo explicitly with "true"/"false"
-# USAGE: ```
-# if test true = (is_inside_git_repo_EXPLICIT)
-#   echo "OK"
-# else
-#   echo "FAIL";
-# end```
-function is_inside_git_repo_EXPLICIT \
-    --description "Is `pwd` within a git repo? (with true/false)"
-    if test true = \
-            (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
-        echo -ns true
-    else
-        echo -ns false
-    end
+    test true = (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
 end
 
 # TODO: Docs and usage
@@ -763,7 +744,7 @@ end
 function _git_commit_count_indicator_prompt_component \
     --argument-names left_margin right_margin date_specificier
     # TODO: Set `date_specificier` default to "midnight"
-    if test true = (is_inside_git_repo_EXPLICIT)
+    if is_pwd_inside_git_repo
         set --function symbol_no_commit " " # ALTERNATES: 󱓼
         set --function symbol_one_or_more_commits " " # ALTERNATES:    󱓻
         _spacer_prompt_component $left_margin
