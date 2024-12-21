@@ -40,24 +40,30 @@ fundle init
 # CONFIGURE PLUGINS:
 # TODO
 
+
 # LIB {{{1
+# TODO: Add testing.
+
 # GIT LIB {{{2
 # IS `pwd` INSIDE GIT REPO? {{{3
 # Check if `pwd` is within a git repo by setting status code
 # USAGE: ```
-# if is_pwd_inside_git_repo
-#   echo "INSIDE GIT REPO"
+# if is_pwd_in_git_repo
+#   echo "IN GIT REPO"
 # else
-#   echo "NOT INSIDE GIT REPO"
+#   echo "NOT IN GIT REPO"
 # end```
-function is_pwd_inside_git_repo \
+function is_pwd_in_git_repo \
     --description "Is `pwd` within a git repo? (with status code)"
     test true = (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
 end
 
-# TODO: Docs and usage
-# TODO: Consider failure cases
+# REPO NAME FROM GIT REPO URL {{{3
+# Repo name from given git url
+# USAGE: `_reponame_from_git_repo_url git@github.com:USERNAME/REPONAME.git`
+# OUTPUT: `REPONAME`
 function _reponame_from_git_repo_url \
+    --description "Repo name from given git url" \
     --argument-names repo_url
     echo $repo_url |
         tr -d '[:space:]' |
@@ -65,9 +71,12 @@ function _reponame_from_git_repo_url \
         string split '.git' --right --field 1
 end
 
-# TODO: Docs and usage
-# TODO: Consider failure cases
+# USER NAME FROM GIT REPO URL {{{3
+# User name from given git url
+# USAGE: `_username_from_git_repo_url git@github.com:USERNAME/REPONAME.git`
+# OUTPUT: `USERNAME`
 function _username_from_git_repo_url \
+    --description "User name from given git url" \
     --argument-names repo_url
     echo $repo_url |
         tr -d "[:space:]" |
@@ -744,7 +753,7 @@ end
 function _git_commit_count_indicator_prompt_component \
     --argument-names left_margin right_margin date_specificier
     # TODO: Set `date_specificier` default to "midnight"
-    if is_pwd_inside_git_repo
+    if is_pwd_in_git_repo
         set --function symbol_no_commit " " # ALTERNATES: 󱓼
         set --function symbol_one_or_more_commits " " # ALTERNATES:    󱓻
         _spacer_prompt_component $left_margin
