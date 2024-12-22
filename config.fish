@@ -753,6 +753,12 @@ end
 function _git_commit_count_indicator_prompt_component \
     --argument-names left_margin right_margin date_specificier
     # TODO: Set `date_specificier` default to "midnight"
+    # NOTE: GUARD: Restrict to a child of atleast one path in $`parent_paths`.
+    set --function parent_paths $argv[4..] # NOTE: Tweak if arguments change.
+    if not _is_cwd_inside_any_paths $parent_paths
+        return
+    end
+    # NOTE: GUARD: Restrict to git repos only
     if is_pwd_in_git_repo
         set --function symbol_no_commit " " # ALTERNATES: 󱓼
         set --function symbol_one_or_more_commits " " # ALTERNATES:    󱓻
@@ -792,7 +798,7 @@ function fish_right_prompt
     # NOTE: KEEP AT TOP: Previous command status has to be captured at top.
     set --function previous_command_status $status
     _error_status_prompt_component $previous_command_status 1 0
-    _git_commit_count_indicator_prompt_component 1 0 midnight
+    _git_commit_count_indicator_prompt_component 1 0 midnight ~/code/personal/
     _private_mode_component 1 0
     _background_jon_prompt_component 1 0
     _git_prompt_component 0 0
