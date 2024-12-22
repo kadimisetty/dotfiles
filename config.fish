@@ -344,6 +344,50 @@ function source_if_exists \
     end
 end
 
+# PATH RELATIONSHIPS {{{2
+# IS PATH INSIDE ANOTHER PATH? {{{3
+# USAGE 1: `_is_path_inside_path ~/parent/ ~/parent/child/`
+# OUTPUT: None, but `$status` is `0` when true
+# USAGE 2: `_is_path_inside_path ~/parent/ ~/child/`
+# OUTPUT: None, but `$status` is `1` when false
+function _is_path_inside_path \
+    --description "Is given path inside another given path?" \
+    --argument-names given_parent_path given_child_path
+    set --function child (path resolve $given_child_path)
+    set --function parent (path resolve $given_parent_path)
+    # NOTE: It's acceptable if '`$child` and `$parent` paths are the same.
+    set --function pattern "^$parent(/.*)?\$"
+    string match --regex --entire "$pattern" "$child" &>/dev/null
+end
+
+# IS CURRENT DIRECTORY INSIDE PATH? {{{3
+# USAGE 1: `_is_cwd_inside_path ~/parent/`
+# OUTPUT: None, but `$status` is `0` when true
+# USAGE 2: `_is_cwd_inside_path ~/not_parent/`
+# OUTPUT: None, but `$status` is `1` when false
+function _is_cwd_inside_path \
+    --description "Is current directory inside given path?" \
+    --argument-names given_parent_path
+    _is_path_inside_path $given_parent_path .
+end
+
+# IS CURRENT DIRECTORY INSIDE ANY PATHS? {{{3
+# USAGE 1: `_is_cwd_inside_any_paths ~/parent1/ ~/parent2/`
+# OUTPUT: None, but `$status` is `0` when true
+# USAGE 2: `_is_cwd_inside_path ~/not_parent1/ ~/not_parent2/`
+# OUTPUT: None, but `$status` is `1` when false
+function _is_cwd_inside_any_paths \
+    --description "Is current directory inside given path?"
+    set --function parent_paths $argv
+    set --function result 1
+    for parent_path in $parent_paths
+        if _is_cwd_inside_path $parent_path
+            return 0 # NOTE: SUCCESS: Inside atleast one of the `$parent_paths`
+        end
+    end
+    return 1 # NOTE: FAILURE: Inside none of the `$parent_paths`
+end
+
 
 # HISTORY {{{1
 # BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
