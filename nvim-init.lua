@@ -682,13 +682,16 @@ local haskell_augroup = vim.api.nvim_create_augroup("haskell_augroup", {})
 
 -- Set `hindent` as `formatprg`
 -- NOTE: Requires `hindent` in `$PATH`
--- TODO: Check if `hindent` in `$PATH`
--- TODO: Call via `stack` (like `ALE` does for `hlint`)
+-- TODO: Call via `stack` (like `ALE` does for `hlint`)?
 vim.api.nvim_create_autocmd({ "FileType" }, {
+  desc = "Set `hindent` as `formatprg` for haskell files",
   group = haskell_augroup,
   pattern = { "haskell" },
-  command = [[ setlocal formatprg=hindent ]],
-  desc = "Set `hindent` as `formatprg`",
+  callback = function()
+    if vim.fn.executable("hindent") == 1 then -- EXECUTABLE EXISTS? 1:YES, 0:NO
+      vim.bo.formatprg = "hindent"
+    end
+  end,
 })
 
 -- Insert module header when creating new haskell file
