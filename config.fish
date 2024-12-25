@@ -1708,12 +1708,19 @@ alias gbranch-description_EDIT='git branch --edit-description'
 function gbranch-description_SHOW \
     --argument-names branch_name \
     --wraps "git branch" # NOTE: Wrapping `git branch` only for completion sake
-    # FIXME: Use current branch name if the branch_name argument is not
-    # supplied. Consider `git symbolic-ref --short HEAD` to get that name.
     begin
-        git config branch.$branch_name.description # NOTE: prints desc if OK
-        if test $status -ne 0
-            echo-ERROR "No description available for git branch: $branch_name"
+        if not is_pwd_in_git_repo
+            echo-ERROR "Not in git repo"
+        else
+            if test -z $branch_name
+                # NOTE: Use current branch name if branch_name not supplied.
+                set --function branch_name (git symbolic-ref --short HEAD)
+            end
+            # NOTE: Print description if reading description is successful
+            git config branch.$branch_name.description
+            if test $status -ne 0
+                echo-ERROR "No description available for branch: $branch_name"
+            end
         end
     end
 end
