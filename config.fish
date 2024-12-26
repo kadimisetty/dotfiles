@@ -125,18 +125,27 @@ end
 # -------------------+--------------------------------------------------------+
 
 # ECHO LIB {{{3
+# TODO: Replace `$message` with `$argv` everywhere possible.
+
+# TODO: Add proper docs.
+# TODO: Validate arguments.
+# TODO: Make `message` the last argument and consider it  "`$argv` remainder".
+# NOTE: `should_invert` is a "boolean" i.e. values are "true"/"false" strings.
 function _echo_with_customized_message \
     --description "" \
-    --argument-names message prefix_label message_color
-    # NOTE: When resetting use `normal` to reset all formatting, not just color.
-    set_color normal
-    set_color $message_color
-    echo -s \
-        (set_color --bold) \
-        $prefix_label": " \
-        (set_color --dim --italic) \
-        $message
-    set_color normal
+    --argument-names prefix_label message_color should_invert message
+    if test -z $should_invert; or test $should_invert = false
+        set_color $message_color --bold
+        echo -ns $prefix_label": "
+        set_color normal
+    else # do invert
+        set_color $message_color --bold --reverse
+        echo -ns $prefix_label":"
+        set_color normal
+        echo -ns " "
+    end
+    set_color --italic
+    echo $message
 end
 
 
@@ -160,7 +169,7 @@ end
 function echo-DEBUG \
     --description "Print message for debugging purposes"
     if not test -n "$ECHO_DEBUG_DISABLE"
-        _echo_with_customized_message $argv DEBUG $fish_color_param
+        _echo_with_customized_message DEBUG $fish_color_param true $argv
     end
 end
 
@@ -172,7 +181,7 @@ end
 # a warning and not an error.
 function echo-WARN \
     --description "Print message as warning to `stdout`"
-    _echo_with_customized_message $argv WARN $fish_color_operator
+    _echo_with_customized_message WARN $fish_color_operator false $argv
 end
 
 # ECHO ERROR
@@ -223,7 +232,7 @@ end
 # OUTPUT(stdout): `USAGE: xxx (REQ:option1) (OPT:flag)`
 function echo-USAGE \
     --description "Print message as a function's usage info"
-    _echo_with_customized_message "`$argv`" USAGE $fish_color_quote
+    _echo_with_customized_message USAGE $fish_color_quote false "`$argv`"
 end
 
 # ECHO TASKS {{{3
@@ -234,7 +243,7 @@ end
 function echo-task_INIT \
     --description "Print message as a task is initiated" \
     --argument-names message
-    _echo_with_customized_message $message INIT $fish_color_operator
+    _echo_with_customized_message INIT $fish_color_operator false $message
 end
 
 # ECHO TASK DONE
@@ -244,7 +253,7 @@ end
 function echo-task_DONE \
     --description "Print message as a task is done" \
     --argument-names message
-    _echo_with_customized_message $message DONE $fish_color_operator
+    _echo_with_customized_message DONE $fish_color_operator false $message
 end
 
 # ECHO TASK WRAP
@@ -288,7 +297,7 @@ function echo-section_INIT \
     --description "Print message as a section beginning" \
     --argument-names message
     echo # Blank line intended
-    _echo_with_customized_message $message ">>> INIT" $fish_color_operator
+    _echo_with_customized_message ">>> INIT" $fish_color_operator false $message
 end
 
 # ECHO SECTION DONE
@@ -298,7 +307,7 @@ end
 function echo-section_DONE \
     --description "Print message as a section ending" \
     --argument-names message
-    _echo_with_customized_message $message "<<< DONE" $fish_color_operator
+    _echo_with_customized_message "<<< DONE" $fish_color_operator false $message
     echo # Blank line intended
 end
 
