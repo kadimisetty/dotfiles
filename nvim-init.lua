@@ -2576,9 +2576,10 @@ vim.keymap.set("i", "<m-space>", "<space><c-o>h", {
 
 -- USE S-TAB TO DE-INDENT IN INSERT MODE {{{2
 -- TODO: Convert to lua
-vim.cmd([[
-inoremap <s-tab> <c-d>
-]])
+vim.keymap.set("i", "<s-tab>", "<c-d>", {
+  silent = true,
+  desc = "Delete indent",
+})
 
 -- CUSTOMIZE HELP OUTLINE(`gO`) {{{2
 -- TODO:
