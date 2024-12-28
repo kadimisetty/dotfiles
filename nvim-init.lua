@@ -2566,16 +2566,26 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- INSERT SPACE WITHOUT MOVING CURSOR IN INSERT MODE (`<m-space>`) {{{2
--- TODO: Extend to include `<tab>` for tabs as well.
--- TODO: Accept count somehow (do consider that this is in insert mode).
+-- INSERT WHITESPACE WITHOUT MOVING CURSOR IN INSERT MODE {{{2
+-- TODO: Consider variants that accept a count (note that this is insert mode).
+-- SPACE {{{3
 vim.keymap.set("i", "<m-space>", "<space><c-o>h", {
   silent = true,
   desc = "Insert space without moving cursor",
 })
 
--- USE S-TAB TO DE-INDENT IN INSERT MODE {{{2
--- TODO: Convert to lua
+-- TAB {{{3
+vim.keymap.set("i", "<m-tab>", function()
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "i\t", bang = true })
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+  vim.cmd.startinsert()
+end, {
+  silent = true,
+  desc = "Insert tab without moving cursor",
+})
+
+-- DE-INDENT IN INSERT MODE WITH `<s-tab>`{{{2
 vim.keymap.set("i", "<s-tab>", "<c-d>", {
   silent = true,
   desc = "Delete indent",
