@@ -186,43 +186,40 @@ end
 
 # ECHO ERROR
 # Print message as error(`ERROR`) with status code to `stderr`.
-# TODO: Should return a non-zero status code?
+# NOTE: Writes to stderr
 # TODO: Accept error status code as an argument?
+# TODO: Update `echo_builder` to handle printing to `stderr` on demand and
+# replace this printing section with it.
 # USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 # USAGE 2: `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echo-ERROR \
     --description "Print message as error to `stderr`"
-    # SETUP:
-    # Use current theme's error color
-    set_color $fish_color_error
-    # Init message to eventually print
-    set --function msg $argv
-    # APPEND PIPED INPUTS:
+    set --function message $argv
+    # Append piped inputs if getting value from pipe
     if not isatty stdin
-        # Append a space f any arguments were supplied
+        # Add space if any arguments at all were supplied
         if test (count $argv) -ne 0
-            set --append msg " "
+            set --append message " "
         end
-        # Append piped inputs
+        # Add piped inputs
         cat /dev/stdin | while read each_line
-            set --append msg $each_line
+            set --append message $each_line
         end
     end
-    # WRITE TO STDERR:
-    # Bail if no arguments were given/piped in
-    if test "$msg" = "" || test "$msg" = " "
-        # Print error (i.e. no arguments given) to stderr
-        echo "echo-ERROR: ERROR: No argument(s) provided" >&2
-    else
-        # Print error to stderr as desired
-        echo -s "ERROR: " $msg >&2
+    # Assert message was provided
+    if test -z "$message" # For non-blank add check `(string trim "$message")`
+        # TODO: Use `echo-USAGE` here.
+        set --function message "echo-ERROR: No argument(s) provided"
     end
-    # CLEANUP:
-    # Restore fish shell print color
-    set_color $fish_color_normal
-    return 1 # STATUS CODE 1: ` EPERM 1 operation not permitted
+    set_color $fish_color_error --bold --reverse
+    echo -s "ERROR:" \
+        (set_color normal) \
+        (set_color $fish_color_error --italic) \
+        " $message"
+    set_color normal
+    return 1 # STATUS CODE 1: `EPERM 1 operation not permitted`
 end
 
 # ECHO MISC {{{3
