@@ -1544,7 +1544,6 @@ alias grep-IGNORECASE="grep --ignore-case"
 
 
 # GIT {{{1
-
 # `cd` UPWARDS TO ROOT GIT DIRECTORY {{{2
 # TODO: Accept argument sub directory with hierarchy calculated from git root
 # directory, like in fugitive's `Gcd`.
@@ -1553,6 +1552,15 @@ alias g-cd='cd (git rev-parse --show-toplevel)'
 # GIT CUSTOM ALIASES {{{2
 # TODO: Import finished WIP aliases from this external file back here ASAP.
 source ~/code/personal/fish-git-thing/gitaliases.fish
+
+# GIT ADD {{{2
+alias gadd_FILE='git add' # e.g. `git add ./filename`
+alias gadd-CWD='git add .' # just changes in cwd, not same as `--all`
+alias gadd-ALL='git add --all' # entire repo
+alias gadd_INTERACTIVE='git add --interactive'
+alias gadd_PATCH='git add --patch'
+alias gadd-TRACKED='git add --update'
+alias gadd-TRACKED_AND_UNTRACKED='git add --all'
 
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
