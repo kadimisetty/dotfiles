@@ -5660,6 +5660,13 @@ run_lazy_setup({
       event = "VeryLazy",
     },
 
+    -- orphans - show abandoned plugins {{{3
+    {
+      "ZWindL/orphans.nvim",
+      event = "VeryLazy",
+      opts = {},
+    },
+
     -- fidget - LSP loading indicator {{{3
     {
       "j-hui/fidget.nvim",
