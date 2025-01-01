@@ -1553,6 +1553,15 @@ alias g-cd='cd (git rev-parse --show-toplevel)'
 # TODO: Import finished WIP aliases from this external file back here ASAP.
 source ~/code/personal/fish-git-thing/gitaliases.fish
 
+# GIT PULL {{{2
+# `tldr`: Download changes from default remote repository and merge it:
+alias gpull='git pull' # `…pull` = fetch + merge
+# `tldr`: Download changes from default remote repository and use fast-forward:
+alias gpull-rebase='git pull --rebase' # `…pull --rebase` = fetch + rebase
+# TODO: `tldr`: Download changes from given remote repository and branch, then
+# merge them into HEAD:`git pull remote_name branch`. Note that it takes
+# "remote_name" and "branch". Consider making "branch" as "main" by default.
+
 # GIT ADD {{{2
 alias gadd_FILE='git add' # e.g. `git add ./filename`
 alias gadd-CWD='git add .' # just changes in cwd, not same as `--all`
