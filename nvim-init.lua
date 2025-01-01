@@ -3781,15 +3781,30 @@ run_lazy_setup({
       -- TODO: Delete the provided command `EraseBadWhitespace`, I'm using a
       -- different plugin for that.
       init = function()
-        -- Hide trailing whitespace in buffers of given filetype
         vim.api.nvim_create_autocmd("FileType", {
-          desc = "Hide trailing whitespace in buffers of given filetype",
+          desc = "Disable bad whitespace highlighting for given filetypes",
           group = vim.api.nvim_create_augroup("bad_whitespace_augroup", {}),
           pattern = {
-            "alpha", -- startup window plugin
+            "alpha",
             "minimap",
+            -- FIXME: `orphans` isn't being picked right away like the rest, so
+            -- adding a delay before running callback. Upstream issue, but
+            -- re-check at some point in the future - DEC 2024.
+            "orphans",
           },
-          command = [[execute "HideBadWhitespace"]],
+          callback = function()
+            -- NOTE:
+            -- - NO DELAY VERSION: Just `vim.cmd.HideBadWhitespace()`
+            -- - USING SLIGHTLY DELAYED VERSION:
+            --    - Because of `orphan` not being picked up right away.
+            --    - The slight delay will cause a quick glitchy twitch.
+            (function()
+              -- NOTE: Run given command with a one-shot timer.
+              vim.loop
+                .new_timer()
+                :start(6, 0, vim.schedule_wrap(vim.cmd.HideBadWhitespace))
+            end)()
+          end,
         })
       end,
     },
@@ -5663,7 +5678,7 @@ run_lazy_setup({
     -- orphans - show abandoned plugins {{{3
     {
       "ZWindL/orphans.nvim",
-      event = "VeryLazy",
+      cmd = "Orphans",
       opts = {},
     },
 
