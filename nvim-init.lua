@@ -2585,6 +2585,28 @@ end, {
   desc = "Insert tab without moving cursor",
 })
 
+-- NEWLINE {{{3
+-- ABOVE:
+vim.keymap.set("i", "<m-O>", function()
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "O", bang = true })
+  vim.api.nvim_win_set_cursor(0, { cursor_position[1] + 1, cursor_position[2] })
+  vim.cmd.startinsert()
+end, {
+  silent = true,
+  desc = "Insert new line above, without moving cursor",
+})
+-- BELOW:
+vim.keymap.set("i", "<m-o>", function()
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.normal({ "o", bang = true })
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+  vim.cmd.startinsert()
+end, {
+  silent = true,
+  desc = "Insert new line below, without moving cursor",
+})
+
 -- DE-INDENT IN INSERT MODE WITH `<s-tab>`{{{2
 vim.keymap.set("i", "<s-tab>", "<c-d>", {
   silent = true,
