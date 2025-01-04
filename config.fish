@@ -1562,6 +1562,11 @@ alias gpull-rebase='git pull --rebase' # `…pull --rebase` = fetch + rebase
 # merge them into HEAD:`git pull remote_name branch`. Note that it takes
 # "remote_name" and "branch". Consider making "branch" as "main" by default.
 
+# GIT PUSH {{{2
+alias gpush='git push'
+alias gpush-force_SOFT='git push --force-with-lease'
+# alias gpush-force_HARD='git push --force' # TODO: Require user confirmtion
+
 # GIT ADD {{{2
 alias gadd_FILE='git add' # e.g. `git add ./filename`
 alias gadd-CWD='git add .' # just changes in cwd, not same as `--all`
