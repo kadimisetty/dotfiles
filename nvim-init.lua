@@ -2973,13 +2973,14 @@ P = function(...)
 end
 
 -- `make` SHORTCUTS {{{2
--- NOTE: Keep keymaps in tandem with equivalents in fish shell config:
--- NOTE: `<m-*>` for vertical splits and `<s-m-*>` for horizontal splits.
+-- NOTE: Keep keymaps in tandem with equivalents in fish shell config and
+-- terminal hailing keymaps.
+-- NOTE: `<m-*>` for horizontal splits and `<s-m-*>` for vertical splits.
 -- NOTE: Doing both  `<s-m-m><m-*>` and `<s-m-m><s-m-*>` versions to account
 -- for accidentally holding the shift modifier too long.
 vim
   .iter({
-    -- { keymap_suffix(x in `<m-m><m-x>`), make_command }
+    -- { keymap_suffix(i.e. "*" in `<m-m><m-*>`), make_command }
     { "m", "make" },
     { "b", "make build" },
     { "r", "make run" },
@@ -2988,23 +2989,11 @@ vim
     { "t", "make test" },
   })
   :map(function(v)
-    local vertical_split_keymap_prefix = "<m-m>"
-    local horizontal_split_keymap_prefix = "<s-m-m>"
+    local horizontal_split_keymap_prefix = "<m-m>"
+    local vertical_split_keymap_prefix = "<s-m-m>"
     local keymap_suffix = v[1]
     local make_command = v[2]
-
-    -- Vertical split e.g. `<m-m><m-r>`
-    vim.keymap.set(
-      "n",
-      vertical_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
-      "<cmd>vsplit term://" .. make_command .. "<cr>",
-      {
-        silent = true,
-        desc = "Run `" .. make_command .. "` in a vertical split terminal ",
-      }
-    )
-
-    -- Horizontal split e.g. `<s-m-m><m-r>`
+    -- Horizontal split with `<m-m><m-*>`
     vim.keymap.set(
       "n",
       horizontal_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
@@ -3014,15 +3003,24 @@ vim
         desc = "Run `" .. make_command .. "` in a horizontal split terminal ",
       }
     )
-
-    -- Horizontal split with both keys using shift e.g. `<s-m-m><s-m-r>`
+    -- Vertical split with `<m-m><m-*>`
     vim.keymap.set(
       "n",
-      horizontal_split_keymap_prefix .. "<s-m-" .. keymap_suffix .. ">",
-      "<cmd>split term://" .. make_command .. "<cr>",
+      vertical_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
+      "<cmd>vsplit term://" .. make_command .. "<cr>",
       {
         silent = true,
-        desc = "Run `" .. make_command .. "` in a horizontal split terminal ",
+        desc = "Run `" .. make_command .. "` in a vertical split terminal ",
+      }
+    )
+    -- Vertical split with both keys using shift with `<s-m-m><s-m-*>`
+    vim.keymap.set(
+      "n",
+      vertical_split_keymap_prefix .. "<s-m-" .. keymap_suffix .. ">",
+      "<cmd>vsplit term://" .. make_command .. "<cr>",
+      {
+        silent = true,
+        desc = "Run `" .. make_command .. "` in a vertical split terminal ",
       }
     )
   end)
