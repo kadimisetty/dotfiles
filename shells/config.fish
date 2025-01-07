@@ -1704,6 +1704,17 @@ alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
 # TODO: THIS WEEK {{{4
 # TODO: THIS MONTH {{{4
 
+# GIT TAG {{{2
+alias gtags-list="git tag --list"
+alias gtags-push_ALL_to_ORIGIN="git push origin --tags" # WARN: Excludes some tags
+alias gtags-push_TO_REMOTE ="git push --tags"
+alias gtags-delete_LOCALLY="git tag --delete"
+# alias gtags-delete_REMOTE="git push origin --delete" # FIXME: Restrict to tags
+# TODO: `alias gtags-fetch_FROM_REMOTE="git fetch --tags" - "fetch" here
+# fetches everything, not just the tags, so look for a solution that gets only
+# tags. If that is possible, make 2 variants - one that will "fetch the tags
+# and everything else" and bother that will "fetch only the tags" if possible.
+
 # GIT BRANCH {{{2
 # BRANCH LISTINGS {{{3
 alias gbranch-list_MERGED='git branch --merged'
