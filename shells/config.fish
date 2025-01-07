@@ -1714,6 +1714,25 @@ alias gtags-delete_LOCALLY="git tag --delete"
 # fetches everything, not just the tags, so look for a solution that gets only
 # tags. If that is possible, make 2 variants - one that will "fetch the tags
 # and everything else" and bother that will "fetch only the tags" if possible.
+function gtags-show_TAG \
+    --description "git show <tag>" \
+    --argument-names tags
+    if not test -n "$tag"
+        # TODO:  Check if given argument is an existing git tag
+        echo-ERROR "Provide 1 git tag"
+        return 1
+    else
+        git show $tags
+    end
+end
+# NOTE: Requires `tac` from gnu coreutils. using `tac` to show most recent git
+# tags first.
+complete --command gtags-show_TAG \
+    --no-files \
+    --keep-order \
+    --arguments "(git tag --list | tac)"
+
+
 
 # GIT BRANCH {{{2
 # BRANCH LISTINGS {{{3
