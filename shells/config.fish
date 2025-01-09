@@ -3,6 +3,12 @@
 # AUTHOR: Sri Kadimisetty
 
 
+# INIT {{{1
+# FIXME: This shouldn't have to be manually set but it's being set and is
+# showing `zsh` instead, so doing this manually for now. Fix and remove.
+set SHELL fish
+
+
 # FISH PLUGINS (FUNDLE) {{{1
 # FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
 # DIRECTIONS:
