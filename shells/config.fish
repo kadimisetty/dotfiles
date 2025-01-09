@@ -909,10 +909,14 @@ alias lsd-tree_DEPTH_3='lsd --tree --depth 3'
 alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 
 
-# EXA {{{1
-# TODO: exa is abandoned, switch to [eza](https://github.com/eza-community/eza)
-alias exa-tree="exa --tree"
-alias exa-tree_GIT="exa --tree --git-ignore --git"
+# EZA {{{1
+# NOTE: Switched to `eza` because previous choice `exa` is abandoned.
+# TODO: Add variants to show `level` depth.
+# TODO: Add variant to show minimal/verbose information.
+# TODO: Add aliases to show only one of files/dirs/symbolic-links.
+# TODO: Add aliases to sort by name/"dates"/extensions/size/type.
+alias eza-tree="eza --tree --group-directories-first"
+alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 
 
 # CD UPWARDS WITH `..`S {{{1
