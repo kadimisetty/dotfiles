@@ -1855,12 +1855,27 @@ alias brew-info_HOMEPAGE="brew home"
 # INSTALLATION {{{2
 alias brew-install="brew install"
 alias brew-install_DRYRUN="brew install --dry-run"
-alias brew-uninstall="brew uninstall"
 alias brew-upgrade_SELF="brew update"
 alias brew-upgrade_PACKAGES="brew upgrade"
 alias brew-upgrade_PACKAGES_DRYRUN="brew upgrade --dry-run"
 alias brew-outdated="brew outdated"
 alias brew-outdated_QUIET="brew outdated --quiet"
+alias brew-uninstall="brew uninstall"
+function brew-uninstall_and_reinstall \
+    --wraps "brew upgrade" \
+    --description "Uninstall and reinstall homebrew forumla"
+    # TODO: Run `brew cleanup` as well?
+    for formula in $argv
+        echo-section_INIT "Uninstalling and re-installing `$formula`"
+        echo-task_INIT "Uninstalling `$formula`"
+        brew uninstall $formula
+        echo-task_DONE "Uninstalling `$formula`"
+        and echo-task_INIT "Re-installing `$formula`"
+        and brew install $formula
+        and echo-task_DONE "Re-installing `$formula`"
+        echo-section_DONE "Uninstalling and re-installing `$formula`"
+    end
+end
 
 # SEARCH {{{2
 alias brew-search_ALL="brew search" # NOTE: Searches both formulae and casks
