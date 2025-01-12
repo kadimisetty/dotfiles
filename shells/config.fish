@@ -1119,6 +1119,21 @@ bind \cr --mode default _fzf_search_history
 bind \cr --mode insert _fzf_search_history
 
 
+# KILL PROCESSES BY USING FUZZY SEARCH TO FIND THEM {{{1
+# NOTE: Required binaries: `fzf`, `gawk`.
+# TODO: Assert required binaries `fzf` and `gawk` are available?
+
+# NOTE: `kill` with `SIGTERM` (soft termination).
+function kill-search \
+    --description "Search and kill processes"
+    ps -ef \
+        | gawk 'NR > 1' \
+        | fzf --multi \
+        | gawk '{print $2}' \
+        | xargs kill
+end
+
+
 # DIRENV {{{1
 # SEE: https://direnv.net/docs/hook.html#fish
 # HOOK INTO FISH SHELL:
