@@ -1133,6 +1133,16 @@ function kill-search \
         | xargs kill
 end
 
+# NOTE: `kill` with `SIGKILL` (force kill).
+function kill-search_FORCE \
+    --description "Search and forcefully kill processes"
+    ps -ef \
+        | gawk 'NR > 1' \
+        | fzf --multi \
+        | gawk '{print $2}' \
+        | xargs kill -9
+end
+
 
 # DIRENV {{{1
 # SEE: https://direnv.net/docs/hook.html#fish
