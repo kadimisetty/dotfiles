@@ -3,6 +3,17 @@
 # AUTHOR: Sri Kadimisetty
 
 
+# NOTES {{{1
+# 1. In certain scenarios, fish would need to "re-draw" the commandline, which
+# can be done with `commadnline --fucntion repaint` or my custom alias for it
+# `commandline-repaint`. This is required when, for example, setting key
+# bindings that lead with a meta key i.e. `\e`.
+# TODO: Improve the alias naming structure note and add detail.
+# 2. Use my common alias naming structure.
+# TODO: Find a solution to check for required binaries.
+# 3. Add checks for any require binaries.
+
+
 # INIT {{{1
 # FIXME: This shouldn't have to be manually set but it's being set and is
 # showing `zsh` instead, so doing this manually for now. Fix and remove.
@@ -49,6 +60,9 @@ fundle init
 
 # LIB {{{1
 # TODO: Add testing.
+
+# REPAINT COMMANDLINE {{{2
+alias commandline-repaint="commandline --function repaint"
 
 # GIT LIB {{{2
 # IS `pwd` INSIDE GIT REPO? {{{3
@@ -1942,13 +1956,23 @@ alias sqliteutils-memory_TABLE="sqlite-utils memory --table"
 alias sqliteutils-memory_SCHEMA="sqlite-utils memory --schema"
 
 
-# FISH ALIASES {{{2
-# OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED
+# FISH ALIASES {{{1
+# OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED {{{2
 alias fish-PRIVATE="fish --private"
-# RELOAD CONFIG
-function fish-reload --description "Reload fish configuration"
-    source "$__fish_config_dir/config.fish"
+
+# RELOAD FISH CONFIGURATION {{{3
+function fish-reload \
+    --description "Reload fish configuration"
+    echo
+    set --function fish_config_file_to_source "$__fish_config_dir/config.fish"
+    source $fish_config_file_to_source
+    # FIXME: Replace `echo-WARN` with `echo-INFO` soon as `echo-INFO` is fixed.
+    and echo-WARN \
+        "Reloaded fish shell configuration: `$fish_config_file_to_source`"
 end
+bind \er 'fish-reload; commandline-repaint'
+bind \er --mode default 'fish-reload; commandline-repaint'
+bind \er --mode insert 'fish-reload; commandline-repaint'
 
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
