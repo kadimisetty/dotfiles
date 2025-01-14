@@ -176,7 +176,7 @@ end
 # OUTPUT(stdout): `INFO: Formatting files in this directory.`
 function echo-INFO \
     --description "Print message as informational"
-    _echo_with_customized_message $argv INFO $fish_color_quote
+    _echo_with_customized_message INFO $fish_color_quote false $argv
 end
 
 # ECHO DEBUG
@@ -1966,9 +1966,7 @@ function fish-reload \
     echo
     set --function fish_config_file_to_source "$__fish_config_dir/config.fish"
     source $fish_config_file_to_source
-    # FIXME: Replace `echo-WARN` with `echo-INFO` soon as `echo-INFO` is fixed.
-    and echo-WARN \
-        "Reloaded fish shell configuration: `$fish_config_file_to_source`"
+    and echo-INFO "Reloaded shell configuration: `$fish_config_file_to_source`"
 end
 bind \er 'fish-reload; commandline-repaint'
 bind \er --mode default 'fish-reload; commandline-repaint'
