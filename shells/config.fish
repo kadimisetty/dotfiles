@@ -1138,7 +1138,7 @@ bind \cr --mode insert _fzf_search_history
 # TODO: Assert required binaries `fzf` and `gawk` are available?
 
 # NOTE: `kill` with `SIGTERM` (soft termination).
-function kill-search \
+function kill-search_SOFT \
     --description "Search and kill processes"
     ps -ef \
         | gawk 'NR > 1' \
@@ -1155,6 +1155,73 @@ function kill-search_FORCE \
         | fzf --multi \
         | gawk '{print $2}' \
         | xargs kill -9
+end
+
+# NOTE: `kill` with `SIGTERM` (soft termination) first and if that doesn't work
+# in "n" seconds, then `kill -9` with `SIGKILL` (force kill) and report if that
+# failed as well.
+# TODO: Add `--quiet` to run quietly without printing running status.
+# TODO: Find way to make `wait_time`  configurable.
+function kill-search_SOFT_ELSE_FORCE \
+    --description "Search and kill processes, forcefully if necessary"
+    # STEP 1: Soft kill with `SIGTERM` on the first attempt
+    set --function pids (ps -ef \
+      | gawk 'NR > 1' \
+      | fzf --multi \
+      | gawk '{print $2}')
+    for pid in $pids
+        kill $pid
+    end
+    # STEP 2: Check if any processes were not killed
+    set --function pids_not_killed
+    for pid in $pids
+        if ps -p $pid &>/dev/null
+            set --append pids_not_killed $pid
+        end
+    end
+    # STEP 3: Force kill with `SIGKILL` on second attempt
+    set --function wait_time 4
+    if test (count $pids_not_killed) -gt 0
+        echo-ERROR "Following processes were not killed with `SIGTERM`"
+        echo -e "PID\tCMD"
+        for pid in $pids_not_killed
+            set pcmd (ps -p $pid -o command) # cmd + args
+            echo -e "$pid\t$pcmd"
+        end
+        echo-INFO \
+            "Waiting $wait_time seconds to try force killing with `SIGKILL`…"
+        sleep $wait_time
+        for pid in $pids_not_killed
+            kill -9 $pid
+        end
+    else
+        echo-INFO "All processes successfully killed"
+        return # SUCCESS
+    end
+    # STEP 4: On failure, give up and report processes that weren't killed
+    set --function pids_not_killed_yet_again
+    for pid in $pids_not_killed
+        if ps -p $pid &>/dev/null
+            set --append pids_not_killed_yet_again $pid
+        end
+    end
+    sleep 0.5s # Wait a moment before checking pids
+    if test (count $pids_not_killed_yet_again) -gt 0
+        echo
+        echo-ERROR \
+            "Following processes were still not killed even with `SIGKILL`"
+        echo -e "PID\tCMD"
+        for pid in $pids_not_killed_yet_again
+            set pcmd \
+                # (ps -p $pid -o comm=) # Print "pid cmd"
+                (ps -p $pid -o command) # Print "pid cmd+args"
+            echo -e "$pid\t$pcmd"
+        end
+        return 1 # FAILURE
+    else
+        echo-INFO "All processes successfully killed"
+        # return # SUCCESS
+    end
 end
 
 
