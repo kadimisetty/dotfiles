@@ -1822,11 +1822,13 @@ alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
 
 # GIT SHOW {{{2
 alias gshow='git show'
-alias gshow_SUMMARY='git show --summary'
 alias gshow-NAMES='git show --name-status'
 alias gshow-STAT='git show --stat'
 alias gshow-PATCH='git show --patch'
 alias gshow-PATCH_WITH_STAT='git show --patch-with-stat'
+alias gshow_SUMMARY='git show --summary'
+alias gshow_SUMMARY_MINIMAL='git show --no-patch --format=short'
+alias gshow_SUMMARY_VERBOSE='git show --no-patch --format=fuller'
 
 # GIT TAG {{{2
 alias gtags-list="git tag --list"
