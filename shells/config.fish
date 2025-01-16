@@ -1820,6 +1820,14 @@ alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
 # TODO: THIS WEEK {{{4
 # TODO: THIS MONTH {{{4
 
+# GIT SHOW {{{2
+alias gshow='git show'
+alias gshow_SUMMARY='git show --summary'
+alias gshow-NAMES='git show --name-status'
+alias gshow-STAT='git show --stat'
+alias gshow-PATCH='git show --patch'
+alias gshow-PATCH_WITH_STAT='git show --patch-with-stat'
+
 # GIT TAG {{{2
 alias gtags-list="git tag --list"
 alias gtags-push_ALL_to_ORIGIN="git push origin --tags" # WARN: Excludes some tags
