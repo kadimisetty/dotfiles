@@ -3510,39 +3510,42 @@ local set_common_lsp_and_diagnostics_configuration = function(_, bufnr)
   set_common_diagnostics_configuration()
 end
 
--- LAZY {{{1
--- LAZY SETUP {{{2
--- LAZY INSTALLATION {{{3
--- NOTE: `lazy.nvim` requires `<leader>` and `<localleader>` to be configured.
--- INSTALL LAZY IF NOT PRESENT:
+-- LAZY PLUGIN MANAGER {{{1
+-- LAZY INIT {{{2
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
     "--branch=stable",
+    lazyrepo,
     lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
-local run_lazy_setup = function(opts)
-  assert(opts.lazy_plugins ~= nil and opts.lazy_opts ~= nil)
-  require("lazy").setup(opts.lazy_plugins, opts.lazy_opts)
-end
-run_lazy_setup({
+require("lazy").setup({
+
   -- LAZY OPTIONS  {{{2
-  lazy_opts = {
-    ui = {
-      border = "rounded",
-      -- FIXME: Cannot get `custom_keys` to work
-    },
+  install = { colorscheme = { "habamax" } },
+  checker = {
+    enabled = true, -- Check for plugin updates
+    frequency = 86400, --  Check for updates every day(as seconds)
   },
+  ui = { border = "rounded" },
 
   -- LAZY PLUGINS {{{2
-  lazy_plugins = {
-
+  spec = {
     -- which-key - show keymaps {{{3
     {
       "folke/which-key.nvim",
