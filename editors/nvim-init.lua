@@ -6117,9 +6117,7 @@ require("lazy").setup({
             null_ls.builtins.diagnostics.statix,
             null_ls.builtins.diagnostics.deadnix,
             -- lua
-            null_ls.builtins.formatting.stylua.with({
-              timeout = 40000, --default: 5k, -1 is no_timeout
-            }),
+            null_ls.builtins.formatting.stylua,
             -- null_ls.builtins.diagnostics.luacheck.with({
             --   condition = function(utils)
             --     return utils.root_has_file({ ".luacheckrc" })
