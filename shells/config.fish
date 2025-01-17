@@ -479,15 +479,11 @@ bind \e\t --mode insert complete-and-search
 
 
 # `fg` SHORTCUT {{{1
-# `c-z` sends active process to background, adding shortcut binding `m-z` to
-# send to foreground i.e. `fg`.
-# FIXME: Once `fg` brings back the active process (example `vim`) and that
-# process is closed, there is a message displayed "Send job 1 (vim) to
-# foreground" and the shell is also unresponsive awaiting a newline. Make
-# these side-effects not show.
-bind \ez fg
-bind \ez --mode default fg
-bind \ez --mode insert fg
+# NOTE: `c-z` sends active process to background, so choosing `m-z` as a binding
+# to send to foreground(`fg`).
+bind \ez 'fg; commandline-repaint'
+bind \ez --mode default 'fg; commandline-repaint'
+bind \ez --mode insert 'fg; commandline-repaint'
 
 
 # NIX {{{1
