@@ -1,32 +1,32 @@
 #!/usr/bin/env fish
 
-# Setup django project in current directory according to custom preferences.
-# AUTHOR: Sri Kadimisetty
+# Setup a django project in current directory according to custom preferences.
+# - Sri Kadimisetty
 
-# TODO: Require current directory to be empty.
-# TODO: Move requirement checks into a separate "django precheck" function and
-#       call before running a separate "django setup" function
-
-function djangoinit
-    # REQUIREMENT: NOT INSIDE VIRTUAL ENVIRONMENT
+function django-setup-check
+    # CHECK 1: NOT INSIDE VIRTUAL ENVIRONMENT
     if test -n "$VIRTUAL_ENV"
         echo-ERROR "Should not be in an active python virtual environment."
         return 1
-    else if test -n "$(ls -A ./)" # `-A` instead of `--almost-all` for macos
+    end
+
+    # CHECK 2: CURRENT DIRECTORY NOT EMPTY
+    if test -n "$(ls -A ./)" # `-A` instead of `--almost-all` for macos
         echo-ERROR "Current directory should be empty."
         return 1
     end
 
-    # REQUIREMENT: REQUIRED BINARIES EXIST
+    # CHECK 3: REQUIRED BINARIES EXIST
     # NOTE: [git-ignore](https://github.com/sondr3/git-ignore)
     for requiredBinary in python3 git git-ignore gawk
-        if ! type -q $requiredBinary
+        if not type --query $requiredBinary
             echo-ERROR "Cannot find `$requiredBinary` in `\$PATH`."
             return 1
         end
     end
+end
 
-    # BEGIN
+function django-setup
     echo-section_INIT "SETTING UP DJANGO"
 
     # VENV: INIT
@@ -95,10 +95,10 @@ END {
     # VENV: DONE
     deactivate # Deactivate virtual environment
 
-    # END
     echo-section_DONE "SETTING UP DJANGO"
 end
 
 
 # RUN
-djangoinit
+django-setup-check
+and django-setup
