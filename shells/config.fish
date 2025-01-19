@@ -1826,6 +1826,11 @@ alias gshow_SUMMARY='git show --summary'
 alias gshow_SUMMARY_MINIMAL='git show --no-patch --format=short'
 alias gshow_SUMMARY_VERBOSE='git show --no-patch --format=fuller'
 
+# GIT STATUS {{{2
+alias gstatus='git status'
+alias gstatus-MINIMAL='git status --branch --short'
+alias gstatus-VERBOSE='git status --branch --long --verbose --show-stash'
+
 # GIT TAG {{{2
 alias gtags-list="git tag --list"
 alias gtags-push_ALL_to_ORIGIN="git push origin --tags" # WARN: Excludes some tags
