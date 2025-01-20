@@ -947,89 +947,71 @@ alias ....="cd ../../../"
 
 
 # `make` SHORTCUTS {{{1
-# TODO:
-#   1. Generate automatically to avoid repetition.
-#   2. Grab content of echo from function meta description. Tied to "1".
+# TODO: Generate automatically to avoid repetition.
+# TODO: Extract echo message from function meta description. Tied to "1".
+
+# INDEX {{{2
 # NOTE: Keep keybindings in tandem with equivalents in neovim config:
-# - `\em\em`: `make`
-# - `\em\eb`: `make build`
-# - `\em\er`: `make run`
-# - `\em\ec`: `make clean`
-# - `\em\ef`: `make fmt`
-# - `\em\et`: `make test`
+#       - `\em\em`: `make`
+#       - `\em\eb`: `make build`
+#       - `\em\er`: `make run`
+#       - `\em\ec`: `make clean`
+#       - `\em\ef`: `make fmt`
+#       - `\em\et`: `make test`
+
 # `make` {{{2
 function _make --description make --wraps make
-    set_color normal
-    set_color --bold --italics
-    echo make
-    set_color normal
+    echo-INFO "`make`"
     make
-    commandline --function repaint
 end
-bind \em\em _make
-bind \em\em --mode default _make
-bind \em\em --mode insert _make
+bind \em\em "_make; commandline-repaint"
+bind \em\em --mode default "_make; commandline-repaint"
+bind \em\em --mode insert "_make; commandline-repaint"
+
 # `make build` {{{2
 function _make_build --description "make build" --wraps "make build"
-    set_color normal
-    set_color --bold --italics
-    echo "make build"
-    set_color normal
+    echo-INFO "`make build`"
     make build
-    commandline --function repaint
 end
-bind \em\eb _make_build
-bind \em\eb --mode default _make_build
-bind \em\eb --mode insert _make_build
+bind \em\eb "_make_build; commandline-repaint"
+bind \em\eb --mode default "_make_build; commandline-repaint"
+bind \em\eb --mode insert "_make_build; commandline-repaint"
+
 # `make run` {{{2
 function _make_run --description "make run" --wraps "make run"
-    set_color normal
-    set_color --bold --italics
-    echo "make run"
-    set_color normal
+    echo-INFO "`make run`"
     make run
-    commandline --function repaint
 end
-bind \em\er _make_run
-bind \em\er --mode default _make_run
-bind \em\er --mode insert _make_run
+bind \em\er "_make_run; commandline-repaint"
+bind \em\er --mode default "_make_run; commandline-repaint"
+bind \em\er --mode insert "_make_run; commandline-repaint"
+
 # `make clean` {{{2
 function _make_clean --description "make clean" --wraps "make clean"
-    set_color normal
-    set_color --bold --italics
-    echo "make clean"
-    set_color normal
+    echo-INFO "`make clean`"
     make clean
-    commandline --function repaint
 end
-bind \em\ec _make_clean
-bind \em\ec --mode default _make_clean
-bind \em\ec --mode insert _make_clean
+bind \em\ec "_make_clean; commandline-repaint"
+bind \em\ec --mode default "_make_clean; commandline-repaint"
+bind \em\ec --mode insert "_make_clean; commandline-repaint"
+
 # `make fmt` {{{2
 function _make_fmt --description "make fmt" --wraps "make fmt"
-    set_color normal
-    set_color --bold --italics
-    echo "make fmt"
-    set_color normal
+    echo-INFO "`make fmt`"
     make fmt
-    commandline --function repaint
 end
-bind \em\ef _make_fmt
-bind \em\ef --mode default _make_fmt
-bind \em\ef --mode insert _make_fmt
+bind \em\ef "_make_fmt; commandline-repaint"
+bind \em\ef --mode default "_make_fmt; commandline-repaint"
+bind \em\ef --mode insert "_make_fmt; commandline-repaint"
+
 # `make test` {{{2
 function _make_test --description "make test" --wraps "make test"
-    set_color normal
-    set_color --bold --italics
-    echo "make test"
-    set_color normal
+    echo-INFO "`make test`"
     make test
-    commandline --function repaint
 end
-bind \em\et _make_test
-bind \em\et --mode default _make_test
-bind \em\et --mode insert _make_test
-
+bind \em\et "_make_test; commandline-repaint"
+bind \em\et --mode default "_make_test; commandline-repaint"
+bind \em\et --mode insert "_make_test; commandline-repaint"
 
 
 # FZF {{{1
