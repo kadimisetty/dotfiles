@@ -1807,6 +1807,7 @@ alias gshow-PATCH_WITH_STAT='git show --patch-with-stat'
 alias gshow_SUMMARY='git show --summary'
 alias gshow_SUMMARY_MINIMAL='git show --no-patch --format=short'
 alias gshow_SUMMARY_VERBOSE='git show --no-patch --format=fuller'
+alias gshow_DATE='git show --no-patch --format="%h %s%nCommited %cr (%cd local time) %ch" --date=local'
 
 # GIT STATUS {{{2
 alias gstatus='git status'
