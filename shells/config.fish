@@ -207,7 +207,7 @@ end
 # ECHO ERROR
 # Print message as error(`ERROR`) with status code to `stderr`.
 # NOTE: Writes to stderr
-# TODO: Accept error status code as an argument?
+# NOTE: Intentionally not returning error status (i.e. `return 1`).
 # TODO: Update `echo_builder` to handle printing to `stderr` on demand and
 # replace this printing section with it.
 # USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
@@ -239,7 +239,6 @@ function echo-ERROR \
         (set_color $fish_color_error --italic) \
         " $message"
     set_color normal
-    return 1 # STATUS CODE 1: `EPERM 1 operation not permitted`
 end
 
 # ECHO MISC {{{3
