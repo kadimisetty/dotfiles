@@ -898,12 +898,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 -- TOGGLES {{{1
--- Toggle small features.
--- NOTE:
---  Preferably use unimpaired style, i.e.
---  - `yox` to toggle `x`
---  - `]ox` to enable `x`
---  - `[ox` to disable `x`
+-- Toggle small features e.g. leading/trailing characters.
+-- TODO: Find better keymap grammar. Examples:
+-- 1. `<m-*>`
+-- 2. Unimpaired style, i.e. `yo*` to toggle `*`, `]o*` to enable `*`, `[o*` to
+--    disable `*`
+-- 3. `<localleader>*`
 
 -- ELIXIR TOGGLES {{{2
 local elixir_toggles_augroup =
@@ -1088,11 +1088,19 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 --     })
 
 -- COMMON TOGGLES {{{2
--- TODO: Get common toggles and put them here
+-- Toggle trailing period on current line {{{3
+vim.keymap.set(
+  "n",
+  "<localleader>.",
+  [[<cmd>call ToggleTrailingStringOnLine(".", line("."))<cr>]],
+  {
+    silent = true,
+    buffer = true,
+    desc = "Toggle trailing period on current line",
+  }
+)
 
 -- TOGGLES HELPERS {{{2
--- NOTE: Do not edit these helper functions here, but in vimrc; at least until
---          they're all reqritten properly here in lua.
 -- TODO: Use lua
 -- TODO: Separate into sections
 -- TODO: Extract common functions
