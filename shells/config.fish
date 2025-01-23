@@ -12,6 +12,9 @@
 # 2. Use my common alias naming structure.
 # TODO: Find a solution to check for required binaries.
 # 3. Add checks for any require binaries.
+# TODO: Decide between using `pwd` or `cwd` naming for "current directory" and
+# stick with that choice throughout. If the final choice ends up being `cwd`
+# then create an alias for `cwd` that points to the `pwd` command.
 
 
 # INIT {{{1
@@ -59,7 +62,11 @@ fundle init
 
 
 # LIB {{{1
-# TODO: Add testing.
+# NOTE: Any `is_*` functions will not print to `stdout`/`stderr` and only
+# return a success/failure status code and should be used similar to the `test`
+# command. Use `is_*` functions as much as possible.
+# TODO: Assert all `is_*` functions follow this behavior
+# TODO: Add unit tests?
 
 # REPAINT COMMANDLINE {{{2
 alias commandline-repaint="commandline --function repaint"
@@ -367,6 +374,28 @@ function source_if_exists \
     if test -e $file_to_source
         source $file_to_source
     end
+end
+
+# CHECK IF INSIDE ACTIVE PYTHON VIRTUAL ENVIRONMENT {{{2
+function is_inside_virtual_environment \
+    --description "Check if inside an active python virtual environment"
+    test -n "$VIRTUAL_ENV"
+end
+
+# CHECK IF CURRENT DIRECTORY IS EMPTY {{{2
+function is_cwd_empty \
+    --description "Check if current directory is empty"
+    # NOTE: `-A` instead of `--almost-all` for macos
+    test -z "$(ls -A ./)"
+end
+
+# CHECK IF CURRENT DIRECTORY IS EMPTY {{{2
+# TODO: Make another variant that accepts multiple binaries?
+# TODO: This particular variant should only accept 1 binary, so verify that?
+function is_binary_on_path \
+    --description "Chek if given binary exists" \
+    --argument-names binary
+    type --query $binary
 end
 
 # PATH RELATIONSHIPS {{{2
@@ -1407,7 +1436,7 @@ end
 # EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{3
 function _exit_if_not_in_active_python_virtual_env \
     --description "Exit with failure if python virtual environment not active"
-    if ! test -n "$VIRTUAL_ENV"
+    if not is_inside_virtual_environment
         echo-ERROR "Not in active python environment"
     end
 end

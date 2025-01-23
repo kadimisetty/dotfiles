@@ -4,22 +4,20 @@
 # - Sri Kadimisetty
 
 function django-setup-check
-    # CHECK 1: NOT INSIDE VIRTUAL ENVIRONMENT
-    if test -n "$VIRTUAL_ENV"
+    # CHECK 1
+    if is_inside_virtual_environment
         echo-ERROR "Should not be in an active python virtual environment."
         return 1
     end
-
-    # CHECK 2: CURRENT DIRECTORY NOT EMPTY
-    if test -n "$(ls -A ./)" # `-A` instead of `--almost-all` for macos
+    # CHECK 2
+    if not is_cwd_empty
         echo-ERROR "Current directory should be empty."
         return 1
     end
-
     # CHECK 3: REQUIRED BINARIES EXIST
     # NOTE: [git-ignore](https://github.com/sondr3/git-ignore)
     for requiredBinary in python3 git git-ignore gawk
-        if not type --query $requiredBinary
+        if not is_binary_on_path $requiredBinary
             echo-ERROR "Cannot find `$requiredBinary` in `\$PATH`."
             return 1
         end
