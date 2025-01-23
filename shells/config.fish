@@ -215,6 +215,8 @@ end
 # Print message as error(`ERROR`) with status code to `stderr`.
 # NOTE: Writes to stderr
 # NOTE: Intentionally not returning error status (i.e. `return 1`).
+# TODO: CONSIDER: A similar variant that will also return failure or accept
+# a "return status code" as argument.
 # TODO: Update `echo_builder` to handle printing to `stderr` on demand and
 # replace this printing section with it.
 # USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
@@ -1265,9 +1267,11 @@ function n-man --description "Open man page for given command name in neovim"
     if test 1 -ne (count $argv)
         # ENSURE SINGLE ARGUMENT:
         echo-ERROR "takes one argument"
+        return 1
     else if not man $argv &>/dev/null
         # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
         echo-ERROR "no man page for: $argv"
+        return 1
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
         nvim \
@@ -1388,6 +1392,7 @@ function v-create \
     # TODO: Check for proper python version
     if test -e "./venv"
         echo-ERROR "`./venv/` exists"
+        return 1
     else
         python3 -m venv ./venv
     end
@@ -1400,8 +1405,8 @@ function v-activate \
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
-        echo -e "./venv/bin/activate.fish" |
-            echo-ERROR "Fish file to activate python environment not found:"
+        echo -e "./venv/bin/activate.fish" | echo-ERROR "Fish file to activate python environment not found:"
+        return 1
     end
 end
 
@@ -1424,6 +1429,7 @@ function v-deactivate \
             (path basename $virtual_env_name)
     else
         echo-ERROR "Not in active python environment"
+        return 1
     end
 end
 
@@ -1438,6 +1444,7 @@ function _exit_if_not_in_active_python_virtual_env \
     --description "Exit with failure if python virtual environment not active"
     if not is_inside_virtual_environment
         echo-ERROR "Not in active python environment"
+        return 1
     end
 end
 
@@ -1585,6 +1592,7 @@ function b-init_cd \
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
         echo-ERROR "path with given name already exists"
+        return 1
     else
         mkdir $project_name
         and cd $project_name
@@ -1610,6 +1618,7 @@ function s-new_cd \
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
         echo-ERROR "path with given name already exists"
+        return 1
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
         stack new $project_name kadimisetty/basic
@@ -1644,9 +1653,11 @@ function go-new_cd \
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
         echo-ERROR "no module path given"
+        return 1
         # Exit if path with given name exists in current dir
     else if test -e "$module_path"
         echo-ERROR "path with given name exists"
+        return 1
     else
         # Create a new directory with the name, move into it and run `go mod
         # init` there
@@ -1773,6 +1784,7 @@ function gstash-push_UNSTAGED_with_message \
     --argument-names stash_name
     if test -z "$stash_name" # Insist on `$stash_name`
         echo-ERROR "Stash name not supplied"
+        return 1
     else
         # Create temporary commit of STAGED changes and bypass commit hooks
         git commit --quiet --no-verify \
@@ -1907,6 +1919,7 @@ function gbranch-description_SHOW \
     begin
         if not is_pwd_in_git_repo
             echo-ERROR "Not in git repo"
+            return 1
         else
             if test -z $branch_name
                 # NOTE: Use current branch name if branch_name not supplied.
@@ -1916,6 +1929,7 @@ function gbranch-description_SHOW \
             git config branch.$branch_name.description
             if test $status -ne 0
                 echo-ERROR "No description available for branch: $branch_name"
+                return 1
             end
         end
     end
