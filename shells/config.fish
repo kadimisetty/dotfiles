@@ -1630,6 +1630,7 @@ end
 
 # GO {{{1
 fish_add_path $HOME/go/bin
+
 alias go-build='go build'
 alias go-build_ALL='go build .'
 alias go-format='go fmt'
@@ -1638,6 +1639,12 @@ alias go-mod_tidy="go mod tidy"
 alias go-run='go run'
 alias go-run_ALL='go run .'
 alias go-test='go test'
+alias go-test_VERBOSE='go test -v'
+alias go-test_MAIN='go test ./main_test.go'
+alias go-test_MAIN_VERBOSE='go test -v ./main_test.go'
+# TODO: TEST COVERAGE: General `-cover`.
+# TODO: TEST COVERAGE: Write `coverage.out`.
+# TODO: TEST COVERAGE: Write and show `coverage.out` in browser.
 function go-mod_init \
     --description "Run `go mod init` with given arg (default: \$PWD)" \
     --argument-names module_path
