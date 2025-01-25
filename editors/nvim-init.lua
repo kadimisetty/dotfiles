@@ -3519,7 +3519,7 @@ local set_common_lsp_and_diagnostics_configuration = function(_, bufnr)
 end
 
 -- LAZY PLUGIN MANAGER {{{1
--- LAZY INIT {{{2
+-- LAZY SETUP {{{2
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -3544,12 +3544,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
-  -- LAZY OPTIONS  {{{2
-  install = { colorscheme = { "habamax" } },
-  checker = {
-    enabled = true, -- Check for plugin updates
-    frequency = 86400, --  Check for updates every day(as seconds)
-  },
+  -- LAZY SETUP OPTIONS  {{{3
+  install = { colorscheme = { "default" } },
   ui = { border = "rounded" },
 
   -- LAZY PLUGINS {{{2
