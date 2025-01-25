@@ -1642,9 +1642,17 @@ alias go-test='go test'
 alias go-test_VERBOSE='go test -v'
 alias go-test_MAIN='go test ./main_test.go'
 alias go-test_MAIN_VERBOSE='go test -v ./main_test.go'
-# TODO: TEST COVERAGE: General `-cover`.
-# TODO: TEST COVERAGE: Write `coverage.out`.
-# TODO: TEST COVERAGE: Write and show `coverage.out` in browser.
+# General `-cover`.
+alias go-test_COVERAGE_OUTPUT='go test -cover'
+# Generate coverage into file `coverage.out`.
+alias go-test_COVERAGE_FILE='go test -coverprofile=coverage.out'
+# Generate `coverage.out`(but as a temp file) and display in browser.
+function go-test_COVERAGE_BROWSER \
+    --description "Display `go test -cover` output in browser" \
+    --wraps="go test -cover"
+    go test -coverprofile=/tmp/coverage.out
+    and go tool cover -html=/tmp/coverage.out
+end
 function go-mod_init \
     --description "Run `go mod init` with given arg (default: \$PWD)" \
     --argument-names module_path
