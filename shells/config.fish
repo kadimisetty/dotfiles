@@ -1638,6 +1638,7 @@ alias go-mod="go mod"
 alias go-mod_tidy="go mod tidy"
 alias go-run='go run'
 alias go-run_ALL='go run .'
+alias go-run_MAIN='go run ./main.go'
 alias go-test='go test'
 alias go-test_VERBOSE='go test -v'
 alias go-test_MAIN='go test ./main_test.go'
