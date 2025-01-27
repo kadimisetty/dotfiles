@@ -15,6 +15,10 @@
 # TODO: Decide between using `pwd` or `cwd` naming for "current directory" and
 # stick with that choice throughout. If the final choice ends up being `cwd`
 # then create an alias for `cwd` that points to the `pwd` command.
+# 4. DOCS: Line-spacing choices for section headers:
+#   `{{{1`       : 2 blank lines before
+#   `{{{2`/`{{{3`: 1 blank lines before
+#   `{{{4`+      : 0 blank lines before
 
 
 # INIT {{{1
@@ -110,7 +114,6 @@ function _username_from_git_repo_url \
         string split / --right --field 1 |
         string split : --right --field 2
 end
-
 
 # ECHO VARIANTS {{{2
 # TODO: Validate arguments in all variants.
@@ -366,7 +369,6 @@ function echo-section_WRAP \
     end
 end
 
-
 # SOURCE FILE IF IT EXISTS OR FAIL SILENTLY {{{2
 # TODO: Provided argument might be 0/singular/plural
 # USAGE: `$ source_if_exists ./XXX.md`
@@ -477,7 +479,6 @@ alias history-list-LAST_10="history --max=10 --reverse"
 alias history-list_EXACT_MATCH="history search --exact"
 alias history-list_PREFIX_MATCH="history search --prefix"
 alias history-list_CONTAINS="history search --contains"
-
 # WITH TIME {{{4
 alias history-list-ALL_WITH_TIME="history --show-time"
 alias history-list-LAST_1_WITH_TIME="history --max=1 --reverse --show-time"
@@ -1574,6 +1575,7 @@ alias c-tree_DEPTH1="cargo tree --depth 1"
 alias c-watch="cargo watch"
 alias c-watch_QUIET="cargo watch --quiet"
 
+
 # HASKELL {{{1
 # GHCUP {{{2
 # NOTE: Converted to fish from  `ghcup`'s zsh init script
@@ -1783,8 +1785,6 @@ function gclone-cd_USERNAME \
     end
 end
 
-
-
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
 #         1. Make user specify stash number explicitly, even for the latest one.
@@ -1834,7 +1834,6 @@ end
 # derive a name from the latest commit which in this case would be the
 # temporary commit which would be unwanted as nothing should remain of the
 # temporary commit once this whole operation completes.
-
 
 # STASH SHOW {{{3
 alias gstash-show_NAMES='git stash show --name-status'
@@ -1911,8 +1910,6 @@ complete --command gtags-show_TAG \
     --no-files \
     --keep-order \
     --arguments "(git tag --list | tac)"
-
-
 
 # GIT BRANCH {{{2
 # BRANCH LISTINGS {{{3
