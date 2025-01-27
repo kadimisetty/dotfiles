@@ -1285,6 +1285,20 @@ function n-man --description "Open man page for given command name in neovim"
             -c "execute \"bd 1\""
     end
 end
+# TODO: The `m--` binding is intended to match with the keymap used to open
+# `mini.files` in neovim, which is currently just `-`, so see if there is an
+# equivalent keymap in neovim.
+# NOTE: Using a delay to ensure lazy has loaded the plugin.
+# TODO: Set `mini.files` to start early in neovim `lazy.nvim` plugin manager.
+function n-FILES \
+    --description "Launch neovim with `mini.files` open"
+    nvim -c \
+        "lua vim.loop.new_timer():start(1, 0, vim.schedule_wrap(require('mini.files').open))"
+end
+bind \e- n-FILES
+bind \e- --mode default n-FILES
+bind \e- --mode insert n-FILES
+# TODO: Do a custom opener for `neotree` as well that uses binding `m-_`.
 
 
 # TMUX/TMUXINATOR {{{1
