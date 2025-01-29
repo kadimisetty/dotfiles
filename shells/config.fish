@@ -1839,20 +1839,31 @@ alias gstash-push_STAGED='git stash push --staged'
 alias gstash-push_STAGED_with_message='git stash push --staged --message'
 function gstash-push_UNSTAGED_with_message \
     --description 'Run `git stash push` for unstaged changes' \
-    --wraps 'git stash push' \
-    --argument-names stash_name
-    if test -z "$stash_name" # Insist on `$stash_name`
-        echo-ERROR "Stash name not supplied"
+    --wraps 'git stash push --message'
+    if test (count $argv) -eq 0
+        echo-ERROR "Argument(s) required for `git stash push --message`"
         return 1
+    end
+    if not has_git_staged_changes
+        # NOTE: CURRENT STAGED CHANGES? NO: Do `gstash-push_with_message`.
+        git stash push --message $argv
     else
-        # Create temporary commit of STAGED changes and bypass commit hooks
+        # NOTE: CURRENT STAGED CHANGES? YES: There is no `--not-staged` flag to
+        # restrict any currently present staged changes from also being
+        # stashed, so doing following 3-step work-around:
+        # 1. PUT CURRENT STAGED CHANGES INTO A TEMPORARY COMMIT: Create
+        #    temporary commit of STAGED changes.
+        # NOTE: IMPORTANT: Bypass commit hooks
         git commit --quiet --no-verify \
-            --message "DELETEME: TEMPORARY STASH OPERATION ARTIFACT"
-        # Push UNSTAGED changes onto stash with given `$stash_name`
-        and git stash push --message $argv # `$stash_name` is first in `$argv`
-        # Reset to previous HEAD state and restore the committed STAGED changes
+            --message "TEMPORARY(FROM STAGED CHANGES): CUSTOM STASH OPERATION ARTIFACT"
+        # 2. EXECUTE REGULAR GIT STASH: Push only UNSTAGED changes onto stash.
+        and git stash push --message $argv
+        # 3. RETURN THOSE TEMPORARILY COMMITTED CHANGES BACK AS STAGED CHANGES:
+        #    Reset to previous HEAD state and restore those temporarily
+        #    committed STAGED changes.
         # TODO: Assert temporary commit has been removed here at the end since
-        # it might remain if there is an error with above stash operation.
+        # it is isn't removed when there is an error with the stash operation.
+        # If that did happen, report the error and quit with failure.
         and git reset --quiet --soft HEAD~1
     end
 end
