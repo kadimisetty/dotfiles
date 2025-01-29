@@ -1299,7 +1299,14 @@ end
 bind \e- n-FILES
 bind \e- --mode default n-FILES
 bind \e- --mode insert n-FILES
-# TODO: Do a custom opener for `neotree` as well that uses binding `m-_`.
+# NOTE: Configured neovim `lazy.nvim` plugin manager to lazy load cmd `NeoTree`
+function n-TREE \
+    --description "Launch neovim with `neotree` open"
+    nvim -c "Neotree action=focus source=filesystem position=left"
+end
+bind \e_ n-TREE
+bind \e_ --mode default n-TREE
+bind \e_ --mode insert n-TREE
 
 
 # TMUX/TMUXINATOR {{{1

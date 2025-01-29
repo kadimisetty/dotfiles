@@ -4618,6 +4618,7 @@ require("lazy").setup({
         -- Disable deprecated commands e.g. `:NeoTreeReveal`
         vim.g.neo_tree_remove_legacy_commands = 1
       end,
+      cmd = { "Neotree" },
       keys = {
         -- All files with current file selected in cwd
         {
