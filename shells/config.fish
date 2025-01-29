@@ -66,10 +66,10 @@ fundle init
 
 
 # LIB {{{1
-# NOTE: Any `is_*` functions will not print to `stdout`/`stderr` and only
-# return a success/failure status code and should be used similar to the `test`
-# command. Use `is_*` functions as much as possible.
-# TODO: Assert all `is_*` functions follow this behavior
+# NOTE: Any `is_*`/`has_*` functions will not print to `stdout`/`stderr` and
+# only return a success/failure status code and should be used similar to the
+# `test` command. Use `is_*`/`has_*` functions as much as possible.
+# TODO: Assert all `is_*`/`has_*` functions follow behavior in above NOTE.
 # TODO: Add unit tests?
 
 # REPAINT COMMANDLINE {{{2
@@ -87,6 +87,28 @@ alias commandline-repaint="commandline --function repaint"
 function is_pwd_in_git_repo \
     --description "Is `pwd` within a git repo? (with status code)"
     test true = (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
+end
+
+# DOES GIT REPO HAVE STAGED CHANGES? {{{3
+# NOTE: Assume current directory as repo to check
+# TODO: Make variant `has_git_unstaged_changes`
+# TODO: Accept repo directory as argument
+# TODO: Find better name
+function has_git_staged_changes \
+    --description "Check if repo has any staged changes"
+    # NOTE: `--exit-code` returns:
+    #             0   :No staged changes
+    #             1   :There are staged changes
+    #             129 :Other git error like "not a git repo" etc.
+    git diff --cached --quiet --exit-code 2>/dev/null
+    switch $status
+        case 1 #      `--exit-code`: There are staged changes
+            return 0 # Return success exit-code 0
+        case 0 #      `--exit-code`: There are no staged changes
+            return 1 # Return failure exit-code 1
+        case 129 #     `--exit-code`: Other git error like "not git repo" etc.
+            return 129 # Return failure exit-code 129
+    end
 end
 
 # REPO NAME FROM GIT REPO URL {{{3
