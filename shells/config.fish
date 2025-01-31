@@ -144,6 +144,8 @@ end
 # TODO: Handle piping in all variants. Look at `echo-ERROR` for inspiration.
 # TODO: Use `argparse` as much as possible. and where not possible use
 #       `echo-USAGE` to print basic usage info.
+# FIXME: Some variants like `echo-INFO` are not accepting multiple arguments
+# like `echo-ERROR` does.
 
 # ECHO REFERENCE {{{3
 # NOTE: Variants inspired by neovim's '`vim.log.levels.*`.
@@ -1449,7 +1451,8 @@ function v-activate \
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
-        echo -e "./venv/bin/activate.fish" | echo-ERROR "Fish file to activate python environment not found:"
+        echo-ERROR "Unable to activate activate python virtual environment:" \
+            "File not found: `./venv/bin/activate.fish`"
         return 1
     end
 end
@@ -1459,21 +1462,18 @@ function v-deactivate \
     --description "Deactivate python virtual environment from `./venv/`"
     # NOTE: Consider replacing the "deactivate" command (should be set somwhere
     # in `v-activate` function perhaps).
-    if test -n "$VIRTUAL_ENV"
-        set --function virtual_env_name $VIRTUAL_ENV
-        deactivate
-        # TODO: Make this report only the relative name of the virtual
-        # environment not the entire path i.e. relative to current directory
-        # e.g. "./venv" and not "~/code/project/venv".
-        set --function dir_separator / # NOTE: Assuming *nix OS
-        and echo -s "Deactivated python virtual environment: " \
-            (set_color --dim) \
-            (path dirname $virtual_env_name)$dir_separator \
-            (set_color --bold) \
-            (path basename $virtual_env_name)
-    else
+    if test -z "$VIRTUAL_ENV"
         echo-ERROR "Not in active python environment"
         return 1
+    else
+        set --function virtual_env_name $VIRTUAL_ENV
+        deactivate
+        # FIXME: Make this report only the relative name of the virtual
+        # environment not the entire path i.e. relative to current directory
+        # e.g. "./venv/" and not "/Users/username/code/project/venv/".
+        set --function dir_separator / # NOTE: Using `/` because assuming *nix
+        set --function venv_path (path dirname $virtual_env_name)$dir_separator(path basename $virtual_env_name)$dir_separator
+        echo-INFO "Deactivated python virtual environment: `$venv_path`"
     end
 end
 
