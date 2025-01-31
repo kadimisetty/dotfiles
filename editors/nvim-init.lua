@@ -239,6 +239,40 @@ end
 -- NOTE: Using neovim default: `vim.fn.stdpath("state")/swap/`
 -- vim.o.directory
 
+-- CWORD {{{2
+-- Sometimes the cursor is on the space/quote character right before a
+-- word but vim will still report that word when expanding `cword`. This
+-- function will return `true` only if it's literally on top of word in `cword`
+-- and not before it and false otherwise. Vim's logic can be found in it's
+-- source code in file: "src/nvim/normal.(h,c)".
+function is_cursor_literally_on_cword()
+  local cursor_column = vim.api.nvim_win_get_cursor(0)[2]
+  local line = vim.api.nvim_get_current_line()
+  -- Return false if current line is empty
+  if line == "" then
+    return false
+  end
+  local cword = vim.fn.expand("<cword>")
+  local regex, search_pos = vim.regex("\\<" .. vim.pesc(cword) .. "\\>"), 0
+  -- Iterate through all words with `cword` text content occurences in current
+  -- line with the goal of finding the actual `cword` beacuse there is no other
+  -- direct way.
+  while search_pos < #line do
+    local start_pos, end_pos = regex:match_str(line:sub(search_pos + 1))
+    -- Return false if no more occurrences of `cword` are found in the line.
+    if not start_pos then
+      return false
+    end
+    start_pos, end_pos = start_pos + search_pos, end_pos + search_pos
+    -- Return true if cursor is found within this `cword` occurrence's range.
+    if cursor_column >= start_pos and cursor_column <= end_pos then
+      return true
+    end
+    search_pos = end_pos + 1
+  end
+  return false
+end
+
 -- WILDIGNORE {{{2
 -- File patterns to ignore.  Used throughout in situations like expansions,
 -- completions, 3rd party plugins like NERDTree, CtrlP etc.
