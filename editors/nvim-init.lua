@@ -5925,6 +5925,12 @@ require("lazy").setup({
           capabilities = capabilities,
         })
 
+        -- C/CPP/OBJC/OBJCPP/CUDA/PROTO
+        require("lspconfig").clangd.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- ELIXIR
         require("lspconfig").elixirls.setup({
           -- `elixir-ls` doesn't come with a `cmd` so specify this manually
@@ -6139,6 +6145,10 @@ require("lazy").setup({
             -- swift
             null_ls.builtins.diagnostics.swiftlint,
             null_ls.builtins.formatting.swiftformat,
+            -- c, cpp, cuda, proto
+            null_ls.builtins.diagnostics.cppcheck,
+            null_ls.builtins.formatting.clang_format,
+            -- null_ls.builtins.formatting.uncrustify,
             -- go
             null_ls.builtins.formatting.gofumpt,
             -- haskell
