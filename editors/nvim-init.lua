@@ -4185,7 +4185,7 @@ require("lazy").setup({
       name = "catppuccin", -- Keep, because "nvim"(of `catppuccin/nvim`) is bad
       priority = 1000, -- keep high for colorschemes
       opts = {
-        -- FIX: Flavor isn't working, so manually setting in `init` for now.
+        -- FIXME: Flavor isn't working, so manually setting in `init` for now.
         flavor = "auto",
         -- flavor = "latte", -- lightest
         -- flavor = "frappe", -- muted
