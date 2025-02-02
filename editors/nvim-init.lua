@@ -1967,7 +1967,7 @@ local create_session_file_in_current_directory = function(opts)
     if string.match(res, "E189") then
       if not overwrite then
         vim.notify(
-          "ERROR E189: A `Session.vim` file already exists in "
+          "ERROR E189: Unable to overwrite `Session.vim` file in "
             .. scope
             .. " current directory",
           vim.log.levels.ERROR
@@ -1979,7 +1979,7 @@ local create_session_file_in_current_directory = function(opts)
         })
         if ok2 then
           vim.notify(
-            "`Session.vim` in " .. scope .. " current directory overwritten",
+            "Overwrote `Session.vim` in " .. scope .. " current directory",
             vim.log.levels.INFO
           )
         else
