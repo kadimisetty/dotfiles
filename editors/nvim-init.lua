@@ -5967,6 +5967,12 @@ require("lazy").setup({
           capabilities = capabilities,
         })
 
+        -- FISH
+        require("lspconfig").fish_lsp.setup({
+          on_attach = common_on_attach,
+          capabilities = capabilities,
+        })
+
         -- GO
         require("lspconfig").gopls.setup({
           on_attach = common_on_attach,
