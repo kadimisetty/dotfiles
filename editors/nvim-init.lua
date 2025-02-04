@@ -1652,6 +1652,7 @@ local rename_tab_with_taboo_plugin = function(show_current_tab_name_in_prompt)
       if not ok2 then -- User gave empty string or cancelled with `<esc>`
         report_rename_failed()
       else
+        -- TODO: Reconsider this clearing command line behavior.
         print("") -- Clear command line prompt line
       end
     end
@@ -3247,9 +3248,12 @@ local set_common_lsp_keymaps = function(bufnr)
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPShowWorkspaceFolders",
-      -- TODO: Print this better
       function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        -- TODO: Make more readable i.e. better than current raw JSON output.
+        vim.notify(
+          vim.inspect(vim.lsp.buf.list_workspace_folders()),
+          vim.log.levels.INFO
+        )
       end,
       { desc = "Show workspace folders" }
     )
@@ -3272,21 +3276,22 @@ end
 -- TODO: Consider activating these keymaps based on events rather than from,
 -- being called via this function
 local set_common_lsp_toggling_keymaps = function()
-  -- Add keymap and command to start/stop/toggle LSP (lspconfig)
+  -- TODO: Add keymap and command to start/stop/toggle LSP (`lspconfig`)
   local toggle_lspconfig_lsp = function()
     -- TODO: Check if able to receive `client` via argument from
     -- `common_on_attach` rather than getting all active clients again here
     local active_clients = vim.lsp.get_active_clients()
     if vim.tbl_isempty(active_clients) then
-      vim.cmd([[LspStart]])
-      print("Starting LSP (lspconfig)")
+      vim.cmd("LspStart")
+      vim.notify("Starting LSP (lspconfig)", vim.log.levels.INFO)
     else
-      vim.cmd([[LspStop]])
+      vim.cmd("LspStop")
       local display_message = "Stopping LSP (lspconfig)"
-      for _, c in ipairs(active_clients) do
-        display_message = display_message .. " : " .. c.name
+      -- FIXME: Fix message display format.
+      for _, client in ipairs(active_clients) do
+        display_message = display_message .. " : " .. client.name
       end
-      print(display_message)
+      vim.notify(display_message, vim.log.levels.INFO)
     end
   end
   vim.keymap.set(
@@ -3301,20 +3306,20 @@ local set_common_lsp_toggling_keymaps = function()
     { desc = "Toggle LSP (lspconfig)" }
   )
   vim.keymap.set("n", "[o,", function()
-    vim.cmd([[LspStart]])
-    print("Starting LSP (lspconfig)")
+    vim.cmd("LspStart")
+    vim.notify("Starting LSP (lspconfig)", vim.log.levels.INFO)
   end, { desc = "Start LSP (lspconfig)" })
   vim.api.nvim_create_user_command("StartLSPConfig", function()
-    vim.cmd([[LspStart]])
-    print("Starting LSP (lspconfig)")
+    vim.cmd("LspStart")
+    vim.notify("Starting LSP (lspconfig)", vim.log.levels.INFO)
   end, { desc = "Start LSP (lspconfig)" })
   vim.keymap.set("n", "]o,", function()
-    vim.cmd([[LspStop]])
-    print("Stopping LSP (lspconfig)")
+    vim.cmd("LspStop")
+    vim.notify("Stopping LSP (lspconfig)", vim.log.levels.INFO)
   end, { desc = "Stop LSP (lspconfig)" })
   vim.api.nvim_create_user_command("StopLSPConfig", function()
-    vim.cmd([[LspStop]])
-    print("Stopping LSP (lspconfig)")
+    vim.cmd("LspStop")
+    vim.notify("Stopping LSP (lspconfig)", vim.log.levels.INFO)
   end, { desc = "Stop LSP (lspconfig)" })
 end
 
@@ -3534,10 +3539,10 @@ local set_common_diagnostics_configuration = function()
     local f = function()
       if vim.diagnostic.is_disabled() then
         vim.diagnostic.enable()
-        print("Enabling diagnostics")
+        vim.notify("Enabling diagnostics", vim.log.levels.INFO)
       else
         vim.diagnostic.disable()
-        print("Disabling diagnostics")
+        vim.notify("Disabling diagnostics", vim.log.levels.INFO)
       end
     end
     vim.keymap.set("n", "yo,", f, { desc = desc })
@@ -4452,10 +4457,11 @@ require("lazy").setup({
             function()
               undotree.toggle()
               -- TODO: Hide this message on closing undotree
-              print(
+              vim.notify(
                 "UNDOTREE: ",
                 "j/k: ↑/↓, J/K: ↑/↓ + change state, ",
-                "cr: change state, p: go to preview, q: quit"
+                "cr: change state, p: go to preview, q: quit",
+                vim.log.levels.INFO
               )
             end,
             desc = "Toggle undotree",
