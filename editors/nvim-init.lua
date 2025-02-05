@@ -4054,22 +4054,25 @@ require("lazy").setup({
       "m4xshen/smartcolumn.nvim",
       opts = {
         colorcolumn = {
-          "80", -- Default is only 80
+          "80", -- DEFAULT: Only 80
           "100",
         },
-        -- custom_colorcolumn = { python = "80", haskell = { "80", "120"}}
-        scope = "window", -- AVAILABLE: file/window/line
         disabled_filetypes = {
-          "help", -- Default
-          "text", -- Default
-          "markdown", -- Default
-          "qf", -- quickfix/location list
-          "checkhealth",
-          "neo-tree",
+          -- DEFAULT: help, text, markdown,
           "alpha",
+          "checkhealth",
           "lazy",
           "mason",
+          "neo-tree",
+          "orphans",
+          "qf", -- quickfix/location list
         },
+        custom_colorcolumn = {
+          python = "80",
+          gitcommit = { 50, 72 },
+        },
+        scope = "window", -- AVAILABLE: file/window/line
+        -- DEFAULT: editorconfig = true, -- Uses `max_line_length`
       },
     },
 
