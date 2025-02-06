@@ -1478,9 +1478,11 @@ function v-deactivate \
 end
 
 # CREATE AND ACTIVATE VIRTUAL ENVIRONMENT {{{3
+# TODO: Add variant of this that will force-delete any present `./venv/`
 function v-create_activate \
     --description "Create and activate python virtual environment `./venv/`"
-    v-create and v-activate
+    v-create
+    and v-activate
 end
 
 # EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{3
