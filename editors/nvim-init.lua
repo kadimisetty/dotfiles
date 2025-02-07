@@ -2971,6 +2971,105 @@ vim.keymap.set(
   { silent = true }
 )
 
+-- SCROLL OTHER WINDOW {{{2
+-- TODO: Treating "OTHER WINDOW" as previous window(`<c-w>p`) by default, but
+-- TODO: Provide `other_window_id()` (-> window_id) which is  value of
+-- configured "OTHER WINDOW"'s window id OR `null` if no other window exists.
+-- allow that to be configurable with a given "window id".
+-- TODO: CONSIDER: How far should i  take this: some/all scrolls and some/all
+-- motions like `j`/`gj` as well?
+-- TODO: Accept `[count]`.
+-- TODO: CONSIDER: Using `<c-m-j/k>` instead of current `<m-j/k>` because it is
+-- easier to remember although it won't be as similar to the others.
+-- TODO: Fix table structure after finishing TODO's.
+-- TODO: Add more "z*" commands?
+-- TODO: Add keymap descriptions.
+
+-- NOTE: KEYMAP GRAMMAR:
+-- +------------------------------------------+----------+--------------------+
+-- | DESCRIPTION                              | THIS     | OTHER              |
+-- |                                          | WINDOW   | WINDOW             |
+-- |                                          |          |                    |
+-- | SCROLLING VERTICALLY: -------------------+----------+--------------------+
+-- |                                          |          |                    |
+-- | Scroll window up by [count] line(s)      | `<c-y>`  | `<m-c-y>`          |
+-- | Scroll window down by [count] line(s)    | `<c-e>`  | `<m-c-e>`          |
+-- |                                          |          |                    |
+-- | Scroll window up by [count] times        | `<c-u>`  | `<m-c-u>`          |
+-- | `scroll` (default is half screen)        |          |                    |
+-- | Scroll window down by [count] times      | `<c-d>`  | `<m-c-d>`          |
+-- | `scroll` (default is half screen)        |          |                    |
+-- |                                          |          |                    |
+-- | Scroll window [count] pages forwards     | `<c-f>`  | `<m-c-f>`          |
+-- | (downwards)                              |          |                    |
+-- | Scroll window [count] pages backwards    | `<c-b>`  | `<m-c-b>`          |
+-- | (upwards)                                |          |                    |
+-- |                                          |          |                    |
+-- | TODO: SCROLLING VERTICALLY RELATIVE TO CURSOR: -----+--------------------+
+-- |                                          |          |                    |
+-- |                                          | `z<cr>`  | TODO: `<m-z><m-cr>`|
+-- |                                          | `zt`     | TODO: `<m-z><m-t>` |
+-- |                                          | `z.`     | TODO: `<m-z><m-.>` |
+-- |                                          | `zb`     | TODO: `<m-z><m-b>` |
+-- |                                          |          |                    |
+-- | MOVING CURSOR LINE VERTICALLY: ----------+----------+--------------------+
+-- | [count] lines downwards                  | `j`      | `<m-c-j>`          |
+-- | [count] lines upwards                    | `k`      | `<m-c-k>`          |
+-- |                                          |          |                    |
+-- +------------------------------------------+----------+--------------------+
+
+-- SCROLLING UP/DOWNWARDS {{{3
+vim.keymap.set(
+  "n",
+  "<m-c-e>",
+  "<c-w>p<c-e><c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-y>",
+  "<c-w>p<c-y><c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-u>",
+  "<c-w>p<c-u><c-w>p",
+  { silent = true, desc = "xxx:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-d>",
+  "<c-w>p<c-d><c-w>p",
+  { silent = true, desc = "xxx:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-f>",
+  "<c-w>p<c-f><c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-b>",
+  "<c-w>p<c-b><c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+
+-- MOVING CURSOR LINE UP/DOWNWARDS {{{3
+vim.keymap.set(
+  "n",
+  "<m-c-j>",
+  "<c-w>pj<c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+vim.keymap.set(
+  "n",
+  "<m-c-k>",
+  "<c-w>pk<c-w>p",
+  { silent = true, desc = "XXX:" }
+)
+
 -- TOGGLE CURSOR LINES {{{2
 -- TODO: Consider using `-` and `|` so like  `yo-` and `yo|`?
 
