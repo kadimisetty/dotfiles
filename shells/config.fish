@@ -156,37 +156,42 @@ end
 # echo               | REGULAR/UNTOUCHED: Print message to `stdout`.          |
 #                    |                                                        |
 # LOG LEVELS: -------+--------------------------------------------------------+
-# echo-INFO          | Print message as informational(`INFO`).                |
-# echo-DEBUG         | Print message for debugging purposes(`DEBUG`).         |
-# echo-WARN          | Print message as warning(`WARN`) to `stdout`.          |
-# echo-ERROR         | Print message as error(`ERROR`) with status code       |
+# echo-INFO          | Print message for informational purposes("INFO").      |
+# echo-DEBUG         | Print message for debugging purposes("DEBUG").         |
+# echo-WARN          | Print message as warning("WARN") to `stdout`.          |
+# echo-ERROR         | Print message as error("ERROR") with status code       |
 #                    | to `stderr`.                                           |
 #                    |                                                        |
 # MISC: -------------+--------------------------------------------------------+
-# echo-USAGE         | Print message as a function's usage info(`USAGE`).     |
+# echo-USAGE         | Print message as a function's usage info("USAGE").     |
 #                    |                                                        |
 # TASKS: ------------+--------------------------------------------------------+
-# echo-task_INIT     | Print message as a task is initiated(`INIT`).          |
-# echo-task_DONE     | Print message as a task is done(`DONE`).               |
-# echo-task_WRAP     | Run task(given function) and print message             |
-#                    | before(`INIT`) and after(`DONE`) it's execution.       |
+# echo-task_INIT     | Print message when task(given functiun) is             |
+#                    | initiated("INIT").                                     |
+# echo-task_DONE     | Print message when task(given function) is             |
+#                    | done("DONE").                                          |
+# echo-task_WRAP     | Print message before and after("WRAP") task            |
+#                    | (given fucntion) is executed.                          |
 #                    |                                                        |
 # SECTIONS: ---------+--------------------------------------------------------+
-# echo-section_INIT  | Print message as a section beginning(`INIT`).          |
-# echo-section_DONE  | Print message as a section ending(`DONE`).             |
-# echo-section_WRAP  | Run section(given function) and print messages at      |
-#                    | the beginning(`INIT`) and ending(`DONE`) of execution. |
+# echo-section_INIT  | Print message when section(given function) is          |
+#                    | initiated("INIT").                                     |
+# echo-section_DONE  | Print message when section(given function) is          |
+#                    | done("DONE").                                          |
+# echo-section_WRAP  | Print message before and after("WRAP") section(given   |
+#                    | function) is executed.                                 |
+#                    |                                                        |
 # -------------------+--------------------------------------------------------+
 
 # ECHO LIB {{{3
 # TODO: Replace `$message` with `$argv` everywhere possible.
 
+# TODO: Make `message` the last argument and consider it  "`$argv` remainder".
 # TODO: Add proper docs.
 # TODO: Validate arguments.
-# TODO: Make `message` the last argument and consider it  "`$argv` remainder".
-# NOTE: `should_invert` is a "boolean" i.e. values are "true"/"false" strings.
+# NOTE: `should_invert` is a "fake boolean"("true"/"false" given as strings).
 function _echo_with_customized_message \
-    --description "" \
+    --description "Construct custom echo variant with given message" \
     --argument-names prefix_label message_color should_invert message
     if test -z $should_invert; or test $should_invert = false
         set_color $message_color --bold
@@ -205,17 +210,17 @@ end
 
 # ECHO LOG LEVELS {{{3
 # ECHO INFO
-# Print message as informational(`INFO`)
+# Print message for informational purposes("INFO").
 # USAGE: `echo-INFO "Formatting files in this directory"
 # OUTPUT(stdout): `INFO: Formatting files in this directory.`
 function echo-INFO \
-    --description "Print message as informational"
+    --description "Print message for informational purposes"
     _echo_with_customized_message INFO $fish_color_quote false $argv
 end
 
 # ECHO DEBUG
 # TODO: Consider `echo-DEBUG` variants for variable/message/function.
-# Print message for debugging purposes(`DEBUG`)
+# Print message for debugging purposes("DEBUG").
 # USAGE 1: `echo-DEBUG "Incrmenting counter"
 # OUTPUT(stdout): `DEBUG: Incrementing counter
 # USAGE 2: `ECHO_DEBUG_DISABLE=1; echo-DEBUG "Can you see me?"
@@ -228,7 +233,7 @@ function echo-DEBUG \
 end
 
 # ECHO WARN
-# Print message as warning(`WARN`) to `stdout`.
+# Print message as warning("WARN") to `stdout`.
 # USAGE: `echo-WARN "This will be deprecated soon."
 # OUTPUT(stdout): `WARN: This will be deprecated soon.`
 # NOTE: Printing to`stdout`(i.e. not `stderr`) on purpose because this is
@@ -239,7 +244,7 @@ function echo-WARN \
 end
 
 # ECHO ERROR
-# Print message as error(`ERROR`) with status code to `stderr`.
+# Print message as error("ERROR") with status code to `stderr`.
 # NOTE: Writes to stderr
 # NOTE: Intentionally not returning error status (i.e. `return 1`).
 # TODO: CONSIDER: A similar variant that will also return failure or accept
@@ -251,7 +256,7 @@ end
 # USAGE 2: `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echo-ERROR \
-    --description "Print message as error to `stderr`"
+    --description "Print message as error with status code to `stderr`"
     set --function message $argv
     # Append piped inputs if getting value from pipe
     if not isatty stdin
@@ -279,7 +284,7 @@ end
 
 # ECHO MISC {{{3
 # ECHO USAGE
-# Print message as a function's usage info(`USAGE`)
+# Print message as a function's usage info("USAGE").
 # USAGE: `echo-USAGE "xxx (REQ:option1) (OPT:flag)"
 # OUTPUT(stdout): `USAGE: xxx (REQ:option1) (OPT:flag)`
 function echo-USAGE \
@@ -289,28 +294,27 @@ end
 
 # ECHO TASKS {{{3
 # ECHO TASK INIT
-# Print message as a task is initiated(`INIT`)
+# Print message when task(given functiun) is initiated("INIT").
 # USAGE: `echo-task_INIT "Started task"
 # OUTPUT(stdout): `INIT: Started task`
 function echo-task_INIT \
-    --description "Print message as a task is initiated" \
+    --description "Print message when task(given function) is initiated" \
     --argument-names message
     _echo_with_customized_message INIT $fish_color_operator false $message
 end
 
 # ECHO TASK DONE
-# Print message as a task is done(`DONE`).
+# Print message when task(given function) is done("DONE").
 # USAGE: `echo-task_DONE "Completed task"
 # OUTPUT(stdout): `DONE: Completed task`
 function echo-task_DONE \
-    --description "Print message as a task is done" \
+    --description "Print message when task(given function) is done" \
     --argument-names message
     _echo_with_customized_message DONE $fish_color_operator false $message
 end
 
 # ECHO TASK WRAP
-# Run task(given function) and print message before(`INIT`) and after(`DONE`)
-# it's execution.
+# Print message before and after("WRAP") task(given fucntion) is executed.
 # TODO: Include task function name in message output?
 # TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-task_WRAP function_that_prints_abc "Running task"
@@ -319,7 +323,7 @@ end
 # abc
 # DONE: Running task```
 function echo-task_WRAP \
-    --description "Print message before/after given task is executed" \
+    --description "Print message before and after task(given function) is executed" \
     --argument-names task_function message
     if not test -n "$task_function"
         echo-USAGE "echo-task_WRAP (REQ:task_function) (OPT:message)"
@@ -341,31 +345,30 @@ end
 
 # ECHO SECTIONS {{{3
 # ECHO SECTION INIT
-# Print message as a section beginning (`INIT`)
+# Print message when section(given function) is initiated("INIT").
 # TODO: Add indention hierarchy for child sections?
 # USAGE: `echo-section_INIT "Configuration Section"
 # OUTPUT(stdout): ```\n>>> INIT: Configuration Section`
 function echo-section_INIT \
-    --description "Print message as a section beginning" \
+    --description "Print message when section(given function) is initiated" \
     --argument-names message
     echo # Blank line intended
     _echo_with_customized_message ">>> INIT" $fish_color_operator false $message
 end
 
 # ECHO SECTION DONE
-# Print message as a section ending (`DONE`)
+# Print message when section(given function) is done("DONE").
 # USAGE: `echo-section_DONE "Configuration Section"
 # OUTPUT(stdout): ```<<< DONE: Configuration Section\n`
 function echo-section_DONE \
-    --description "Print message as a section ending" \
+    --description "Print message when section(given function) is done" \
     --argument-names message
     _echo_with_customized_message "<<< DONE" $fish_color_operator false $message
     echo # Blank line intended
 end
 
 # ECHO SECTION WRAP
-# Run section(given function) and print messages at      the beginning(`INIT`)
-# and ending(`DONE`) of execution.
+# Print message before and after("WRAP") section(given  function) is executed.                                 |
 # TODO: Don't just limit to passing in `$message`, use the entire `$argv` here.
 # USAGE: `echo-SECTION_WRAP function_that_prints_abc "SECTION"
 # OUTPUT(stdout): ```
@@ -373,7 +376,7 @@ end
 # abc
 # <<< DONE: SECTION\n```
 function echo-section_WRAP \
-    --description "Print message before/after given section is executed" \
+    --description "Print message before and after section(given function) is executed" \
     --argument-names section_function message
     if not test -n "$section_function"
         echo-USAGE "echo-section_WRAP (REQ:section_function) (OPT:message)`"
