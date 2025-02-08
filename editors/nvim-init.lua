@@ -2987,9 +2987,9 @@ vim.keymap.set(
 
 -- NOTE: KEYMAP GRAMMAR:
 -- +------------------------------------------+----------+--------------------+
--- | DESCRIPTION                              | THIS     | OTHER              |
--- |                                          | WINDOW   | WINDOW             |
--- |                                          |          |                    |
+-- | DESCRIPTION                              | THIS     | MY KEYMAP          |
+-- |                                          | WINDOW   | TO RUN COMMAND     |
+-- |                                          | COMMAND  | IN PREVIOUS WINDOW |
 -- | SCROLLING VERTICALLY: -------------------+----------+--------------------+
 -- |                                          |          |                    |
 -- | Scroll window up by [count] line(s)      | `<c-y>`  | `<m-c-y>`          |
@@ -3018,57 +3018,36 @@ vim.keymap.set(
 -- |                                          |          |                    |
 -- +------------------------------------------+----------+--------------------+
 
--- SCROLLING UP/DOWNWARDS {{{3
-vim.keymap.set(
-  "n",
-  "<m-c-e>",
-  "<c-w>p<c-e><c-w>p",
-  { silent = true, desc = "XXX:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-y>",
-  "<c-w>p<c-y><c-w>p",
-  { silent = true, desc = "XXX:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-u>",
-  "<c-w>p<c-u><c-w>p",
-  { silent = true, desc = "xxx:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-d>",
-  "<c-w>p<c-d><c-w>p",
-  { silent = true, desc = "xxx:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-f>",
-  "<c-w>p<c-f><c-w>p",
-  { silent = true, desc = "XXX:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-b>",
-  "<c-w>p<c-b><c-w>p",
-  { silent = true, desc = "XXX:" }
-)
+local run_scroll_command_in_previous_window = function(previous_window_command)
+  -- TODO: Switch terminology/features from "previous" to "other" window.
+  -- TODO: SMALL OPTIMIATION: Only use a count if `vim.v.count1 > 1`.
+  return function()
+    return "<c-w>p" .. vim.v.count1 .. previous_window_command .. "<c-w>p"
+  end
+end
 
--- MOVING CURSOR LINE UP/DOWNWARDS {{{3
-vim.keymap.set(
-  "n",
-  "<m-c-j>",
-  "<c-w>pj<c-w>p",
-  { silent = true, desc = "XXX:" }
-)
-vim.keymap.set(
-  "n",
-  "<m-c-k>",
-  "<c-w>pk<c-w>p",
-  { silent = true, desc = "XXX:" }
-)
+vim
+  .iter({
+    -- NOTE: { KEY, PREVIOUS_WINDOW_COMMAND, DESCRIPTION }
+    -- TODO: Separate into sections similar to the grammar table.
+    { "<m-c-y>", "<c-y>", "Scroll previous window upwards" },
+    { "<m-c-e>", "<c-e>", "Scroll previous window downwards" },
+    { "<m-c-u>", "<c-u>", "Scroll previous window up half page(`scroll`)" },
+    { "<m-c-d>", "<c-d>", "Scroll previous window down half page(`scroll`)" },
+    { "<m-c-f>", "<c-f>", "Scroll previous window page forward" },
+    { "<m-c-b>", "<c-b>", "Scroll previous window page backward" },
+    { "<m-c-j>", "j", "Move previous window cursor line downwards" },
+    { "<m-c-k>", "k", "Move previous window cursor line upwards" },
+  })
+  :map(function(item)
+    -- NOTE: { 1 = KEY, 2 = PREVIOUS_WINDOW_COMMAND, 3  = DESCRIPTION },
+    vim.keymap.set(
+      "n",
+      item[1],
+      run_scroll_command_in_previous_window(item[2]),
+      { silent = true, expr = true, desc = item[3] }
+    )
+  end)
 
 -- TOGGLE CURSOR LINES {{{2
 -- TODO: Consider using `-` and `|` so like  `yo-` and `yo|`?
