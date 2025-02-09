@@ -2972,24 +2972,18 @@ vim.keymap.set(
 )
 
 -- SCROLL OTHER WINDOW {{{2
+-- TODO: Apply to both "scroll" and "movement" nromal mode commands present
+-- in `scroll.txt`.
 -- TODO: Treating "OTHER WINDOW" as previous window(`<c-w>p`) by default, but
--- TODO: Provide `other_window_id()` (-> window_id) which is  value of
--- configured "OTHER WINDOW"'s window id OR `null` if no other window exists.
--- allow that to be configurable with a given "window id".
--- TODO: CONSIDER: How far should i  take this: some/all scrolls and some/all
--- motions like `j`/`gj` as well?
--- TODO: Accept `[count]`.
--- TODO: CONSIDER: Using `<c-m-j/k>` instead of current `<m-j/k>` because it is
--- easier to remember although it won't be as similar to the others.
+-- allow that to be configured with a given "window id".
+-- TODO: Create commands like `ScrollOtherWindowUpNLines` etc.
 -- TODO: Fix table structure after finishing TODO's.
--- TODO: Add more "z*" commands?
--- TODO: Add keymap descriptions.
 
 -- NOTE: KEYMAP GRAMMAR:
 -- +------------------------------------------+----------+--------------------+
 -- | DESCRIPTION                              | THIS     | MY KEYMAP          |
 -- |                                          | WINDOW   | TO RUN COMMAND     |
--- |                                          | COMMAND  | IN PREVIOUS WINDOW |
+-- |                                          | COMMAND  | IN OTHER WINDOW    |
 -- | SCROLLING VERTICALLY: -------------------+----------+--------------------+
 -- |                                          |          |                    |
 -- | Scroll window up by [count] line(s)      | `<c-y>`  | `<m-c-y>`          |
@@ -3018,34 +3012,66 @@ vim.keymap.set(
 -- |                                          |          |                    |
 -- +------------------------------------------+----------+--------------------+
 
-local run_scroll_command_in_previous_window = function(previous_window_command)
+-- NOTE: This is currently bound to run given normal command  in "previous"
+-- window only. Add variant with a configurable "other" window.
+local run_scroll_command_in_previous_window = function(scroll_command)
   -- TODO: Switch terminology/features from "previous" to "other" window.
-  -- TODO: SMALL OPTIMIATION: Only use a count if `vim.v.count1 > 1`.
+  -- TODO: SMALL OPTIMIZATION: Only use a count if `vim.v.count1 > 1`.
   return function()
-    return "<c-w>p" .. vim.v.count1 .. previous_window_command .. "<c-w>p"
+    return "<c-w>p" .. vim.v.count1 .. scroll_command .. "<c-w>p"
   end
 end
 
 vim
   .iter({
-    -- NOTE: { KEY, PREVIOUS_WINDOW_COMMAND, DESCRIPTION }
     -- TODO: Separate into sections similar to the grammar table.
-    { "<m-c-y>", "<c-y>", "Scroll previous window upwards" },
-    { "<m-c-e>", "<c-e>", "Scroll previous window downwards" },
-    { "<m-c-u>", "<c-u>", "Scroll previous window up half page(`scroll`)" },
-    { "<m-c-d>", "<c-d>", "Scroll previous window down half page(`scroll`)" },
-    { "<m-c-f>", "<c-f>", "Scroll previous window page forward" },
-    { "<m-c-b>", "<c-b>", "Scroll previous window page backward" },
-    { "<m-c-j>", "j", "Move previous window cursor line downwards" },
-    { "<m-c-k>", "k", "Move previous window cursor line upwards" },
+    {
+      key = "<m-c-y>",
+      scroll_command = "<c-y>",
+      desc = "Scroll previous window upwards",
+    },
+    {
+      key = "<m-c-e>",
+      scroll_command = "<c-e>",
+      desc = "Scroll previous window downwards",
+    },
+    {
+      key = "<m-c-u>",
+      scroll_command = "<c-u>",
+      desc = "Scroll previous window up half page(`scroll`)",
+    },
+    {
+      key = "<m-c-d>",
+      scroll_command = "<c-d>",
+      desc = "Scroll previous window down half page(`scroll`)",
+    },
+    {
+      key = "<m-c-f>",
+      scroll_command = "<c-f>",
+      desc = "Scroll previous window page forward",
+    },
+    {
+      key = "<m-c-b>",
+      scroll_command = "<c-b>",
+      desc = "Scroll previous window page backward",
+    },
+    {
+      key = "<m-c-j>",
+      scroll_command = "j",
+      desc = "Move previous window cursor line downwards",
+    },
+    {
+      key = "<m-c-k>",
+      scroll_command = "k",
+      desc = "Move previous window cursor line upwards",
+    },
   })
   :map(function(item)
-    -- NOTE: { 1 = KEY, 2 = PREVIOUS_WINDOW_COMMAND, 3  = DESCRIPTION },
     vim.keymap.set(
       "n",
-      item[1],
-      run_scroll_command_in_previous_window(item[2]),
-      { silent = true, expr = true, desc = item[3] }
+      item.key,
+      run_scroll_command_in_previous_window(item.scroll_command),
+      { silent = true, expr = true, desc = item.desc }
     )
   end)
 
