@@ -3463,12 +3463,8 @@ local set_common_lsp_formatting = function(opts)
   end
 
   local filter_function = function(client)
-    -- TODO: Shorten this condition
-    if opts.desired_client_name ~= nil then
-      return opts.desired_client_name == client.name
-    else
-      return true
-    end
+    return opts.desired_client_name == nil
+      or opts.desired_client_name == client.name
   end
 
   -- SYNC FORMAT
