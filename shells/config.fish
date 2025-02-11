@@ -1824,6 +1824,8 @@ end
 # 00:00 HRS and "LAST WEEK" should cover commits made over the previous 7 days.
 alias glog-ALL='git log --oneline --decorate --graph' # all commits
 # FIXME: Find a solution for `glog-FIRST_*` aliases that can still show color.
+# TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
+# simplicity, readability and cross-compatibility sake.
 alias glog-FIRST_1="git log --oneline --decorate --graph | tail -n 1"
 alias glog-FIRST_5="git log --oneline --decorate --graph | tail -n 5"
 alias glog-FIRST_10="git log --oneline --decorate --graph | tail -n 10"
@@ -1835,10 +1837,25 @@ alias glog-LAST_20='git log --oneline --decorate --graph --max-count=20'
 alias glog-TODAY='git log --oneline --decorate --graph --since=midnight'
 alias glog-YESTERDAY='git log --oneline --decorate --graph --since=yesterday.midnight --before=midnight'
 alias glog-THIS_DAY='git log --oneline --decorate --graph --since=midnight'
-# TODO: alias glog-THIS_WEEK=
-# TODO: alias glog-THIS_MONTH=
-# TODO: alias glog-THIS_QUARTER=
-# TODO: alias glog-THIS_YEAR=
+alias glog-THIS_WEEK='git log --oneline --decorate --graph --since=last.sunday.midnight'
+alias glog-THIS_MONTH='git log --oneline --decorate --graph --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
+function glog-THIS_QUARTER \
+    --description "Show commits made in the current quarter" \
+    --wraps 'git log'
+    set --function current_month (date +%m)
+    set --function current_year (date +%Y)
+    if test $current_month -le 3
+        set --function since "$current_year-01-01T00:00:00"
+    else if test $current_month -le 6
+        set --function since "$current_year-04-01T00:00:00"
+    else if test $current_month -le 9
+        set --function since "$current_year-07-01T00:00:00"
+    else
+        set --function since "$current_year-10-01T00:00:00"
+    end
+    git log --oneline --decorate --graph --since="$since"
+end
+alias glog-THIS_YEAR='git log --oneline --decorate --graph --since="$(date -v1m -v1d +%Y-01-01)T00:00:00"'
 alias glog-LAST_WEEK='git log --oneline --decorate --graph --since=1.week'
 alias glog-LAST_MONTH='git log --oneline --decorate --graph --since=1.month'
 alias glog-LAST_QUARTER='git log --oneline --decorate --graph --since=4.month'
