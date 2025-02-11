@@ -1743,7 +1743,14 @@ alias grep-IGNORECASE="grep --ignore-case"
 
 
 # GIT {{{1
-# `cd` UPWARDS TO ROOT GIT DIRECTORY {{{2
+# NOTE: FOR `git log`/`git stash`: Time duration variants: (LAST/THIS)
+# (DAY/WEEK/MONTH).
+# NOTE: FOR `git log`/`git stash`: "THIS" vs "LAST" example: "THIS WEEK" should
+# cover commits since monday 00:00 HRS and "LAST WEEK" should cover commits
+# made over the previous 7 days.
+
+# GIT UTILITIES {{{2
+# `cd` UPWARDS TO ROOT GIT DIRECTORY {{{3
 # TODO: Accept argument sub directory with hierarchy calculated from git root
 # directory, like in fugitive's `Gcd`.
 alias g-cd='cd (git rev-parse --show-toplevel)'
@@ -1820,8 +1827,6 @@ function gclone-cd_USERNAME \
 end
 
 # GIT LOG {{{2
-# NOTE: "THIS" vs "LAST" example: "THIS WEEK" should cover commits since monday
-# 00:00 HRS and "LAST WEEK" should cover commits made over the previous 7 days.
 alias glog-ALL='git log --oneline --decorate --graph' # all commits
 # FIXME: Find a solution for `glog-FIRST_*` aliases that can still show color.
 # TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
@@ -1933,11 +1938,29 @@ alias gstash-show_PATCH_WITH_STAT='git stash show --patch-with-stat'
 alias gstash-into_BRANCH='git stash branch' # expects: `<branch> [<stash>]`
 
 # STASH LIST {{{3
-# NOTE: Time duration variants: (LAST/THIS) (DAY/WEEK/MONTH)
-# UNBOUND {{{4
 alias gstash-list='git stash list'
 alias gstash-list_NAMES='git stash list --name-status'
 alias gstash-list_STAT='git stash list --stat'
+# TODO: TODAY {{{4
+alias gstash-list_TODAY='git stash list --since=midnight'
+alias gstash-list_TODAY_NAMES='git stash list --name-status --since=midnight'
+alias gstash-list_TODAY_STAT='git stash list --stat --since=midnight'
+# TODO: YESTERDAY {{{4
+alias gstash-list_YESTERDAY='git stash list --since=yesterday.midnight'
+alias gstash-list_YESTERDAY_NAMES='git stash list --name-status --since=yesterday.midnight'
+alias gstash-list_YESTERDAY_STAT='git stash list --stat --since=yesterday.midnight'
+# TODO: THIS DAY {{{4
+alias gstash-list_THIS_DAY='git stash list --since=midnight'
+alias gstash-list_THIS_DAY_NAMES='git stash list --name-status --since=midnight'
+alias gstash-list_THIS_DAY_STAT='git stash list --stat --since=midnight'
+# TODO: THIS WEEK {{{4
+alias gstash-list_WEEK='git stash list --since=last.sunday.midnight'
+alias gstash-list_WEEK_NAMES='git stash list --name-status --since=last.sunday.midnight'
+alias gstash-list_WEEK_STAT='git stash list --stat --since=last.sunday.midnight'
+# TODO: THIS MONTH {{{4
+alias gstash-list_THIS_MONTH='git stash list --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
+alias gstash-list_THIS_MONTH_NAMES='git stash list --name-status --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
+alias gstash-list_THIS_MONTH_STAT='git stash list --stat --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
 # LAST DAY {{{4
 alias gstash-list_LAST_DAY='git stash list --since=1.day'
 alias gstash-list_NAMES_LAST_DAY='git stash list --name-status --since=1.day'
@@ -1950,9 +1973,6 @@ alias gstash-list_STAT_LAST_WEEK='git stash list --stat --since=1.week'
 alias gstash-list_LAST_MONTH='git stash list --since=1.month'
 alias gstash-list_NAMES_LAST_MONTH='git stash list --name-status --since=1.month'
 alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
-# TODO: THIS DAY {{{4
-# TODO: THIS WEEK {{{4
-# TODO: THIS MONTH {{{4
 
 # GIT SHOW {{{2
 alias gshow='git show'
