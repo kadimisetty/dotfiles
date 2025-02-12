@@ -1827,29 +1827,38 @@ function gclone-cd_USERNAME \
 end
 
 # GIT LOG {{{2
+# TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
+# simplicity, readability and cross-compatibility sake.
+
 # BY SEARCH {{{3
 alias glog-search='git log --oneline --regexp-ignore-case --grep'
 alias glog-search_VERBOSE='git log --regexp-ignore-case --grep'
 
 # BY COUNT {{{3
-alias glog-ALL='git log --oneline --decorate --graph' # all commits
-# FIXME: Find a solution for `glog-FIRST_*` aliases that can still show color.
-# TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
-# simplicity, readability and cross-compatibility sake.
 # COMPACT {{{4
-alias glog-FIRST_1="git log --oneline --decorate --graph | tail -n 1"
-alias glog-FIRST_5="git log --oneline --decorate --graph | tail -n 5"
-alias glog-FIRST_10="git log --oneline --decorate --graph | tail -n 10"
-alias glog-FIRST_20="git log --oneline --decorate --graph | tail -n 20"
-alias glog-LAST_1='git log HEAD --stat --max-count=1'
+alias glog-ALL='git log --oneline --decorate --graph' # all commits
+function _glog-FIRST_n \
+    --argument-names n \
+    --wraps "git show"
+    # NOTE: `--reverse` and `--graph` cannot be used together in `git show`
+    git rev-list --reverse HEAD |
+        head -n $n |
+        tac |
+        xargs git show --reverse --no-patch --oneline --decorate $argv[2..]
+end
+alias glog-FIRST_1="_glog-FIRST_n 1"
+alias glog-FIRST_5="_glog-FIRST_n 5"
+alias glog-FIRST_10="_glog-FIRST_n 10"
+alias glog-FIRST_20="_glog-FIRST_n 20"
+alias glog-LAST_1='git log HEAD --oneline --max-count=1'
 alias glog-LAST_5='git log --oneline --decorate --graph --max-count=5'
 alias glog-LAST_10='git log --oneline --decorate --graph --max-count=10'
 alias glog-LAST_20='git log --oneline --decorate --graph --max-count=20'
 # VERBOSE {{{4
-alias glog-FIRST_1_VERBOSE='glog-FIRST_1 --compact-summary'
-alias glog-FIRST_5_VERBOSE='glog-FIRST_5 --compact-summary'
-alias glog-FIRST_10_VERBOSE='glog-FIRST_10 --compact-summary'
-alias glog-FIRST_20_VERBOSE='glog-FIRST_20 --compact-summary'
+alias glog-FIRST_1_VERBOSE="glog-FIRST_1 --compact-summary"
+alias glog-FIRST_5_VERBOSE="glog-FIRST_5 --compact-summary"
+alias glog-FIRST_10_VERBOSE="glog-FIRST_10 --compact-summary"
+alias glog-FIRST_20_VERBOSE="glog-FIRST_20 --compact-summary"
 alias glog-LAST_1_VERBOSE='glog-LAST_1 --compact-summary'
 alias glog-LAST_5_VERBOSE='glog-LAST_5 --compact-summary'
 alias glog-LAST_10_VERBOSE='glog-LAST_10 --compact-summary'
