@@ -1836,6 +1836,7 @@ alias glog-ALL='git log --oneline --decorate --graph' # all commits
 # FIXME: Find a solution for `glog-FIRST_*` aliases that can still show color.
 # TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
 # simplicity, readability and cross-compatibility sake.
+# COMPACT {{{4
 alias glog-FIRST_1="git log --oneline --decorate --graph | tail -n 1"
 alias glog-FIRST_5="git log --oneline --decorate --graph | tail -n 5"
 alias glog-FIRST_10="git log --oneline --decorate --graph | tail -n 10"
@@ -1844,8 +1845,18 @@ alias glog-LAST_1='git log HEAD --stat --max-count=1'
 alias glog-LAST_5='git log --oneline --decorate --graph --max-count=5'
 alias glog-LAST_10='git log --oneline --decorate --graph --max-count=10'
 alias glog-LAST_20='git log --oneline --decorate --graph --max-count=20'
+# VERBOSE {{{4
+alias glog-FIRST_1_VERBOSE='glog-FIRST_1 --compact-summary'
+alias glog-FIRST_5_VERBOSE='glog-FIRST_5 --compact-summary'
+alias glog-FIRST_10_VERBOSE='glog-FIRST_10 --compact-summary'
+alias glog-FIRST_20_VERBOSE='glog-FIRST_20 --compact-summary'
+alias glog-LAST_1_VERBOSE='glog-LAST_1 --compact-summary'
+alias glog-LAST_5_VERBOSE='glog-LAST_5 --compact-summary'
+alias glog-LAST_10_VERBOSE='glog-LAST_10 --compact-summary'
+alias glog-LAST_20_VERBOSE='glog-LAST_20 --compact-summary'
 
 # BY PERIOD {{{3
+# COMPACT {{{3
 alias glog-TODAY='git log --oneline --decorate --graph --since=midnight'
 alias glog-YESTERDAY='git log --oneline --decorate --graph --since=yesterday.midnight --before=midnight'
 alias glog-THIS_DAY='git log --oneline --decorate --graph --since=midnight'
@@ -1865,13 +1876,27 @@ function glog-THIS_QUARTER \
     else
         set --function since "$current_year-10-01T00:00:00"
     end
-    git log --oneline --decorate --graph --since="$since"
+    git log --oneline --decorate --graph --since="$since" $argv
 end
 alias glog-THIS_YEAR='git log --oneline --decorate --graph --since="$(date -v1m -v1d +%Y-01-01)T00:00:00"'
 alias glog-LAST_WEEK='git log --oneline --decorate --graph --since=1.week'
 alias glog-LAST_MONTH='git log --oneline --decorate --graph --since=1.month'
 alias glog-LAST_QUARTER='git log --oneline --decorate --graph --since=4.month'
 alias glog-LAST_YEAR='git log --oneline --decorate --graph --since=1.year'
+# VERBOSE {{{3
+alias glog-TODAY_VERBOSE='glog-TODAY --compact-summary'
+alias glog-YESTERDAY_VERBOSE='glog-YESTERDAY --compact-summary'
+alias glog-THIS_DAY_VERBOSE='glog-THIS_DAY --compact-summary'
+alias glog-THIS_WEEK_VERBOSE='glog-THIS_WEEK --compact-summary'
+alias glog-THIS_MONTH_VERBOSE='glog-THIS_MONTH --compact-summary'
+alias glog-THIS_QUARTER_VERBOSE='glog-THIS_QUARTER --compact-summary'
+alias glog-THIS_YEAR_VERBOSE='glog-THIS_YEAR --compact-summary'
+alias glog-LAST_WEEK_VERBOSE='glog-LAST_WEEK --compact-summary'
+alias glog-LAST_MONTH_VERBOSE='glog-LAST_MONTH --compact-summary'
+alias glog-LAST_QUARTER_VERBOSE='glog-LAST_QUARTER --compact-summary'
+alias glog-LAST_YEAR_VERBOSE='glog-LAST_YEAR --compact-summary'
+
+
 
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
@@ -1935,10 +1960,8 @@ end
 # temporary commit once this whole operation completes.
 
 # STASH SHOW {{{3
-alias gstash-show_NAMES='git stash show --name-status'
-alias gstash-show_STAT='git stash show --stat'
-alias gstash-show_PATCH='git stash show --patch'
-alias gstash-show_PATCH_WITH_STAT='git stash show --patch-with-stat'
+alias gstash-show='git stash show --compact-summary'
+alias gstash-show_PATCH='git stash show --patch-with-stat --compact-summary'
 
 # STASH CONVERT {{{3
 # TODO: gstash-into_commit
@@ -1948,60 +1971,37 @@ alias gstash-into_BRANCH='git stash branch' # expects: `<branch> [<stash>]`
 # BY SEARCH {{{4
 alias gstash-search='git stash list --regexp-ignore-case --grep'
 alias gstash-search_VERBOSE='git stash list --stat --regexp-ignore-case --grep'
-
 # BY COUNT {{{4
 alias gstash-list='git stash list'
-alias gstash-list_NAMES='git stash list --name-status'
-alias gstash-list_STAT='git stash list --stat'
-
+alias gstash-list_VERBOSE='git stash list --compact-summary'
 # BY PERIOD {{{4
-# TODO: TODAY {{{5
+# COMPACT {{{5
 alias gstash-list_TODAY='git stash list --since=midnight'
-alias gstash-list_TODAY_NAMES='git stash list --name-status --since=midnight'
-alias gstash-list_TODAY_STAT='git stash list --stat --since=midnight'
-# TODO: YESTERDAY {{{5
 alias gstash-list_YESTERDAY='git stash list --since=yesterday.midnight'
-alias gstash-list_YESTERDAY_NAMES='git stash list --name-status --since=yesterday.midnight'
-alias gstash-list_YESTERDAY_STAT='git stash list --stat --since=yesterday.midnight'
-# TODO: THIS DAY {{{5
 alias gstash-list_THIS_DAY='git stash list --since=midnight'
-alias gstash-list_THIS_DAY_NAMES='git stash list --name-status --since=midnight'
-alias gstash-list_THIS_DAY_STAT='git stash list --stat --since=midnight'
-# TODO: THIS WEEK {{{5
-alias gstash-list_WEEK='git stash list --since=last.sunday.midnight'
-alias gstash-list_WEEK_NAMES='git stash list --name-status --since=last.sunday.midnight'
-alias gstash-list_WEEK_STAT='git stash list --stat --since=last.sunday.midnight'
-# TODO: THIS MONTH {{{5
+alias gstash-list_THIS_WEEK='git stash list --since=last.sunday.midnight'
 alias gstash-list_THIS_MONTH='git stash list --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
-alias gstash-list_THIS_MONTH_NAMES='git stash list --name-status --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
-alias gstash-list_THIS_MONTH_STAT='git stash list --stat --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
-# LAST DAY {{{5
 alias gstash-list_LAST_DAY='git stash list --since=1.day'
-alias gstash-list_NAMES_LAST_DAY='git stash list --name-status --since=1.day'
-alias gstash-list_STAT_LAST_DAY='git stash list --stat --since=1.day'
-# LAST WEEK {{{5
 alias gstash-list_LAST_WEEK='git stash list --since=1.week'
-alias gstash-list_NAMES_LAST_WEEK='git stash list --name-status --since=1.week'
-alias gstash-list_STAT_LAST_WEEK='git stash list --stat --since=1.week'
-# LAST MONTH {{{5
 alias gstash-list_LAST_MONTH='git stash list --since=1.month'
-alias gstash-list_NAMES_LAST_MONTH='git stash list --name-status --since=1.month'
-alias gstash-list_STAT_LAST_MONTH='git stash list --stat --since=1.month'
+# VERBOSE {{{5
+alias gstash-list_TODAY_VERBOSE='gstash-list_TODAY --compact-summary'
+alias gstash-list_YESTERDAY_VERBOSE='gstash-list_YESTERDAY --compact-summary'
+alias gstash-list_THIS_DAY_VERBOSE='gstash-list_THIS_DAY --compact-summary'
+alias gstash-list_THIS_WEEK_VERBOSE='gstash-list_THIS_WEEK -compact-summary'
+alias gstash-list_THIS_MONTH_VERBOSE='gstash-list_THIS_MONTH --compact-summary'
+alias gstash-list_LAST_DAY_VERBOSE='gstash-list_LAST_DAY --compact-summary'
+alias gstash-list_LAST_WEEK_VERBOSE='gstash-list_LAST_WEEK --compact-summary'
+alias gstash-list_LAST_MONTH_VERBOSE='gstash-list_LAST_MONTH --compact-summary'
 
 # GIT SHOW {{{2
-alias gshow='git show'
-alias gshow-NAMES='git show --name-status'
-alias gshow-STAT='git show --stat'
-alias gshow-PATCH='git show --patch'
-alias gshow-PATCH_WITH_STAT='git show --patch-with-stat'
-alias gshow-SUMMARY='git show --summary'
-alias gshow-SUMMARY_MINIMAL='git show --no-patch --format=short'
-alias gshow-SUMMARY_VERBOSE='git show --no-patch --format=fuller'
+alias gshow='git show --compact-summary'
+alias gshow-PATCH='git show --patch-with-stat --compact-summary'
+# TODO: Make the commit information part like `--oneline` including colors.
 alias gshow-DATE='git show --no-patch --format="%h %s%nCommited %cr (%cd local time) %ch" --date=local'
 
 # GIT STATUS {{{2
 alias gstatus='git status'
-alias gstatus-MINIMAL='git status --branch --short'
 alias gstatus-VERBOSE='git status --branch --long --verbose --show-stash'
 
 # GIT TAG {{{2
@@ -2037,7 +2037,7 @@ complete --command gtags-show_TAG \
 alias gbranch-list_MERGED='git branch --merged'
 alias gbranch-list_UNMERGED='git branch --no-merged'
 alias gbranch-list_CONTAINS_COMMIT_HASH='git branch --all --contains commit_hash'
-# QUIET {{{4
+# COMPACT {{{4
 alias gbranch-list_LOCAL='git branch'
 alias gbranch-list_REMOTE='git branch --remotes'
 alias gbranch-list_ALL='git branch --all'
