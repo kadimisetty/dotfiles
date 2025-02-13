@@ -629,26 +629,20 @@ set fish_cursor_default block # `default` includes normal and visual modes
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
 
-# PUT PERSONAL EXECUTABLES ON PATH (Create dir if not present) {{{2
-if ! test -e "$HOME/bin"
-    mkdir $HOME/bin
+# ENSURE COMMON EXECUTABLES DIRS ARE PLACED ON PATH  {{{2
+# NOTE: Created if not present
+function _ensure_dir_exists_and_is_in_PATH \
+    --argument-names dir
+    # TODO: Validate argument
+    if not test -e $dir
+        mkdir $dir
+    end
+    fish_add_path $dir
 end
-fish_add_path $HOME/bin/
-# PUT COMMONLY USED BIN PATH ON PATH (used by `stack` etc. Create dir if not
-# present.):
-if ! test -e "$HOME/.local/bin"
-    mkdir $HOME/.local/bin
-end
-fish_add_path $HOME/.local/bin
-function fish_command_not_found
-    echo -s \
-        (set_color $fish_color_error --dim) "ERROR: Command `" \
-        (set_color normal) \
-        (set_color $fish_color_error --bold ) "$argv[1]" \
-        (set_color normal) \
-        (set_color $fish_color_error --dim) "` not found." >&2
-    set_color normal
-end
+# PERSONAL EXECUTABLES BIN DIR
+_ensure_dir_exists_and_is_in_PATH $HOME/bin/
+# COMMONLY USED BIN DIR
+_ensure_dir_exists_and_is_in_PATH $HOME/.local/bin
 
 
 # SHELL SPECIFIC ALIASES {{{1
