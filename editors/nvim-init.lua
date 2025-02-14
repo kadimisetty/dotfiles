@@ -3689,6 +3689,28 @@ require("lazy").setup({
 
   -- LAZY PLUGINS {{{2
   spec = {
+    -- snacks - folke's plugin bundle {{{3
+    {
+      "folke/snacks.nvim",
+      opts = {
+        indent = { -- {{{4
+          -- FIXME: Disable changing cursor color when it goes on indent scope.
+          -- TODO: Add user commands to enable/disable/toggle.
+          -- TODO: Add unimpaired style keymaps(`yoi`) to enable/disable/toggle.
+          animate = { -- NOTE: `animate` is v0.10+ only.
+            style = "up_down",
+            duration = {
+              step = 20, -- ms per step, DEFAULT: 20
+              total = 40, -- ms maximum duration, DEFAULT: 500
+            },
+          },
+          -- TODO: Tone down default colors for both both un/focussed indents.
+          -- TODO: Vary indent color based on depth (`:help snacks-indent.txt`).
+          -- hl = { "SnacksIndent1" ... "SnacksIndent8", },
+        },
+      },
+    },
+
     -- which-key - show keymaps {{{3
     {
       "folke/which-key.nvim",
@@ -3983,20 +4005,6 @@ require("lazy").setup({
     -- `:StripTrailingWhitespace`. Do not replace with a similar plugin,
     -- because they likely don't respect this behavior.
     "axelf4/vim-strip-trailing-whitespace",
-
-    -- indent-blankline - indent guides {{{3
-    {
-      "lukas-reineke/indent-blankline.nvim",
-      event = "BufEnter",
-      main = "ibl",
-      opts = {
-        -- show_current_context = false,
-        indent = {
-          --  TODO: Less intense highlight
-          char = "│",
-        },
-      },
-    },
 
     -- emmet - html completions {{{3
     {
