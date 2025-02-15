@@ -1820,6 +1820,19 @@ function gclone-cd_USERNAME \
     end
 end
 
+# GIT DIFF {{{2
+# TODO: Add `difftool` support
+alias gdiff="git diff"
+# UNSTAGED CHANGES {{{3
+alias gdiff-UNSTAGED='git diff --compact-summary'
+alias gdiff-UNSTAGED_VERBOSE='git diff --patch-with-stat'
+# STAGED  CHANGES {{{3
+alias gdiff-STAGED='git diff --staged --compact-summary'
+alias gdiff-STAGED_VERBOSE='git diff --staged --patch-with-stat'
+# ALL CHANGES (STAGED AND UNSTAGED) {{{3
+alias gdiff-ALL='git diff --compact-summary HEAD'
+alias gdiff-ALL_VERBOSE='git diff --patch-with-stat HEAD'
+
 # GIT LOG {{{2
 # TODO: Rewrite all `date` uses here to use gnu date (`gdate` in coreutils) for
 # simplicity, readability and cross-compatibility sake.
