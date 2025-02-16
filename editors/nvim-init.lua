@@ -413,7 +413,7 @@ vim.opt.cursorcolumn = false
 vim.opt.splitbelow = true
 
 -- Position newly split windows to right
-vim.opt.splitright = true
+vim.opt.splitright = false
 
 -- Show ellipsis on a soft break
 vim.opt.showbreak = [[…]]
@@ -3689,7 +3689,7 @@ require("lazy").setup({
 
   -- LAZY PLUGINS {{{2
   spec = {
-    -- snacks - folke's plugin bundle {{{3
+    -- snacks(indent) - folke's plugin bundle {{{3
     {
       "folke/snacks.nvim",
       opts = {
@@ -3709,6 +3709,40 @@ require("lazy").setup({
           -- hl = { "SnacksIndent1" ... "SnacksIndent8", },
         },
       },
+    },
+
+    -- visual-split - show reference in split {{{3
+    -- TODO: Replace with own reference plugin
+    {
+      "wellle/visual-split.vim",
+      init = function()
+        -- TODO: Specify keymaps for lazy loading purposes in "keys"
+        -- FIXME: `xmap`/`nmap` default keymaps `<c-w>gr` are unwanted, I want
+        -- to use `<c-w>gsr` for them, but `xunmap` errors out and mapping it
+        -- to `<nop>` works but is ugly, find a solution.
+        -- VISUAL MODE
+        vim.cmd([[
+          xmap <c-w>gr <nop>
+          xmap <c-w>gsr  <plug>(Visual-Split-VSResize)
+          " xmap <c-w>gss <plug>(Visual-Split-VSSplit)
+          " xmap <c-w>gsa <plug>(Visual-Split-VSSplitAbove)
+          " xmap <c-w>gsb <plug>(Visual-Split-VSSplitBelow)
+        ]])
+        -- OPERATOR PENDING MODE
+        vim.cmd([[
+          nmap <c-w>gr <nop>
+          nmap <c-w>gsr  <plug>(Visual-Split-Resize)
+          "nmap <c-w>gss <plug>(Visual-Split-Split)
+          "nmap <c-w>gsa <plug>(Visual-Split-SplitAbove)
+          "nmap <c-w>gsb <plug>(Visual-Split-SplitBelow)
+        ]])
+      end,
+      -- TODO: Specify user commands for lazy loading purposes.
+      -- cmd = {
+      --   "VSSplit", -- Respects `'splitbelow'` setting
+      --   "VSSplitAbove", -- Create new split above current window
+      --   "VSSplitBelow", -- Create new split below current window
+      -- },
     },
 
     -- which-key - show keymaps {{{3
