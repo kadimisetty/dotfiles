@@ -429,6 +429,13 @@ function is_binary_on_path \
     type --query $binary
 end
 
+# CHECK IF GIVEN NUMBER IS POSITIVE {{{2
+function is_positive_number \
+    --description "Chek if given number is positive(`>0`)" \
+    --argument-names num
+    test $num -gt 0 2>/dev/null
+end
+
 # PATH RELATIONSHIPS {{{2
 # IS PATH INSIDE ANOTHER PATH? {{{3
 # USAGE 1: `_is_path_inside_path ~/parent/ ~/parent/child/`
@@ -1847,11 +1854,13 @@ alias glog-ALL='git log --oneline --decorate --graph' # all commits
 function _glog-FIRST_n \
     --argument-names n \
     --wraps "git show"
-    # NOTE: `--reverse` and `--graph` cannot be used together in `git show`
-    git rev-list --reverse HEAD |
-        head -n $n |
-        tac |
-        xargs git show --reverse --no-patch --oneline --decorate $argv[2..]
+    if not is_positive_number "$n"
+        echo-ERROR "Requires positive number of commits"
+        echo-USAGE "_glog-FIRST_n (REQ:commit count > 0) (OPT:git log opts)"
+        return
+    end
+    git log --no-walk (git rev-list HEAD | tail -n $n) \
+        --oneline --decorate $argv[2..]
 end
 alias glog-FIRST_1="_glog-FIRST_n 1"
 alias glog-FIRST_5="_glog-FIRST_n 5"
