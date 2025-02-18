@@ -2131,6 +2131,27 @@ alias emacs-term_FRESH="emacs --no-window-system --no-init-file"
 alias emacs-term_QUICK="emacs --no-window-system --quick"
 
 
+# SORT AND UNIQ {{{1
+# SORT {{{2
+# NOTE: Using `--numeric-sort` in all sort aliases, except when not possible
+# like with `--random-sort`.
+# TODO: Consider making a "root sort alias" e.g. `alias _sort="sort --common`
+# REGULAR {{{3
+alias sort-RANDOM="sort --random-sort"
+alias sort-UNIQUE="sort --numeric-sort --unique"
+alias sort-VERSION="sort --numeric-sort --version-sort"
+alias sort-IGNORE_CASE="sort --numeric-sort --ignore-case"
+alias sort-IGNORE_LEADING_SPACE="sort --numeric-sort --ignore-leading-blanks"
+# REVERSE {{{3
+alias sort-reverse="sort --numeric-sort --reverse"
+alias sort-reverse_UNIQUE="sort --numeric-sort --reverse --unique"
+alias sort-reverse_VERSION="sort --numeric-sort --reverse --version-sort"
+alias sort-reverse_IGNORE_CASE="sort --numeric-sort --reverse .--ignore-case"
+alias sort-reverse_IGNORE_LEADING_SPACE="sort --numeric-sort --reverse --ignore-leading-blanks"
+
+# TODO: UNIQ {{{2
+
+
 # WC {{{1
 # NOTE: Using short form flags because macos coreutils by default do not have
 # the long flags available (as of macOS Sonoma).
