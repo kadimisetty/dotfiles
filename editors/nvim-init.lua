@@ -2,6 +2,11 @@
 -- vim: foldmethod=marker:foldlevel=0:nofoldenable:
 -- Author: [Sri Kadimisetty](https://github.com/kadimisetty/dotfiles)
 
+--  BEHAVIORS SPECIFIC TO THIS FILE {{{2
+-- TODO: Change section name to something better.
+-- NOTE: For visual mode keymaps, use `x` instead of `v`.
+-- NOTE: Don't make global aliases, e.g. `bo` for `vim.bo.` etc.
+
 -- PREFERRED KEYMAP GRAMMAR {{{2
 --  +------------------+-----------------------------------+
 --  | LEADER/CHORD     | SCOPE                             |
@@ -2085,7 +2090,7 @@ vim.keymap.set("n", "<d-/>", "<cmd>normal gcc<cr>", {
   desc = "Comment current line (XCode shortcut)",
 })
 -- NOTE: `normal` not working in `<cmd>` for visual mode but fine with `:<c-u>`
-vim.keymap.set("v", "<d-/>", [[:<c-u>'<,'>normal gcc<cr>]], {
+vim.keymap.set("x", "<d-/>", [[:<c-u>'<,'>normal gcc<cr>]], {
   desc = "Comment selection (XCode shortcut)",
 })
 
@@ -2215,11 +2220,11 @@ vim.keymap.set("n", "<leader>Q", "<cmd>qall<cr>", { silent = true })
 vim.keymap.set("n", "<leader>Q!", "<cmd>qall!<cr>", { silent = true })
 
 -- RETAIN VISUAL SELECTION AFTER AN INDENTATION SHIFT {{{2
-vim.keymap.set("v", "<", "<gv", {
+vim.keymap.set("x", "<", "<gv", {
   silent = true,
   desc = "Shift leftwards retaining visual selection",
 })
-vim.keymap.set("v", ">", ">gv", {
+vim.keymap.set("x", ">", ">gv", {
   silent = true,
   desc = "Shift rightwards retaining visual selection",
 })
@@ -3188,7 +3193,7 @@ vim
 -- NOTE: To Vim both `<c-s>` and `<c-S>` are the same, because it cannot
 --       differentiate case within control character paired combos.
 vim.keymap.set("n", "<c-s>", "<cmd>update<cr>", { silent = true })
-vim.keymap.set("v", "<c-s>", "<c-c>:<c-u>update<cr>", { silent = true })
+vim.keymap.set("x", "<c-s>", "<c-c>:<c-u>update<cr>", { silent = true })
 -- TODO: The visual selection is lost. Return it back like you'd think `gv` would.
 vim.keymap.set("i", "<c-s>", "<c-o>:<c-u>update<cr>", { silent = true })
 
@@ -3328,7 +3333,7 @@ local set_common_lsp_keymaps = function(bufnr)
   do
     local desc = "Select code action available at cursor position"
     local f = vim.lsp.buf.code_action
-    vim.keymap.set({ "n", "v" }, ",a", f, { desc = desc, buffer = bufnr })
+    vim.keymap.set({ "n", "x" }, ",a", f, { desc = desc, buffer = bufnr })
     vim.api.nvim_buf_create_user_command(
       bufnr,
       "LSPSelectCodeAction",
@@ -3897,14 +3902,14 @@ require("lazy").setup({
         -- VISUAL SELECTION
         -- TODO: Refactor visual selection out of unimpaired section
         {
-          mode = "v",
+          mode = "x",
           "<m-up>",
           "[egv=gv",
           remap = true,
           desc = "Move visual selection upwards",
         },
         {
-          mode = "v",
+          mode = "x",
           "<m-down>",
           "]egv=gv",
           remap = true,
@@ -4914,8 +4919,8 @@ require("lazy").setup({
           -- TODO: `[H`/`]H` for first/last hunk
 
           -- TODO: Uncomment and adapt
-          -- map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-          -- map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+          -- map({ "n", "x" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+          -- map({ "n", "x" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
           -- map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
           -- map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
           -- map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
@@ -6035,7 +6040,7 @@ require("lazy").setup({
           function()
             require("actions-preview").code_actions()
           end,
-          mode = { "v", "n" },
+          mode = { "n", "x" },
         },
       },
     },
