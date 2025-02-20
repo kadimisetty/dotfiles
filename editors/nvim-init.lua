@@ -6023,6 +6023,11 @@ require("lazy").setup({
           "<cmd>AerialToggle!<cr>",
           desc = "Toggle LSP symbol outline (aerial)",
         },
+        {
+          "g,O", -- TODO: Use keymap that fits in with rest of my grammar better
+          "<cmd>AerialToggle<cr>",
+          desc = "Toggle and focus on LSP symbol outline (aerial)",
+        },
       },
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
