@@ -2364,6 +2364,46 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 --]]
 
+-- START SEARCH WITH WORD UNDER CURSOR FILLED IN {{{2
+-- TODO: Decide if I should use `g/` or `<m-/>` style keymaps!
+-- TODO: Stick with `feedkeys` or should I just execute a simple string like
+--        `normal! /\\<c-r>\\<c-w>` instead?
+-- TODO: Add variants to prefill with `WORD`(`<c-r><c-a>`) too.
+-- FORWARD:
+vim.keymap.set(
+  "n",
+  "g/", -- `"<m-/>"`,
+  function()
+    vim.fn.feedkeys("/", "n")
+    vim.fn.feedkeys(
+      vim.api.nvim_replace_termcodes("<c-r><c-w>", true, true, true),
+      "n"
+    )
+  end,
+  {
+    noremap = true,
+    silent = true,
+    desc = "Start forward search prefilled with word under cusror",
+  }
+)
+-- BACKWARD:
+vim.keymap.set(
+  "n",
+  "g?", -- `"<m-s-/>"` (i.e. `<m-?>` but has to be specified that way)
+  function()
+    vim.fn.feedkeys("?", "n")
+    vim.fn.feedkeys(
+      vim.api.nvim_replace_termcodes("<c-r><c-w>", true, true, true),
+      "n"
+    )
+  end,
+  {
+    noremap = true,
+    silent = true,
+    desc = "Start backward search prefilled with word under cusror",
+  }
+)
+
 -- MOVE HELP TO A NEW TAB {{{2
 -- NOTE: `BufWinEnter` uses `*.txt` patterns, so just detect `help` later.
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
