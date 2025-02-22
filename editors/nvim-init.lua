@@ -5716,6 +5716,24 @@ require("lazy").setup({
       },
     },
 
+    -- smear - animate cursor movement with a smear effect {{{3
+    {
+      "sphamba/smear-cursor.nvim",
+      opts = {
+        smear_insert_mode = false,
+        -- NOTE: Smear over transparent background is apparently better when
+        -- the font supports "legacy computing symbols", so enable that with
+        -- `legacy_computing_symbols_support`. If it isn't supported, the
+        -- plugin might show a solid color which can be configured with
+        -- `transparent_bg_fallback_color`
+        legacy_computing_symbols_support = false,
+        -- APPEARANCE(fast and tight):
+        stiffness = 0.7, -- DEFAULT: 0.6, RANGE: [0, 1]
+        trailing_stiffness = 0.5, -- DEFAULT: 0.3, RANGE: [0.3 ,0, 1]
+        -- distance_stop_animating = 0.5, -- DEFAULT: 0.1, RANGE: > 0
+      },
+    },
+
     -- beacon - draw attention to cursor after jump {{{3
     {
       "rainbowhxch/beacon.nvim",
