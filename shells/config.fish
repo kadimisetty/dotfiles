@@ -1754,6 +1754,7 @@ alias grep-IGNORECASE="grep --ignore-case"
 # `cd` UPWARDS TO ROOT GIT DIRECTORY {{{3
 # TODO: Accept argument sub directory with hierarchy calculated from git root
 # directory, like in fugitive's `Gcd`.
+# FIXME: Switch to `gcd` for uniformity with other alias
 alias g-cd='cd (git rev-parse --show-toplevel)'
 
 # GIT CUSTOM ALIASES {{{2
@@ -1778,10 +1779,10 @@ alias gpush-force_SOFT='git push --force-with-lease'
 alias gadd_FILE='git add' # e.g. `git add ./filename`
 alias gadd-CWD='git add .' # just changes in cwd, not same as `--all`
 alias gadd-ALL='git add --all' # entire repo
-alias gadd_INTERACTIVE='git add --interactive'
-alias gadd_PATCH='git add --patch'
 alias gadd-TRACKED='git add --update'
 alias gadd-TRACKED_AND_UNTRACKED='git add --all'
+alias gadd-INTERACTIVE='git add --interactive'
+# alias gadd-PATCH='git add --patch' -- NOTE: Removing to focus on "INTERACTIVE"
 
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
@@ -1941,8 +1942,10 @@ alias gstash-pop='git stash pop'
 # TODO: Ensure all aliases have interactive versions
 alias gstash-push='git stash push'
 alias gstash-push_with_message='git stash push --message'
+# FIXME: Using "INTERACTIVE" despite using `--patch` for similicity sake, so
+# print a short note sying that.
 alias gstash-push_INTERACTIVE='git stash push --patch'
-alias gstash-push_with_message_INTERACTIVE='git stash push --patch --message'
+alias gstash-push_INTERACTIVE_with_message='git stash push --patch --message'
 alias gstash-push_PRESERVE_STAGING_STATUS='git stash push --keep-index' # TODO: VERIFY
 alias gstash-push_STAGED='git stash push --staged'
 alias gstash-push_STAGED_with_message='git stash push --staged --message'
@@ -1986,7 +1989,7 @@ end
 
 # STASH SHOW {{{3
 alias gstash-show='git stash show --compact-summary'
-alias gstash-show_PATCH='git stash show --patch-with-stat --compact-summary'
+alias gstash-show_VERBOSE='git stash show --patch-with-stat --compact-summary'
 
 # STASH CONVERT {{{3
 # TODO: gstash-into_commit
@@ -2000,7 +2003,7 @@ alias gstash-search_VERBOSE='git stash list --stat --regexp-ignore-case --grep'
 alias gstash-list='git stash list'
 alias gstash-list_VERBOSE='git stash list --compact-summary'
 # BY PERIOD {{{4
-# COMPACT {{{5
+# REGULAR {{{5
 alias gstash-list_TODAY='git stash list --since=midnight'
 alias gstash-list_YESTERDAY='git stash list --since=yesterday.midnight'
 alias gstash-list_THIS_DAY='git stash list --since=midnight'
@@ -2021,7 +2024,7 @@ alias gstash-list_LAST_MONTH_VERBOSE='gstash-list_LAST_MONTH --compact-summary'
 
 # GIT SHOW {{{2
 alias gshow='git show --compact-summary'
-alias gshow-PATCH='git show --patch-with-stat --compact-summary'
+alias gshow-VERBOSE='git show --patch-with-stat --compact-summary'
 # TODO: Make the commit information part like `--oneline` including colors.
 alias gshow-DATE='git show --no-patch --format="%h %s%nCommited %cr (%cd local time) %ch" --date=local'
 
@@ -2072,7 +2075,7 @@ alias gbranch-list_REMOTE_VERBOSE='git branch --remotes --verbose'
 alias gbranch-list_ALL_VERBOSE='git branch --all --verbose'
 
 # BRANCH SWITCHINGS {{{3
-alias gbranch-switch_to='git switch'
+alias gbranch-switch_to_BRANCH='git switch'
 alias gbranch-switch_to_MAIN='git switch main'
 alias gbranch-switch_to_NEW='git switch --create'
 alias gbranch-switch_to_PREVIOUS='git switch -'
