@@ -5887,47 +5887,16 @@ require("lazy").setup({
       keys = "V",
     },
 
-    -- illuminate - highlight same word (LSP/treesitter/regex) {{{3
+    -- mini.cursorword - highlight repetitions of word under cursor {{{3
+    -- TODO: Replace underline styling with a more `vim-illuminate` like
+    -- background highlighting.
+    -- TODO: Replace with a treesitter/lsp/regex aware alternative like
+    -- `vim-illuminate` which didn't work for me because it adds unremovable
+    -- default keymaps (`<m-n>`, `<m-p>`).
     {
-      "RRethy/vim-illuminate",
-      event = { "BufReadPost", "BufNewFile" },
-      config = function()
-        require("illuminate").configure({
-          -- ordered by priority:
-          providers = {
-            "treesitter",
-            "lsp",
-            "regex",
-          },
-          filetypes_denylist = {
-            "dirvish",
-            "fugitive",
-            "alpha",
-            "NvimTree",
-            "packer",
-            "neogitstatus",
-            "Trouble",
-            "lir",
-            "Outline",
-            "spectre_panel",
-            "toggleterm",
-            "DressingSelect",
-            "TelescopePrompt",
-          },
-        })
-      end,
-      cmd = {
-        "IlluminatePause",
-        "IlluminateResume",
-        "IlluminateToggle",
-        "IlluminatePauseBuf",
-        "IlluminateResumeBuf",
-        "IlluminateToggleBuf",
-      },
-      keys = {},
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-      },
+      "echasnovski/mini.cursorword",
+      version = false,
+      opts = {},
     },
 
     -- luminate - highlight yank/paste/undo/redo {{{3
