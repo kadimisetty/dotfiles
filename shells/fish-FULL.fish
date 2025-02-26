@@ -2119,9 +2119,13 @@ alias gbranch-rename_LOCAL='git branch --move'
 
 
 # RG {{{1
-alias rg-IGNORECASE="rg --ignore-case"
-alias rg-SMARTCASE="rg --smart-case"
-
+alias rg-INVERT="rg --invert-match"
+alias rg-PCRE2="rg --pcre2"
+alias rg-PCRE2_INVERT="rg --pcre2 --invert-match"
+alias rg-CASE_IGNORE="rg --ignore-case"
+alias rg-CASE_SMART="rg --smart-case"
+alias rg-FILES_LIST="rg --files"
+alias rg-FILES_PATTERN="rg --files-with-matches"
 
 # EMACS {{{1
 # GUI {{{2
