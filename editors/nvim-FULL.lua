@@ -3734,7 +3734,7 @@ require("lazy").setup({
 
   -- LAZY PLUGINS {{{2
   spec = {
-    -- snacks(indent) - folke's plugin bundle {{{3
+    -- folke/snacks - indent/statuscolumn {{{3
     {
       "folke/snacks.nvim",
       opts = {
@@ -3752,6 +3752,10 @@ require("lazy").setup({
           -- TODO: Tone down default colors for both both un/focussed indents.
           -- TODO: Vary indent color based on depth (`:help snacks-indent.txt`).
           -- hl = { "SnacksIndent1" ... "SnacksIndent8", },
+        },
+
+        statuscolumn = { -- {{{4
+          -- TODO: Switch to `luukvbaal/statuscol.nvim` ASAP.
         },
       },
     },
