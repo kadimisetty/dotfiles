@@ -1,0 +1,21 @@
+.DEFAULT_GOAL := run
+
+fmt:
+	zig fmt .
+.PHONY:fmt
+
+clean:
+	zig clean
+.PHONY:clean
+
+build:
+	zig build
+.PHONY:build
+
+test:
+	zig build test
+.PHONY:test
+
+run:
+	zig build run
+.PHONY:run

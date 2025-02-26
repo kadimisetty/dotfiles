@@ -1,0 +1,22 @@
+# .DEFAULT_GOAL := build
+.DEFAULT_GOAL := run
+
+fmt:
+	cargo fmt
+.PHONY:fmt
+
+clean:
+	cargo clean
+.PHONY:clean
+
+build:
+	cargo build
+.PHONY:build
+
+test:
+	cargo test
+.PHONY:test
+
+run:
+	cargo run
+.PHONY:run
