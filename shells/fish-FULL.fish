@@ -2,7 +2,6 @@
 # vim: foldmethod=marker:foldlevel=0:nofoldenable:
 # AUTHOR: Sri Kadimisetty
 
-
 # NOTES {{{1
 # 1. In certain scenarios, fish would need to "re-draw" the commandline, which
 # can be done with `commadnline --fucntion repaint` or my custom alias for it
@@ -20,12 +19,10 @@
 #   `{{{2`/`{{{3`: 1 blank lines before
 #   `{{{4`+      : 0 blank lines before
 
-
 # INIT {{{1
 # FIXME: This shouldn't have to be manually set but it's being set and is
 # showing `zsh` instead, so doing this manually for now. Fix and remove.
 set SHELL fish
-
 
 # FISH PLUGINS (FUNDLE) {{{1
 # FUNDLE FISH PLUGIN MANAGER (https://github.com/danhper/fundle):
@@ -63,7 +60,6 @@ fundle init
 
 # CONFIGURE PLUGINS:
 # TODO
-
 
 # LIB {{{1
 # NOTE: Any `is_*`/`has_*` functions will not print to `stdout`/`stderr` and
@@ -206,7 +202,6 @@ function _echo_with_customized_message \
     set_color --italic
     echo $message
 end
-
 
 # ECHO LOG LEVELS {{{3
 # ECHO INFO
@@ -480,7 +475,6 @@ function _is_cwd_inside_any_paths \
     return 1 # NOTE: FAILURE: Inside none of the `$parent_paths`
 end
 
-
 # HISTORY {{{1
 # BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
 # TODO: Consider more bash expansions?
@@ -534,7 +528,6 @@ alias history-delete_CONTAINS="history delete --contains"
 # HISTORY MERGE {{{3
 alias history-merge_FROM_OTHER_SESSIONS="history merge"
 
-
 # COMPLETION HELPERS {{{1
 # NOTE: Using "meta-tab" seems like a better fit to open completion with search
 # enabled i.e. `complete-and-search`, rather than default "shift tab"(`btab`).
@@ -542,14 +535,12 @@ bind \e\t complete-and-search
 bind \e\t --mode default complete-and-search
 bind \e\t --mode insert complete-and-search
 
-
 # `fg` SHORTCUT {{{1
 # NOTE: `c-z` sends active process to background, so choosing `m-z` as a binding
 # to send to foreground(`fg`).
 bind \ez 'fg; commandline-repaint'
 bind \ez --mode default 'fg; commandline-repaint'
 bind \ez --mode insert 'fg; commandline-repaint'
-
 
 # NIX {{{1
 # SETUP {{{2
@@ -606,7 +597,6 @@ end
 #        --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
 #end
 
-
 # COMMON FISH SPECIFIC PREFERENCES {{{1
 # DISABLE WELCOME GREETING {{{2
 set fish_greeting ""
@@ -651,7 +641,6 @@ _ensure_dir_exists_and_is_in_PATH $HOME/bin/
 # COMMONLY USED BIN DIR
 _ensure_dir_exists_and_is_in_PATH $HOME/.local/bin
 
-
 # SHELL SPECIFIC ALIASES {{{1
 # MISC {{{2
 # TODO: Move `mcd` into LIB section
@@ -688,7 +677,6 @@ alias code-KEEP="cd $HOME/code/keep/"
 alias code-PERSONAL="cd $HOME/code/personal/"
 alias code-PLAYGROUND="cd $HOME/code/playground/"
 alias code-SANDBOX="cd $HOME/code/sandbox/"
-
 
 # VI MODE ENHANCEMENTS {{{1
 # ENABLE VI MODE:
@@ -730,7 +718,6 @@ bind \el --mode insert downcase-word
 bind \ec --mode default capitalize-word
 bind \ec --mode insert capitalize-word
 
-
 # KITTY {{{1
 if test -n "$KITTY_WINDOW_ID"
     function icat --description "Display image(s) inline"
@@ -738,7 +725,6 @@ if test -n "$KITTY_WINDOW_ID"
         kitty +kitten icat --align=left $argv
     end
 end
-
 
 # PROMPT {{{1
 # PROMPT COMPONENTS {{{2
@@ -973,7 +959,6 @@ set __fish_git_prompt_showstashstate true
 set __fish_git_prompt_char_stashstate "  " # ALTS:   
 set __fish_git_prompt_color_stashstate $fish_color_comment # ALTS: brblack
 
-
 # LSD {{{1
 # TODO: [Setup configuration](https://github.com/Peltoche/lsd#configuration)
 alias lsd-long='lsd --long'
@@ -982,7 +967,6 @@ alias lsd-tree_DEPTH_1='lsd --tree --depth 1'
 alias lsd-tree_DEPTH_2='lsd --tree --depth 2'
 alias lsd-tree_DEPTH_3='lsd --tree --depth 3'
 alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
-
 
 # EZA {{{1
 # NOTE: Switched to `eza` because previous choice `exa` is abandoned.
@@ -993,7 +977,6 @@ alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 alias eza-tree="eza --tree --group-directories-first"
 alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 
-
 # CD UPWARDS WITH `..`S {{{1
 # NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
 #   1. Not doing the plugin's directory history stack helpers `d` in favor of
@@ -1003,7 +986,6 @@ alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 #   3. Not doing `alias ..="cd ../"` because `..` works natively.
 alias ...="cd ../../"
 alias ....="cd ../../../"
-
 
 # `make` SHORTCUTS {{{1
 # TODO: Generate automatically to avoid repetition.
@@ -1071,7 +1053,6 @@ end
 bind \em\et "_make_test; commandline-repaint"
 bind \em\et --mode default "_make_test; commandline-repaint"
 bind \em\et --mode insert "_make_test; commandline-repaint"
-
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
@@ -1169,7 +1150,6 @@ bind \cr _fzf_search_history
 bind \cr --mode default _fzf_search_history
 bind \cr --mode insert _fzf_search_history
 
-
 # KILL PROCESSES BY USING FUZZY SEARCH TO FIND THEM {{{1
 # NOTE: Required binaries: `fzf`, `gawk`.
 # TODO: Assert required binaries `fzf` and `gawk` are available?
@@ -1261,14 +1241,12 @@ function kill-search_SOFT_ELSE_FORCE \
     end
 end
 
-
 # DIRENV {{{1
 # SEE: https://direnv.net/docs/hook.html#fish
 # HOOK INTO FISH SHELL:
 direnv hook fish | source
 # TRIGGER DIRENV AT PROMPT ONLY (original behavior in other shells):
 # set -g direnv_fish_mode disable_arrow
-
 
 # VIM {{{1
 alias v="vim"
@@ -1279,7 +1257,6 @@ alias v-readonly='view'
 alias v-HORIZONTAL='vim -o' # Horizontal splits
 alias v-VERTICAL='vim -O' # Vertical splits
 alias v-TABS='vim -p'
-
 
 # NVIM {{{1
 # TODO: Add alias for opening with a plugin-free minimal configuration.
@@ -1336,7 +1313,6 @@ bind \e_ n-TREE
 bind \e_ --mode default n-TREE
 bind \e_ --mode insert n-TREE
 
-
 # TMUX/TMUXINATOR {{{1
 alias t="tmux"
 alias t-list_sessions="tmux list-sessions"
@@ -1345,7 +1321,6 @@ function t-attach \
     tmux attach -t $argv
 end
 alias t-start_tmuxinator_config="tmuxinator start ./.tmuxinator.yml"
-
 
 # MIX/PHOENIX(ELIXIR) {{{1
 # MIX {{{2
@@ -1427,11 +1402,9 @@ function x-phx_new_cd_setup \
     end
 end
 
-
 # FLY {{{1
 set --export FLYCTL_INSTALL "$HOME/.fly"
 fish_add_path $FLYCTL_INSTALL/bin/
-
 
 # PYTHON {{{1
 # VIRTUAL ENVIRONMENT UTILITIES {{{2
@@ -1497,7 +1470,6 @@ function _exit_if_not_in_active_python_virtual_env \
         return 1
     end
 end
-
 
 # DJANGO {{{1
 # MANAGE.PY ALIASES {{{2
@@ -1582,7 +1554,6 @@ function m-runserver_PLUS \
     and ./manage.py runserver_plus
 end
 
-
 # RUST/CARGO {{{1
 fish_add_path $HOME/.cargo/bin/
 function c-new_cd \
@@ -1609,7 +1580,6 @@ alias c-test_QUIET="cargo test --quiet"
 alias c-tree_DEPTH1="cargo tree --depth 1"
 alias c-watch="cargo watch"
 alias c-watch_QUIET="cargo watch --quiet"
-
 
 # HASKELL {{{1
 # GHCUP {{{2
@@ -1678,7 +1648,6 @@ function s-new_cd \
     end
 end
 
-
 # GO {{{1
 fish_add_path $HOME/go/bin
 
@@ -1733,15 +1702,12 @@ function go-new_cd \
     end
 end
 
-
 # LUA/LUAROCKS {{{1
 fish_add_path $HOME/.luarocks/bin/
 set --export luarocks "luarocks --local"
 
-
 # GREP {{{1
 alias grep-IGNORECASE="grep --ignore-case"
-
 
 # GIT {{{1
 # NOTE: FOR `git log`/`git stash`: Time duration variants: (LAST/THIS)
@@ -2128,7 +2094,6 @@ alias gremove-DIR_FROM_INDEX__DRYRUN='git rm --cached -r --dry-run'
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE="git diff --name-only --diff-filter=D -z | xargs -0 git rm --cached"
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE__DRYRUN="git diff --name-only --diff-filter=D"
 
-
 # RG {{{1
 alias rg-INVERT="rg --invert-match"
 alias rg-PCRE2="rg --pcre2"
@@ -2147,7 +2112,6 @@ alias emacs-gui_QUICK="emacs --quick"
 alias emacs-term="emacs --no-window-system"
 alias emacs-term_FRESH="emacs --no-window-system --no-init-file"
 alias emacs-term_QUICK="emacs --no-window-system --quick"
-
 
 # SORT AND UNIQ {{{1
 # SORT {{{2
@@ -2169,7 +2133,6 @@ alias sort-reverse_IGNORE_LEADING_SPACE="sort --numeric-sort --reverse --ignore-
 
 # TODO: UNIQ {{{2
 
-
 # WC {{{1
 # NOTE: Using short form flags because macos coreutils by default do not have
 # the long flags available (as of macOS Sonoma).
@@ -2181,7 +2144,6 @@ alias wc-LINES="wc -l" # lines
 alias wc-CHARS="wc -m" # characters
 alias wc-BYTES="wc -c" # bytes
 
-
 # CURL {{{1
 # [-s|--silent]: Silent mode
 alias curl-SILENT="curl --silent"
@@ -2192,13 +2154,11 @@ alias curl-write_to_file_NOT_STDOUT="curl --output"
 # [-i|--include]: Include protocol response headers in the output
 alias curl-show_protocol_headers="curl --include"
 
-
 # BAT {{{1
 # [[-l|--language] <language>]:
 #   Explicitly set the language for syntax highlighting.
 alias bat-language-list="bat --list-languages"
 alias bat-language="bat --language" # User supplies language, example: `json`
-
 
 # HOMEBREW {{{1
 # INFO {{{2
@@ -2264,12 +2224,10 @@ alias brew-services_stop_ALL="brew services kill --all"
 alias brew-services_stop_AND_REMOVE_FROM_STARTUP_ALL="brew services stop --all"
 alias brew-services_cleanup_ALL="brew services cleanup --all"
 
-
 # SQLITE-UTILS {{{1
 alias sqliteutils-memory="sqlite-utils memory"
 alias sqliteutils-memory_TABLE="sqlite-utils memory --table"
 alias sqliteutils-memory_SCHEMA="sqlite-utils memory --schema"
-
 
 # FISH ALIASES {{{1
 # OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED {{{2
@@ -2286,7 +2244,6 @@ end
 bind \er 'fish-reload; commandline-repaint'
 bind \er --mode default 'fish-reload; commandline-repaint'
 bind \er --mode insert 'fish-reload; commandline-repaint'
-
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
 # -----------------------------------------------------------------------
