@@ -1922,8 +1922,6 @@ alias glog-LAST_MONTH_VERBOSE='glog-LAST_MONTH --compact-summary'
 alias glog-LAST_QUARTER_VERBOSE='glog-LAST_QUARTER --compact-summary'
 alias glog-LAST_YEAR_VERBOSE='glog-LAST_YEAR --compact-summary'
 
-
-
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
 #         1. Make user specify stash number explicitly, even for the latest one.
@@ -2116,6 +2114,19 @@ alias gbranch-rename_LOCAL='git branch --move'
 # TODO: `alias gbranch-rename_LOCAL_AND_REMOTE=?`. FOR REMOTE CONSIDER:
 #           [`git push --force --mirror`]
 #           (https://stackoverflow.com/questions/6591213/how-can-i-rename-a-local-git-branch#comment11232312_6591218)
+
+# GIT RM(REMOVE) {{{2
+# REMOVE FROM INDEX AND WORKING TREE {{{3
+alias gremove-FILE='git rm'
+alias gremove-DIR='git rm -r'
+alias gremove-DIR__DRYRUN='git rm -r --dry-run'
+# REMOVE FROM INDEX BUT KEEP UNTOUCHED ON FILESYSTEM {{{3
+alias gremove-FILE_FROM_INDEX='git rm --cached'
+alias gremove-DIR_FROM_INDEX='git rm -r --cached'
+alias gremove-DIR_FROM_INDEX__DRYRUN='git rm --cached -r --dry-run'
+# REMOVE FROM INDEX IF NO LONGER PRESENT IN WORKING TREE {{{3
+alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE="git diff --name-only --diff-filter=D -z | xargs -0 git rm --cached"
+alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE__DRYRUN="git diff --name-only --diff-filter=D"
 
 
 # RG {{{1
