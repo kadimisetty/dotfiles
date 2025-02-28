@@ -44,12 +44,12 @@ set SHELL fish
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin Markcial/upto
-fundle plugin catppuccin/fish
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
 fundle plugin oh-my-fish/plugin-gi
 fundle plugin oh-my-fish/plugin-license
 fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
+# fundle plugin catppuccin/fish
 if test $(uname) != Darwin
     # ignore these plugins in macos
     fundle plugin oh-my-fish/plugin-pbcopy
@@ -601,9 +601,9 @@ end
 # DISABLE WELCOME GREETING {{{2
 set fish_greeting ""
 
-# THEME{{{2
+# THEMES {{{2
 # DRACULA {{{3
-# fish_config theme choose Dracula
+fish_config theme choose Dracula
 
 # TOKYO NIGHT {{{3
 # fish_config theme choose tokyonight_day
@@ -617,7 +617,7 @@ set fish_greeting ""
 # fish_config theme save "Catppuccin Latte"
 # fish_config theme save "Catppuccin Frappe"
 # fish_config theme save "Catppuccin Macchiato"
-fish_config theme choose "Catppuccin Mocha"
+# fish_config theme choose "Catppuccin Mocha"
 
 # SET VIM AS DEFAULT EDITOR {{{2
 set --export EDITOR nvim
