@@ -5974,6 +5974,13 @@ require("lazy").setup({
       ft = "qf",
     },
 
+    -- vim-qf_resize - make quickfix/location-list as small as possible {{{3
+    -- TODO: Make or find a better more configurable alternative.
+    {
+      "blueyed/vim-qf_resize",
+      ft = "qf",
+    },
+
     -- trouble - reporting UI (lsp/make etc) {{{3
     -- TODO: clean keymap desc
     {
