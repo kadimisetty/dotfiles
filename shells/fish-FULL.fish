@@ -558,7 +558,6 @@ if type -q nix && test $(uname) = Linux
     # 	system's locale-archive.
     #   READ: [Troubleshooting when using nix on non-NixOS linux
     #      distributions](https://nixos.wiki/wiki/Locales)
-
     if test -e /etc/NIXOS
         # On NixOS
         # Applying this on NixOS as well, because the issue exists on non-bash
@@ -596,6 +595,32 @@ end
 #        --eval \
 #        --expr "(import <nixpkgs/nixos> {}).config."$argv[1] $argv[2..-1]
 #end
+
+# TODO: function nix-profile_install \
+#     --description "Install packages with `nix profile`"
+#   # Install all packages in args. Prepend `nixpkgs#` if necessary.
+#   nix profile install XXX
+# end
+function nix-profile_list_INSTALLED \
+    --description "List packages installed with `nix profile`"
+    nix profile list \
+        # Keep lines starting with `Name:` and strip any ANSI escape characters
+        | gawk '/^Name:/ { gsub("\033[][0-9;]*m", "", $0); print $2 }'
+end
+function nix-profile_list_INSTALLED__INDEXED \
+    --description "List packages installed with `nix profile` with count"
+    nix profile list \
+        # Keep lines starting with `Name:`
+        # Strip any ANSI escape characters
+        # Print index of each package(using `i` to track count).
+        | gawk '/^Name:/ { gsub("\033[][0-9;]*m", "", $0); print ++i".", $2 }'
+end
+alias nix-profile_list_INSTALLED__VERBOSE="nix profile list"
+alias nix-profile_remove="nix profile remove"
+complete --command nix-profile_remove \
+    --no-files \
+    --keep-order \
+    --arguments "(nix-profile_list_INSTALLED)"
 
 # COMMON FISH SPECIFIC PREFERENCES {{{1
 # DISABLE WELCOME GREETING {{{2
