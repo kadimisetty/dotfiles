@@ -6,7 +6,7 @@
 # 1. In certain scenarios, fish would need to "re-draw" the commandline, which
 # can be done with `commadnline --fucntion repaint` or my custom alias for it
 # `commandline-repaint`. This is required when, for example, setting key
-# bindings that lead with a meta key i.e. `\e`.
+# bindings that lead with a meta(`alt`) key.
 # TODO: Improve the alias naming structure note and add detail.
 # 2. Use my common alias naming structure.
 # TODO: Find a solution to check for required binaries.
@@ -531,16 +531,16 @@ alias history-merge_FROM_OTHER_SESSIONS="history merge"
 # COMPLETION HELPERS {{{1
 # NOTE: Using "meta-tab" seems like a better fit to open completion with search
 # enabled i.e. `complete-and-search`, rather than default "shift tab"(`btab`).
-bind \e\t complete-and-search
-bind \e\t --mode default complete-and-search
-bind \e\t --mode insert complete-and-search
+bind alt-tab complete-and-search
+bind alt-tab --mode default complete-and-search
+bind alt-tab --mode insert complete-and-search
 
 # `fg` SHORTCUT {{{1
 # NOTE: `c-z` sends active process to background, so choosing `m-z` as a binding
 # to send to foreground(`fg`).
-bind \ez 'fg; commandline-repaint'
-bind \ez --mode default 'fg; commandline-repaint'
-bind \ez --mode insert 'fg; commandline-repaint'
+bind alt-z 'fg; commandline-repaint'
+bind alt-z --mode default 'fg; commandline-repaint'
+bind alt-z --mode insert 'fg; commandline-repaint'
 
 # NIX {{{1
 # SETUP {{{2
@@ -718,30 +718,30 @@ set fish_vi_force_cursor 1
 # TODO: Only bind when vi mode is enabled.
 # TODO: Use a function to simplify these binding assingments.
 # MOVING {{{3
-bind \ca --mode default beginning-of-line
-bind \ca --mode insert beginning-of-line
-bind \ce --mode default end-of-line
-bind \ce --mode insert end-of-line
-bind \cb --mode default backward-char
-bind \cb --mode insert backward-char
-bind \cf --mode default forward-char
-bind \cf --mode insert forward-char
-bind \eb --mode default backward-word
-bind \eb --mode insert backward-word
-bind \ef --mode default forward-word
-bind \ef --mode insert forward-word
+bind ctrl-a --mode default beginning-of-line
+bind ctrl-a --mode insert beginning-of-line
+bind ctrl-e --mode default end-of-line
+bind ctrl-e --mode insert end-of-line
+bind ctrl-b --mode default backward-char
+bind ctrl-b --mode insert backward-char
+bind ctrl-f --mode default forward-char
+bind ctrl-f --mode insert forward-char
+bind alt-b --mode default backward-word
+bind alt-b --mode insert backward-word
+bind alt-f --mode default forward-word
+bind alt-f --mode insert forward-word
 
 # EDITING {{{3
-bind \ct --mode default transpose-chars
-bind \ct --mode insert transpose-chars
-bind \et --mode default transpose-words
-bind \et --mode insert transpose-words
-bind \eu --mode default upcase-word
-bind \eu --mode insert upcase-word
-bind \el --mode default downcase-word
-bind \el --mode insert downcase-word
-bind \ec --mode default capitalize-word
-bind \ec --mode insert capitalize-word
+bind ctrl-t --mode default transpose-chars
+bind ctrl-t --mode insert transpose-chars
+bind alt-t --mode default transpose-words
+bind alt-t --mode insert transpose-words
+bind alt-u --mode default upcase-word
+bind alt-u --mode insert upcase-word
+bind alt-l --mode default downcase-word
+bind alt-l --mode insert downcase-word
+bind alt-c --mode default capitalize-word
+bind alt-c --mode insert capitalize-word
 
 # KITTY {{{1
 if test -n "$KITTY_WINDOW_ID"
@@ -1018,66 +1018,66 @@ alias ....="cd ../../../"
 
 # INDEX {{{2
 # NOTE: Keep keybindings in tandem with equivalents in neovim config:
-#       - `\em\em`: `make`
-#       - `\em\eb`: `make build`
-#       - `\em\er`: `make run`
-#       - `\em\ec`: `make clean`
-#       - `\em\ef`: `make fmt`
-#       - `\em\et`: `make test`
+#       - `alt-m,alt-m`: `make`
+#       - `alt-m,alt-b`: `make build`
+#       - `alt-m,alt-r`: `make run`
+#       - `alt-m,alt-c`: `make clean`
+#       - `alt-m,alt-f`: `make fmt`
+#       - `alt-m,alt-t`: `make test`
 
 # `make` {{{2
 function _make --description make --wraps make
     echo-INFO "`make`"
     make
 end
-bind \em\em "_make; commandline-repaint"
-bind \em\em --mode default "_make; commandline-repaint"
-bind \em\em --mode insert "_make; commandline-repaint"
+bind alt-m,alt-m "_make; commandline-repaint"
+bind alt-m,alt-m --mode default "_make; commandline-repaint"
+bind alt-m,alt-m --mode insert "_make; commandline-repaint"
 
 # `make build` {{{2
 function _make_build --description "make build" --wraps "make build"
     echo-INFO "`make build`"
     make build
 end
-bind \em\eb "_make_build; commandline-repaint"
-bind \em\eb --mode default "_make_build; commandline-repaint"
-bind \em\eb --mode insert "_make_build; commandline-repaint"
+bind alt-m,alt-b "_make_build; commandline-repaint"
+bind alt-m,alt-b --mode default "_make_build; commandline-repaint"
+bind alt-m,alt-b --mode insert "_make_build; commandline-repaint"
 
 # `make run` {{{2
 function _make_run --description "make run" --wraps "make run"
     echo-INFO "`make run`"
     make run
 end
-bind \em\er "_make_run; commandline-repaint"
-bind \em\er --mode default "_make_run; commandline-repaint"
-bind \em\er --mode insert "_make_run; commandline-repaint"
+bind alt-m,alt-r "_make_run; commandline-repaint"
+bind alt-m,alt-r --mode default "_make_run; commandline-repaint"
+bind alt-m,alt-r --mode insert "_make_run; commandline-repaint"
 
 # `make clean` {{{2
 function _make_clean --description "make clean" --wraps "make clean"
     echo-INFO "`make clean`"
     make clean
 end
-bind \em\ec "_make_clean; commandline-repaint"
-bind \em\ec --mode default "_make_clean; commandline-repaint"
-bind \em\ec --mode insert "_make_clean; commandline-repaint"
+bind alt-m,alt-c "_make_clean; commandline-repaint"
+bind alt-m,alt-c --mode default "_make_clean; commandline-repaint"
+bind alt-m,alt-c --mode insert "_make_clean; commandline-repaint"
 
 # `make fmt` {{{2
 function _make_fmt --description "make fmt" --wraps "make fmt"
     echo-INFO "`make fmt`"
     make fmt
 end
-bind \em\ef "_make_fmt; commandline-repaint"
-bind \em\ef --mode default "_make_fmt; commandline-repaint"
-bind \em\ef --mode insert "_make_fmt; commandline-repaint"
+bind alt-m,alt-f "_make_fmt; commandline-repaint"
+bind alt-m,alt-f --mode default "_make_fmt; commandline-repaint"
+bind alt-m,alt-f --mode insert "_make_fmt; commandline-repaint"
 
 # `make test` {{{2
 function _make_test --description "make test" --wraps "make test"
     echo-INFO "`make test`"
     make test
 end
-bind \em\et "_make_test; commandline-repaint"
-bind \em\et --mode default "_make_test; commandline-repaint"
-bind \em\et --mode insert "_make_test; commandline-repaint"
+bind alt-m,alt-t "_make_test; commandline-repaint"
+bind alt-m,alt-t --mode default "_make_test; commandline-repaint"
+bind alt-m,alt-t --mode insert "_make_test; commandline-repaint"
 
 # FZF {{{1
 # ripgrep options being used to power fzf:
@@ -1171,9 +1171,9 @@ function _fzf_search_history --description "Search command history with `fzf`"
     commandline --function repaint
 end
 # Trigger fzf search with `<C-r>`
-bind \cr _fzf_search_history
-bind \cr --mode default _fzf_search_history
-bind \cr --mode insert _fzf_search_history
+bind ctrl-r _fzf_search_history
+bind ctrl-r --mode default _fzf_search_history
+bind ctrl-r --mode insert _fzf_search_history
 
 # KILL PROCESSES BY USING FUZZY SEARCH TO FIND THEM {{{1
 # NOTE: Required binaries: `fzf`, `gawk`.
@@ -1326,17 +1326,17 @@ function n-FILES \
     nvim -c \
         "lua vim.loop.new_timer():start(1, 0, vim.schedule_wrap(require('mini.files').open))"
 end
-bind \e- n-FILES
-bind \e- --mode default n-FILES
-bind \e- --mode insert n-FILES
+bind alt-minus n-FILES
+bind alt-minus --mode default n-FILES
+bind alt-minus --mode insert n-FILES
 # NOTE: Configured neovim `lazy.nvim` plugin manager to lazy load cmd `NeoTree`
 function n-TREE \
     --description "Launch neovim with `neotree` open"
     nvim -c "Neotree action=focus source=filesystem position=left"
 end
-bind \e_ n-TREE
-bind \e_ --mode default n-TREE
-bind \e_ --mode insert n-TREE
+bind alt-_ n-TREE
+bind alt-_ --mode default n-TREE
+bind alt-_ --mode insert n-TREE
 
 # TMUX/TMUXINATOR {{{1
 alias t="tmux"
@@ -2266,9 +2266,9 @@ function fish-reload \
     source $fish_config_file_to_source
     and echo-INFO "Reloaded shell configuration: `$fish_config_file_to_source`"
 end
-bind \er 'fish-reload; commandline-repaint'
-bind \er --mode default 'fish-reload; commandline-repaint'
-bind \er --mode insert 'fish-reload; commandline-repaint'
+bind alt-r 'fish-reload; commandline-repaint'
+bind alt-r --mode default 'fish-reload; commandline-repaint'
+bind alt-r --mode insert 'fish-reload; commandline-repaint'
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
 # -----------------------------------------------------------------------
