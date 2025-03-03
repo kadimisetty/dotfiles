@@ -1985,13 +1985,16 @@ alias gstash-show_VERBOSE='git stash show --patch-with-stat --compact-summary'
 alias gstash-into_BRANCH='git stash branch' # expects: `<branch> [<stash>]`
 
 # STASH LIST {{{3
-# BY SEARCH {{{4
-alias gstash-search='git stash list --regexp-ignore-case --grep'
-alias gstash-search_VERBOSE='git stash list --stat --regexp-ignore-case --grep'
-# BY COUNT {{{4
+# REGULAR {{{4
 alias gstash-list='git stash list'
 alias gstash-list_VERBOSE='git stash list --compact-summary'
-# BY PERIOD {{{4
+# WIP/NOT {{{4
+alias gstash-list_WIP='git stash list | rg --color=never WIP'
+alias gstash-list_WIP_INVERTED='git stash list | rg --invert-match WIP'
+# SEARCH {{{4
+alias gstash-search='git stash list --regexp-ignore-case --grep'
+alias gstash-search_VERBOSE='git stash list --stat --regexp-ignore-case --grep'
+# PERIOD {{{4
 # REGULAR {{{5
 alias gstash-list_TODAY='git stash list --since=midnight'
 alias gstash-list_YESTERDAY='git stash list --since=yesterday.midnight'
