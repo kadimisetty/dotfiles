@@ -2172,6 +2172,34 @@ alias wc-LINES="wc -l" # lines
 alias wc-CHARS="wc -m" # characters
 alias wc-BYTES="wc -c" # bytes
 
+# PS {{{1
+# LIST  PROCESSES {{{2
+# ALL {{{3
+alias ps-list="ps auxc"
+alias ps-list__MINIMAL="ps auxc"
+alias ps-list__VERBOSE="ps aux"
+# BY MEMORY {{{3
+# TODO: Also do ELAPSED_TIME
+alias ps-list_BY_MEMORY="ps -em -o pid,pmem,command"
+alias ps-list_BY_MEMORY__VERBOSE="ps -em -O pmem"
+alias ps-list_BY_MEMORY_10="ps -em -o pid,pmem,command | head -n 10"
+alias ps-list_BY_MEMORY_10__VERBOSE="ps -em -O pmem | head -n 10"
+# BY CPU {{{3
+alias ps-list_BY_CPU="ps -er -o pid,pcpu,command"
+alias ps-list_BY_CPU__VERBOSE="ps -er -O pcpu"
+alias ps-list_BY_CPU_10="ps -er -o pid,pcpu,command | heas -n 10"
+alias ps-list_BY_CPU_1__VERBOSE0="ps -er -O pcpu | head -n 10"
+
+# TODO: SHOW A PROCESS'S INFO {{{2
+# TODO: Add completion for PIDs and process names?
+# TODO: Add variant `-PROCESS` that accept both proccess namr or pid?
+# alias ps-PROCESS=
+# BY PROCESS PID {{{3
+alias ps-PROCESS_PID="ps -p "
+# BY PROCESS NAME {{{3
+# FIXME: alias ps-PROCESS_NAME="ps auxc | head -n 1; ps auxc | grep "
+alias ps-PROCESS_NAME__VERBOSE="ps aux | head -n 1; ps aux | grep "
+
 # CURL {{{1
 # [-s|--silent]: Silent mode
 alias curl-SILENT="curl --silent"
