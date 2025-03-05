@@ -2639,6 +2639,17 @@ vim.keymap.set(
   { silent = true, desc = "Show highlight group heirachy under cursor" }
 )
 
+-- OPEN COMMAND LINE PREFILLED WITH `:=` AND `:lua ` {{{2
+-- This is to make it easy/fast to type lua expressions into the command line.
+-- PREFILL `:=` {{{3
+-- FIXME: 05MAR2025: Unable to get `vim.keymap.set()` version to work.
+vim.cmd([[nnoremap <m-s-;> :=]]) -- i.e. `<m-:>`
+-- TODO: PREFILL `:lua `: {{{3
+-- NOTE: Ignoring this for lack of a good keymap(`<m-l>` is already in use).
+-- vim.keymap.set( "n", "TODO", ":lua ",
+--   { silent = true, desc = "Open commandline prefilled with `:lua `" }
+-- )
+
 -- SOURCE CURRENT LUA/VIM BUFFER {{{2
 vim.api.nvim_create_autocmd("FileType", {
   desc = "Source current (lua/ex command) buffer",
