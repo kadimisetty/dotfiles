@@ -2122,6 +2122,75 @@ alias gremove-DIR_FROM_INDEX__DRYRUN='git rm --cached -r --dry-run'
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE="git diff --name-only --diff-filter=D -z | xargs -0 git rm --cached"
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE__DRYRUN="git diff --name-only --diff-filter=D"
 
+# GIT WORKTREE {{{2
+# LIB {{{3
+# FIXME: Remove if not being used.
+function _git_worktree_paths
+    git worktree list --porcelain \
+        | gawk '/worktree/ {print $2}' \
+        | xargs -I% fish --command "path normalize %" # NOTE: Don't parallelize
+end
+
+# BARE {{{3
+alias gworktree="git worktree"
+
+# TODO: ADD(NEW) {{{3
+# TODO: Add variants that also `cd` into newly created worktrees.
+# NOTE: NOMENCLATURE: Use `new` instead of `add`.
+
+# LIST {{{3
+# TODO: To deduce (un)locked worktree do better than grepping for `locked`.
+alias gworktree-list="git worktree list --verbose"
+alias gworktree-list_LOCKED="git worktree list --verbose | gawk '/locked/'"
+alias gworktree-list_UNLOCKED="git worktree list --verbose | gawk '!/locked/'"
+
+# LOCK/UNLOCK {{{3
+# TODO: Restrict completions to locked/unlocked worktrees appropriately only?
+# LOCK:
+alias gworktree-lock="git worktree lock"
+alias gworktree-lock_WITH_REASON="git worktree lock --reason"
+# UNLOCK:
+alias gworktree-unlock="git worktree unlock"
+
+# DELETE(REMOVE) {{{3
+# NOTE: NOMENCLATURE: Use `delete` instead of `remove`.
+alias gworktree-delete="git worktree remove"
+alias gworktree-delete__FORCE="git worktree remove --force"
+# TODO: When removing linked worktrees while inside them, finish removing and
+# then immediately switch to the main worktree (or use a nicer method).
+alias gworktree-delete_CuRRENT="git worktree remove ./"
+alias gworktree-delete_CURRENT__FORCE="git worktree remove --force ./"
+
+# SWITCH {{{3
+# TODO: Keep this section similar to the `gbranch-switch_to_*` section.
+# TODO: `gworktree-switch_TO_NEW` just like `gbranch-switch_TO_NEW`?
+# TODO: Assert inside a git repo.
+function gworktree-switch_to_MAIN
+    cd (git worktree list | gawk '/\[main\]/ {print $1}')
+end
+function gworktree-switch_to_WORKTREE \
+    --argument-names worktree \
+    --wraps "git worktree unlock" # NOTE: For completion sake only.
+    # TODO: Assert an argument is given
+    if test (count $argv) -eq 0
+        echo-ERROR "Argument required"
+        return 1
+    end
+    if contains (path normalize (pwd)) (path normalize (_git_worktree_paths))
+        cd $worktree
+    else
+        echo-ERROR "Invalid git workree"
+        return 1
+    end
+end
+
+# PRUNE {{{3
+# TODO: Restrict completions to prunable worktrees only?
+alias gworktree-prune="git worktree prune --verbose"
+
+# REPAIR {{{3
+alias gworktree-repair="git worktree repair"
+
 # RG {{{1
 alias rg-INVERT="rg --invert-match"
 alias rg-PCRE2="rg --pcre2"
