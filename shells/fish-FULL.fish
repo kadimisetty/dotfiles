@@ -1002,6 +1002,24 @@ alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 alias eza-tree="eza --tree --group-directories-first"
 alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 
+# LOOKUP WORD UNDER CURSOR (`type --all`) {{{1
+function _lookup_word_under_cursor \
+    --description "Lookup word under cursor using `type --all`"
+    set --function word_under_cursor (commandline --current-token)
+    if test -n "$word_under_cursor"
+        # FIXME: Avoid running `type --all` twice.
+        type --all $word_under_cursor &>/dev/null
+        if test $status -eq 0
+            echo
+            type --all $word_under_cursor 2>/dev/null
+            commandline-repaint
+        end
+    end
+end
+bind alt-k _lookup_word_under_cursor
+bind alt-k --mode default _lookup_word_under_cursor
+bind alt-k --mode insert _lookup_word_under_cursor
+
 # CD UPWARDS WITH `..`S {{{1
 # NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
 #   1. Not doing the plugin's directory history stack helpers `d` in favor of
