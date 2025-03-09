@@ -2202,10 +2202,31 @@ alias gworktree="git worktree"
 # NOTE: NOMENCLATURE: Use `new` instead of `add`.
 
 # LIST {{{3
-# TODO: To deduce (un)locked worktree do better than grepping for `locked`.
+# NOTE: Simply grepping for `locked` wouldn't work, as if a worktree is
+# locked with a reason, the "locked" label is shown on a separate line.
 alias gworktree-list="git worktree list --verbose"
-alias gworktree-list_LOCKED="git worktree list --verbose | gawk '/locked/'"
-alias gworktree-list_UNLOCKED="git worktree list --verbose | gawk '!/locked/'"
+function gworktree-list_LOCKED \
+    --description "`git worktree list` for locked worktrees"
+    git worktree list --porcelain \
+        | gawk 'BEGIN {RS=""; FS="\n"}
+                {split($0, array1, "\n");
+                lastline = array1[length(array1)];
+                if (lastline ~ /^locked/) {
+                  split($1, array2, " ");
+                  print array2[2]}
+                }'
+end
+function gworktree-list_UNLOCKED \
+    --description "`git worktree list` for unlocked worktrees"
+    git worktree list --porcelain \
+        | gawk 'BEGIN {RS=""; FS="\n"}
+                {split($0, array1, "\n");
+                lastline = array1[length(array1)];
+                if (lastline !~ /^locked/) {
+                  split($1, array2, " ");
+                  print array2[2]}
+                }'
+end
 
 # LOCK/UNLOCK {{{3
 # TODO: Restrict completions to locked/unlocked worktrees appropriately only?
