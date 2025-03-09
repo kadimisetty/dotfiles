@@ -1020,6 +1020,51 @@ bind alt-k _lookup_word_under_cursor
 bind alt-k --mode default _lookup_word_under_cursor
 bind alt-k --mode insert _lookup_word_under_cursor
 
+# SHORTCUTS {{{1
+# NOTE: Alias/functions grouped together in purpose and have a common prefix.
+# TODO: Add completions.
+
+# SHORTCUTS LIB {{{2
+function _shortcut_list_for_prefix \
+    --argument-names prefix
+    # TODO: `--description`
+    # TODO: Assert argument provided
+    functions --names | grep "^$prefix-"
+end
+
+function _shortcut_description \
+    --argument-names shortcut
+    # TODO: `--description`
+    # TODO: Add `--quiet` (`grep` equialent) for use in `shortcut_index`.
+    # TODO: Assert argument provided
+    # FIXME: For aliasses, string the leading `alias xxx=` part.
+    set --function desc (functions --details --verbose $shortcut | tail -n -1)
+    if test "$desc" = n/a
+        return 1
+    else
+        echo $desc
+    end
+end
+
+# PRINT SHORTCUT INDEX FOR PREFIX {{{2
+function shortcut_index \
+    --description "Print index of shortcuts using prefix" \
+    --argument-names prefix
+    # TODO: Validate arguments
+    # TODO: Style and tabulate printed output.
+    function _shortcut_index_helper --argument-names prefix
+        _shortcut_list_for_prefix $prefix &>/dev/null # FIXME: De-duplicate
+        echo "`$prefix`:"
+        echo "SHORTCUTS|DESCRIPTION"
+        echo "---------|-----------"
+        and for shortcut in (_shortcut_list_for_prefix $prefix)
+            set desc (_shortcut_description $shortcut)
+            echo "$shortcut|$desc"
+        end
+    end
+    _shortcut_index_helper $prefix | column -t -s"|"
+end
+
 # CD UPWARDS WITH `..`S {{{1
 # NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
 #   1. Not doing the plugin's directory history stack helpers `d` in favor of
