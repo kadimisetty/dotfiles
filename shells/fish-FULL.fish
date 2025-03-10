@@ -85,6 +85,23 @@ function is_pwd_in_git_repo \
     test true = (git rev-parse --is-inside-work-tree 2>/dev/null) 2>/dev/null
 end
 
+# IS CURRENT WORKTREE THE "MAIN WORKTREE" (i.e. NOT LINKED WORKTREE) {{{3
+# Check if current worktree is the "main worktree" by setting status code.
+# USAGE: ```
+# if is_git_main_worktree
+#   echo "MAIN WORKTREE"
+# else
+#   echo "LINKED WORKTREE"
+# end```
+function is_git_main_worktree \
+    --description "Check if current worktree is the main worktree"
+    # NOTE: DEDUCING "MAIN WORKTREE":
+    #   METHOD 1: Deduces main worktree by checking if it contains `./git` dir.
+    #   METHOD 2: Deduces main worktree by checking if it is listed first in
+    #             `git worktree list --porcelain`
+    test (git rev-parse --git-dir) = (git rev-parse --git-common-dir) # METHOD 1
+end
+
 # DOES GIT REPO HAVE STAGED CHANGES? {{{3
 # NOTE: Assume current directory as repo to check
 # TODO: Make variant `has_git_unstaged_changes`
@@ -865,6 +882,19 @@ function _private_mode_component \
     end
 end
 
+# GIT WORKTREE PROMPT COMPONENT {{{3
+# Show worktree indicator if not in primary worktree
+function _git_worktree_prompt_component \
+    --argument-names left_margin right_margin
+    if not is_git_main_worktree
+        _spacer_prompt_component $left_margin
+        set_color $fish_color_cwd
+        echo -ns "󰐅"
+        set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
+    end
+end
+
 # GIT PROMPT COMPONENT {{{3
 function _git_prompt_component \
     --argument-names left_margin right_margin
@@ -937,6 +967,7 @@ function fish_right_prompt
     _git_commit_count_indicator_prompt_component 1 0 midnight ~/code/personal/
     _private_mode_component 1 0
     _background_jon_prompt_component 1 0
+    _git_worktree_prompt_component 1 0
     _git_prompt_component 0 0
 end
 
