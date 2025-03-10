@@ -97,9 +97,17 @@ function is_git_main_worktree \
     --description "Check if current worktree is the main worktree"
     # NOTE: DEDUCING "MAIN WORKTREE":
     #   METHOD 1: Deduces main worktree by checking if it contains `./git` dir.
+    #             Depends on worktree structure decided by user.
     #   METHOD 2: Deduces main worktree by checking if it is listed first in
-    #             `git worktree list --porcelain`
-    test (git rev-parse --git-dir) = (git rev-parse --git-common-dir) # METHOD 1
+    #             `git worktree list --porcelain`. Depends on output of that
+    #             command.
+    # FIXME: Also check if git repo?
+    # METHOD 1:
+    test is_pwd_in_git_repo
+    and test \
+        (git rev-parse --git-dir 2>/dev/null) \
+        = \
+        (git rev-parse --git-common-dir 2>/dev/null)
 end
 
 # DOES GIT REPO HAVE STAGED CHANGES? {{{3
