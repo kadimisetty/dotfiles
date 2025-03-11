@@ -2226,19 +2226,45 @@ alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE__DRYRUN="git diff --name-o
 
 # GIT WORKTREE {{{2
 # LIB {{{3
-# FIXME: Remove if not being used.
-function _git_worktree_paths
+# Returns list of worktrees, can be used for completions.
+function _gworktree-paths
     git worktree list --porcelain \
         | gawk '/worktree/ {print $2}' \
         | xargs -I% fish --command "path normalize %" # NOTE: Don't parallelize
+end
+
+# Constructs preferred target worktree name from given branch name.
+# NOTE: Implements presonal preference of placing worktrees in parent directory
+# containing "main worktree".
+function _gworktree-target_worktree_name_from_branch_name \
+    --argument-names branchname
+    set --function reponame (basename (pwd))
+    set --function target_worktree_name "$reponame-$branchname"
+    echo $target_worktree_name
 end
 
 # BARE {{{3
 alias gworktree="git worktree"
 
 # TODO: ADD(NEW) {{{3
-# TODO: Add variants that also `cd` into newly created worktrees.
-# NOTE: NOMENCLATURE: Use `new` instead of `add`.
+function gworktree-new \
+    --description "Constructs git worktree and branch with given name" \
+    --argument-names branch_name
+    # TODO: Validate required arguments.
+    set --function target_worktree_name \
+        (_gworktree-target_worktree_name_from_branch_name $branch_name)
+    git worktree add "../$target_worktree_name" -b $branch_name
+end
+
+function gworktree-new_cd \
+    --description "Constructs git worktree and branch with given name" \
+    --argument-names branch_name
+    # TODO: Validate required arguments.
+    set --function target_worktree_name \
+        (_gworktree-target_worktree_name_from_branch_name $branch_name)
+    git worktree add "../$target_worktree_name" -b $branch_name
+    and cd ../$target_worktree_name
+end
 
 # LIST {{{3
 # NOTE: Simply grepping for `locked` wouldn't work, as if a worktree is
@@ -2299,7 +2325,7 @@ function gworktree-switch_to_WORKTREE \
         echo-ERROR "Argument required"
         return 1
     end
-    if contains (path normalize (pwd)) (path normalize (_git_worktree_paths))
+    if contains (path normalize (pwd)) (path normalize (_gworktree-paths))
         cd $worktree
     else
         echo-ERROR "Invalid git workree"
