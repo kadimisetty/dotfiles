@@ -160,6 +160,7 @@ vim.opt.foldopen = {
 }
 
 -- FOLDS UI {{{3
+-- FOLD CHARACTERS {{{4
 -- TODO: replace default `foldtexxt` content from `foldtext()` with custom.
 -- TODO: Make foldcolumn more distinguishable.
 -- TODO: Use a fold label description that shortens word "lines" to "l"
@@ -171,6 +172,60 @@ vim.opt.fillchars:append({
   foldopen = "▾",
   foldclose = "▸",
 })
+
+-- FOLD TEXT {{{4
+do
+  -- TODO: Make current line bold to distinguish it from the other fold lines.
+  -- TODO: Right now indented folds look like `▸ · ·`, make it `· · ▸`.
+  -- TODO: CONSIDER: Heirachical style:
+  --                  `  │ Some fold title`
+  --                  `  ᴸ Last fold title`
+  -- NOTE: Keep this function global i.e. don't use `local custom_foldtext`....
+  function custom_foldtext()
+    local default_foldchar = "─"
+    local indent_char = "▸ " -- OPTIONS: "· "
+    local indent_char = "· "
+    local line_count = vim.v.foldend - vim.v.foldstart + 1
+    local count_text = " " .. line_count .. " " -- Don't sho "l"/"lines".
+    local fold_char = vim.opt.fillchars:get().fold or default_foldchar
+    local line_text = vim
+      .fn
+      .getline(vim.v.foldstart)
+      :gsub("^%s*", "") -- Remove leading whitespace
+      :gsub("{{{%d*", "") -- Remove fold markers
+      :gsub("%s*$", "") -- Remove trailing whitespace
+      .. " " -- Add single trailing space
+    local comment_format = vim.bo.commentstring
+    if comment_format and comment_format ~= "" then
+      local comment_start = comment_format
+        :gsub("%%s.*", "") -- Remove `%s` and anything after it
+        :gsub("([%-%.%+%[%]%(%)%$%^%%%?%*])", "%%%1") -- Escape regex
+      local comment_end = comment_format
+        :gsub(".*%%s", "") -- Remove anything before `%s`
+        :gsub("([%-%.%+%[%]%(%)%$%^%%%?%*])", "%%%1") -- Escape regex
+      if comment_start and comment_start ~= "" then
+        -- Remove comment start marker and any whitespace after it
+        line_text = line_text:gsub("^" .. comment_start .. "%s*", "")
+      end
+      if comment_end and comment_end ~= "" then
+        -- Remove comment end marker and any whitespace before it
+        line_text = line_text:gsub("%s*" .. comment_end .. "$", "")
+      end
+    end
+    local fold_level = vim.v.foldlevel
+    local indent_text = string.rep(indent_char, fold_level - 1)
+    line_text = indent_text .. line_text
+    local width = vim.fn.winwidth(0)
+      - vim.fn.getwininfo(vim.fn.win_getid())[1].textoff
+    local padding_length = width
+      - vim.fn.strdisplaywidth(line_text)
+      - vim.fn.strdisplaywidth(count_text)
+    local padding_text = string.rep(fold_char, math.max(padding_length, 1))
+    return line_text .. padding_text .. count_text
+  end
+
+  vim.opt.foldtext = "v:lua.custom_foldtext()"
+end
 
 -- INDENTS {{{2
 -- Use same indentation of current line when creating new line
