@@ -2224,6 +2224,25 @@ alias gremove-DIR_FROM_INDEX__DRYRUN='git rm --cached -r --dry-run'
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE="git diff --name-only --diff-filter=D -z | xargs -0 git rm --cached"
 alias gremove-FROM_INDEX_IF_NO_LONGER_IN_WORKING_TREE__DRYRUN="git diff --name-only --diff-filter=D"
 
+# GIT CLEAN(REMOVE UNTRACKED/GITIGNORED) {{{2
+# BARE {{{3
+alias gclean='git clean'
+# GITIGNORED {{{3
+alias gclean-GITIGNORED='git clean -X -d'
+alias gclean-GITIGNORED__FORCE='git clean -X -d --force'
+alias gclean-GITIGNORED__DRY_RUN='git clean -X -d --dry-run'
+alias gclean-GITIGNORED__INTERACTIVE='git clean -X -d --interactive'
+# UNTRACKED {{{3
+alias gclean-UNTRACKED='git clean -d'
+alias gclean-UNTRACKED__FORCE='git clean -d --force'
+alias gclean-UNTRACKED__DRY_RUN='git clean --dry-run -d'
+alias gclean-UNTRACKED__INTERACTIVE='git clean --interactive -d'
+# GITIGNORED AND UNTRACKED {{{3
+alias gclean-GITIGNORED_AND_UNTRACKED='git clean -x'
+alias gclean-GITIGNORED_AND_UNTRACKED__FORCE='git clean -x -d --force'
+alias gclean-GITIGNORED_AND_UNTRACKED__DRY_RUN='git clean -x -d --dry-run'
+alias gclean-GITIGNORED_AND_UNTRACKED__INTERACTIVE='git clean -x -d --interactive'
+
 # GIT WORKTREE {{{2
 # LIB {{{3
 # Returns list of worktrees, can be used for completions.
