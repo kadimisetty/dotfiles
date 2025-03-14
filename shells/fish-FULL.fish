@@ -1845,10 +1845,20 @@ alias grep-IGNORECASE="grep --ignore-case"
 
 # GIT UTILITIES {{{2
 # `cd` UPWARDS TO ROOT GIT DIRECTORY {{{3
-# TODO: Accept argument sub directory with hierarchy calculated from git root
-# directory, like in fugitive's `Gcd`.
-# FIXME: Switch to `gcd` for uniformity with other alias
-alias g-cd='cd (git rev-parse --show-toplevel)'
+# TODO: Accept argument sub directory with hierarchy calculated as beginning
+# from git root directory, should work exactly like in fugitive's `Gcd`.
+function gcd \
+    --description "`cd` upwards to root git directory"
+    set --function result (git rev-parse --show-toplevel 2>&1)
+    if test $status -eq 0
+        # SUCCESS: `result` is git root directory.
+        cd "$result"
+    else
+        # FAILURE: `result` is `git rev-parse --show-toplevel`'s stderr message.
+        echo-ERROR $result
+        and return
+    end
+end
 
 # GIT CUSTOM ALIASES {{{2
 # TODO: Import finished WIP aliases from this external file back here ASAP.
