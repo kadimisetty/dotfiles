@@ -1861,8 +1861,8 @@ function gcd \
 end
 
 # GIT CUSTOM ALIASES {{{2
-# TODO: Import finished WIP aliases from this external file back here ASAP.
-source ~/code/personal/fish-git-thing/gitaliases.fish
+# NOTE: Some of my WIP git shortcuts are in a private scratch space.
+source ~/code/personal/dotfiles-scratch/git-shortcuts.fish
 
 # GIT PULL {{{2
 # `tldr`: Download changes from default remote repository and merge it:
