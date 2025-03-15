@@ -2472,6 +2472,26 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "Move help to a new tab",
 })
 
+-- TRANSFORM SEARCH INTO SEARCH & REPLACE WHILE KEEPING THE SEARCH PATTERN {{{2
+-- TODO: If visual mode is active, keep that in mind e.g. `:'<,'>s/`.
+-- FIXME: As of now if visual mode is selected, we get `:'<,'>%s/`, note the `%`
+vim.keymap.set("c", "<m-r>", function()
+  local search_pattern = vim.fn.getcmdline()
+  local search_and_replace_command = ":%s/" .. search_pattern .. "//gc"
+  vim.fn.feedkeys(
+    vim.api.nvim_replace_termcodes("<c-c>", true, true, true),
+    "n"
+  )
+  vim.fn.feedkeys(search_and_replace_command, "n")
+  vim.fn.feedkeys(
+    vim.api.nvim_replace_termcodes("<left><left><left>", true, true, true),
+    "n"
+  )
+end, {
+  noremap = true,
+  desc = "Transform search to search-and-replace using the same pattern",
+})
+
 -- WRAP TEXT {{{2
 -- SOFT WRAP TEXT (TEXT VIEW){{{3
 -- Soft wrap text view for readability etc.
