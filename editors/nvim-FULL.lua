@@ -6153,6 +6153,25 @@ require("lazy").setup({
           desc = "Toggle and focus on LSP symbol outline (aerial)",
         },
       },
+      init = function()
+        local aerial_augroup = vim.api.nvim_create_augroup("aerial_augroup", {})
+        vim.api.nvim_create_autocmd({ "FileType" }, {
+          desc = "Set keymap to jump to symbol under cursor and close aerial",
+          group = aerial_augroup,
+          pattern = { "aerial" },
+          callback = function()
+            vim.keymap.set("n", "<s-cr>", function()
+              local aerial = require("aerial")
+              aerial.select()
+              aerial.close()
+            end, {
+              buffer = true,
+              silent = true,
+              desc = "Jump to symbol under cursor and close aerial",
+            })
+          end,
+        })
+      end,
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
