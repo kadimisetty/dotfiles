@@ -1713,6 +1713,14 @@ alias c-tree_DEPTH1="cargo tree --depth 1"
 alias c-watch="cargo watch"
 alias c-watch_QUIET="cargo watch --quiet"
 
+alias c-install="cargo install" # Install by bulding from source
+# Install by checking for available bin first and building from source if not.
+function c-binstall \
+    --wraps "cargo install" \
+    --description "Use `cargo binstall` for installing crate"
+    cargo binstall $argv
+end
+
 # HASKELL {{{1
 # GHCUP {{{2
 # NOTE: Converted to fish from  `ghcup`'s zsh init script
