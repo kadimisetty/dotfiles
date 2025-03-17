@@ -669,6 +669,11 @@ fish_config theme choose Dracula
 # fish_config theme save "Catppuccin Macchiato"
 # fish_config theme choose "Catppuccin Mocha"
 
+# HANDLE "COMMAND NOT FOUND" {{{2
+function fish_command_not_found
+    echo-ERROR "Command not found: `$argv[1]`"
+end
+
 # SET VIM AS DEFAULT EDITOR {{{2
 set --export EDITOR nvim
 set --export VISUAL nvim
