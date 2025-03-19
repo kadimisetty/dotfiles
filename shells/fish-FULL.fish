@@ -698,7 +698,7 @@ _ensure_dir_exists_and_is_in_PATH $HOME/.local/bin
 
 # OPEN FISH CONFIG IN EDITOR {{{1
 function _open_dotfiles_and_edit_fish_config \
-    --description "Go to `dotfiles` and open fish config"
+    --description "`cd` to `dotfiles` and open fish config"
     # NOTE: `Hardcoding dotfiles` dir and fish configuration file for now.
     cd /Users/sri/code/personal/dotfiles
     echo # Necessary because the prompts still shows the previous location.
@@ -717,6 +717,30 @@ end
 bind alt-comma _open_dotfiles_and_edit_fish_config
 bind alt-comma --mode default _open_dotfiles_and_edit_fish_config
 bind alt-comma --mode insert _open_dotfiles_and_edit_fish_config
+
+# OPEN NEOVIM CONFIG IN EDITOR {{{1
+function _open_dotfiles_and_edit_neovim_config \
+    --description "`cd` to `dotfiles` and open neovim config"
+    # NOTE: `Hardcoding dotfiles` dir and neovim configuration file for now.
+    cd /Users/sri/code/personal/dotfiles
+    echo # Necessary because the prompts still shows the previous location.
+    commandline-repaint
+    if test -z "$EDITOR"
+        if command --query vim
+            echo-WARN "`EDITOR` not set, attempting to use `vim`"
+            vim ./editors/nvim-FULL.lua
+        else
+            echo-ERROR "Please set `EDITOR` to use."
+        end
+    else
+        $EDITOR ./editors/nvim-FULL.lua
+    end
+end
+# FIXME: I prefer `alt-shift-comma` to using `ctrl` here. Remap these
+# "shell/editor preference bindings".
+bind ctrl-alt-comma _open_dotfiles_and_edit_neovim_config
+bind ctrl-alt-comma --mode default _open_dotfiles_and_edit_neovim_config
+bind ctrl-alt-comma --mode insert _open_dotfiles_and_edit_neovim_config
 
 # SHELL SPECIFIC ALIASES {{{1
 # MISC {{{2
