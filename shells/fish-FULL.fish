@@ -43,7 +43,6 @@ set SHELL fish
 
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'jorgebucaran/autopair.fish'
-fundle plugin Markcial/upto
 fundle plugin decors/fish-colored-man
 fundle plugin edc/bass
 fundle plugin oh-my-fish/plugin-gi
@@ -1327,6 +1326,41 @@ end
 bind ctrl-r _fzf_search_history
 bind ctrl-r --mode default _fzf_search_history
 bind ctrl-r --mode insert _fzf_search_history
+
+# `cd` UPWARDS TO A CONTAINING DIRECTORY(ala `Markcial/upto`) {{{1
+# TODO: CONFIGURE: Set `CD_UP_LIMIT_AT_HOME` to not go up above the home
+# directory.
+# TODO: CONFIGURE: Set `CD_UP_LIMIT_DIR` as a path to not go up that path.
+function _parent_directories \
+    --argument-names dir
+    set --function containing_dirs
+    set dir (path normalize $dir)
+    if not test -d "$dir"
+        echo-ERROR "Invalid directory: $dir"
+        return 1
+    end
+    while test "$dir" != "$HOME" -a -n "$dir" -a "$dir" != /
+        set --append containing_dirs (path dirname $dir)
+        set dir (path normalize (path dirname $dir))
+    end
+    for containing_dir in $containing_dirs
+        echo $containing_dir
+    end
+end
+function cd-up \
+    --description "`cd` upwards to a containing directory" \
+    --argument-names dir
+    if contains (path normalize $dir) (_parent_directories (pwd))
+        cd $dir
+    else
+        echo-ERROR "Invalid containing directory: $dir"
+        return 1
+    end
+end
+complete --command cd-up \
+    --no-files \
+    --keep-order \
+    --arguments "(_parent_directories (pwd))"
 
 # KILL PROCESSES BY USING FUZZY SEARCH TO FIND THEM {{{1
 # NOTE: Required binaries: `fzf`, `gawk`.
