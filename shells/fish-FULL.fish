@@ -1,27 +1,9 @@
 # FISH SHELL CONFIGURATION {{{1
 # vim: foldmethod=marker:foldlevel=0:nofoldenable:
 # AUTHOR: Sri Kadimisetty
-
-# NOTES {{{1
-# 1. In certain scenarios, fish would need to "re-draw" the commandline, which
-# can be done with `commadnline --fucntion repaint` or my custom alias for it
-# `commandline-repaint`. This is required when, for example, setting key
-# bindings that lead with a meta(`alt`) key.
-# TODO: Improve the alias naming structure note and add detail.
-# 2. Use my common alias naming structure.
-# TODO: Find a solution to check for required binaries.
-# 3. Add checks for any require binaries.
-# TODO: Decide between using `pwd` or `cwd` naming for "current directory" and
-# stick with that choice throughout. If the final choice ends up being `cwd`
-# then create an alias for `cwd` that points to the `pwd` command.
-# 4. DOCS: Line-spacing choices for section headers:
-#   `{{{1`       : 2 blank lines before
-#   `{{{2`/`{{{3`: 1 blank lines before
-#   `{{{4`+      : 0 blank lines before
-
-# INIT {{{1
-# FIXME: This shouldn't have to be manually set but it's being set and is
-# showing `zsh` instead, so doing this manually for now. Fix and remove.
+#
+# SET FISH AS "SHELL" {{{2
+# FIXME: Find a way to not set this manually.
 set SHELL fish
 
 # FISH PLUGINS (FUNDLE) {{{1
@@ -60,17 +42,26 @@ fundle init
 # CONFIGURE PLUGINS:
 # TODO
 
-# LIB {{{1
-# NOTE: Any `is_*`/`has_*` functions will not print to `stdout`/`stderr` and
-# only return a success/failure status code and should be used similar to the
-# `test` command. Use `is_*`/`has_*` functions as much as possible.
-# TODO: Assert all `is_*`/`has_*` functions follow behavior in above NOTE.
-# TODO: Add unit tests?
-
+# UTILTIES {{{1
 # REPAINT COMMANDLINE {{{2
 alias commandline-repaint="commandline --function repaint"
 
-# GIT LIB {{{2
+# ENSURE DIRS COMMONLY EXPECTED TO HOLD EXECUTABLES EXIST IN PATH {{{2
+# NOTE: Create the dirs if not present
+function _ensure_dir_exists_and_is_in_PATH \
+    --argument-names dir
+    # TODO: Validate argument
+    if not test -e $dir
+        mkdir $dir
+    end
+    fish_add_path $dir
+end
+# ASSERT PERSONAL EXECUTABLES BIN DIR
+_ensure_dir_exists_and_is_in_PATH $HOME/bin/
+# ASSERT COMMONLY USED BIN DIR
+_ensure_dir_exists_and_is_in_PATH $HOME/.local/bin
+
+# GIT HELPERS {{{2
 # IS `pwd` INSIDE GIT REPO? {{{3
 # Check if `pwd` is within a git repo by setting status code
 # USAGE: ```
@@ -157,7 +148,7 @@ function _username_from_git_repo_url \
         string split : --right --field 2
 end
 
-# ECHO VARIANTS {{{2
+# ECHO HELPERS {{{2
 # TODO: Validate arguments in all variants.
 # TODO: Pick appropriate color to print `echo` with.
 # TODO: Add `--description` and provide regular description as well.
@@ -455,7 +446,7 @@ function is_positive_number \
     test $num -gt 0 2>/dev/null
 end
 
-# PATH RELATIONSHIPS {{{2
+# PATH RELATIONSHIP HELPERS {{{2
 # IS PATH INSIDE ANOTHER PATH? {{{3
 # USAGE 1: `_is_path_inside_path ~/parent/ ~/parent/child/`
 # OUTPUT: None, but `$status` is `0` when true
@@ -499,7 +490,20 @@ function _is_cwd_inside_any_paths \
     return 1 # NOTE: FAILURE: Inside none of the `$parent_paths`
 end
 
-# HISTORY {{{1
+# BEGIN COMPLETION WITH SEARCH {{{2
+# NOTE: Using "meta-tab" seems like a better fit to open completion with search
+# enabled i.e. `complete-and-search`, rather than default "shift tab"(`btab`).
+bind alt-tab complete-and-search
+bind alt-tab --mode default complete-and-search
+bind alt-tab --mode insert complete-and-search
+
+# SEND JOB TO FOREGROUND WITH KEYBIND {{{2
+# NOTE: `c-z` sends active process to background, so choosing `m-z` as a binding
+# to send to foreground(`fg`).
+bind alt-z 'fg; commandline-repaint'
+bind alt-z --mode default 'fg; commandline-repaint'
+bind alt-z --mode insert 'fg; commandline-repaint'
+
 # BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
 # TODO: Consider more bash expansions?
 # NOTE: Fish cannot do `!$` because it uses `$` for something else, hence `!!!`
@@ -515,15 +519,220 @@ end
 abbr --add '!!!' --position anywhere --function _last_history_item_argument
 abbr --add '!!' --position anywhere --function _last_history_item
 
-# HISTORY ALIASES {{{2
+# OPEN FISH CONFIG IN EDITOR {{{2
+function _open_dotfiles_and_edit_fish_config \
+    --description "`cd` to `dotfiles` and open fish config"
+    # NOTE: `Hardcoding dotfiles` dir and fish configuration file for now.
+    cd /Users/sri/code/personal/dotfiles
+    echo # Necessary because the prompts still shows the previous location.
+    commandline-repaint
+    if test -z "$EDITOR"
+        if command --query vim
+            echo-WARN "`EDITOR` not set, attempting to use `vim`"
+            vim ./shells/fish-FULL.fish
+        else
+            echo-ERROR "Please set `EDITOR` to use."
+        end
+    else
+        $EDITOR ./shells/fish-FULL.fish
+    end
+end
+bind alt-comma _open_dotfiles_and_edit_fish_config
+bind alt-comma --mode default _open_dotfiles_and_edit_fish_config
+bind alt-comma --mode insert _open_dotfiles_and_edit_fish_config
+
+# OPEN NEOVIM CONFIG IN EDITOR {{{2
+function _open_dotfiles_and_edit_neovim_config \
+    --description "`cd` to `dotfiles` and open neovim config"
+    # NOTE: `Hardcoding dotfiles` dir and neovim configuration file for now.
+    cd /Users/sri/code/personal/dotfiles
+    echo # Necessary because the prompts still shows the previous location.
+    commandline-repaint
+    if test -z "$EDITOR"
+        if command --query vim
+            echo-WARN "`EDITOR` not set, attempting to use `vim`"
+            vim ./editors/nvim-FULL.lua
+        else
+            echo-ERROR "Please set `EDITOR` to use."
+        end
+    else
+        $EDITOR ./editors/nvim-FULL.lua
+    end
+end
+# FIXME: I prefer `alt-shift-comma` to using `ctrl` here. Remap these
+# "shell/editor preference bindings".
+bind ctrl-alt-comma _open_dotfiles_and_edit_neovim_config
+bind ctrl-alt-comma --mode default _open_dotfiles_and_edit_neovim_config
+bind ctrl-alt-comma --mode insert _open_dotfiles_and_edit_neovim_config
+
+# CREATE NEW DIRECTORY AND CD INTO IT {{{2
+function mcd --description "`mkdir` and `cd` into new directory"
+    mkdir $argv
+    and cd $argv
+end
+
+# CD TO SPECIFIC PARENT DIRECTORY CONTENT LOCATIONS {{{2
+# TODO: Automate this section.
+# DESIGN {{{3
+set --export DESIGN_DIR "$HOME/design//"
+alias design-EXTERNAL="cd $HOME/design/design-external/"
+alias design-KEEP="cd $HOME/design/design-keep/"
+alias design-PERSONAL="cd $HOME/design/design-personal/"
+alias design-PLAYGROUND="cd $HOME/design/design-playground/"
+alias design-SANDBOX="cd $HOME/design/design-sandbox/"
+
+# CODE {{{3
+set --export CODE_DIR "$HOME/code/"
+# NOTE: Using both `code-*` and `*` alias variations for convenience sake.
+alias dotfiles="cd $HOME/code/personal/dotfiles/"
+alias external="cd $HOME/code/external/"
+alias keep="cd $HOME/code/keep/"
+alias personal="cd $HOME/code/personal/"
+alias playground="cd $HOME/code/playground/"
+alias sandbox="cd $HOME/code/sandbox/"
+alias code-DOTFILES="cd $HOME/code/personal/dotfiles/"
+alias code-EXTERNAL="cd $HOME/code/external/"
+alias code-KEEP="cd $HOME/code/keep/"
+alias code-PERSONAL="cd $HOME/code/personal/"
+alias code-PLAYGROUND="cd $HOME/code/playground/"
+alias code-SANDBOX="cd $HOME/code/sandbox/"
+
+# LOOKUP WORD UNDER CURSOR (`type --all`) {{{2
+function _lookup_word_under_cursor \
+    --description "Lookup word under cursor using `type --all`"
+    set --function word_under_cursor (commandline --current-token)
+    if test -n "$word_under_cursor"
+        # FIXME: Avoid running `type --all` twice.
+        type --all $word_under_cursor &>/dev/null
+        if test $status -eq 0
+            echo
+            type --all $word_under_cursor 2>/dev/null
+            commandline-repaint
+        end
+    end
+end
+bind alt-k _lookup_word_under_cursor
+bind alt-k --mode default _lookup_word_under_cursor
+bind alt-k --mode insert _lookup_word_under_cursor
+
+# HANDLE "COMMAND NOT FOUND" {{{2
+function fish_command_not_found
+    echo-ERROR "Command not found: `$argv[1]`"
+end
+
+# SHORTCUTS WORKFLOW {{{2
+# NOTE: Alias/functions grouped together in purpose and have a common prefix.
+# TODO: Add completions.
+# SHORTCUTS LIB {{{3
+function _shortcut_list_for_prefix \
+    --argument-names prefix
+    # TODO: `--description`
+    # TODO: Assert argument provided
+    functions --names | grep "^$prefix-"
+end
+function _shortcut_description \
+    --argument-names shortcut
+    # TODO: `--description`
+    # TODO: Add `--quiet` (`grep` equialent) for use in `shortcut_index`.
+    # TODO: Assert argument provided
+    # FIXME: For aliasses, string the leading `alias xxx=` part.
+    set --function desc (functions --details --verbose $shortcut | tail -n -1)
+    if test "$desc" = n/a
+        return 1
+    else
+        echo $desc
+    end
+end
+# PRINT SHORTCUT INDEX FOR PREFIX {{{3
+function shortcut_index \
+    --description "Print index of shortcuts using prefix" \
+    --argument-names prefix
+    # TODO: Validate arguments
+    # TODO: Style and tabulate printed output.
+    function _shortcut_index_helper --argument-names prefix
+        _shortcut_list_for_prefix $prefix &>/dev/null # FIXME: De-duplicate
+        echo "`$prefix`:"
+        echo "SHORTCUTS|DESCRIPTION"
+        echo "---------|-----------"
+        and for shortcut in (_shortcut_list_for_prefix $prefix)
+            set desc (_shortcut_description $shortcut)
+            echo "$shortcut|$desc"
+        end
+    end
+    _shortcut_index_helper $prefix | column -t -s"|"
+end
+
+# CD UPWARDS INCREMENTALLY WITH `..`S {{{2
+# NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
+#   1. Not doing the plugin's directory history stack helpers `d` in favor of
+#      fish's directory history combo: `dirh`/`cdh`/`prevd`/`nextd`. There is
+#      also fish's directory stack combo: `dirs`/`pushd`/`popd`.
+#   2. Offering 4 level upwards just like the plugin.
+#   3. Not doing `alias ..="cd ../"` because `..` works natively.
+alias ...="cd ../../"
+alias ....="cd ../../../"
+
+# CD UPWARDS TO A CONTAINING DIRECTORY(ala `Markcial/upto`) {{{2
+# NOTE: Functionally similar to `Markcial/upto`.
+# TODO: CONFIGURE: Set `CD_UP_LIMIT_AT_HOME` to not go up above the home
+# directory.
+# TODO: CONFIGURE: Set `CD_UP_LIMIT_DIR` as a path to not go up that path.
+function _parent_directories \
+    --argument-names dir
+    set --function containing_dirs
+    set dir (path normalize $dir)
+    if not test -d "$dir"
+        echo-ERROR "Invalid directory: $dir"
+        return 1
+    end
+    while test "$dir" != "$HOME" -a -n "$dir" -a "$dir" != /
+        set --append containing_dirs (path dirname $dir)
+        set dir (path normalize (path dirname $dir))
+    end
+    for containing_dir in $containing_dirs
+        echo $containing_dir
+    end
+end
+function cd-up \
+    --description "`cd` upwards to a containing directory" \
+    --argument-names dir
+    if contains (path normalize $dir) (_parent_directories (pwd))
+        cd $dir
+    else
+        echo-ERROR "Invalid containing directory: $dir"
+        return 1
+    end
+end
+complete --command cd-up \
+    --no-files \
+    --keep-order \
+    --arguments "(_parent_directories (pwd))"
+
+# PRIVATE FISH SESSION, WHERE HISTORY IS NOT RECORDED {{{2
+# NOTE: `--private` doesn't record history.
+alias fish-PRIVATE="fish --private"
+
+# RELOAD FISH CONFIGURATION {{{2
+function fish-reload \
+    --description "Reload fish configuration"
+    echo
+    set --function fish_config_file_to_source "$__fish_config_dir/config.fish"
+    source $fish_config_file_to_source
+    and echo-INFO "Reloaded shell configuration: `$fish_config_file_to_source`"
+end
+bind alt-r 'fish-reload; commandline-repaint'
+bind alt-r --mode default 'fish-reload; commandline-repaint'
+bind alt-r --mode insert 'fish-reload; commandline-repaint'
+
+# HISTORY {{{1
 # NOTE: Main variants are `--exact`/`--prefix`/`--contains` but history
 # provides another dimension of variants with `--max`, `--show-time` and
 # `--case-sensitive`, but currently mostly implementing just `--show-time` in
 # order to keep the number of aliases manageable.
-# HISTORY LIST {{{3
+# HISTORY LIST {{{2
 # NOTE: "list" aliases include "search".
 # NOTE: I prefer to use `--reverse` on "list" results.
-# WITHOUT TIME {{{4
+# WITHOUT TIME {{{3
 alias history-list-ALL="history"
 alias history-list-LAST_1="history --max=1 --reverse"
 alias history-list-LAST_5="history --max=5 --reverse"
@@ -531,7 +740,7 @@ alias history-list-LAST_10="history --max=10 --reverse"
 alias history-list_EXACT_MATCH="history search --exact"
 alias history-list_PREFIX_MATCH="history search --prefix"
 alias history-list_CONTAINS="history search --contains"
-# WITH TIME {{{4
+# WITH TIME {{{3
 alias history-list-ALL_WITH_TIME="history --show-time"
 alias history-list-LAST_1_WITH_TIME="history --max=1 --reverse --show-time"
 alias history-list-LAST_5_WITH_TIME="history --max=5 --reverse --show-time"
@@ -551,20 +760,6 @@ alias history-delete_CONTAINS="history delete --contains"
 
 # HISTORY MERGE {{{3
 alias history-merge_FROM_OTHER_SESSIONS="history merge"
-
-# COMPLETION HELPERS {{{1
-# NOTE: Using "meta-tab" seems like a better fit to open completion with search
-# enabled i.e. `complete-and-search`, rather than default "shift tab"(`btab`).
-bind alt-tab complete-and-search
-bind alt-tab --mode default complete-and-search
-bind alt-tab --mode insert complete-and-search
-
-# `fg` SHORTCUT {{{1
-# NOTE: `c-z` sends active process to background, so choosing `m-z` as a binding
-# to send to foreground(`fg`).
-bind alt-z 'fg; commandline-repaint'
-bind alt-z --mode default 'fg; commandline-repaint'
-bind alt-z --mode insert 'fg; commandline-repaint'
 
 # NIX {{{1
 # SETUP {{{2
@@ -668,11 +863,6 @@ fish_config theme choose Dracula
 # fish_config theme save "Catppuccin Macchiato"
 # fish_config theme choose "Catppuccin Mocha"
 
-# HANDLE "COMMAND NOT FOUND" {{{2
-function fish_command_not_found
-    echo-ERROR "Command not found: `$argv[1]`"
-end
-
 # SET VIM AS DEFAULT EDITOR {{{2
 set --export EDITOR nvim
 set --export VISUAL nvim
@@ -680,103 +870,10 @@ set fish_cursor_default block # `default` includes normal and visual modes
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
 
-# ENSURE COMMON EXECUTABLES DIRS ARE PLACED ON PATH  {{{2
-# NOTE: Created if not present
-function _ensure_dir_exists_and_is_in_PATH \
-    --argument-names dir
-    # TODO: Validate argument
-    if not test -e $dir
-        mkdir $dir
-    end
-    fish_add_path $dir
-end
-# PERSONAL EXECUTABLES BIN DIR
-_ensure_dir_exists_and_is_in_PATH $HOME/bin/
-# COMMONLY USED BIN DIR
-_ensure_dir_exists_and_is_in_PATH $HOME/.local/bin
-
-# OPEN FISH CONFIG IN EDITOR {{{1
-function _open_dotfiles_and_edit_fish_config \
-    --description "`cd` to `dotfiles` and open fish config"
-    # NOTE: `Hardcoding dotfiles` dir and fish configuration file for now.
-    cd /Users/sri/code/personal/dotfiles
-    echo # Necessary because the prompts still shows the previous location.
-    commandline-repaint
-    if test -z "$EDITOR"
-        if command --query vim
-            echo-WARN "`EDITOR` not set, attempting to use `vim`"
-            vim ./shells/fish-FULL.fish
-        else
-            echo-ERROR "Please set `EDITOR` to use."
-        end
-    else
-        $EDITOR ./shells/fish-FULL.fish
-    end
-end
-bind alt-comma _open_dotfiles_and_edit_fish_config
-bind alt-comma --mode default _open_dotfiles_and_edit_fish_config
-bind alt-comma --mode insert _open_dotfiles_and_edit_fish_config
-
-# OPEN NEOVIM CONFIG IN EDITOR {{{1
-function _open_dotfiles_and_edit_neovim_config \
-    --description "`cd` to `dotfiles` and open neovim config"
-    # NOTE: `Hardcoding dotfiles` dir and neovim configuration file for now.
-    cd /Users/sri/code/personal/dotfiles
-    echo # Necessary because the prompts still shows the previous location.
-    commandline-repaint
-    if test -z "$EDITOR"
-        if command --query vim
-            echo-WARN "`EDITOR` not set, attempting to use `vim`"
-            vim ./editors/nvim-FULL.lua
-        else
-            echo-ERROR "Please set `EDITOR` to use."
-        end
-    else
-        $EDITOR ./editors/nvim-FULL.lua
-    end
-end
-# FIXME: I prefer `alt-shift-comma` to using `ctrl` here. Remap these
-# "shell/editor preference bindings".
-bind ctrl-alt-comma _open_dotfiles_and_edit_neovim_config
-bind ctrl-alt-comma --mode default _open_dotfiles_and_edit_neovim_config
-bind ctrl-alt-comma --mode insert _open_dotfiles_and_edit_neovim_config
-
-# SHELL SPECIFIC ALIASES {{{1
-# MISC {{{2
-# TODO: Move `mcd` into LIB section
-function mcd --description "`mkdir` and `cd` into new directory"
-    mkdir $argv
-    and cd $argv
-end
+# LS {{{1
 alias l="ls -A" # On macos `-A` exist but not longform `--almost-all`
 alias ls-ALL="ls -A" # Same as my earlier `l` alias; just for clarity's sake.
 alias rm-confirm="rm -i" # Request confirmation
-# Quick `cd` into specified directories like `$HOME/code/`
-# set CDPATH $HOME/code/
-
-# DESIGN {{{2
-set --export DESIGN_DIR "$HOME/design//"
-alias design-EXTERNAL="cd $HOME/design/design-external/"
-alias design-KEEP="cd $HOME/design/design-keep/"
-alias design-PERSONAL="cd $HOME/design/design-personal/"
-alias design-PLAYGROUND="cd $HOME/design/design-playground/"
-alias design-SANDBOX="cd $HOME/design/design-sandbox/"
-
-# CODE {{{2
-set --export CODE_DIR "$HOME/code/"
-# NOTE: Using both `code-*` and `*` alias variations for convenience sake.
-alias dotfiles="cd $HOME/code/personal/dotfiles/"
-alias external="cd $HOME/code/external/"
-alias keep="cd $HOME/code/keep/"
-alias personal="cd $HOME/code/personal/"
-alias playground="cd $HOME/code/playground/"
-alias sandbox="cd $HOME/code/sandbox/"
-alias code-DOTFILES="cd $HOME/code/personal/dotfiles/"
-alias code-EXTERNAL="cd $HOME/code/external/"
-alias code-KEEP="cd $HOME/code/keep/"
-alias code-PERSONAL="cd $HOME/code/personal/"
-alias code-PLAYGROUND="cd $HOME/code/playground/"
-alias code-SANDBOX="cd $HOME/code/sandbox/"
 
 # VI MODE ENHANCEMENTS {{{1
 # ENABLE VI MODE:
@@ -1091,79 +1188,6 @@ alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 alias eza-tree="eza --tree --group-directories-first"
 alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 
-# LOOKUP WORD UNDER CURSOR (`type --all`) {{{1
-function _lookup_word_under_cursor \
-    --description "Lookup word under cursor using `type --all`"
-    set --function word_under_cursor (commandline --current-token)
-    if test -n "$word_under_cursor"
-        # FIXME: Avoid running `type --all` twice.
-        type --all $word_under_cursor &>/dev/null
-        if test $status -eq 0
-            echo
-            type --all $word_under_cursor 2>/dev/null
-            commandline-repaint
-        end
-    end
-end
-bind alt-k _lookup_word_under_cursor
-bind alt-k --mode default _lookup_word_under_cursor
-bind alt-k --mode insert _lookup_word_under_cursor
-
-# SHORTCUTS {{{1
-# NOTE: Alias/functions grouped together in purpose and have a common prefix.
-# TODO: Add completions.
-
-# SHORTCUTS LIB {{{2
-function _shortcut_list_for_prefix \
-    --argument-names prefix
-    # TODO: `--description`
-    # TODO: Assert argument provided
-    functions --names | grep "^$prefix-"
-end
-
-function _shortcut_description \
-    --argument-names shortcut
-    # TODO: `--description`
-    # TODO: Add `--quiet` (`grep` equialent) for use in `shortcut_index`.
-    # TODO: Assert argument provided
-    # FIXME: For aliasses, string the leading `alias xxx=` part.
-    set --function desc (functions --details --verbose $shortcut | tail -n -1)
-    if test "$desc" = n/a
-        return 1
-    else
-        echo $desc
-    end
-end
-
-# PRINT SHORTCUT INDEX FOR PREFIX {{{2
-function shortcut_index \
-    --description "Print index of shortcuts using prefix" \
-    --argument-names prefix
-    # TODO: Validate arguments
-    # TODO: Style and tabulate printed output.
-    function _shortcut_index_helper --argument-names prefix
-        _shortcut_list_for_prefix $prefix &>/dev/null # FIXME: De-duplicate
-        echo "`$prefix`:"
-        echo "SHORTCUTS|DESCRIPTION"
-        echo "---------|-----------"
-        and for shortcut in (_shortcut_list_for_prefix $prefix)
-            set desc (_shortcut_description $shortcut)
-            echo "$shortcut|$desc"
-        end
-    end
-    _shortcut_index_helper $prefix | column -t -s"|"
-end
-
-# CD UPWARDS WITH `..`S {{{1
-# NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
-#   1. Not doing the plugin's directory history stack helpers `d` in favor of
-#      fish's directory history combo: `dirh`/`cdh`/`prevd`/`nextd`. There is
-#      also fish's directory stack combo: `dirs`/`pushd`/`popd`.
-#   2. Offering 4 level upwards just like the plugin.
-#   3. Not doing `alias ..="cd ../"` because `..` works natively.
-alias ...="cd ../../"
-alias ....="cd ../../../"
-
 # `make` SHORTCUTS {{{1
 # TODO: Generate automatically to avoid repetition.
 # TODO: Extract echo message from function meta description. Tied to "1".
@@ -1327,42 +1351,8 @@ bind ctrl-r _fzf_search_history
 bind ctrl-r --mode default _fzf_search_history
 bind ctrl-r --mode insert _fzf_search_history
 
-# `cd` UPWARDS TO A CONTAINING DIRECTORY(ala `Markcial/upto`) {{{1
-# TODO: CONFIGURE: Set `CD_UP_LIMIT_AT_HOME` to not go up above the home
-# directory.
-# TODO: CONFIGURE: Set `CD_UP_LIMIT_DIR` as a path to not go up that path.
-function _parent_directories \
-    --argument-names dir
-    set --function containing_dirs
-    set dir (path normalize $dir)
-    if not test -d "$dir"
-        echo-ERROR "Invalid directory: $dir"
-        return 1
-    end
-    while test "$dir" != "$HOME" -a -n "$dir" -a "$dir" != /
-        set --append containing_dirs (path dirname $dir)
-        set dir (path normalize (path dirname $dir))
-    end
-    for containing_dir in $containing_dirs
-        echo $containing_dir
-    end
-end
-function cd-up \
-    --description "`cd` upwards to a containing directory" \
-    --argument-names dir
-    if contains (path normalize $dir) (_parent_directories (pwd))
-        cd $dir
-    else
-        echo-ERROR "Invalid containing directory: $dir"
-        return 1
-    end
-end
-complete --command cd-up \
-    --no-files \
-    --keep-order \
-    --arguments "(_parent_directories (pwd))"
-
 # KILL PROCESSES BY USING FUZZY SEARCH TO FIND THEM {{{1
+# FIXME: Merge with the `ps` section.
 # NOTE: Required binaries: `fzf`, `gawk`.
 # TODO: Assert required binaries `fzf` and `gawk` are available?
 
@@ -1618,10 +1608,9 @@ end
 set --export FLYCTL_INSTALL "$HOME/.fly"
 fish_add_path $FLYCTL_INSTALL/bin/
 
-# PYTHON {{{1
-# VIRTUAL ENVIRONMENT UTILITIES {{{2
+# PYTHON VIRTUAL ENVIRONMENT (VENV) {{{1
 # TODO: Accept a virtual environment name (other than "venv").
-# CREATE VIRTUAL ENVIRONMENT {{{3
+# CREATE VIRTUAL ENVIRONMENT {{{2
 function v-create \
     --description "Create python virtual environment in `./venv/`"
     # TODO: Check for proper python version
@@ -1633,7 +1622,7 @@ function v-create \
     end
 end
 
-# ACTIVATE VIRTUAL ENVIRONMENT {{{3
+# ACTIVATE VIRTUAL ENVIRONMENT {{{2
 function v-activate \
     --description "Activate python virtual environment from `./venv/`"
     # TODO: Accept virtual environment name other than just hard-coded `venv`
@@ -1646,7 +1635,7 @@ function v-activate \
     end
 end
 
-# DEACTIVATE VIRTUAL ENVIRONMENT {{{3
+# DEACTIVATE VIRTUAL ENVIRONMENT {{{2
 function v-deactivate \
     --description "Deactivate python virtual environment from `./venv/`"
     # NOTE: Consider replacing the "deactivate" command (should be set somwhere
@@ -1666,7 +1655,7 @@ function v-deactivate \
     end
 end
 
-# CREATE AND ACTIVATE VIRTUAL ENVIRONMENT {{{3
+# CREATE AND ACTIVATE VIRTUAL ENVIRONMENT {{{2
 # TODO: Add variant of this that will force-delete any present `./venv/`
 function v-create_activate \
     --description "Create and activate python virtual environment `./venv/`"
@@ -1674,7 +1663,7 @@ function v-create_activate \
     and v-activate
 end
 
-# EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{3
+# EXIT IF VIRTUAL ENVIRONMENT NOT ACTIVE {{{2
 function _exit_if_not_in_active_python_virtual_env \
     --description "Exit with failure if python virtual environment not active"
     if not is_inside_virtual_environment
@@ -2624,22 +2613,6 @@ alias brew-services_cleanup_ALL="brew services cleanup --all"
 alias sqliteutils-memory="sqlite-utils memory"
 alias sqliteutils-memory_TABLE="sqlite-utils memory --table"
 alias sqliteutils-memory_SCHEMA="sqlite-utils memory --schema"
-
-# FISH ALIASES {{{1
-# OPEN PRIVATE SESSION, WHERE HISTORY IS NOT RECORDED {{{2
-alias fish-PRIVATE="fish --private"
-
-# RELOAD FISH CONFIGURATION {{{3
-function fish-reload \
-    --description "Reload fish configuration"
-    echo
-    set --function fish_config_file_to_source "$__fish_config_dir/config.fish"
-    source $fish_config_file_to_source
-    and echo-INFO "Reloaded shell configuration: `$fish_config_file_to_source`"
-end
-bind alt-r 'fish-reload; commandline-repaint'
-bind alt-r --mode default 'fish-reload; commandline-repaint'
-bind alt-r --mode insert 'fish-reload; commandline-repaint'
 
 # ANYTHING BELOW THIS WAS ADDED AUTOMATICALLY AND NEEDS TO BE SORTED {{{1
 # -----------------------------------------------------------------------
