@@ -571,31 +571,40 @@ function mcd --description "`mkdir` and `cd` into new directory"
     and cd $argv
 end
 
-# CD TO SPECIFIC PARENT DIRECTORY CONTENT LOCATIONS {{{2
-# TODO: Automate this section.
-# DESIGN {{{3
-set --export DESIGN_DIR "$HOME/design//"
-alias design-EXTERNAL="cd $HOME/design/design-external/"
-alias design-KEEP="cd $HOME/design/design-keep/"
-alias design-PERSONAL="cd $HOME/design/design-personal/"
-alias design-PLAYGROUND="cd $HOME/design/design-playground/"
-alias design-SANDBOX="cd $HOME/design/design-sandbox/"
-
-# CODE {{{3
-set --export CODE_DIR "$HOME/code/"
-# NOTE: Using both `code-*` and `*` alias variations for convenience sake.
-alias dotfiles="cd $HOME/code/personal/dotfiles/"
-alias external="cd $HOME/code/external/"
-alias keep="cd $HOME/code/keep/"
-alias personal="cd $HOME/code/personal/"
-alias playground="cd $HOME/code/playground/"
-alias sandbox="cd $HOME/code/sandbox/"
-alias code-DOTFILES="cd $HOME/code/personal/dotfiles/"
-alias code-EXTERNAL="cd $HOME/code/external/"
-alias code-KEEP="cd $HOME/code/keep/"
-alias code-PERSONAL="cd $HOME/code/personal/"
-alias code-PLAYGROUND="cd $HOME/code/playground/"
-alias code-SANDBOX="cd $HOME/code/sandbox/"
+# SHORTCUTS TO COMMON DIRECTORIES LOCATED WITHIN GIVEN PARENT DIRS {{{2
+# HELPERS {{{3
+# USAGE: EXAMPLE: Say `~/parent` contains 2 subdirectories `~/parent/aaa` and
+# `~/parent/bbb`. When `~/parent` is given as an argument to this function, it
+# will create "shortcut" aliases to the subdirectories like this:
+#   - `alias parent-AAA="cd ~/parent/aaa"`
+#   - `alias parent-BBB="cd ~/parent/bbb"`
+function _add_shortcuts_to_dirs_within_parent_dir \
+    --argument-names parent_dir # TODO: Validate argument
+    for dir in (find \
+    (path resolve $parent_dir) \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -not -path '*/.*'\
+    )
+        eval (echo -s "alias " \
+      (path resolve $parent_dir | path basename ) \
+      - \
+      (path basename $dir | string upper) \
+      '="' \
+      "cd $dir" \
+      '"' \
+      )
+    end
+end
+# GENERATE SHORTCUTS TO LOCATIONS IN THESE parent DIRS {{{3
+test -e ~/design/; and _add_shortcuts_to_dirs_within_parent_dir ~/design/
+test -e ~/code/; and _add_shortcuts_to_dirs_within_parent_dir ~/code/
+# MANUAL SHORTCUTS TO EXTREMELY COMMON LOCATIONS {{{3
+# FIXME: Find an appropriate location in this file for this sub-section.
+# NOTE: Prefer auto generations, so keep this very minimal
+alias dotfiles="cd ~/code/personal/dotfiles/"
+alias sandbox="cd ~/code/sandbox/"
 
 # LOOKUP WORD UNDER CURSOR (`type --all`) {{{2
 function _lookup_word_under_cursor \
