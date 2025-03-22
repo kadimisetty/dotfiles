@@ -6857,7 +6857,7 @@ require("lazy").setup({
 
     -- LOCAL: my playground {{{3
     {
-      dir = "~/code/playground/nvim-play/PROJECTS/play/",
+      dir = "~/code/playground/nvim/PROJECTS/play/",
     },
   },
 })

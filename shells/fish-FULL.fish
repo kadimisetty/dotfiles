@@ -573,13 +573,30 @@ end
 
 # SHORTCUTS TO COMMON DIRECTORIES LOCATED WITHIN GIVEN PARENT DIRS {{{2
 # HELPERS {{{3
-# USAGE: EXAMPLE: Say `~/parent` contains 2 subdirectories `~/parent/aaa` and
-# `~/parent/bbb`. When `~/parent` is given as an argument to this function, it
-# will create "shortcut" aliases to the subdirectories like this:
+# ADD SHORTCUTS TO DIRS WITHIN PARENT DIR {{{3
+# TODO: Include direct alias to "bare" parent directory itself?
+# USAGE 1: `~/parent` contains 2 subdirectories `aaa` and `bbb`,
+# `_add_shortcuts_to_dirs_within_parent_dir ~/parent/` will create:
 #   - `alias parent-AAA="cd ~/parent/aaa"`
 #   - `alias parent-BBB="cd ~/parent/bbb"`
+# USAGE 2: `~/parent` contains 2 subdirectories `aaa` and `bbb`,
+#`_add_shortcuts_to_dirs_within_parent_dir ~/parent/ foo` will create:
+#   - `alias foo-AAA="cd ~/parent/aaa"`
+#   - `alias foo-BBB="cd ~/parent/bbb"`
 function _add_shortcuts_to_dirs_within_parent_dir \
-    --argument-names parent_dir # TODO: Validate argument
+    --argument-names parent_dir parent_dir_prefix # TODO: Use `argparse`
+    # CHECKS AND VALIDATIONS:
+    if test -z "$parent_dir"
+        echo-ERROR "Provide parent directory"; and return 1
+    end
+    if path is --invert $parent_dir
+        echo-ERROR "Invalid parent directory"; and return 1
+    end
+    if test -z "$parent_dir_prefix"
+        set --function parent_dir_prefix \
+            (path resolve $parent_dir | path basename )
+    end
+    # LOOK THROUGH ALL SUBDIRECTORIES AND CREATE SHORTCUT ALIASES:
     for dir in (find \
     (path resolve $parent_dir) \
     -mindepth 1 \
@@ -588,7 +605,7 @@ function _add_shortcuts_to_dirs_within_parent_dir \
     -not -path '*/.*'\
     )
         eval (echo -s "alias " \
-      (path resolve $parent_dir | path basename ) \
+      $parent_dir_prefix \
       - \
       (path basename $dir | string upper) \
       '="' \
@@ -597,9 +614,23 @@ function _add_shortcuts_to_dirs_within_parent_dir \
       )
     end
 end
-# GENERATE SHORTCUTS TO LOCATIONS IN THESE parent DIRS {{{3
-test -e ~/design/; and _add_shortcuts_to_dirs_within_parent_dir ~/design/
-test -e ~/code/; and _add_shortcuts_to_dirs_within_parent_dir ~/code/
+
+# GENERATE SHORTCUTS TO LOCATIONS IN THESE PARENT DIRS {{{3
+test -e ~/code/
+and _add_shortcuts_to_dirs_within_parent_dir \
+    ~/code/
+test -e ~/code/playground/
+and _add_shortcuts_to_dirs_within_parent_dir \
+    ~/code/playground/ \
+    play
+test -e ~/design/
+and _add_shortcuts_to_dirs_within_parent_dir \
+    ~/design/
+test -e ~/design/design-playground/
+and _add_shortcuts_to_dirs_within_parent_dir \
+    ~/design/design-playground/ \
+    design_play
+
 # MANUAL SHORTCUTS TO EXTREMELY COMMON LOCATIONS {{{3
 # FIXME: Find an appropriate location in this file for this sub-section.
 # NOTE: Prefer auto generations, so keep this very minimal
