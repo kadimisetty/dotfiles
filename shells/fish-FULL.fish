@@ -1228,75 +1228,52 @@ alias lsd-tree_DEPTH='lsd --tree --depth' # User supplies "depth"
 alias eza-tree="eza --tree --group-directories-first"
 alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 
-# `make` SHORTCUTS {{{1
-# TODO: Generate automatically to avoid repetition.
-# TODO: Extract echo message from function meta description. Tied to "1".
+# MAKE COMMAND KEYBINDINGS {{{1
+# NOTE: Keep keybindings in tandem with equivalents in my neovim config.
+#
+#  +---------------+------------------------+
+#  |  MAKE         + KEYBIDING SUFFIX       |
+#  |  COMMAND      + (PREFIX: `alt-m,alt-`) |
+#  +---------------+------------------------+
+#  | `make`        | m                      |
+#  | `make build`  | b                      |
+#  | `make run`    | r                      |
+#  | `make clean`  | c                      |
+#  | `make fmt`    | f                      |
+#  | `make test`   | t                      |
+#  +---------------+------------------------+
 
-# INDEX {{{2
-# NOTE: Keep keybindings in tandem with equivalents in neovim config:
-#       - `alt-m,alt-m`: `make`
-#       - `alt-m,alt-b`: `make build`
-#       - `alt-m,alt-r`: `make run`
-#       - `alt-m,alt-c`: `make clean`
-#       - `alt-m,alt-f`: `make fmt`
-#       - `alt-m,alt-t`: `make test`
-
-# `make` {{{2
-function _make --description make --wraps make
-    echo-INFO "`make`"
-    make
+# TODO: Use `argparse`, so the make command can be passed in cleanly.
+# TODO: Parse from a table and iterate through them.
+# USAGE:  `_generate_make_keybindings m make clean` will generate keybindings
+# `bind alt-m,alt-c "echo; echo-USAGE \"make clean\"; make clean; ..."` for all
+# three fish command line modes.
+function _generate_make_keybindings
+    # VALIDATIONS:
+    test (count $argv) -lt 2
+    and echo-USAGE "_generate_make_keybindings KEY COMMMAND"
+    and return 1
+    # SETUP:
+    set --function key_prefix "alt-m,alt-"
+    set --function key_suffix $argv[1] # first argument
+    set --function command $argv[2..-1] # second to end argument
+    set --function full_command_string \
+        "echo; echo-DEBUG \"$command\"; $command; commandline-repaint"
+    # KEYBINDINGS:
+    bind $key_prefix$key_suffix $full_command_string
+    bind $key_prefix$key_suffix --mode default $full_command_string
+    bind $key_prefix$key_suffix --mode insert $full_command_string
 end
-bind alt-m,alt-m "_make; commandline-repaint"
-bind alt-m,alt-m --mode default "_make; commandline-repaint"
-bind alt-m,alt-m --mode insert "_make; commandline-repaint"
 
-# `make build` {{{2
-function _make_build --description "make build" --wraps "make build"
-    echo-INFO "`make build`"
-    make build
-end
-bind alt-m,alt-b "_make_build; commandline-repaint"
-bind alt-m,alt-b --mode default "_make_build; commandline-repaint"
-bind alt-m,alt-b --mode insert "_make_build; commandline-repaint"
-
-# `make run` {{{2
-function _make_run --description "make run" --wraps "make run"
-    echo-INFO "`make run`"
-    make run
-end
-bind alt-m,alt-r "_make_run; commandline-repaint"
-bind alt-m,alt-r --mode default "_make_run; commandline-repaint"
-bind alt-m,alt-r --mode insert "_make_run; commandline-repaint"
-
-# `make clean` {{{2
-function _make_clean --description "make clean" --wraps "make clean"
-    echo-INFO "`make clean`"
-    make clean
-end
-bind alt-m,alt-c "_make_clean; commandline-repaint"
-bind alt-m,alt-c --mode default "_make_clean; commandline-repaint"
-bind alt-m,alt-c --mode insert "_make_clean; commandline-repaint"
-
-# `make fmt` {{{2
-function _make_fmt --description "make fmt" --wraps "make fmt"
-    echo-INFO "`make fmt`"
-    make fmt
-end
-bind alt-m,alt-f "_make_fmt; commandline-repaint"
-bind alt-m,alt-f --mode default "_make_fmt; commandline-repaint"
-bind alt-m,alt-f --mode insert "_make_fmt; commandline-repaint"
-
-# `make test` {{{2
-function _make_test --description "make test" --wraps "make test"
-    echo-INFO "`make test`"
-    make test
-end
-bind alt-m,alt-t "_make_test; commandline-repaint"
-bind alt-m,alt-t --mode default "_make_test; commandline-repaint"
-bind alt-m,alt-t --mode insert "_make_test; commandline-repaint"
+_generate_make_keybindings m make
+_generate_make_keybindings b make build
+_generate_make_keybindings r make run
+_generate_make_keybindings c make clean
+_generate_make_keybindings f make fmt
+_generate_make_keybindings t make test
 
 # FZF {{{1
-# ripgrep options being used to power fzf:
+# NOTE: `ripgrep` options being used to power fzf:
 #           --files             : Print file's names but not their content
 #           --hidden            : Search hidden files and directories
 #           --smart-case        : Search smart with upper and lower case
