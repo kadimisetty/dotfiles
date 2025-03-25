@@ -661,21 +661,49 @@ function fish_command_not_found
 end
 
 # SHORTCUTS WORKFLOW {{{2
-# NOTE: Alias/functions grouped together in purpose and have a common prefix.
-# TODO: Add completions.
+# Alias/functions grouped together in purpose and have a common prefix.
+# FIXME: Describe/Document this section better
+#
+# TODO: Add completions?
+
 # SHORTCUTS LIB {{{3
-function _shortcut_list_for_prefix \
-    --argument-names prefix
-    # TODO: `--description`
-    # TODO: Assert argument provided
-    functions --names | grep "^$prefix-"
+function _shortcut_prefix_from_string \
+    --description "Extracts shortcut prefix from given string" \
+    --argument-names value
+    # VALIDATE:
+    test -z "$value"; and return 1
+    # LOGIC
+    if string match --quiet "*-*" $value # Is `-` present in given string?
+        # Return first part of string split by `-`
+        # NOTE: This particular `string split` command will also return
+        # an error status when `-` isn't present and that is why that
+        # particular case will be handled in else block where the error status
+        # is not returned.
+        string split - $value --fields 1
+    else
+        # Return value whole if `-` no present
+        echo $value
+        return
+    end
 end
+
+function _shortcut_list_for_prefix \
+    --description "Returns list of shortcuts using given shortcut prefix" \
+    --argument-names shortcut_prefix
+    # TODO: Return "bare shortcut" e.g. for `go-*` shortcuts, also check if
+    # just bare `go` command exists and include that at the top.
+    test -z "$shortcut_prefix"; and return 1
+    functions --names | grep "^$shortcut_prefix-"
+end
+
+# TODO: `_shortcut_list_for_prefix_in_shortcut`(i.e. this extracts prefix from
+# given shortcut)
+
 function _shortcut_description \
+    --description "Returns the given shortcut's `description`" \
     --argument-names shortcut
-    # TODO: `--description`
-    # TODO: Add `--quiet` (`grep` equialent) for use in `shortcut_index`.
-    # TODO: Assert argument provided
-    # FIXME: For aliasses, string the leading `alias xxx=` part.
+    # TODO: Add `--quiet` (`grep` equivalent) for use in `shortcut_index`.
+    # FIXME: For aliases, strip the extraneous leading `alias xxx=` parts.
     set --function desc (functions --details --verbose $shortcut | tail -n -1)
     if test "$desc" = n/a
         return 1
@@ -683,6 +711,60 @@ function _shortcut_description \
         echo $desc
     end
 end
+
+function _shortcut_variant \
+    --description "Returns desired shortcut variant(next/prev etc.)" \
+    --argument-names variant shortcut
+    # SETUP:
+    set --function shortcut_prefix (_shortcut_prefix_from_string $shortcut)
+    set --function shortcuts (_shortcut_list_for_prefix $shortcut_prefix)
+    set --function variant (string lower $variant)
+    # VALIDATE:
+    test -z "$variant"
+    or test -z "$shortcut"
+    or not contains $variant (string split "/" "next/prev/first/last/prefix")
+    # or not contains $shortcut $shortcuts # FIXME:
+    and return 1
+    # LOGIC:
+    set --function index (contains --index $shortcut $shortcuts)
+    set --function shortcuts_length (count $shortcuts)
+    switch $variant
+        case next
+            echo -n $shortcuts[(math "$index % $shortcuts_length + 1")]
+        case prev
+            set --local new_index (math "$index - 1")
+            if test $new_index -eq 0
+                echo -n $shortcuts[-1]
+            else
+                echo -n $shortcuts[$new_index]
+            end
+        case '*' # FIXME: Decide what to do with the default catch-all block
+            return 1
+    end
+end
+
+# REPLACE CURRENT WORD WITH SHORTCUT VARIANT {{{3
+# TODO: Save cursor position as much as possible
+function _replace_current_word_with_shortcut_variant \
+    --description "Replace current word with desired shortcut variant" \
+    --argument-names variant
+    test -z "$variant"; and return 1
+    commandline --current-token \
+        (_shortcut_variant $variant (commandline --current-token))
+end
+
+# NEXT:
+bind alt-a "_replace_current_word_with_shortcut_variant next"
+bind alt-a --mode default "_replace_current_word_with_shortcut_variant next"
+bind alt-a --mode insert "_replace_current_word_with_shortcut_variant next"
+# PREV:
+bind alt-x "_replace_current_word_with_shortcut_variant prev"
+bind alt-x --mode default "_replace_current_word_with_shortcut_variant prev"
+bind alt-x --mode insert "_replace_current_word_with_shortcut_variant prev"
+# TODO: JUST PREFIX:
+# TODO: FIRST:
+# TODO: LAST:
+
 # PRINT SHORTCUT INDEX FOR PREFIX {{{3
 function shortcut_index \
     --description "Print index of shortcuts using prefix" \
