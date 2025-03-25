@@ -712,22 +712,27 @@ function _shortcut_description \
     end
 end
 
+# FIXME: When only one potential "shortcut" value is given, glitches by
+# appending that "shortcut" value at cursor.
+# TODO: Provide option that doesn't go beyond first/last when inc/decrementing.
 function _shortcut_variant \
-    --description "Returns desired shortcut variant(next/prev etc.)" \
+    --description "Returns shortcut variant(next/prev/first/last/prefix)" \
     --argument-names variant shortcut
     # SETUP:
     set --function shortcut_prefix (_shortcut_prefix_from_string $shortcut)
     set --function shortcuts (_shortcut_list_for_prefix $shortcut_prefix)
     set --function variant (string lower $variant)
+    set --function shortcuts_length (count $shortcuts)
     # VALIDATE:
     test -z "$variant"
     or test -z "$shortcut"
-    or not contains $variant (string split "/" "next/prev/first/last/prefix")
-    # or not contains $shortcut $shortcuts # FIXME:
+    or test $shortcuts_length -eq 0
+    or not contains $variant (string split " " "next prev first last prefix")
     and return 1
+    test $shortcuts_length -eq 0; and return # If only 1 value, just stop early
     # LOGIC:
+    # NOTE: Failing to set `index` here will blow up `math` Computations later.
     set --function index (contains --index $shortcut $shortcuts)
-    set --function shortcuts_length (count $shortcuts)
     switch $variant
         case next
             echo -n $shortcuts[(math "$index % $shortcuts_length + 1")]
@@ -738,13 +743,20 @@ function _shortcut_variant \
             else
                 echo -n $shortcuts[$new_index]
             end
-        case '*' # FIXME: Decide what to do with the default catch-all block
-            return 1
+        case first
+            echo -n $shortcuts[1]
+        case last
+            echo -n $shortcuts[$shortcuts_length]
+        case prefix
+            echo -n $shortcut_prefix
+        case '*'
+            return 1 # Unreachable because of validation check
     end
 end
 
 # REPLACE CURRENT WORD WITH SHORTCUT VARIANT {{{3
-# TODO: Save cursor position as much as possible
+# TODO: Save cursor position as much as possible.
+# FIXME: Handle `math` parsing errors on unexpected inputs.
 function _replace_current_word_with_shortcut_variant \
     --description "Replace current word with desired shortcut variant" \
     --argument-names variant
@@ -761,9 +773,18 @@ bind alt-a --mode insert "_replace_current_word_with_shortcut_variant next"
 bind alt-x "_replace_current_word_with_shortcut_variant prev"
 bind alt-x --mode default "_replace_current_word_with_shortcut_variant prev"
 bind alt-x --mode insert "_replace_current_word_with_shortcut_variant prev"
+# FIRST:
+bind alt-shift-x "_replace_current_word_with_shortcut_variant first"
+bind alt-shift-x --mode default "_replace_current_word_with_shortcut_variant first"
+bind alt-shift-x --mode insert "_replace_current_word_with_shortcut_variant first"
+# LAST:
+bind alt-shift-a "_replace_current_word_with_shortcut_variant last"
+bind alt-shift-a --mode default "_replace_current_word_with_shortcut_variant last"
+bind alt-shift-a --mode insert "_replace_current_word_with_shortcut_variant last"
 # TODO: JUST PREFIX:
-# TODO: FIRST:
-# TODO: LAST:
+bind alt-p "_replace_current_word_with_shortcut_variant prefix"
+bind alt-p --mode default "_replace_current_word_with_shortcut_variant prefix"
+bind alt-p --mode insert "_replace_current_word_with_shortcut_variant prefix"
 
 # PRINT SHORTCUT INDEX FOR PREFIX {{{3
 function shortcut_index \
@@ -835,6 +856,7 @@ complete --command cd-up \
 alias fish-PRIVATE="fish --private"
 
 # RELOAD FISH CONFIGURATION {{{2
+# FIXME: Reset $status command line indicator with explicit `true`?
 function fish-reload \
     --description "Reload fish configuration"
     echo
