@@ -336,7 +336,7 @@ function echo-task_WRAP \
     --description "Print message before and after task(given function) is executed" \
     --argument-names task_function message
     if not test -n "$task_function"
-        echo-USAGE "echo-task_WRAP (REQ:task_function) (OPT:message)"
+        echo-USAGE "$(status current-function) (REQ:task_function) (OPT:message)"
         return 1
     end
     if not test -n "$message"
@@ -389,7 +389,7 @@ function echo-section_WRAP \
     --description "Print message before and after section(given function) is executed" \
     --argument-names section_function message
     if not test -n "$section_function"
-        echo-USAGE "echo-section_WRAP (REQ:section_function) (OPT:message)`"
+        echo-USAGE "$(status current-function) (REQ:section_function) (OPT:message)`"
         return 1
     end
     if not test -n "$message"
@@ -1381,7 +1381,7 @@ alias eza-tree_GIT="eza --tree --group-directories-first --git-ignore --git"
 function _generate_make_keybindings
     # VALIDATIONS:
     test (count $argv) -lt 2
-    and echo-USAGE "_generate_make_keybindings KEY COMMMAND"
+    and echo-USAGE "$(status current-function) KEY CMD"
     and return 1
     # SETUP:
     set --function key_prefix "alt-m,alt-"
@@ -2189,7 +2189,7 @@ function _glog-FIRST_n \
     --wraps "git show"
     if not is_positive_number "$n"
         echo-ERROR "Requires positive number of commits"
-        echo-USAGE "_glog-FIRST_n (REQ:commit count > 0) (OPT:git log opts)"
+        echo-USAGE "$(status current-function) (REQ:commit count > 0) (OPT:git log opts)"
         return
     end
     git log --no-walk (git rev-list HEAD | tail -n $n) \
