@@ -1832,17 +1832,17 @@ end
 function m-runserver \
     --description "./manage.py runserver"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py runserver
+    and ./manage.py runserver $argv
 end
 function m-collect_static \
     --description "./manage.py collectstatic"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py collectstatic
+    and ./manage.py collectstatic $argv
 end
 function m-create_superuser \
     --description "./manage.py createsuperuser"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py createsuperuser
+    and ./manage.py createsuperuser $argv
 end
 function m-migrate \
     --description "./manage.py migrate"
@@ -1857,7 +1857,7 @@ end
 function m-shell \
     --description "./manage.py shell"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py shell
+    and ./manage.py shell $argv
 end
 function m-startapp \
     --description "./manage.py startapp"
@@ -1878,7 +1878,7 @@ end
 function m-test_server \
     --description "./manage.py testserver"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py testserver
+    and ./manage.py testserver $argv
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
 function m-show_urls \
@@ -1889,17 +1889,17 @@ end
 function m-validate_templates \
     --description "./manage.py validate_templates"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py validate_templates
+    and ./manage.py validate_templates $argv
 end
 function m-shell_PLUS \
     --description "./manage.py shell_plus"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py shell_plus
+    and ./manage.py shell_plus $argv
 end
 function m-runserver_PLUS \
     --description "./manage.py runserver_plus"
     _exit_if_not_in_active_python_virtual_env
-    and ./manage.py runserver_plus
+    and ./manage.py runserver_plus $argv
 end
 
 # RUST/CARGO {{{1
