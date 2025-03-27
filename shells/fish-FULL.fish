@@ -690,10 +690,35 @@ end
 function _shortcut_list_for_prefix \
     --description "Returns list of shortcuts using given shortcut prefix" \
     --argument-names shortcut_prefix
-    # TODO: Return "bare shortcut" e.g. for `go-*` shortcuts, also check if
-    # just bare `go` command exists and include that at the top.
-    test -z "$shortcut_prefix"; and return 1
-    functions --names | grep "^$shortcut_prefix-"
+    test -z "$shortcut_prefix"; and return 1 # Assert arguments are provided.
+    # ONLY ADD BARE SHORTCUT PREFIX IF IT EXISTS AS COMMAND BY ITSELF:
+    if type --query $shortcut_prefix
+        set --function bare_shortcut_prefix $shortcut_prefix
+    else
+        set --function bare_shortcut_prefix "" # Set as blank to be ignored.
+    end
+    # PREPEND BARE SHORTCUT PREFIX:
+    functions --names \
+        # NOTE: NOTES ON FOLLOWING AWK SCRIPT:
+        # 1. Match only lines that start with `$shortcut_prefix-`.
+        # 2. If the "bare shortcut prefix" exists, print it first.
+        # 3. Only print if more than 1 shortcut exists, else exit with error.
+        | gawk \
+        --assign bare_shortcut_prefix=$bare_shortcut_prefix \
+        --assign pattern="^$shortcut_prefix-" \
+        '
+        $0 ~ pattern {
+          count++
+          matches[count] = $0
+        }
+        END {
+          if (count >= 1) {
+            if (length(bare_shortcut_prefix)) {print bare_shortcut_prefix}
+            for (i=1; i<=count; i++) { print matches[i] }
+          } else {
+            exit 1
+          }
+        }'
 end
 
 # TODO: `_shortcut_list_for_prefix_in_shortcut`(i.e. this extracts prefix from
@@ -714,7 +739,7 @@ end
 
 # FIXME: When only one potential "shortcut" value is given, glitches by
 # appending that "shortcut" value at cursor.
-# TODO: Provide option that doesn't go beyond first/last when inc/decrementing.
+# TODO: Provide option that doesn't go beyond first/last when inc/decrementing?
 function _shortcut_variant \
     --description "Returns shortcut variant(next/prev/first/last/prefix)" \
     --argument-names variant shortcut
@@ -781,7 +806,8 @@ bind alt-shift-x --mode insert "_replace_current_word_with_shortcut_variant firs
 bind alt-shift-a "_replace_current_word_with_shortcut_variant last"
 bind alt-shift-a --mode default "_replace_current_word_with_shortcut_variant last"
 bind alt-shift-a --mode insert "_replace_current_word_with_shortcut_variant last"
-# TODO: JUST PREFIX:
+# TODO: INDEX:
+# PREFIX:
 bind alt-p "_replace_current_word_with_shortcut_variant prefix"
 bind alt-p --mode default "_replace_current_word_with_shortcut_variant prefix"
 bind alt-p --mode insert "_replace_current_word_with_shortcut_variant prefix"
