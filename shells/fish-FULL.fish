@@ -302,6 +302,24 @@ function echo-USAGE \
     _echo_with_customized_message USAGE $fish_color_quote false "`$argv`"
 end
 
+# ECHO USAGE PREFIXED WITH TOPMOST FUNCTION NAME
+# Print message as a function's usage info("USAGE") with topmost fucntion name.
+# USAGE 1: `echo-USAGE_WITH_TOPMOST_FUNCTION name`
+# OUTPUT(stdout): `USAGE: `echo-USAGE_WITH_TOPMOST_FUNCTION name``
+# USAGE 2: `function xxx; echo-USAGE_WITH_TOPMOST_FUNCTION "name"; end; xxx`
+# OUTPUT(stdout): `USAGE: `xxx name``
+# USAGE 3: `function aaa; function get_name; echo-USAGE_WITH_FUNCTION name ; end; xxx; end; aaa`
+# OUTPUT(stdout): `USAGE: `aaa name``
+function echo-USAGE_WITH_TOPMOST_FUNCTION \
+    --description "Print message as a function's usage info with topmost fucntion name"
+    set --function stack_trace (status print-stack-trace  \
+       | gawk 'END { gsub(/^'\''|'\''$/, "", $3); print $3" " }' \
+    )
+    # NOTE: `$stack_trace` will include it's own trailing space.
+    set --function message "`$stack_trace$argv`"
+    _echo_with_customized_message USAGE $fish_color_quote false $message
+end
+
 # ECHO TASKS {{{3
 # ECHO TASK INIT
 # Print message when task(given functiun) is initiated("INIT").
