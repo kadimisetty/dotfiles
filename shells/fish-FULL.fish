@@ -2083,6 +2083,14 @@ set --export luarocks "luarocks --local"
 # GREP {{{1
 alias grep-IGNORECASE="grep --ignore-case"
 
+# XARGS {{{1
+# TODO: Add a shortcut variant that includes `-I%`
+# PARALLEL EXECUTION {{{2
+alias pxargs="xargs --max-procs=0" # NOTE: `0` to use all processors
+alias pxargs2="xargs --max-procs=2"
+alias pxargs3="xargs --max-procs=3"
+alias pxargs4="xargs --max-procs=4"
+
 # GIT {{{1
 # NOTE: FOR `git log`/`git stash`: Time duration variants: (LAST/THIS)
 # (DAY/WEEK/MONTH).
