@@ -5447,6 +5447,53 @@ require("lazy").setup({
       opts = { delay = { highlight = 10 } },
     },
 
+    -- csvview - csv displayer {{{3
+    {
+      "hat0uma/csvview.nvim",
+      -- TODO: Activate (`CsvViewEnable`) automatically for `csv`/`tsv` files?
+      opts = {
+        parser = { comments = { "#", "//" } },
+        -- view = {
+        --  NOTE: `border` show `|`, `highlight` shows delimiter
+        --   display_mode = "highlight",  -- DEFAULT
+        -- },
+        keymaps = {
+          textobject_field_inner = { "if", mode = { "o", "x" } },
+          textobject_field_outer = { "af", mode = { "o", "x" } },
+          -- TODO: Come up with other movement keymaps, because I use `<tab>`
+          -- based normal mode keymaps elsewhere.
+          -- NOTE: PLUGIN RECOMMENDED MOVEMENT KEYMAPS (based on excel):
+          -- - `<tab>` / `<s-tab>` move horizontally
+          -- - `<cr>`/`<s-cr>` move vertically between rows(cursor to field end)
+          -- jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+          -- jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+          -- jump_next_row = { "<Enter>", mode = { "n", "v" } },
+          -- jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+        },
+      },
+      ft = { "csv", "tsv" },
+      cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+      init = function()
+        local csvview_augroup =
+          vim.api.nvim_create_augroup("csvview_augroup", {})
+        -- NOTIFY WHEN `CsvView` IS ENABLED/DISABLED:
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "CsvViewAttach",
+          group = csvview_augroup,
+          callback = function()
+            vim.notify("`CsvView` ON", vim.log.levels.INFO)
+          end,
+        })
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "CsvViewDetach",
+          group = csvview_augroup,
+          callback = function()
+            vim.notify("`CsvView` OFF", vim.log.levels.INFO)
+          end,
+        })
+      end,
+    },
+
     -- skel-nvim - skeleton/template files {{{3
     -- NOTE:  Load skeletons from `skeleton` directory within nepvim's config
     -- directory i.e. `vim.fn.stdpath('config)`. e.g.:
