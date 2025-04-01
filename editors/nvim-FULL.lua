@@ -4175,6 +4175,22 @@ require("lazy").setup({
     -- because they likely don't respect this behavior.
     "axelf4/vim-strip-trailing-whitespace",
 
+    -- visual-whitespace - show whitespace in visual selections {{{3
+    {
+      "mcauley-penney/visual-whitespace.nvim",
+      -- NOTE: Not using visual mode keys to lazy load as recommended by plugin
+      -- docs, because it misses situations like selections made by mouse etc.
+      event = "VeryLazy",
+      opts = {
+        -- highlight = { link = "Visual" }, FIXME: Make highlight standout less.
+        -- excluded = { filetypes = {}, buftypes = {}, },
+        -- space_char = "·", -- DEFAULT: ·
+        tab_char = "¬", -- OPTIONS: ¬ ⇥ ─ DEFAULT: →
+        nl_char = "", -- DEFAULT: ↲
+        cr_char = "", -- DEFAULT: ←
+      },
+    },
+
     -- emmet - html completions {{{3
     {
       "mattn/emmet-vim",
