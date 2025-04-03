@@ -831,11 +831,12 @@ bind alt-p --mode default "_replace_current_word_with_shortcut_variant prefix"
 bind alt-p --mode insert "_replace_current_word_with_shortcut_variant prefix"
 
 # PRINT SHORTCUT INDEX FOR PREFIX {{{3
+# TODO: Convert this into an API function, and call with a keybind.
+# TODO: Style and tabulate printed output better.
 function shortcut_index \
     --description "Print index of shortcuts using prefix" \
     --argument-names prefix
     # TODO: Validate arguments
-    # TODO: Style and tabulate printed output.
     function _shortcut_index_helper --argument-names prefix
         _shortcut_list_for_prefix $prefix &>/dev/null # FIXME: De-duplicate
         echo "`$prefix`:"
@@ -843,6 +844,15 @@ function shortcut_index \
         echo "---------|-----------"
         and for shortcut in (_shortcut_list_for_prefix $prefix)
             set desc (_shortcut_description $shortcut)
+            if string match --quiet --regex '^alias \S+=' $desc
+                set desc (echo -s \
+                    # Surround with backticks
+                  "`" \
+                    # Strip leading `alias xxx=`
+                  (echo $desc | string replace --regex '^alias \S+=' "") \
+                    "`")
+            end
+            # Return name and description as a single string with separator `|`
             echo "$shortcut|$desc"
         end
     end
