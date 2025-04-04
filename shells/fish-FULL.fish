@@ -2684,6 +2684,7 @@ alias wc-BYTES="wc -c" # bytes
 
 # PS {{{1
 # LIST  PROCESSES {{{2
+# FIXME: Issues with some listing shortcuts, check all.
 # ALL {{{3
 alias ps-list="ps auxc"
 alias ps-list__MINIMAL="ps auxc"
@@ -2700,15 +2701,25 @@ alias ps-list_BY_CPU__VERBOSE="ps -er -O pcpu"
 alias ps-list_BY_CPU_10="ps -er -o pid,pcpu,command | heas -n 10"
 alias ps-list_BY_CPU_1__VERBOSE0="ps -er -O pcpu | head -n 10"
 
-# TODO: SHOW A PROCESS'S INFO {{{2
-# TODO: Add completion for PIDs and process names?
-# TODO: Add variant `-PROCESS` that accept both proccess namr or pid?
-# alias ps-PROCESS=
-# BY PROCESS PID {{{3
-alias ps-PROCESS_PID="ps -p "
-# BY PROCESS NAME {{{3
-# FIXME: alias ps-PROCESS_NAME="ps auxc | head -n 1; ps auxc | grep "
-alias ps-PROCESS_NAME__VERBOSE="ps aux | head -n 1; ps aux | grep "
+# PROCESS TREE {{{2
+# TODO: SHOW PROCESS TREE (BOTH PARENTS & CHILDREN) {{{3
+# NOTE: Required binaries: `pstree`
+# NOTE: `-g3` to use utf-8 for graphical symbols.
+alias ps-tree_NAME="pstree -g3 -s"
+alias ps-tree_PID="pstree -g3"
+# FIXME: SHOW PARENT PROCESSES {{{3
+# alias ps-parent_PID="ps -o ppid= -p"
+# alias ps-parent_NAME="ps -o ppid,comm -C"
+# TODO: SHOW CHILD PROCESSES {{{3
+
+# SHOW PROCESS INFO {{{2
+# TODO: Add completion for pid and process(command) names?
+# TODO: Add variant `-PROCESS` that accept both proccess name or pid?
+# BY PID {{{3
+alias ps-PID="ps -p"
+# BY NAME {{{3
+# FIXME: alias ps-NAME="ps auxc | head -n 1; ps auxc | grep "
+alias ps-NAME__VERBOSE="ps aux | head -n 1; ps aux | grep "
 
 # CURL {{{1
 # [-s|--silent]: Silent mode
