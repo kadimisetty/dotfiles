@@ -1582,7 +1582,12 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 
 -- TERMINAL QUICK OPEN KEYMAPS {{{2
 -- Open within current tab
-vim.keymap.set("n", "<m-t>", "<cmd>split term://fish<cr>", { silent = true })
+vim.keymap.set(
+  "n",
+  "<m-t>",
+  "<cmd>horizontal botright split term://fish<cr>",
+  { silent = true }
+)
 -- Open in new tab
 vim.keymap.set("n", "<m-T>", "<cmd>tabnew term://fish<cr>", { silent = true })
 
@@ -3275,7 +3280,7 @@ vim
     vim.keymap.set(
       "n",
       horizontal_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
-      "<cmd>split term://" .. make_command .. "<cr>",
+      "<cmd>horizontal botright split term://" .. make_command .. "<cr>",
       {
         silent = true,
         desc = "Run `" .. make_command .. "` in a horizontal split terminal ",
@@ -3285,7 +3290,7 @@ vim
     vim.keymap.set(
       "n",
       vertical_split_keymap_prefix .. "<m-" .. keymap_suffix .. ">",
-      "<cmd>vsplit term://" .. make_command .. "<cr>",
+      "<cmd>vertical rightbelow split term://" .. make_command .. "<cr>",
       {
         silent = true,
         desc = "Run `" .. make_command .. "` in a vertical split terminal ",
@@ -3295,7 +3300,7 @@ vim
     vim.keymap.set(
       "n",
       vertical_split_keymap_prefix .. "<s-m-" .. keymap_suffix .. ">",
-      "<cmd>vsplit term://" .. make_command .. "<cr>",
+      "<cmd>vertical rightbelow split term://" .. make_command .. "<cr>",
       {
         silent = true,
         desc = "Run `" .. make_command .. "` in a vertical split terminal ",
