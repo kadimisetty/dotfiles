@@ -2150,6 +2150,14 @@ alias gadd-TRACKED_AND_UNTRACKED='git add --all'
 alias gadd-INTERACTIVE='git add --interactive'
 # alias gadd-PATCH='git add --patch' -- NOTE: Removing to focus on "INTERACTIVE"
 
+# GIT COMMIT {{{2
+# NOTE: Not doing `gcommit-message_ADD_FILE` because that would require
+# two(message and files to add), so avoiding it to keep it simple.
+alias gcommit='git commit'
+alias gcommit-message='git commit --message'
+alias gcommit-message_ADD_ALL='git add --all; and git commit --all --message'
+alias gcommit-message_ADD_ALL__TRACKED='git commit --all --message'
+
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
 function gclone-cd \
