@@ -2151,12 +2151,29 @@ alias gadd-INTERACTIVE='git add --interactive'
 # alias gadd-PATCH='git add --patch' -- NOTE: Removing to focus on "INTERACTIVE"
 
 # GIT COMMIT {{{2
+# BARE {{{3
 # NOTE: Not doing `gcommit-message_ADD_FILE` because that would require
-# two(message and files to add), so avoiding it to keep it simple.
+# two(message and files to add), so avoiding it for now to keep it simple at
+# least until I figure out a strategy to get user input simply for multiples.
 alias gcommit='git commit'
 alias gcommit-message='git commit --message'
 alias gcommit-message_ADD_ALL='git add --all; and git commit --all --message'
 alias gcommit-message_ADD_ALL__TRACKED='git commit --all --message'
+# AMEND {{{3
+alias gcommit-amend='git commit --amend'
+alias gcommit-amend__KEEP_MESSAGE='git commit --amend --no-edit'
+function gcommit-amend_ADD_FILE \
+    --description "`git add` given file and `git commit --amend`" \
+    --wraps "git add" # NOTE: Completion purposes only.
+    test -z "$argv"; and echo-USAGE_WITH_TOPMOST_FUNCTION FILE_WITH_CHANGES; and return 1
+    git add $argv; and git commit --amend
+end
+function gcommit-amend_ADD_FILE__KEEP_MESSAGE \
+    --description "`git add` given file and `git commit --amend --no-edit`" \
+    --wraps "git add" # NOTE: Completion purposes only
+    test -z "$argv"; and echo-USAGE_WITH_TOPMOST_FUNCTION FILE_WITH_CHANGES; and return 1
+    git add $argv; and git commit --amend --no-edit
+end
 
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
@@ -2466,7 +2483,7 @@ alias gbranch-delete_REMOTE_ALL_WITHOUT_LOCAL_COUNTERPARTS='git push --prune rem
 alias gbranch-description_EDIT='git branch --edit-description'
 function gbranch-description_SHOW \
     --argument-names branch_name \
-    --wraps "git branch" # NOTE: Wrapping `git branch` only for completion sake
+    --wraps "git branch" # NOTE: Completion purposes only.
     begin
         if not is_pwd_in_git_repo
             echo-ERROR "Not in git repo"
@@ -2619,7 +2636,7 @@ function gworktree-switch_to_MAIN
 end
 function gworktree-switch_to_WORKTREE \
     --argument-names worktree \
-    --wraps "git worktree unlock" # NOTE: For completion sake only.
+    --wraps "git worktree unlock" # NOTE: Completion purposes only.
     # TODO: Assert an argument is given
     if test (count $argv) -eq 0
         echo-ERROR "Argument required"
