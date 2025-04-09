@@ -122,6 +122,37 @@ function has_git_staged_changes \
     end
 end
 
+#: CHECK IF GIT BRANCH EXISTS {{{3
+# USAGE 1: `does_git_branch_exist xxx; echo "branch 'xxx' exists"`
+# USAGE 2: `not does_git_branch_exist xxx; echo "branch 'xxx' does not exist"`
+function does_git_branch_exist \
+    --description "Check if given branch name exists"
+    test (count $argv) -ne 1; and echo-USAGE_WITH_TOPMOST_FUNCTION BRANCH_NAME; and return 1
+    not is_pwd_in_git_repo; and echo-ERROR "Not in git repo"; and return 1
+    git show-ref --quiet --branches $argv
+end
+
+# SWITCH TO FIRST BRANCH THAT EXISTS IN GIVEN LIST {{{3
+# USAGE: `_git_switch_to_first_branch_that_exists_in_given_list xxx develop aaa`
+# OUTPUT: `Switched to 'develop'`
+function _git_switch_to_first_branch_that_exists_in_given_list
+    --description "Switch to first branch that exists in given list"
+    if test (count $argv) -eq 0
+        echo-USAGE_WITH_TOPMOST_FUNCTION BRANCH_NAMES
+        return 1
+    end
+    set --function target_branch_names $argv
+    for branch in $target_branch_names
+        does_git_branch_exist $branch
+        and git switch $branch
+        and return
+    end
+    set --function formatted \
+        (printf '`%s` ' $target_branch_names | string trim | string split " " | string join "/")
+    echo-ERROR "No exsiting branch in: $formatted"
+    return 1
+end
+
 # REPO NAME FROM GIT REPO URL {{{3
 # Repo name from given git url
 # USAGE: `_reponame_from_git_repo_url git@github.com:USERNAME/REPONAME.git`
@@ -308,7 +339,7 @@ end
 # OUTPUT(stdout): `USAGE: `echo-USAGE_WITH_TOPMOST_FUNCTION name``
 # USAGE 2: `function xxx; echo-USAGE_WITH_TOPMOST_FUNCTION "name"; end; xxx`
 # OUTPUT(stdout): `USAGE: `xxx name``
-# USAGE 3: `function aaa; function get_name; echo-USAGE_WITH_FUNCTION name ; end; xxx; end; aaa`
+# USAGE 3: `function aaa; function get_name; echo-USAGE_WITH_TOPMOST_FUNCTION name ; end; xxx; end; aaa`
 # OUTPUT(stdout): `USAGE: `aaa name``
 function echo-USAGE_WITH_TOPMOST_FUNCTION \
     --description "Print message as a function's usage info with topmost fucntion name"
@@ -2473,22 +2504,12 @@ alias gbranch-switch_to_PREVIOUS='git switch -'
 alias gbranch-switch_to_MAIN='git switch main'
 function gbranch-switch_to_MAIN_ELSE_MASTER \
     --description "Switch to `main`, or if it doesn't exist, to '`master`"
-    git switch main
-    or git switch master
+    _git_switch_to_first_branch_that_exists_in_given_list main master
 end
 function gbranch-switch_to_DEVELOP \
     --description "Switch to a develop branch"
-    # TODO: Automate this process.
-    # FIXME: Doesn't print the "Switched to 'XXX' branch" message
-    git switch develop 2>/dev/null
-    or git switch dev 2>/dev/null
-    or git switch devel 2>/dev/null
-    or git switch development 2>/dev/null
-    or begin
-        echo-ERROR 'Unable to find a "develop" branch: `dev`/`devel`/`develop`/`development`'
-        return 1
-    end
-
+    _git_switch_to_first_branch_that_exists_in_given_list \
+        dev devel develop development
 end
 
 # BRANCH DELETIONS {{{3
