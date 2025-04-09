@@ -2468,9 +2468,28 @@ alias gbranch-list_ALL_VERBOSE='git branch --all --verbose'
 
 # BRANCH SWITCHINGS {{{3
 alias gbranch-switch_to_BRANCH='git switch'
-alias gbranch-switch_to_MAIN='git switch main'
 alias gbranch-switch_to_NEW='git switch --create'
 alias gbranch-switch_to_PREVIOUS='git switch -'
+alias gbranch-switch_to_MAIN='git switch main'
+function gbranch-switch_to_MAIN_ELSE_MASTER \
+    --description "Switch to `main`, or if it doesn't exist, to '`master`"
+    git switch main
+    or git switch master
+end
+function gbranch-switch_to_DEVELOP \
+    --description "Switch to a develop branch"
+    # TODO: Automate this process.
+    # FIXME: Doesn't print the "Switched to 'XXX' branch" message
+    git switch develop 2>/dev/null
+    or git switch dev 2>/dev/null
+    or git switch devel 2>/dev/null
+    or git switch development 2>/dev/null
+    or begin
+        echo-ERROR 'Unable to find a "develop" branch: `dev`/`devel`/`develop`/`development`'
+        return 1
+    end
+
+end
 
 # BRANCH DELETIONS {{{3
 alias gbranch-delete_LOCAL='git branch --delete'
