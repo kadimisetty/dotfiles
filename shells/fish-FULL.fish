@@ -2799,11 +2799,12 @@ alias curl-show_protocol_headers="curl --include"
 # BAT {{{1
 # [[-l|--language] <language>]:
 #   Explicitly set the language for syntax highlighting.
-alias bat-language="bat --language" # Use User-supplies language, eg: `json`
+alias bat-language="bat --language" # Use User-supplied language, eg: `json`
 alias bat-language_list="bat --list-languages"
 function bat-supports_language \
-    --description "Check if given languages are in `bat --list-languages`" \
-    --argument-names languages
+    --description "Check if given languages are in `bat --list-languages`"
+    test (count $argv) -eq 0; and echo-USAGE_WITH_TOPMOST_FUNCTION LANGUAGES; and return 1
+    set --function languages $argv
     for lang in $languages
         bat --list-languages | rg --ignore-case "\b$lang\b" &>/dev/null
         if test $status -ne 0
