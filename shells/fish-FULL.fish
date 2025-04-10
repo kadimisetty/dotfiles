@@ -2206,6 +2206,22 @@ function gcommit-amend_ADD_FILE__KEEP_MESSAGE \
     git add $argv; and git commit --amend --no-edit
 end
 
+# GIT BISECT {{{2
+# BISECT ESSENTIALS {{{3
+alias gbisect="git bisect"
+alias gbisect-log="git bisect log"
+alias gbisect-log="git bisect log"
+alias gbisect-replay="git bisect replay"
+alias gbisect-reset="git bisect reset"
+alias gbisect-run="git bisect run"
+alias gbisect-skip="git bisect skip"
+alias gbisect-start="git bisect start"
+alias gbisect-view="git bisect view" # TODO: Same as `visualize`, use `abbr`?
+# TODO: Add more `-stop`s?
+# TODO: Set no args for this particular shortcut because it resets to head explicitly
+alias gbisect-stop_AND_RESET_TO_HEAD="git bisect reset"
+# TODO: BISECT START {{{3
+
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
 function gclone-cd \
