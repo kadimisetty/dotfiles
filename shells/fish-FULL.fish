@@ -135,7 +135,7 @@ end
 # SWITCH TO FIRST BRANCH THAT EXISTS IN GIVEN LIST {{{3
 # USAGE: `_git_switch_to_first_branch_that_exists_in_given_list xxx develop aaa`
 # OUTPUT: `Switched to 'develop'`
-function _git_switch_to_first_branch_that_exists_in_given_list
+function _git_switch_to_first_branch_that_exists_in_given_list \
     --description "Switch to first branch that exists in given list"
     if test (count $argv) -eq 0
         echo-USAGE_WITH_TOPMOST_FUNCTION BRANCH_NAMES
