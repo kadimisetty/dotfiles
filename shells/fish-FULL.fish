@@ -2207,6 +2207,16 @@ function gcommit-amend_ADD_FILE__KEEP_MESSAGE \
 end
 
 # GIT BISECT {{{2
+# TODO: Cleanup docs and descriptions.
+# BISECT LIB {{{3
+# RETURN GIT BISECT TERMS IF THE BISECT TERM FILE EXISTS {{{4
+# NOTE: The file `.git/BISECT_TERMS` is not created when custom terms aren't
+# given and git waits until either of the default terms `old`/`new` or
+# `bad`/`good` are given.
+function _git_bisect_custom_terms
+    test -f ./.git/BISECT_TERMS; and cat ./.git/BISECT_TERMS
+end
+
 # BISECT ESSENTIALS {{{3
 alias gbisect="git bisect"
 alias gbisect-log="git bisect log"
@@ -2216,11 +2226,51 @@ alias gbisect-reset="git bisect reset"
 alias gbisect-run="git bisect run"
 alias gbisect-skip="git bisect skip"
 alias gbisect-start="git bisect start"
+alias gbisect-terms="git bisect terms" # Show what bisect terms arebeing used.
 alias gbisect-view="git bisect view" # TODO: Same as `visualize`, use `abbr`?
-# TODO: Add more `-stop`s?
-# TODO: Set no args for this particular shortcut because it resets to head explicitly
+# TODO: Add more 'stop' shortcut variants?
+# TODO: Set no args for this particular shortcut because it resets to head
+# implicitly and I want to make that explicit
 alias gbisect-stop_AND_RESET_TO_HEAD="git bisect reset"
-# TODO: BISECT START {{{3
+
+# BISECT START {{{3
+# NOTE: Reading file `.git/BISECT_TERMS` is the best way to check if an active
+# `git bisect` is using user-set terms. It stores both terms, unless a default
+# term pair is being used i.e. (i.e. old/new, bad/good). The defults are not
+# written into the file until the user picks on of those two sets.
+# TODO: DEFAULT TERMS {{{4
+# CUSTOM TERMS {{{4
+function _create_git_bisect_start_shortcuts_for_custom_terms
+    test (count $argv) -eq 0; and echo-USAGE_WITH_TOPMOST_FUNCTION "<term1,term2>…"; and return 1
+    for terms in $argv
+        set --local terms (string split "," $terms)
+        test -z "$terms[1]" -o -z "$terms[2]"; and echo-ERROR "Invalid terms: $terms"; and return 1
+        set --local upper_terms (string upper $terms)
+        # NOTE: Using `function` and not `alias` for a proper `--description`.
+        # NOTE: Using `eval` to generate and complete like this is the only
+        # successful way to achieve custom "term" completion.
+        eval \
+            "function gbisect-start_$upper_terms[1]_$upper_terms[2] \
+                  --description \"Start `git bisect` using `$terms[2]`(old) and `$terms[1]`(new)\" \
+                  --wraps \"git bisect start --term-old=$terms[1] --term-new=$terms[2]\"
+                  git bisect start --term-old=$terms[1] --term-new=$terms[2]
+              end
+              # Append the two terms into this function's completions.
+              # NOTE: There is a check at runtime to depend on file `./.git/BISECT_TERMS`
+              complete --command git \
+                  --condition '__fish_seen_subcommand_from bisect' \
+                  --arguments '(_git_bisect_custom_terms)'
+        "
+    end
+end
+_create_git_bisect_start_shortcuts_for_custom_terms \
+    before,after \
+    enabled,disabled \
+    working,broken \
+    passing,failing \
+    fast,slow \
+    secure,insecure \
+    compatible,incompatible
 
 # GIT CLONE {{{2
 # GIT CLONE WITH REPO NAME AND THEN `cd` INTO IT {{{3
