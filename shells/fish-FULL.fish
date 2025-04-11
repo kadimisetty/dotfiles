@@ -2225,8 +2225,6 @@ alias gbisect-replay="git bisect replay"
 alias gbisect-reset="git bisect reset"
 alias gbisect-run="git bisect run"
 alias gbisect-skip="git bisect skip"
-alias gbisect-start="git bisect start"
-alias gbisect-terms="git bisect terms" # Show what bisect terms arebeing used.
 alias gbisect-view="git bisect view" # TODO: Same as `visualize`, use `abbr`?
 # TODO: Add more 'stop' shortcut variants?
 # TODO: Set no args for this particular shortcut because it resets to head
@@ -2234,12 +2232,15 @@ alias gbisect-view="git bisect view" # TODO: Same as `visualize`, use `abbr`?
 alias gbisect-stop_AND_RESET_TO_HEAD="git bisect reset"
 
 # BISECT START {{{3
+alias gbisect-start="git bisect start"
+alias gbisect-terms="git bisect terms" # Show what bisect terms arebeing used.
 # NOTE: Reading file `.git/BISECT_TERMS` is the best way to check if an active
 # `git bisect` is using user-set terms. It stores both terms, unless a default
 # term pair is being used i.e. (i.e. old/new, bad/good). The defults are not
 # written into the file until the user picks on of those two sets.
-# TODO: DEFAULT TERMS {{{4
-# CUSTOM TERMS {{{4
+# NOTE: Also doing for the default terms, as it forces it to write to
+# `.git/BISECT_TERMS` without waiting for user to type one of the deafult
+# terms. This way I get it to show up in completion and use the same code.
 function _create_git_bisect_start_shortcuts_for_custom_terms
     test (count $argv) -eq 0; and echo-USAGE_WITH_TOPMOST_FUNCTION "<term1,term2>…"; and return 1
     for terms in $argv
@@ -2264,6 +2265,10 @@ function _create_git_bisect_start_shortcuts_for_custom_terms
     end
 end
 _create_git_bisect_start_shortcuts_for_custom_terms \
+    # REWRITING DEFAULT TERMS
+    old,new \
+    good,bad \
+    # CUSTOM TERMS
     before,after \
     enabled,disabled \
     working,broken \
