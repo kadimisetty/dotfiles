@@ -1284,6 +1284,19 @@ function _git_prompt_component \
     _spacer_prompt_component $right_margin
 end
 
+# GIT BISECT PROMPT COMPONENT {{{3
+# Show if a `git bisect` operation is in progress
+function _git_bisect_prompt_component \
+    --argument-names left_margin right_margin
+    _spacer_prompt_component $left_margin
+    if is_git_bisect_in_progress
+        set_color $fish_color_quote --bold
+        echo -ns "󱈆 BISECT" # ICON ALTERNATIVES: 󱈆 󰡦 󱎸 󱡴 󱉶 󱈄 
+        set_color $fish_color_normal
+        _spacer_prompt_component $right_margin
+    end
+end
+
 # GIT COMMIT INDICATOR PROMPT COMPONENT {{{3
 # TODO: Change color intensity (like in a github user's 'contribution graph).
 # TODO: Make a multiple day(weekly/monthly etc.) component variant.
@@ -1346,6 +1359,7 @@ function fish_right_prompt
     _git_commit_count_indicator_prompt_component 1 0 midnight ~/code/personal/
     _private_mode_component 1 0
     _background_jon_prompt_component 1 0
+    _git_bisect_prompt_component 1 0
     _git_worktree_prompt_component 1 0
     _git_prompt_component 0 0
 end
@@ -2209,11 +2223,21 @@ end
 # GIT BISECT {{{2
 # TODO: Cleanup docs and descriptions.
 # BISECT LIB {{{3
+# IS GIT BISECT IN PROGRESS {{{4
+# Check if a git bisect operation is currently in progress.
+# NOTE: An alternative is to check for existence of log file
+# `:/.git/BISECT_LOG` within the primary git worktree.
+function is_git_bisect_in_progress
+    test (git bisect log >/dev/null 2>&1; echo $status) -eq 0
+end
+
 # RETURN GIT BISECT TERMS IF THE BISECT TERM FILE EXISTS {{{4
 # NOTE: The file `.git/BISECT_TERMS` is not created when custom terms aren't
 # given and git waits until either of the default terms `old`/`new` or
 # `bad`/`good` are given.
 function _git_bisect_custom_terms
+    # FIXME: Cannot take for granted that we are ibside the main git worktree,
+    # use `rev-parse` to help with that.
     test -f ./.git/BISECT_TERMS; and cat ./.git/BISECT_TERMS
 end
 
