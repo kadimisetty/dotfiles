@@ -3901,6 +3901,12 @@ require("lazy").setup({
       dependencies = "echasnovski/mini.icons",
     },
 
+    -- key-analyzer - show vacant keymaps {{{3
+    {
+      "meznaric/key-analyzer.nvim",
+      opts = {},
+    },
+
     -- surround - act on surroundings {{{3
     {
       "tpope/vim-surround",
