@@ -834,8 +834,10 @@ end
 function _replace_current_word_with_shortcut_variant \
     --description "Replace current word with desired shortcut variant" \
     --argument-names variant
-    test -z "$variant"; and return 1
-    commandline --current-token \
+    test -z "$variant"; and echo-USAGE_WITH_TOPMOST_FUNCTION "<variant>"; and return 1
+    # NOTE: Ensure cursor is top of a non-whitespace character.
+    test -n "$(commandline --current-token)"
+    and commandline --current-token \
         (_shortcut_variant $variant (commandline --current-token))
 end
 
