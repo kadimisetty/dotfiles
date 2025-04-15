@@ -2279,6 +2279,36 @@ vim.api.nvim_create_user_command("Q", "qall<bang>", {
 vim.keymap.set("n", "<leader>Q", "<cmd>qall<cr>", { silent = true })
 vim.keymap.set("n", "<leader>Q!", "<cmd>qall!<cr>", { silent = true })
 
+-- CLEAR ALL REGISTERS {{{2
+-- TODO: Configure by register type e.g. "all", "a-z", "0-9", "/-" or any
+-- combination of those.
+-- TODO: Most recently executed command is stored in register `:` and that
+-- will show this command being run. Set a timer to clear that after this is
+-- completed.
+local clear_all_registers = function()
+  -- TODO: Add user preference to configure printing notifications.
+  -- NOTE: Clearing ALL registers.
+  local registers_to_clear =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"'
+  -- TODO: Iterate with `vim.iter`.
+  for i = 1, #registers_to_clear do
+    local register = registers_to_clear:sub(i, i)
+    -- FIXME: Setting a register to emoty string, clears it but doesn't remove
+    -- the register's contents i.e. it will still be listed in `:registers`. To
+    -- clear it properly do  `call setreg('a', [])`(vimscript) which will
+    -- remove it from `:registers` as well. At lest add bahevior as a user
+    -- preference.
+    vim.fn.setreg(register, "") -- "Clear" by setting to empty string
+  end
+  vim.notify("All registers cleared", vim.log.levels.INFO)
+end
+vim.api.nvim_create_user_command(
+  -- FIXME: Assert user confirmation and add a bang variant for no confirmation.
+  "RegistersClearAll",
+  clear_all_registers,
+  { desc = "Clear all registers" }
+)
+
 -- RETAIN VISUAL SELECTION AFTER AN INDENTATION SHIFT {{{2
 vim.keymap.set("x", "<", "<gv", {
   silent = true,
