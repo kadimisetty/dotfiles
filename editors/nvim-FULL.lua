@@ -2287,7 +2287,9 @@ vim.keymap.set("n", "<leader>Q!", "<cmd>qall!<cr>", { silent = true })
 -- completed.
 local clear_all_registers = function()
   -- TODO: Add user preference to configure printing notifications.
-  -- NOTE: Clearing ALL registers.
+  -- NOTE: Clearing ALL POSSIBLE registers.
+  -- TODO: Some of these registers require nuance to clear them, especially
+  -- special ones.
   local registers_to_clear =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"'
   -- TODO: Iterate with `vim.iter`.
@@ -2305,8 +2307,30 @@ end
 vim.api.nvim_create_user_command(
   -- FIXME: Assert user confirmation and add a bang variant for no confirmation.
   "RegistersClearAll",
-  clear_all_registers,
-  { desc = "Clear all registers" }
+  function(opts)
+    --NOTE:  GET USER CONFIRMATION TO PROCEED IF `bang` IS GIVEN.
+    if opts.bang == true then
+      -- NO CONFIRMATION
+      clear_all_registers()
+    else
+      -- GET USER CONFIRMATION FIRST
+      -- FIXME: Main message passed to `confirm` is not being displayed.
+      local user_choice = vim.fn.confirm(
+        "Clear all registers' contents?",
+        "Clear &All Registers\n&No",
+        2 -- Default to NO
+      )
+      if user_choice == 1 then -- YES
+        clear_all_registers()
+      else -- NO
+        vim.notify("Cancelled", vim.log.levels.INFO)
+      end
+    end
+  end,
+  {
+    bang = true,
+    desc = "Clear all registers",
+  }
 )
 
 -- RETAIN VISUAL SELECTION AFTER AN INDENTATION SHIFT {{{2
