@@ -4544,10 +4544,21 @@ require("lazy").setup({
       },
     },
 
+    -- e-ink.nvim - grayscale colorscheme {{{3
+    {
+      "alexxGmZ/e-ink.nvim",
+      enabled = false,
+      priority = 1000,
+      init = function()
+        vim.cmd.colorscheme("e-ink")
+      end,
+    },
+
     -- catppuccin - pastel colorscheme {{{3
     -- TODO: Use non-colorscheme features in this plugin
     {
       "catppuccin/nvim",
+      enabled = true,
       name = "catppuccin", -- Keep, because "nvim"(of `catppuccin/nvim`) is bad
       priority = 1000, -- keep high for colorschemes
       opts = {
