@@ -3265,6 +3265,23 @@ vim
     )
   end)
 
+-- MAKE `n`/`N` REPEAT SEARCH CONSISTENTLY {{{2
+-- Make `n`/`N` always search in the same/opposite direction of initial search,
+-- regardless of whether it was during `/`(forward) or `?`(backward) search.
+-- NOTE: Inspired by [justinmk](https://github.com/justinmk/config/blob/master/.config/nvim/plugin/my/keymaps.lua).
+vim.keymap.set("n", "n", function()
+  return vim.v.searchforward == 1 and "n" or "N"
+end, {
+  expr = true,
+  desc = "Repeat search forward consistently",
+})
+vim.keymap.set("n", "N", function()
+  return vim.v.searchforward == 1 and "N" or "n"
+end, {
+  expr = true,
+  desc = "Repeat search backward consistently",
+})
+
 -- TOGGLE CURSOR LINES {{{2
 -- TODO: Consider using `-` and `|` so like  `yo-` and `yo|`?
 
