@@ -3265,6 +3265,15 @@ vim
     )
   end)
 
+-- SELECT PREVIOUS INSERTED/YANKED TEXT {{{2
+-- NOTE: Inspired by [justinmk](https://github.com/justinmk/config/blob/master/.config/nvim/plugin/my/keymaps.lua).
+vim.keymap.set(
+  "n",
+  "gV",
+  "`[v`]",
+  { desc = "Select previous inserted/yanked text" }
+)
+
 -- MAKE `n`/`N` REPEAT SEARCH CONSISTENTLY {{{2
 -- Make `n`/`N` always search in the same/opposite direction of initial search,
 -- regardless of whether it was during `/`(forward) or `?`(backward) search.
