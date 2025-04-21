@@ -3335,6 +3335,45 @@ P = function(...)
   print(vim.inspect(...))
 end
 
+-- OPEN (NEO)VIM HELP FOR WORD {{{3
+-- NOTE: Inspired by github.com/justinmk/config/.../keymaps.lua
+-- NOTE: Elsewhere in my configuration, I have some code that will always open
+-- `help` in a separate tab, so that's what's happening if `open_in_tab =
+-- false` is still opening the help page in a new tab.
+local open_vim_help_for = function(word, open_in_tab)
+  word = vim.trim(word or "")
+  if word == "" or word:find("%s") then
+    vim.notify("Help topic must be a word", vim.log.levels.ERROR)
+    return
+  end
+  local cmd = string.format("%shelp %s", open_in_tab and "tab" or "", word)
+  if not pcall(vim.cmd, cmd) then
+    vim.notify("No help found for: `" .. word .. "`", vim.log.levels.ERROR)
+  end
+end
+
+vim.keymap.set("n", "vK", function()
+  open_vim_help_for(
+    vim.fn.expand("<cword>"),
+    true -- open in tab
+  )
+end, { desc = "Show vim help for word under cursor" })
+
+vim.keymap.set("v", "vK", function()
+  local s, e = vim.fn.getpos("'<"), vim.fn.getpos("'>")
+  if s[3] > e[3] then
+    -- Handle reverse selection case by ensuring "start_column" <= "end_column"
+    s, e = e, s
+  end
+  open_vim_help_for(
+    table.concat(
+      vim.api.nvim_buf_get_text(0, s[2] - 1, s[3] - 1, e[2] - 1, e[3], {}),
+      " "
+    ),
+    true -- open in tab
+  )
+end, { desc = "Show vim help for word in selection" })
+
 -- `make` SHORTCUTS {{{2
 -- NOTE: Keep keymaps in tandem with equivalents in fish shell config and
 -- terminal hailing keymaps.
