@@ -3343,12 +3343,16 @@ end
 local open_vim_help_for = function(word, open_in_tab)
   word = vim.trim(word or "")
   if word == "" or word:find("%s") then
-    vim.notify("Help topic must be a word", vim.log.levels.ERROR)
-    return
+    error("Help topic nees to be a single non-empty word")
   end
-  local cmd = string.format("%shelp %s", open_in_tab and "tab" or "", word)
-  if not pcall(vim.cmd, cmd) then
-    vim.notify("No help found for: `" .. word .. "`", vim.log.levels.ERROR)
+  local cmd = string.format("%shelp %s", open_in_tab and "tab " or "", word)
+  local ok = pcall(vim.cmd, cmd)
+  if not ok then
+    vim.notify(
+      "ERROR: Unable to open help for: `" .. word .. "`",
+      vim.log.levels.ERROR
+    )
+    return
   end
 end
 
