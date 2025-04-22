@@ -2531,24 +2531,46 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "Move help to a new tab",
 })
 
--- TRANSFORM SEARCH INTO SEARCH & REPLACE WHILE KEEPING THE SEARCH PATTERN {{{2
--- TODO: If visual mode is active, keep that in mind e.g. `:'<,'>s/`.
--- FIXME: As of now if visual mode is selected, we get `:'<,'>%s/`, note the `%`
-vim.keymap.set("c", "<m-r>", function()
-  local search_pattern = vim.fn.getcmdline()
-  local search_and_replace_command = ":%s/" .. search_pattern .. "//gc"
+-- COMMANDLINE TRANSFORMATIONS  {{{2
+-- FIXME: Replace these ad-hoc transformations into something more orthogonal.
+-- TODO: Lay out a keymap table for these transformations.
+
+-- TRANSFORM SEARCH INTO "SEARCH INSIDE VISUAL SELECTION" {{{3
+-- Transform commandline search into "search inside recent visual selection"
+-- while keeping any existing user entered search patterns.
+vim.keymap.set("c", "<m-v>", function()
+  local existing_search_pattern = vim.fn.getcmdline()
+  local new_search_pattern = [[/\%V]] .. existing_search_pattern
   vim.fn.feedkeys(
     vim.api.nvim_replace_termcodes("<c-c>", true, true, true),
     "n"
   )
-  vim.fn.feedkeys(search_and_replace_command, "n")
+  vim.fn.feedkeys(new_search_pattern, "n")
+end, {
+  noremap = true,
+  desc = [[Transform search into "search within recent visual selection"]],
+})
+
+-- TRANSFORM SEARCH INTO "SEARCH & REPLACE" {{{3
+-- Transform commandline search into "search & replace" while keeping any
+-- existing user entered search patterns.
+-- TODO: If visual mode is active, keep that in mind e.g. `:'<,'>s/`.
+-- FIXME: As of now if visual mode is selected, we get `:'<,'>%s/`, note the `%`
+vim.keymap.set("c", "<m-r>", function()
+  local existing_search_pattern = vim.fn.getcmdline()
+  local new_command = ":%s/" .. existing_search_pattern .. "//gc"
+  vim.fn.feedkeys(
+    vim.api.nvim_replace_termcodes("<c-c>", true, true, true),
+    "n"
+  )
+  vim.fn.feedkeys(new_command, "n")
   vim.fn.feedkeys(
     vim.api.nvim_replace_termcodes("<left><left><left>", true, true, true),
     "n"
   )
 end, {
   noremap = true,
-  desc = "Transform search to search-and-replace using the same pattern",
+  desc = [[Transform search into "search and replace"]],
 })
 
 -- WRAP TEXT {{{2
