@@ -2516,9 +2516,9 @@ alias gstash-into_BRANCH='git stash branch' # expects: `<branch> [<stash>]`
 # REGULAR {{{4
 alias gstash-list='git stash list'
 alias gstash-list_VERBOSE='git stash list --compact-summary'
-# WIP/NOT {{{4
-alias gstash-list_WIP='git stash list | rg --color=never WIP'
-alias gstash-list_WIP_INVERTED='git stash list | rg --invert-match WIP'
+# WIP {{{4
+alias gstash-list_WIP_ONLY='git stash list | rg --color=never WIP'
+alias gstash-list_WIP_EXCLUDED='git stash list | rg --invert-match WIP'
 # SEARCH {{{4
 alias gstash-search='git stash list --regexp-ignore-case --grep'
 alias gstash-search_VERBOSE='git stash list --stat --regexp-ignore-case --grep'
