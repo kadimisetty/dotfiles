@@ -831,10 +831,24 @@ end
 # REPLACE CURRENT WORD WITH SHORTCUT VARIANT {{{3
 # TODO: Save cursor position as much as possible.
 # FIXME: Handle `math` parsing errors on unexpected inputs.
+# FIXME: Handle duplication error on non-shortcut words.
 function _replace_current_word_with_shortcut_variant \
     --description "Replace current word with desired shortcut variant" \
     --argument-names variant
+    # VALIDATION:
     test -z "$variant"; and echo-USAGE_WITH_TOPMOST_FUNCTION "<variant>"; and return 1
+    # FIXME: HANDLE SINGLE WORD WITH TRAILING SPACE FISH COMPLETION:
+    # NOTE: When a fish completion is triggered, it adds a trailing space when
+    # completing which prevents this function because it cannot act on
+    # whitespace by design. One way to handle this is to go back one word, but
+    # for now just trimming the new word trailing space. This solution also is
+    # only being implemented for single word commandline content which is 99%
+    # when I see it. Will have to handle a proper fix later.
+    set --function current_commandline commandline
+    test 1 -eq ($current_commandline | wc -l) # SINGLE LINE
+    and test 1 -eq ($current_commandline | string trim | wc -l) # SINGLE WORD
+    and commandline --replace ($current_commandline | string trim)
+    # MAIN LOGIC:
     # NOTE: Ensure cursor is top of a non-whitespace character.
     test -n "$(commandline --current-token)"
     and commandline --current-token \
