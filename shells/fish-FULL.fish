@@ -2595,14 +2595,36 @@ complete --command gtags-show_TAG \
     --arguments "(git tag --list | tac)"
 
 # GIT BRANCH {{{2
+# TODO: Make all verbose listings use the same style as current
+# `gbranch-list_ALL_BY_MODIFIED__VERBOSE`. Note the headers.
 # BRANCH LISTINGS {{{3
 alias gbranch-list_MERGED='git branch --merged'
 alias gbranch-list_UNMERGED='git branch --no-merged'
 alias gbranch-list_CONTAINS_COMMIT_HASH='git branch --all --contains commit_hash'
+# FIXME: Use these listing formats over all `git branch` listings, especially
+# the verbose listings which also include headers.
+function gbranch-list_ALL_BY_MODIFIED \
+    --description "Sort `git branch --all` by last modified"
+    git for-each-ref \
+        --format='%(objectname:short)|%(refname:short)' \
+        --sort='-authordate' \
+        refs/heads \
+        | column -s "|" -t
+end
+function gbranch-list_ALL_BY_MODIFIED__VERBOSE \
+    --description "Sort `git branch --all` by last modified in verbose"
+    git for-each-ref \
+        --format='%(authordate)|%(if)%(HEAD)%(then)%(HEAD)%(else)--%(end)|%(if)%(upstream:trackshort)%(then)%(upstream:trackshort)%(else)--%(end)|%(refname:short)|%(objectname:short)|%(subject)' \
+        --sort='-authordate' \
+        refs/heads \
+        | gawk 'BEGIN {print "DATE|HEAD|TRACK|NAME|HASH|COMMIT"} {print}' \
+        | column -s "|" -t
+end
 # COMPACT {{{4
 alias gbranch-list_LOCAL='git branch'
 alias gbranch-list_REMOTE='git branch --remotes'
 alias gbranch-list_ALL='git branch --all'
+
 # VERBOSE {{{4
 alias gbranch-list_LOCAL_VERBOSE='git branch --verbose'
 alias gbranch-list_REMOTE_VERBOSE='git branch --remotes --verbose'
