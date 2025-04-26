@@ -6297,6 +6297,19 @@ require("lazy").setup({
       ft = "qf",
     },
 
+    -- auto-cmdheight - expand commandline for long messages {{{4
+    -- WARN: Remove in v0.12+ SEE: https://www.reddit.com/r/neovim/comments/1jqk8x1/introducing_autocmdheightnvim/ml7soga/
+    -- NOTE: Plugin recommends `lazy = false`
+    {
+      "jake-stewart/auto-cmdheight.nvim",
+      opts = {
+        -- max_lines = 5, -- DEAFULT: 5
+        -- duration = 2, -- DEFAULT: 2
+        -- remove_on_key = true, -- DEFAULT: true
+        -- clear_always = false -- DEFAULT: false
+      },
+    },
+
     -- trouble - reporting UI (lsp/make etc) {{{3
     -- TODO: clean keymap desc
     {
