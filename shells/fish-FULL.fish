@@ -479,20 +479,36 @@ function is_cwd_empty \
     test -z "$(ls -A ./)"
 end
 
-# CHECK IF CURRENT DIRECTORY IS EMPTY {{{2
+# CHECK IF GIVEN ARGUMENT IS A NUMBER {{2
+# FIXME: VALIDATE: Assert only one argument given.
+function is_number \
+    --description "Check if given argument is a number"
+    and math "0+$argv[1]" &>/dev/null
+end
+function is_number_positive \
+    --description "Check if given number is positive(`>0`)"
+    test $argv[1] -gt 0 2>/dev/null
+end
+function is_number_positive_or_0 \
+    --description "Check if given number is positive(`>=0`) or 0"
+    test $argv[1] -ge 0 2>/dev/null
+end
+function is_number_negative \
+    --description "Check if given number is negative(`<0`)"
+    test $argv[1] -lt 0 2>/dev/null
+end
+function is_number_negative_or_0 \
+    --description "Check if given number is negative(`<=0`) or 0"
+    test $argv[1] -le 0 2>/dev/null
+end
+
+# CHECK IF BINARY EXISTS IN PATH {{{2
 # TODO: Make another variant that accepts multiple binaries?
 # TODO: This particular variant should only accept 1 binary, so verify that?
 function is_binary_on_path \
     --description "Chek if given binary exists" \
     --argument-names binary
     type --query $binary
-end
-
-# CHECK IF GIVEN NUMBER IS POSITIVE {{{2
-function is_positive_number \
-    --description "Chek if given number is positive(`>0`)" \
-    --argument-names num
-    test $num -gt 0 2>/dev/null
 end
 
 # PATH RELATIONSHIP HELPERS {{{2
