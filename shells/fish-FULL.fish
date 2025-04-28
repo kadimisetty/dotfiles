@@ -2883,7 +2883,19 @@ alias sort-reverse_VERSION="sort --numeric-sort --reverse --version-sort"
 alias sort-reverse_IGNORE_CASE="sort --numeric-sort --reverse .--ignore-case"
 alias sort-reverse_IGNORE_LEADING_SPACE="sort --numeric-sort --reverse --ignore-leading-blanks"
 
-# TODO: UNIQ {{{2
+# UNIQ {{{2
+alias uniq-COUNT="uniq --count"
+# FIXME: alias uniq-SORTED="uniq --repeated | sort --numeric-sort --reverse"
+# FIXME: alias uniq-SORTED_COUNT="uniq --count | sort --numeric-sort --reverse"
+# TODO: Decide between naming repetitiion terms i.e. REPEATED/DUPLICATED etc.
+alias uniq-NOT-REPEATED="uniq --unique"
+alias uniq-NOT_REPEATED_COUNT="uniq --unique --count"
+alias uniq-REPEATED="uniq --repeated"
+alias uniq-REPEATED_COUNT="uniq --repeated --count"
+alias uniq-REPEATED_SORTED_COUNT="uniq --repeated --count"
+# TODO: Option `all-repeated` seems useless, but maybe with case insensitive
+# versions it might come handy. Decider whether to use it or not.
+# alias uniq-REPEATED_GROUP="uniq --all-repeated=separate"
 
 # WC {{{1
 # NOTE: Using short form flags because macos coreutils by default do not have
