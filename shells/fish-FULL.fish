@@ -887,18 +887,15 @@ bind alt-shift-x --mode insert "_replace_current_word_with_shortcut_variant firs
 bind alt-shift-a "_replace_current_word_with_shortcut_variant last"
 bind alt-shift-a --mode default "_replace_current_word_with_shortcut_variant last"
 bind alt-shift-a --mode insert "_replace_current_word_with_shortcut_variant last"
-# TODO: INDEX:
 # PREFIX:
 bind alt-p "_replace_current_word_with_shortcut_variant prefix"
 bind alt-p --mode default "_replace_current_word_with_shortcut_variant prefix"
 bind alt-p --mode insert "_replace_current_word_with_shortcut_variant prefix"
 
 # PRINT SHORTCUT INDEX FOR PREFIX {{{3
-# TODO: Convert into API function to be for keybinds?
-function shortcut_index \
-    --description "Print shortcut index for prefix" \
+function _print_shortcut_index_for_prefix \
     --argument-names prefix
-    test -z "$prefix"; and echo-USAGE_WITH_TOPMOST_FUNCTION prefix; and return 1
+    test -z "$prefix"; and echo-USAGE "_print_shortcut_index_for_prefix prefix"; and return 1
     set --function shortcut_list (_shortcut_list_for_prefix $prefix 2>/dev/null)
     if test $status -ne 0 # Quit early if no shortcut list found for prefix.
         echo-ERROR "No shortcuts found for prefix: $prefix"
@@ -916,6 +913,18 @@ function shortcut_index \
         end | column -t -s"|"
     end
 end
+function shortcut_index
+    set --function current_word (commandline --current-token)
+    test -n "$current_word"
+    and begin
+        echo
+        _print_shortcut_index_for_prefix (_shortcut_prefix_from_string $current_word)
+    end
+
+end
+bind alt-i 'shortcut_index; commandline-repaint'
+bind alt-i --mode default 'shortcut_index; commandline-repaint'
+bind alt-i --mode insert 'shortcut_index; commandline-repaint'
 
 # CD UPWARDS INCREMENTALLY WITH `..`S {{{2
 # NOTE: Feature parity with fish plugin `danhper/fish-fastdir`:
