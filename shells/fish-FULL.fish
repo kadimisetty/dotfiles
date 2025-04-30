@@ -901,16 +901,17 @@ function _print_shortcut_index_for_prefix \
         echo-ERROR "No shortcuts found for prefix: $prefix"
         return 1
     else # Construct shortcut list using a separator(`|`) and display in columns.
+        # NOTE: Using unit separator `\x1f`
         begin
-            echo "SHORTCUT|DESCRIPTION"
+            echo "SHORTCUT\x1fDESCRIPTION"
             for shortcut in $shortcut_list
                 set raw_description (_shortcut_description $shortcut)
                 set description \
                     (string replace --regex '^alias \S+=(.*)' '`\1`' \
                       $raw_description)
-                echo "$shortcut|$description"
+                echo "$shortcut|\x1f$description"
             end
-        end | column -t -s"|"
+        end | column -s"|\x1f" -t
     end
 end
 function shortcut_index
@@ -2630,11 +2631,12 @@ alias gbranch-list_CONTAINS_COMMIT_HASH='git branch --all --contains commit_hash
 # the verbose listings which also include headers.
 function gbranch-list_ALL_BY_MODIFIED \
     --description "Sort `git branch --all` by last modified"
+    # NOTE: Using unit separator `\x1f`
     git for-each-ref \
-        --format='%(objectname:short)|%(refname:short)' \
+        --format='%(objectname:short)\x1f%(refname:short)' \
         --sort='-authordate' \
         refs/heads \
-        | column -s "|" -t
+        | column -s "\x1f" -t
 end
 function gbranch-list_ALL_BY_MODIFIED__VERBOSE \
     --description "Sort `git branch --all` by last modified in verbose"
