@@ -569,6 +569,46 @@ bind alt-z 'fg; commandline-repaint'
 bind alt-z --mode default 'fg; commandline-repaint'
 bind alt-z --mode insert 'fg; commandline-repaint'
 
+# TARGET TRIPLE {{{2
+# READ: https://mcyoung.xyz/2025/04/14/target-triples/
+# NOTE: The linux examples are from above link.
+# TODO: Use realworld linux usage examples.
+
+# RESULT EXAMPLES:
+# - `aarch64-apple-darwin`
+# - `x86_64-unknown-linux-gnu`
+function target-triple__RUSTC \
+    --description "Print current machine's \"target triple\" using `rustc`"
+    is_binary_on_path rustc
+    and rustc -vV | gawk '/host/ {print $2}'
+end
+
+# RESULT EXAMPLES:
+# - `arm64-apple-darwin24.4.0`
+# - `x87_64-linux-gnu`
+function target-triple__GCC \
+    --description "Print current machine's \"target triple\" using `gcc`"
+    is_binary_on_path gcc
+    and gcc -dumpmachine
+end
+
+# RESULT EXAMPLES:
+# - `arm64-apple-darwin24.4.0`
+# - `x86_64-pc-linux-gnu`
+function target-triple__LLVM \
+    --description "Print current machine's \"target triple\" using LLVM `clang`"
+    is_binary_on_path clang
+    and clang -dumpmachine
+end
+
+function target-triple \
+    --description "Print current machine's \"target triple\""
+    target-triple__RUSTC # NOTE: Listing first because it'sthe cleanest version.
+    or target-triple__GCC
+    or target-triple__LLVM
+    or echo-ERROR "Cannot find a binary from: `rust`/`gcc`/`clang`"
+end
+
 # BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
 # TODO: Consider more bash expansions?
 # NOTE: Fish cannot do `!$` because it uses `$` for something else, hence `!!!`
@@ -2988,6 +3028,25 @@ function bat-supports_language \
 end
 
 # HOMEBREW {{{1
+# XXX:
+# NOTE: Get homebrew prefix with command `brew --prefix` instead of a preset
+# variable
+# set -gx HOMEBREW_PREFIX "/home/linuxbrew/.linuxbrew"
+# set -gx HOMEBREW_CELLAR "/home/linuxbrew/.linuxbrew/Cellar"
+# set -gx HOMEBREW_REPOSITORY "/home/l
+
+# NOTE: Leaving analytics on for now (on by default).
+# set -x HOMEBREW_NO_ANALYTICS 1 # Disable homebrew analytics
+
+# SETUP  {{{2
+# [COMPLETIONS](https://docs.brew.sh/Shell-Completion):
+if test -d (brew --prefix)"/share/fish/completions"
+    set --prepend fish_complete_path (brew --prefix)/share/fish/completions
+end
+if test -d (brew --prefix)"/share/fish/vendor_completions.d"
+    set --prepend fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
+end
+
 # INFO {{{2
 alias brew-info="brew desc"
 alias brew-info_VERBOSE="brew info"
