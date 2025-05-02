@@ -606,7 +606,32 @@ function target-triple \
     target-triple__RUSTC # NOTE: Listing first because it'sthe cleanest version.
     or target-triple__GCC
     or target-triple__LLVM
-    or echo-ERROR "Cannot find a binary from: `rust`/`gcc`/`clang`"
+    or begin
+        echo-ERROR "One of the following binaries required: `rust`/`gcc`/`clang`"
+        return 1
+    end
+end
+
+function target-triple__VERBOSE \
+    --description "Print current machine's \"target triple\" with labels"
+    set --function target_triple_output (target-triple 2>&1)
+    set --function target_triple_status $status
+    if test $target_triple_status -ne 0
+        echo-ERROR $target_triple_output
+        return 1
+    end
+    set --function parts (string split --right -- '-' $target_triple_output)
+    if test (count $parts) -lt 3
+        echo-ERROR "Unexpected target triple format: `$target_triple_output`"
+        return 1
+    end
+    printf "%14s %s\n%14s %s\n%14s %s\n" \
+        ARCHITECTURE: $parts[1] \
+        VENDOR: $parts[2] \
+        OS: $parts[3]
+    if test (count $parts) -ge 4
+        printf "%14s: %s\n" ETC: $parts[4..] # NOTE: Remainders, e.g.`ABI` etc.
+    end
 end
 
 # BASH STYLE HISTORY `!!`/`!$` EXPANSIONS {{{2
