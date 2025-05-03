@@ -2251,6 +2251,19 @@ alias pxargs2="xargs --max-procs=2"
 alias pxargs3="xargs --max-procs=3"
 alias pxargs4="xargs --max-procs=4"
 
+# UNAME {{{1
+# TODO: Consider printing these results tagged with descriptive labels.
+# TODO: Trim these aliases for duplicates.
+alias uname-VERBOSE="uname -a"
+alias uname-hostname="uname -n"
+alias uname-arch__ARCHITECTURE="uname -m"
+alias uname-arch__PROCESSOR="uname -p"
+alias uname-arch__VERBOSE="uname -mp"
+alias uname-kernel="uname -r"
+alias uname-kernel__VERBOSE="uname -srv"
+alias uname-os="uname -s"
+alias uname-os__VERBOSE="uname -v"
+
 # GIT {{{1
 # NOTE: FOR `git log`/`git stash`: Time duration variants: (LAST/THIS)
 # (DAY/WEEK/MONTH).
