@@ -2254,7 +2254,6 @@ alias pxargs4="xargs --max-procs=4"
 # UNAME {{{1
 # TODO: Consider printing these results tagged with descriptive labels.
 # TODO: Trim these aliases for duplicates.
-alias uname-VERBOSE="uname -a"
 alias uname-hostname="uname -n"
 alias uname-arch__ARCHITECTURE="uname -m"
 alias uname-arch__PROCESSOR="uname -p"
@@ -2263,6 +2262,17 @@ alias uname-kernel="uname -r"
 alias uname-kernel__VERBOSE="uname -srv"
 alias uname-os="uname -s"
 alias uname-os__VERBOSE="uname -v"
+function uname-VERBOSE \
+    --description "Print `uname` output with descriptive labels"
+    # TODO: Assert these `uname` commands don't return failure status codes.
+    printf "%12s: %s\n" HOSTNAME (uname -n)
+    printf "%12s: %s\n" ARCHITECTURE (uname -m)
+    printf "%12s: %s\n" PROCESSOR (uname -p)
+    printf "%12s: %s\n" OS (uname -s)
+    printf "%12s: %s\n" KERNEL (uname -r)
+    printf "%12s: %s\n" VERBOSE (uname -v)
+    printf "%12s: %s\n" ALL (uname -a)
+end
 
 # GIT {{{1
 # NOTE: FOR `git log`/`git stash`: Time duration variants: (LAST/THIS)
