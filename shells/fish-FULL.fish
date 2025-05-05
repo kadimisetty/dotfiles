@@ -2674,7 +2674,14 @@ alias gstash-list_LAST_MONTH_VERBOSE='gstash-list_LAST_MONTH --compact-summary'
 alias gshow='git show --compact-summary'
 alias gshow-VERBOSE='git show --patch-with-stat --compact-summary'
 # TODO: Make the commit information part like `--oneline` including colors.
-alias gshow-DATE='git show --no-patch --format="%h %s%nCommited %cr (%cd local time) %ch" --date=local'
+alias gshow-DATE='git show --no-patch --format="%h%n%s%nCommited %cr (%cd)"'
+alias gshow-DATE_VERBOSE="git show --quiet --no-patch --date=iso --format='\
+             %H%n\
+             %s%n\
+     AUTHOR: %an <%aE>%n\
+  COMMITTER: %cn <%cE>%n\
+AUTHOR DATE: %ad (%ar)%n\
+COMMIT DATE: %cd (%cr)'"
 
 # GIT STATUS {{{2
 alias gstatus='git status'
