@@ -100,6 +100,17 @@ function is_git_main_worktree \
         (git rev-parse --git-common-dir 2>/dev/null)
 end
 
+# IS GIT AUTHOR DATE DIFFERENT FROM COMMIT DATE {{{3
+function is_git_author_date_different_from_commit_date_for_git_object \
+    --description "Check if a git object's author date is different from commit date" \
+    --wraps "git show" # For completion only
+    test is_pwd_in_git_repo
+    and test \
+        (git show --quiet --no-patch --format="%cd" $argv 2>/dev/null) \
+        != \
+        (git show --quiet --no-patch --format="%ad" $argv 2>/dev/null)
+end
+
 # DOES GIT REPO HAVE STAGED CHANGES? {{{3
 # NOTE: Assume current directory as repo to check
 # TODO: Make variant `has_git_unstaged_changes`
@@ -2673,15 +2684,28 @@ alias gstash-list_LAST_MONTH_VERBOSE='gstash-list_LAST_MONTH --compact-summary'
 # GIT SHOW {{{2
 alias gshow='git show --compact-summary'
 alias gshow-VERBOSE='git show --patch-with-stat --compact-summary'
-# TODO: Make the commit information part like `--oneline` including colors.
-alias gshow-DATE='git show --no-patch --format="%h%n%s%nCommited %cr (%cd)"'
-alias gshow-DATE_VERBOSE="git show --quiet --no-patch --date=iso --format='\
-             %H%n\
+function gshow-DATE \
+    --wraps "git show --no-patch --format=''" # For completion only
+    if is_git_author_date_different_from_commit_date_for_git_object $argv
+        echo-WARN "Author date is different from commit date."
+    end
+    git show --no-patch --format="%h%n%s%nCommited %cr (%cd)" $argv
+end
+function gshow-DATE__VERBOSE \
+    --wraps "git show --no-patch --date=iso --format=''" # For completion only
+    set --function message_color_spec "%Cgreen"
+    if is_git_author_date_different_from_commit_date_for_git_object $argv
+        echo-WARN "Author date is different from commit date."
+        set message_color_spec "%Cred"
+    end
+    git show --quiet --no-patch --date=iso --format="\
              %s%n\
+             %H%n\
      AUTHOR: %an <%aE>%n\
   COMMITTER: %cn <%cE>%n\
-AUTHOR DATE: %ad (%ar)%n\
-COMMIT DATE: %cd (%cr)'"
+AUTHOR DATE: $message_color_spec%ad (%ar)%n%Creset\
+COMMIT DATE: $message_color_spec%cd (%cr)" $argv
+end
 
 # GIT STATUS {{{2
 alias gstatus='git status'
