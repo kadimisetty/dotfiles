@@ -2338,13 +2338,34 @@ alias gadd-INTERACTIVE='git add --interactive'
 
 # GIT COMMIT {{{2
 # BARE {{{3
-# NOTE: Not doing `gcommit-message_ADD_FILE` because that would require
-# two(message and files to add), so avoiding it for now to keep it simple at
-# least until I figure out a strategy to get user input simply for multiples.
 alias gcommit='git commit'
-alias gcommit-message='git commit --message'
-alias gcommit-message_ADD_ALL='git add --all; and git commit --all --message'
-alias gcommit-message_ADD_ALL__TRACKED='git commit --all --message'
+alias gcommit-with_message='git commit --message'
+# NOTE: Avoiding `gcommit-message__ADD_FILE` because that would require
+# multiple user arguments(message + specific file(s)) until I land on
+# a "standard" way to handle multiple user arguments in shortcuts.
+function gcommit-ADD_TRACKED_FILES \
+    --description "Add all tracked files and `git commit`" \
+    --wraps "git commit --all --message"
+    git commit --all $argv
+end
+function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES \
+    --description "Add all tracked/untracked files and `git commit`" \
+    --wraps "git commit --message"
+    git add --all
+    git commit $argv
+end
+function gcommit-with_message__ADD_TRACKED_FILES \
+    --description "Add all tracked files and `git commit` with given message" \
+    --wraps "git commit --all --message"
+    git commit --all --message
+end
+function gcommit-with_message__ADD_TRACKED_AND_UNTRACKED_FILES \
+    --description "Add all tracked/untracked files and `git commit` with given message" \
+    --wraps "git commit --message"
+    git add --all
+    git commit --message
+end
+
 # AMEND {{{3
 alias gcommit-amend='git commit --amend'
 alias gcommit-amend__KEEP_MESSAGE='git commit --amend --no-edit'
