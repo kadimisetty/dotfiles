@@ -2328,42 +2328,54 @@ alias gpush-force_SOFT='git push --force-with-lease'
 # alias gpush-force_HARD='git push --force' # TODO: Require user confirmtion
 
 # GIT ADD {{{2
-alias gadd_FILE='git add' # e.g. `git add ./filename`
-alias gadd-CWD='git add .' # just changes in cwd, not same as `--all`
-alias gadd-ALL='git add --all' # entire repo
-alias gadd-TRACKED='git add --update'
-alias gadd-TRACKED_AND_UNTRACKED='git add --all'
+alias gadd_FILE='git add' # BARE. Usage e.g. `git add ./filename` etc.
+alias gadd-TRACKED_FILES='git add --update'
+alias gadd-TRACKED_AND_UNTRACKED_FILES='git add --all'
+alias gadd-TRACKED_AND_UNTRACKED_FILES_INSIDE_CWD='git add .'
+alias gadd-PATCH='git add --patch'
 alias gadd-INTERACTIVE='git add --interactive'
-# alias gadd-PATCH='git add --patch' -- NOTE: Removing to focus on "INTERACTIVE"
 
 # GIT COMMIT {{{2
 # BARE {{{3
 alias gcommit='git commit'
-alias gcommit-with_message='git commit --message'
+alias gcommit-WITH_MESSAGE='git commit --message'
+# ADD {{{3
 # NOTE: Avoiding `gcommit-message__ADD_FILE` because that would require
 # multiple user arguments(message + specific file(s)) until I land on
 # a "standard" way to handle multiple user arguments in shortcuts.
 function gcommit-ADD_TRACKED_FILES \
-    --description "Add all tracked files and `git commit`" \
+    --description "Add all tracked files and commit" \
     --wraps "git commit --all --message"
     git commit --all $argv
 end
+function gcommit-ADD_TRACKED_FILES__WITH_MESSAGE \
+    --description "Add all tracked files and commit with given message" \
+    --wraps "git commit --all --message"
+    git commit --all --message $argv
+end
 function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES \
-    --description "Add all tracked/untracked files and `git commit`" \
+    --description "Add all tracked/untracked files and commit" \
     --wraps "git commit --message"
     git add --all
     git commit $argv
 end
-function gcommit-with_message__ADD_TRACKED_FILES \
-    --description "Add all tracked files and `git commit` with given message" \
-    --wraps "git commit --all --message"
-    git commit --all --message
-end
-function gcommit-with_message__ADD_TRACKED_AND_UNTRACKED_FILES \
-    --description "Add all tracked/untracked files and `git commit` with given message" \
+function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES__WITH_MESSAGE \
+    --description "Add all tracked/untracked files and commit with given message" \
     --wraps "git commit --message"
     git add --all
-    git commit --message
+    git commit --message $argv
+end
+function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES_INSIDE_CWD \
+    --description "Add all tracked/untracked files inside current directory and commit" \
+    --wraps "git commit --message"
+    git add .
+    git commit $argv
+end
+function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES_INSIDE_CWD__WITH_MESSAGE \
+    --description "Add all tracked/untracked files inside current directory and commit with given message" \
+    --wraps "git commit --message"
+    git add .
+    git commit --message $argv
 end
 
 # AMEND {{{3
