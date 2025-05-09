@@ -246,7 +246,7 @@ end
 function _echo_with_customized_message \
     --description "Construct custom echo variant with given message" \
     --argument-names prefix_label message_color should_invert message
-    if test -z $should_invert; or test $should_invert = false
+    if test -z "$should_invert"; or test "$should_invert" = false
         set_color $message_color --bold
         echo -ns $prefix_label": "
         set_color normal
@@ -2480,11 +2480,11 @@ _create_git_bisect_start_shortcuts_for_custom_terms \
 function gclone-cd \
     --description "`git clone`s given repo url and `cd` inside" \
     --argument-names repo_url target_directory_name
-    if test -z $repo_url
+    if test -z "$repo_url"
         echo-ERROR "Git repo url not given"
         return 1
     else
-        if not test -z $target_directory_name
+        if not test -z "$target_directory_name"
             git clone $repo_url $target_directory_name
             and cd $target_directory_name
         else
@@ -2500,11 +2500,11 @@ end
 function gclone-cd_USERNAME \
     --description "`git clone`s given repo url with username and `cd` inside" \
     --argument-names repo_url target_directory_name
-    if test -z $repo_url
+    if test -z "$repo_url"
         echo-ERROR "Git repo url not given"
         return 1
     else
-        if not test -z $target_directory_name
+        if not test -z "$target_directory_name"
             git clone $repo_url $target_directory_name
             and cd $target_directory_name
         else
@@ -2841,7 +2841,7 @@ function gbranch-description_SHOW \
             echo-ERROR "Not in git repo"
             return 1
         else
-            if test -z $branch_name
+            if test -z "$branch_name"
                 # NOTE: Use current branch name if branch_name not supplied.
                 set --function branch_name (git symbolic-ref --short HEAD)
             end
