@@ -2005,6 +2005,23 @@ function _exit_if_not_in_active_python_virtual_env \
     end
 end
 
+# MAKE `ctrl-d` DE-ACTIVATE VIRTUAL ENVIRONMENT INSTEAD OF EXITING SHELL {{{2
+function _deactivate_virtual_environment_instead_of_exiting_shell \
+    --description XXX
+    if test -n "$VIRTUAL_ENV"
+        # NOTE: When inside a python virtual environment, do not exit shell but
+        # deactivate that virtual environment instead.
+        v-deactivate
+    else
+        # Exit shell as normal
+        exit
+    end
+end
+
+bind ctrl-d echo _deactivate_virtual_environment_instead_of_exiting_shell repaint
+bind ctrl-d --mode default echo _deactivate_virtual_environment_instead_of_exiting_shell repaint
+bind ctrl-d --mode insert echo _deactivate_virtual_environment_instead_of_exiting_shell repaint
+
 # DJANGO {{{1
 # MANAGE.PY ALIASES {{{2
 # TODO: Print all `manage.py` aliases with a cmd such as `m-aliases`
