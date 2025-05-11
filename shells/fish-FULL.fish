@@ -2006,8 +2006,7 @@ function _exit_if_not_in_active_python_virtual_env \
 end
 
 # MAKE `ctrl-d` DE-ACTIVATE VIRTUAL ENVIRONMENT INSTEAD OF EXITING SHELL {{{2
-function _deactivate_virtual_environment_instead_of_exiting_shell \
-    --description XXX
+function _deactivate_virtual_environment_instead_of_exiting_shell
     if test -n "$VIRTUAL_ENV"
         # NOTE: When inside a python virtual environment, do not exit shell but
         # deactivate that virtual environment instead.
