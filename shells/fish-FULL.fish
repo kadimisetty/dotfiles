@@ -2457,26 +2457,32 @@ alias gbisect-terms="git bisect terms" # Show what bisect terms arebeing used.
 # `.git/BISECT_TERMS` without waiting for user to type one of the deafult
 # terms. This way I get it to show up in completion and use the same code.
 function _create_git_bisect_start_shortcuts_for_custom_terms
-    test (count $argv) -eq 0; and echo-USAGE_WITH_TOPMOST_FUNCTION "<term1,term2>…"; and return 1
+    if test (count $argv) -eq 0
+        echo-USAGE_WITH_TOPMOST_FUNCTION "<term1,term2…>"
+        return 1
+    end
     for terms in $argv
         set --local terms (string split "," $terms)
-        test -z "$terms[1]" -o -z "$terms[2]"; and echo-ERROR "Invalid terms: $terms"; and return 1
+        if test -z "$terms[1]" -o -z "$terms[2]"
+            echo-ERROR "Invalid terms: $terms"
+            return 1
+        end
         set --local upper_terms (string upper $terms)
         # NOTE: Using `function` and not `alias` for a proper `--description`.
         # NOTE: Using `eval` to generate and complete like this is the only
         # successful way to achieve custom "term" completion.
-        eval \
-            "function gbisect-start_$upper_terms[1]_$upper_terms[2] \
-                  --description \"Start `git bisect` using `$terms[2]`(old) and `$terms[1]`(new)\" \
-                  --wraps \"git bisect start --term-old=$terms[1] --term-new=$terms[2]\"
-                  git bisect start --term-old=$terms[1] --term-new=$terms[2]
-              end
-              # Append the two terms into this function's completions.
-              # NOTE: There is a check at runtime to depend on file `./.git/BISECT_TERMS`
-              complete --command git \
-                  --condition '__fish_seen_subcommand_from bisect' \
-                  --arguments '(_git_bisect_custom_terms)'
-        "
+        eval "
+function gbisect-start_$upper_terms[1]_$upper_terms[2] \
+  --description \"Start `git bisect` using `$terms[2]`(old) and `$terms[1]`(new)\" \
+  --wraps \"git bisect start --term-old=$terms[1] --term-new=$terms[2]\"
+  git bisect start --term-old=$terms[1] --term-new=$terms[2]
+end
+# Append the two terms into this function's completions.
+# NOTE: There is a check at runtime to depend on file `./.git/BISECT_TERMS`
+complete --command git \
+  --condition '__fish_seen_subcommand_from bisect' \
+  --arguments '(_git_bisect_custom_terms)'
+"
     end
 end
 _create_git_bisect_start_shortcuts_for_custom_terms \
@@ -2749,11 +2755,11 @@ function gshow-DATE__VERBOSE \
         set message_color_spec "%Cred"
     end
     git show --quiet --no-patch --date=iso --format="\
-             %s%n\
-             %H%n\
-     AUTHOR: %an <%aE>%n\
-  COMMITTER: %cn <%cE>%n\
-AUTHOR DATE: $message_color_spec%ad (%ar)%n%Creset\
+             %s
+             %H
+     AUTHOR: %an <%aE>
+  COMMITTER: %cn <%cE>
+AUTHOR DATE: $message_color_spec%ad (%ar)%Creset
 COMMIT DATE: $message_color_spec%cd (%cr)" $argv
 end
 
