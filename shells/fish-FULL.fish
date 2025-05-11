@@ -2757,6 +2757,28 @@ AUTHOR DATE: $message_color_spec%ad (%ar)%n%Creset\
 COMMIT DATE: $message_color_spec%cd (%cr)" $argv
 end
 
+# GIT BROWSE (USING `gh`) {{{2
+alias gbrowse="gh browse"
+alias gbrowse-REPO__HOME="gh browse"
+alias gbrowse-REPO__SETTINGS="gh browse --settings"
+alias gbrowse-REPO__PROJECTS="gh browse --projects"
+alias gbrowse-REPO__RELEASES="gh browse --releases"
+alias gbrowse-REPO__WIKI="gh browse --wiki"
+# TODO: `gbrowse-BRANCH` to open branch's commit list page e.g.
+# `https://github.com/kadimisetty/dotfiles/commits/main/`.
+function gbrowse-HEAD \
+    --description "Open HEAD in github"
+    gh browse (git rev-parse HEAD)
+end
+function gbrowse-COMMIT \
+    --description "Open given commit in github" \
+    --argument commit_hash
+    # FIXME: `git show` also show stashes etc. but it's good enough for now.
+    --wraps "git show" # Completion purposes only
+    # TODO: Validate arguments
+    gh browse $commit_hash
+end
+
 # GIT STATUS {{{2
 alias gstatus='git status'
 alias gstatus-VERBOSE='git status --branch --long --verbose --show-stash'
