@@ -4177,6 +4177,7 @@ require("lazy").setup({
     -- TODO: Find a replacement that allows choosing/changing keymaps
     {
       "tpope/vim-unimpaired",
+      enabled = false,
       -- lazy = false, -- Load during startup if main colorscheme
       event = "VeryLazy",
       keys = {
@@ -4220,6 +4221,112 @@ require("lazy").setup({
         { "yoz", "yos", remap = true, desc = "Toggle spell" },
         { "[oz", "[os", remap = true, desc = "Enable spell" },
         { "]oz", "]os", remap = true, desc = "Disable spell" },
+      },
+    },
+
+    -- unimpaired(lua) - essential togglge/navigation keymaps {{{3
+    -- NOTE: Replacing `tpope/vim-unimpaired` because I want to choose defaults
+    {
+      "tummetott/unimpaired.nvim",
+      lazy = false,
+      opts = {
+        default_keymaps = false,
+        keymaps = {
+          -- TAG NAVIGATION:
+          -- tprevious = "[t",
+          -- tnext = "]t",
+          -- tfirst = "[T",
+          -- tlast = "]T",
+          -- ptprevious = "[<c-t>",
+          -- ptnext = "]<c-t>",
+          -- FILE NAVIGATION:
+          -- previous_file = "[f",
+          -- next_file = "]f",
+          -- VCS(SCM) MARKER NAVIGATION:
+          -- enable_diff = "[od",
+          -- disable_diff = "]od",
+          -- toggle_diff = "yod",
+          -- CASE SENSITIVITY IN SEARCH PATTERNS:
+          -- enable_ignorecase = "[oi",
+          -- disable_ignorecase = "]oi",
+          -- toggle_ignorecase = "yoi",
+          -- LIST CHARACTERS:
+          -- enable_list = "[ol",
+          -- disable_list = "]ol",
+          -- toggle_list = "yol",
+          -- COLOR COLUMN:
+          -- enable_colorcolumn = "[ot",
+          -- disable_colorcolumn = "]ot",
+          -- toggle_colorcolumn = "yot",
+          -- VIRTUAL EDIT:
+          -- enable_virtualedit = "[ov",
+          -- disable_virtualedit = "]ov",
+          -- toggle_virtualedit = "yov",
+          -- TEXT WRAPPING:
+          -- enable_wrap = "[ow",
+          -- disable_wrap = "]ow",
+          -- toggle_wrap = "yow",
+          -- ARGUMENT LIST NAVIGATION:
+          previous = "[a", -- DEFAULT
+          next = "]a", -- DEFAULT
+          first = "[A", -- DEFAULT
+          last = "]A", -- DEFAULT
+          -- BUFFER NAVIGATION:
+          bprevious = "[b", -- DEFAULT
+          bnext = "]b", -- DEFAULT
+          bfirst = "[B", -- DEFAULT
+          blast = "]B", -- DEFAULT
+          -- LOCATION LIST NAVIGATION:
+          lprevious = "[l", -- DEFAULT
+          lnext = "]l", -- DEFAULT
+          lfirst = "[L", -- DEFAULT
+          llast = "]L", -- DEFAULT
+          lpfile = "[<c-l>", -- DEFAULT
+          lnfile = "]<c-l>", -- DEFAULT
+          -- QUICKFIX LIST NAVIGATION:
+          cprevious = "[q", -- DEFAULT
+          cnext = "]q", -- DEFAULT
+          cfirst = "[Q", -- DEFAULT
+          clast = "]Q", -- DEFAULT
+          cpfile = "[<c-q>", -- DEFAULT
+          cnfile = "]<c-q>", -- DEFAULT
+          -- SEARCH HIGHLIGHTS:
+          enable_hlsearch = "[oh", -- DEFAULT
+          disable_hlsearch = "]oh", -- DEFAULT
+          toggle_hlsearch = "yoh", -- DEFAULT
+          -- LINE NUMBERS:
+          enable_number = "[on", -- DEFAULT
+          disable_number = "]on", -- DEFAULT
+          toggle_number = "yon", -- DEFAULT
+          enable_relativenumber = "[oN", -- DEFAULT `r`
+          disable_relativenumber = "]oN", -- DEFAULT `r`
+          toggle_relativenumber = "yoN", -- DEFAULT `r`
+          -- SPELL CHECK:
+          enable_spell = "[os", -- DEFAULT
+          disable_spell = "]os", -- DEFAULT
+          toggle_spell = "yos", -- DEFAULT
+          -- BACKGROUND:
+          enable_background = "[ob", -- DEFAULT
+          disable_background = "]ob", -- DEFAULT
+          toggle_background = "yob", -- DEFAULT
+          -- CURSOR LINE & CURSOR COLUMN:
+          enable_cursorline = "[o_", -- DEFAULT `c`
+          disable_cursorline = "]o_", -- DEFAULT `c`
+          toggle_cursorline = "yo_", -- DEFAULT `c`
+          enable_cursorcolumn = "[o|", -- DEFAULT `u`
+          disable_cursorcolumn = "]o|", -- DEFAULT `u`
+          toggle_cursorcolumn = "yo|", -- DEFAULT `u`
+          enable_cursorcross = "[o+", -- DEFAULT `x`
+          disable_cursorcross = "]o+", -- DEFAULT `x`
+          toggle_cursorcross = "yo+", -- DEFAULT `x`
+          -- TEXT MANIPULATION:
+          blank_above = "[<space>", -- DEFAULT
+          blank_below = "]<space>", -- DEFAULT
+          exchange_above = "[e", -- DEFAULT
+          exchange_below = "]e", -- DEFAULT
+          exchange_section_above = "[e", -- DEFAULT
+          exchange_section_below = "]e", -- DEFAULT
+        },
       },
     },
 
