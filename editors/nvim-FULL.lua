@@ -4173,57 +4173,6 @@ require("lazy").setup({
       },
     },
 
-    -- unimpaired - next/prev/toggle mappings {{{3
-    -- TODO: Find a replacement that allows choosing/changing keymaps
-    {
-      "tpope/vim-unimpaired",
-      enabled = false,
-      -- lazy = false, -- Load during startup if main colorscheme
-      event = "VeryLazy",
-      keys = {
-        -- LINES:
-        -- NOTE: Remaining related utilities in line utilities section
-        -- TODO: Refactor lines out of unimpaired section
-        { "<m-up>", "[e", remap = true, desc = "Move line downwards" },
-        { "<m-down>", "]e", remap = true, desc = "Move line upwards" },
-        -- VISUAL SELECTION
-        -- TODO: Refactor visual selection out of unimpaired section
-        {
-          mode = "x",
-          "<m-up>",
-          "[egv=gv",
-          remap = true,
-          desc = "Move visual selection upwards",
-        },
-        {
-          mode = "x",
-          "<m-down>",
-          "]egv=gv",
-          remap = true,
-          desc = "Move visual selection downwards",
-        },
-        -- cursorline
-        -- (default: `c`, duplicated to: `_`)
-        { "yo-", "yoc", remap = true, desc = "Toggle cursorline" },
-        { "[o-", "[oc", remap = true, desc = "Enable cursorline" },
-        { "]o-", "]oc", remap = true, desc = "Disable cursorline" },
-
-        -- cursorcolumn
-        -- (default: `u`, duplicated to: `|`)
-        { "yo|", "you", remap = true, desc = "Toggle cursorcolumn" },
-        { "[o|", "[ou", remap = true, desc = "Enable cursorcolumn" },
-        { "]o|", "]ou", remap = true, desc = "Disable cursorcolumn" },
-
-        -- SPELL
-        -- default: `s`, duplicated to: `z`
-        -- NOTE: `[z`/`]z` cannot be used for `[s`/`]s` because they are used
-        -- to got to prev/next folds.
-        { "yoz", "yos", remap = true, desc = "Toggle spell" },
-        { "[oz", "[os", remap = true, desc = "Enable spell" },
-        { "]oz", "]os", remap = true, desc = "Disable spell" },
-      },
-    },
-
     -- unimpaired(lua) - essential togglge/navigation keymaps {{{3
     -- NOTE: Replacing `tpope/vim-unimpaired` because I want to choose defaults
     {
@@ -4232,64 +4181,23 @@ require("lazy").setup({
       opts = {
         default_keymaps = false,
         keymaps = {
-          -- TAG NAVIGATION:
-          -- tprevious = "[t",
-          -- tnext = "]t",
-          -- tfirst = "[T",
-          -- tlast = "]T",
-          -- ptprevious = "[<c-t>",
-          -- ptnext = "]<c-t>",
-          -- FILE NAVIGATION:
-          -- previous_file = "[f",
-          -- next_file = "]f",
-          -- VCS(SCM) MARKER NAVIGATION:
-          -- enable_diff = "[od",
-          -- disable_diff = "]od",
-          -- toggle_diff = "yod",
-          -- CASE SENSITIVITY IN SEARCH PATTERNS:
-          -- enable_ignorecase = "[oi",
-          -- disable_ignorecase = "]oi",
-          -- toggle_ignorecase = "yoi",
-          -- LIST CHARACTERS:
-          -- enable_list = "[ol",
-          -- disable_list = "]ol",
-          -- toggle_list = "yol",
-          -- COLOR COLUMN:
-          -- enable_colorcolumn = "[ot",
-          -- disable_colorcolumn = "]ot",
-          -- toggle_colorcolumn = "yot",
-          -- VIRTUAL EDIT:
-          -- enable_virtualedit = "[ov",
-          -- disable_virtualedit = "]ov",
-          -- toggle_virtualedit = "yov",
-          -- TEXT WRAPPING:
-          -- enable_wrap = "[ow",
-          -- disable_wrap = "]ow",
-          -- toggle_wrap = "yow",
-          -- ARGUMENT LIST NAVIGATION:
-          previous = "[a", -- DEFAULT
-          next = "]a", -- DEFAULT
-          first = "[A", -- DEFAULT
-          last = "]A", -- DEFAULT
-          -- BUFFER NAVIGATION:
-          bprevious = "[b", -- DEFAULT
-          bnext = "]b", -- DEFAULT
-          bfirst = "[B", -- DEFAULT
-          blast = "]B", -- DEFAULT
-          -- LOCATION LIST NAVIGATION:
-          lprevious = "[l", -- DEFAULT
-          lnext = "]l", -- DEFAULT
-          lfirst = "[L", -- DEFAULT
-          llast = "]L", -- DEFAULT
-          lpfile = "[<c-l>", -- DEFAULT
-          lnfile = "]<c-l>", -- DEFAULT
-          -- QUICKFIX LIST NAVIGATION:
-          cprevious = "[q", -- DEFAULT
-          cnext = "]q", -- DEFAULT
-          cfirst = "[Q", -- DEFAULT
-          clast = "]Q", -- DEFAULT
-          cpfile = "[<c-q>", -- DEFAULT
-          cnfile = "]<c-q>", -- DEFAULT
+          -- NOTE: Disabled because I don't use them enough to warrant a keymap:
+          -- - FILE NAVIGATION
+          -- - VCS(SCM) MARKER NAVIGATION
+          -- - CASE SENSITIVITY IN SEARCH PATTERNS
+          -- - LIST CHARACTERS
+          -- - COLOR COLUMN
+          -- - VIRTUAL EDIT
+          -- - TEXT WRAPPING
+          -- NOTE: Disabled because v0.11+ comes with these built-in:
+          -- - ARGUMENT LIST NAVIGATION
+          -- - BUFFER NAVIGATION
+          -- - TAG NAVIGATION
+          -- - LOCATION LIST NAVIGATION
+          -- - QUICKFIX LIST NAVIGATION
+          -- - ADD EMPTY LINE ABOVE/BELOW
+          --
+          -- NOTE: My custom modified keymaps:
           -- SEARCH HIGHLIGHTS:
           enable_hlsearch = "[oh", -- DEFAULT
           disable_hlsearch = "]oh", -- DEFAULT
@@ -4320,12 +4228,12 @@ require("lazy").setup({
           disable_cursorcross = "]o+", -- DEFAULT `x`
           toggle_cursorcross = "yo+", -- DEFAULT `x`
           -- TEXT MANIPULATION:
-          blank_above = "[<space>", -- DEFAULT
-          blank_below = "]<space>", -- DEFAULT
-          exchange_above = "[e", -- DEFAULT
-          exchange_below = "]e", -- DEFAULT
-          exchange_section_above = "[e", -- DEFAULT
-          exchange_section_below = "]e", -- DEFAULT
+          exchange_above = "<m-up>", -- DEFAULT `[e`
+          exchange_below = "<m-down>", -- DEFAULT `]e`
+          -- FIXME: `exchange_section_*` doesn't get picked up right away.
+          -- FIXME: `exchange_section_*` loses visual selection.
+          exchange_section_above = "<m-up>", -- DEFAULT `[e`
+          exchange_section_below = "<m-down>", -- DEFAULT `]e`
         },
       },
     },
