@@ -1592,31 +1592,57 @@ vim.keymap.set(
 vim.keymap.set("n", "<m-T>", "<cmd>tabnew term://fish<cr>", { silent = true })
 
 -- WINDOWS AND TABS {{{1
--- NOTE: In keymaps prefer lower case for window and upper case for tabs.
--- TODO: Add keymap descriptions
+-- NOTE: Prefer lower case keymaps for windows and upper case for tabs.
 
--- CREATING/DUPLICATING {{{2
--- Opening new tab pages
--- Using `<c-w>N` as it matches with vim's `<c-w>n` (new window)
-vim.keymap.set("n", "<c-w>N", "<cmd>tabnew<cr>", { silent = true })
-
--- Duplicate current buffer in new window
-vim.keymap.set("n", "<c-w>d", "<cmd>vsplit<cr>", { silent = true })
-
--- Duplicate current buffer in new tab
-vim.keymap.set("n", "<c-w>D", "<cmd>tab split<cr>", { silent = true })
+-- CREATING/SPLITTING/DUPLICATING {{{2
+-- TODO: Duplicate current buffer in new window/tab. Do actual duplication i.e.
+-- make a new unsaved buffer with contents of current buffer in a new
+-- window/tab.
+-- WARN: Don't use duplicate when meaning splitting a buffer.
+-- OPENING NEW TAB PAGE:
+-- NOTE: Using `<c-w>N` as it matches with vim's `<c-w>n` (new window)
+vim.keymap.set(
+  "n",
+  "<c-w>N",
+  "<cmd>tabnew<cr>",
+  { silent = true, desc = "Open new tab page" }
+)
+-- OPEN CURRENT BUFFER IN A VERTICAL SPLIT WINDOW:
+-- FIXME: Use something other than `d` beause it denotes "duplication".
+vim.keymap.set(
+  "n",
+  "<c-w>d",
+  "<cmd>vsplit<cr>",
+  { silent = true, desc = "Open current buffer in a vertical split window" }
+)
+-- OPEN CURRENT BUFFER IN A NEW TAB PAGE:
+-- FIXME: Use something other than `D` beause it denotes "duplication".
+vim.keymap.set(
+  "n",
+  "<c-w>D",
+  "<cmd>tab split<cr>",
+  { silent = true, desc = "Open current buffer in a new tab page" }
+)
 
 -- OPEN ALL BUFFERS IN TABS/WINDOWS {{{2
--- Open all buffers in tabs
-vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", { silent = true })
--- Open all buffers in windows in current tab
-vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", { silent = true })
+vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", {
+  silent = true,
+  desc = "Open all buffers in tabs",
+})
+vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", {
+  silent = true,
+  desc = "Open all buffers in windows (in current tab)",
+})
 
 -- OPEN ALL ARGLIST BUFFERS IN TABS/WINDOWS {{{2
--- Open all arglist buffers in tabs
-vim.keymap.set("n", "<c-w>A", "<cmd>tab all<cr>", { silent = true })
--- Open all arglist buffers in windows in current tab
-vim.keymap.set("n", "<c-w>a", "<cmd>all<cr>", { silent = true })
+vim.keymap.set("n", "<c-w>A", "<cmd>tab all<cr>", {
+  silent = true,
+  desc = "Open all arglist buffers in tabs",
+})
+vim.keymap.set("n", "<c-w>a", "<cmd>all<cr>", {
+  silent = true,
+  desc = "Open all arglist buffers in windows in current tab",
+})
 
 -- MOVING {{{2
 do
@@ -1665,21 +1691,20 @@ do
       vim.cmd.execute([["normal! ]] .. numberOfTabs .. [[gt"]])
     end
   end
-
   -- Make keymaps to jump to tab positions 1 through 9
   for i = 0, 9 do
     vim.keymap.set("n", "<c-w>" .. i, function()
       jumpToClosestTabPosition(i)
     end, {
       silent = true,
-      desc = "Jump to closest tab page number",
+      desc = "Jump to closest tab page number " .. i,
     })
   end
 end
 
 -- RENAMING {{{2
--- Rename current tab (uses plugin `gcmt/taboo.vim`)
--- TODO: Remove dependency on plugin `gcmt/taboo.vim`.
+-- Rename current tab (WARN: uses plugin `gcmt/taboo.vim`)
+-- FIXME: Remove dependency on plugin `gcmt/taboo.vim`.
 local rename_tab_with_taboo_plugin = function(show_current_tab_name_in_prompt)
   if not vim.g.loaded_taboo == 1 then -- Assert plugin `gcmt/taboo.vim` loaded.
     vim.notify(
@@ -1734,64 +1759,88 @@ end, {
 --  TODO: Find better split keymaps
 --  TODO: Add keymap descriptions
 --  NOTE: These are deliberately identical to my tmux pane keymaps
---  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim keymap system.. So
---  temporarily relying on good ol' `<c-w>v` and `<c-w>s` for the splits. and
---  freeing up `<c-w>-`. `vim-vinegar` can use it in the meantime.
---    HORIZONTAL SPLIT:
---    `nnoremap <silent> <c-w>-        :split<CR>`
---    VERTICAL SPLIT:
---    `nnoremap <silent> <c-w>\|       :vsplit<CR>`
+--  NOTE: Regretfully `<c-w>-` just doesn't fit into my vim keymap system. So
+--  temporarily relying on good old `<c-w>v` and `<c-w>s` for the splits and
+--  therefore leaving `<c-w>-`/`<c-w>+` alone.
+--  POSSIBLE HORIZONTAL SPLIT KEYMAP:
+--    `nnoremap <silent> <c-w>-     :split<CR>`
+--  POSSIBLE VERTICAL SPLIT KEYMAP:
+--    `nnoremap <silent> <c-w>\|    :vsplit<CR>`
 
 -- SIZING {{{2
--- Equal size windows
-vim.keymap.set("n", "<c-w>=", "<cmd>wincmd =<cr>", { silent = true })
+vim.keymap.set("n", "<c-w>=", "<cmd>wincmd =<cr>", {
+  silent = true,
+  desc = "Make windows equal sizes",
+})
 
--- MOVING {{{2
--- Move focus to window to the left
-vim.keymap.set("n", "<c-h>", "<cmd>wincmd h<cr>", { silent = true })
+-- FOCUS {{{2
+vim.keymap.set("n", "<c-h>", "<cmd>wincmd h<cr>", {
+  silent = true,
+  desc = "Move focus to window to the left",
+})
 
--- Move focus to window to the bottom
-vim.keymap.set("n", "<c-j>", "<cmd>wincmd j<cr>", { silent = true })
+vim.keymap.set("n", "<c-j>", "<cmd>wincmd j<cr>", {
+  silent = true,
+  desc = "Move focus to window to the bottom",
+})
 
--- Move focus to window to the top
-vim.keymap.set("n", "<c-k>", "<cmd>wincmd k<cr>", { silent = true })
+vim.keymap.set("n", "<c-k>", "<cmd>wincmd k<cr>", {
+  silent = true,
+  desc = "Move focus to window to the top",
+})
 
--- Move focus to window to the right
-vim.keymap.set("n", "<c-l>", "<cmd>wincmd l<cr>", { silent = true })
-
+vim.keymap.set("n", "<c-l>", "<cmd>wincmd l<cr>", {
+  silent = true,
+  desc = "Move focus to window to the right",
+})
 -- Move focus to previously focussed window
 -- NOTE: Disabled because I don't tend to use this AND don't particularly feel
 -- like this shortcut `<c-w>p` fits in with the rest
 -- vim.keymap.set("n", "<c-w>p", "<cmd>wincmd p<cr>", { silent = true })
 
--- Move tab forwards/backwards (with wrapping)
--- NOTE:
---  - Wrapping is when the tab is at the end, continue moving to the other end in a loop.
---  - Currently disabling wrapping.
---  - To use wrapping, while calling `TabMoveBy1`, use `1` to enable, `0` to disable.
+-- MOVING {{{2
+-- NOTE: "Wrapping while moving" in this section is when the tab is at the end,
+-- continue moving to the other end in a loop.
+-- NOTE: Currently not using wrapping motions. To use them, while calling
+-- `TabMoveBy1`, use `1` to enable, `0` to disable.
+-- FIXME: Fix wrapping situation in this section.
+-- MOVE TAB FORWARDS/BACKWARDS (with wrapping):
 vim.keymap.set(
   "n",
   "<c-w><s-right>",
   '<cmd>call TabMoveBy1("right", 0)<cr>',
-  { silent = true }
+  { silent = true, desc = "Move tab forwards" }
 )
 vim.keymap.set(
   "n",
   "<c-w><s-left>",
   '<cmd>call TabMoveBy1("left", 0)<cr>',
-  { silent = true }
+  { silent = true, desc = "Moe tab backwards" }
 )
--- Move tab forwards/backwards, with no concept of wrapping or error reporting
+-- TODO: MOVE TAB FORWARDS/BACKWARDS (with no concept of wrapping/error
+-- reporting):
 -- vim.keymap.set('n' , '<c-w><s-right>', '<cmd>tabmove +1<cr>', {silent = true})
 -- vim.keymap.set('n' , '<c-w><s-left>', '<cmd>tabmove -1<cr>', {silent = true})
 
--- Move tab to the first/last position
+-- MOVE TAB TO THE FIRST/LAST POSITION:
 -- NOTE: `:tabmove 0` moves to the first position and `:tabmove` to the last
--- NOTE: Doing both gx and xg variations, because I forget otherwise.
-vim.keymap.set("n", "<c-w>g<s-right>", "<cmd>tabmove<cr>", { silent = true })
-vim.keymap.set("n", "g<c-w><s-right>", "<cmd>tabmove<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>g<s-left>", "<cmd>tabmove 0<cr>", { silent = true })
-vim.keymap.set("n", "g<c-w><s-left>", "<cmd>tabmove 0<cr>", { silent = true })
+-- NOTE: Doing both `<c-w>g*` and `g<c-w>*` variations, because I forget.
+vim.keymap.set("n", "<c-w>g<s-left>", "<cmd>tabmove 0<cr>", {
+  silent = true,
+  desc = "Move tab to first position",
+})
+vim.keymap.set("n", "g<c-w><s-left>", "<cmd>tabmove 0<cr>", {
+  silent = true,
+  desc = "Move tab to first position",
+})
+vim.keymap.set("n", "<c-w>g<s-right>", "<cmd>tabmove<cr>", {
+  silent = true,
+  desc = "Move tab to last position",
+})
+vim.keymap.set("n", "g<c-w><s-right>", "<cmd>tabmove<cr>", {
+  silent = true,
+  desc = "Move tab to last position",
+})
 
 -- MOVING HELPERS {{{3
 -- TODO: Use lua
@@ -1902,16 +1951,19 @@ vim.cmd([[
 ]])
 
 -- CLOSING {{{2
--- Close all other windows in current tab
-vim.keymap.set("n", "<c-w>o", "<cmd>only<cr>", { silent = true })
-
--- Close all other tabs
-vim.keymap.set("n", "<c-w>O", "<cmd>tabonly<cr>", { silent = true })
-
--- Closing current tab
--- TODO: (Summer 2023) I don't use this a lot, so keep it around a bit to
--- consider removing it entirely.
-vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", { silent = true })
+vim.keymap.set("n", "<c-w>o", "<cmd>only<cr>", {
+  silent = true,
+  desc = "Close all other windows in current tab",
+})
+vim.keymap.set("n", "<c-w>O", "<cmd>tabonly<cr>", {
+  silent = true,
+  desc = "Close all other tabs",
+})
+-- FIXME: Add user confirmation before enabling.
+-- vim.keymap.set("n", "<c-w>X", "<cmd>tabclose<cr>", {
+--   silent = true,
+--   desc = "Closing current tab",
+-- })
 
 -- VIEWS AND SESSIONS {{{1
 -- NOTE:
