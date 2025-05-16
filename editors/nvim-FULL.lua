@@ -1624,26 +1624,6 @@ vim.keymap.set(
   { silent = true, desc = "Open current buffer in a new tab page" }
 )
 
--- OPEN ALL BUFFERS IN TABS/WINDOWS {{{2
-vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", {
-  silent = true,
-  desc = "Open all buffers in tabs",
-})
-vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", {
-  silent = true,
-  desc = "Open all buffers in windows (in current tab)",
-})
-
--- OPEN ALL ARGLIST BUFFERS IN TABS/WINDOWS {{{2
-vim.keymap.set("n", "<c-w>A", "<cmd>tab all<cr>", {
-  silent = true,
-  desc = "Open all arglist buffers in tabs",
-})
-vim.keymap.set("n", "<c-w>a", "<cmd>all<cr>", {
-  silent = true,
-  desc = "Open all arglist buffers in windows in current tab",
-})
-
 -- MOVING {{{2
 do
   vim.keymap.set("n", "<c-w><c-w>", "<cmd>tabnext #<cr>", {
@@ -2187,6 +2167,31 @@ vim.api.nvim_create_autocmd({ "RecordingLeave" }, {
     end
   end,
 })
+
+-- OPEN BUFFERS IN WINDOWS/TABS {{{2
+-- NOTE: Make keymaps with existing window/tab keymaps in mind.
+-- NOTE: Using the force split versions i.e. `sball`/`sall` to force open all
+-- buffers.
+-- OPEN ALL BUFFERS IN TABS/WINDOWS:
+vim.keymap.set("n", "<c-w>b", "<cmd>sball<cr>", {
+  silent = true,
+  desc = "Open all buffers in windows (in current tab)",
+})
+vim.keymap.set("n", "<c-w>B", "<cmd>tab sball<cr>", {
+  silent = true,
+  desc = "Open all buffers in tabs",
+})
+-- OPEN ALL ARGLIST BUFFERS IN TABS/WINDOWS:
+vim.keymap.set("n", "<c-w>a", "<cmd>sall<cr>", {
+  silent = true,
+  desc = "Open all arglist buffers in windows in current tab",
+})
+vim.keymap.set("n", "<c-w>A", "<cmd>tab sall<cr>", {
+  silent = true,
+  desc = "Open all arglist buffers in tabs",
+})
+-- TODO: OPEN ALL BUFFERS MENTIONED IN QUICFIX IN TABS/WINDOWS
+-- TODO: OPEN ALL BUFFERS MENTIONED IN LOCATION LIST IN TABS/WINDOWS
 
 -- XCODE SHORTCUTS PARITY {{{2
 -- FORMATTING {{{3
