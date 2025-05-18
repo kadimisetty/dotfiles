@@ -4240,12 +4240,16 @@ require("lazy").setup({
         keymaps = {
           -- NOTE: Disabled because I don't use them enough to warrant a keymap:
           -- - FILE NAVIGATION
-          -- - VCS(SCM) MARKER NAVIGATION
+          -- - VCS(SCM/GIT) MARKER NAVIGATION
           -- - CASE SENSITIVITY IN SEARCH PATTERNS
           -- - LIST CHARACTERS
           -- - COLOR COLUMN
           -- - VIRTUAL EDIT
           -- - TEXT WRAPPING
+          --
+          -- NOTE: Disabled in favor of 3rd party plugins:
+          -- - TEXT MOVEMENT(EXCHANGE) -- Replacing with `mini.move`
+          --
           -- NOTE: Disabled because v0.11+ comes with these built-in:
           -- - ARGUMENT LIST NAVIGATION
           -- - BUFFER NAVIGATION
@@ -4254,7 +4258,7 @@ require("lazy").setup({
           -- - QUICKFIX LIST NAVIGATION
           -- - ADD EMPTY LINE ABOVE/BELOW
           --
-          -- NOTE: My custom modified keymaps:
+          -- NOTE: My currently active keymaps:
           -- SEARCH HIGHLIGHTS:
           enable_hlsearch = "[oh", -- DEFAULT
           disable_hlsearch = "]oh", -- DEFAULT
@@ -4284,15 +4288,52 @@ require("lazy").setup({
           enable_cursorcross = "[o+", -- DEFAULT `x`
           disable_cursorcross = "]o+", -- DEFAULT `x`
           toggle_cursorcross = "yo+", -- DEFAULT `x`
-          -- TEXT MANIPULATION:
-          exchange_above = "<m-up>", -- DEFAULT `[e`
-          exchange_below = "<m-down>", -- DEFAULT `]e`
-          -- FIXME: `exchange_section_*` doesn't get picked up right away.
-          -- FIXME: `exchange_section_*` loses visual selection.
-          exchange_section_above = "<m-up>", -- DEFAULT `[e`
-          exchange_section_below = "<m-down>", -- DEFAULT `]e`
         },
       },
+    },
+
+    -- mini move - text movement {{{3
+    {
+      "echasnovski/mini.move",
+      version = false,
+      event = "VeryLazy",
+      opts = {
+        --[[
+        mappings = {
+          -- WARN: KEYMAP CONFLICT ALERT: I use keymaps
+          -- `<m-left/right/up/down>` in section "LINE SPLIT PUSHES" where they
+          -- play a major role.
+          -- NOTE: `''` (empty string) disables option.
+          -- NOTE: Plugin comes with default keymaps `<m-h/j/k/l>`.
+          -- VISUAL SELECTION MODE:
+          left = "<m-left>",
+          right = "<m-right>",
+          down = "<m-down>",
+          up = "<m-up>",
+          -- NORMAL MODE("linewise" mode):
+          line_left = "<m-left>",
+          line_right = "<m-right>",
+          line_down = "<m-down>",
+          line_up = "<m-up>",
+        },
+        --]]
+      },
+      init = function()
+        -- NOTE: I don't want to set these keymaps officially as they might
+        -- change, so temporarily setting them here manually.
+        vim.keymap.set("n", "<m-up>", function()
+          MiniMove.move_line("up")
+        end, { desc = "Move line upwards" })
+        vim.keymap.set("n", "<m-down>", function()
+          MiniMove.move_line("down")
+        end, { desc = "Move line downwards" })
+        vim.keymap.set("x", "<m-up>", function()
+          MiniMove.move_selection("up")
+        end, { desc = "Move visual selection upwards" })
+        vim.keymap.set("x", "<m-down>", function()
+          MiniMove.move_selection("down")
+        end, { desc = "Move visual selection downwards" })
+      end,
     },
 
     -- mini align - text alignment {{{3
