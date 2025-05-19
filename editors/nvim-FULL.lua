@@ -6430,31 +6430,47 @@ require("lazy").setup({
       cmd = { "TroubleToggle", "Trouble" },
       opts = { use_diagnostic_signs = true },
       keys = {
+        -- WINDOW TOGGLING KEYMAPS:
+        -- TODO: Add `<s-cr>` inside trouble window to seelct and go to item
+        -- whil closing trouble window at the same time.
+        -- TODO: Include both `<m-x>*` and `<m-x><m-*>` variants.
         {
-          "<m-x>",
-          "<cmd>TroubleToggle document_diagnostics<cr>",
-          desc = "Document Diagnostics (Trouble)",
+          "<m-x>x",
+          "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+          desc = "Toggle trouble buffer diagnostics",
         },
         {
-          "<m-X>",
-          "<cmd>TroubleToggle workspace_diagnostics<cr>",
-          desc = "Workspace Diagnostics (Trouble)",
+          "<m-x>X",
+          "<cmd>Trouble diagnostics toggle<cr>",
+          desc = "Toggle trouible workspace diagnostics",
+        },
+        {
+          "<m-x>s",
+          "<cmd>Trouble symbols toggle focus=false<cr>",
+          desc = "Toggle trouble LSP document symbols",
+        },
+        {
+          "<m-x>p",
+          "<cmd>Trouble todo toggle<cr>",
+          desc = "Toggle trouble pragmas (TODO/NOTE/WARN...)",
+        },
+        {
+          "<m-x>,",
+          "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+          desc = "Toggle trouble LSP definitions/references/...",
         },
         {
           "<m-x>l",
-          "<cmd>TroubleToggle loclist<cr>",
-          desc = "Location List (Trouble)",
-        },
-        {
-          "<m-x>r",
-          "<cmd>TroubleRefresh<cr>",
-          desc = "Manually refresh trouble active list",
+          "<cmd>Trouble loclist toggle<cr>",
+          desc = "Toggle trouble location list",
         },
         {
           "<m-x>q",
-          "<cmd>TroubleToggle quickfix<cr>",
-          desc = "Quickfix List (Trouble)",
+          "<cmd>Trouble qflist toggle<cr>",
+          desc = "Toggle trouble quickfix list",
         },
+        -- NAVIGATION KEYMAPS:
+        -- TODO: Add `[Q`and `]Q` to go to first/last trouble item as well.
         {
           "[q",
           function()
