@@ -2394,6 +2394,50 @@ function gcommit-ADD_TRACKED_AND_UNTRACKED_FILES_INSIDE_CWD__WITH_MESSAGE \
     git commit --message $argv
 end
 
+# DATE {{{3
+# NOTE: Ensure author date isn't set to after commit date.
+#       +--------------------+-----------+------------------------+
+#       | DATE TYPE          | DATE      | TIME                   |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | TODAY     | RANDOM TIME BEFORE NOW |
+# TODO: | COMMIT             | TODAY     | RANDOM TIME BEFORE NOW |
+# TODO: | AUTHOR AND COMMIT  | TODAY     | RANDOM TIME BEFORE NOW |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | SAME TIME AS NOW       |
+# TODO: | COMMIT             | YESTERDAY | SAME TIME AS NOW       |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | SAME TIME AS NOW       |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM TIME            |
+# TODO: | COMMIT             | YESTERDAY | RANDOM TIME            |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM TIME            |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM DAY TIME        |
+# TODO: | COMMIT             | YESTERDAY | RANDOM DAY TIME        |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM DAY TIME        |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM NIGHT TIME      |
+# TODO: | COMMIT             | YESTERDAY | RANDOM NIGHT TIME      |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM NIGHT TIME      |
+#       +--------------------+-----------+------------------------+
+function gcommit-AUTHOR_AND_COMMIT_DATE_SET_TO_YESTERDAY_SAME_TIME \
+    --description "Set author and commit date to same tiem yesterday" \
+    --wraps "git commit"
+    set --function date_yesterday_same_time (date -v -1d)
+    GIT_AUTHOR_DATE="$date_yesterday_same_time" \
+        GIT_COMMITTER_DATE="$date_yesterday_same_time" \
+        git commit $argv
+end
+function gcommit-AUTHOR_AND_COMMIT_DATE_SET_TO_YESTERDAY_RANDOM_TIME
+    --description "`git commit` at a random time yesterday"
+    set --function hour (random 0 23)
+    set --function minute (random 0 59)
+    set --function second (random 0 59)
+    set --function timestamp (date -u -v -1d -v $hour'H' -v $minute'M' -v $second'S' "+%Y-%m-%dT%H:%M:%SZ")
+    GIT_AUTHOR_DATE="$timestamp" \
+        GIT_COMMITTER_DATE="$timestamp" \
+        git commit $argv
+end
+
 # AMEND {{{3
 # AMEND BARE {{{4
 alias gcommit-amend='git commit --amend'
@@ -2403,26 +2447,42 @@ function gcommit-amend__KEEP_MESSAGE \
 end
 
 # AMEND DATE {{{4
-#
-# NOTE: Ensure author date isn't set to after commit date.
+#       +--------------------+-----------+------------------------+
+#       | COMMON TO BOTH REGULAR `commit` and `commit --amend`:   |
 #       +--------------------+-----------+------------------------+
 #       | DATE TYPE          | DATE      | TIME                   |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | TODAY     | RANDOM TIME BEFORE NOW |
+# TODO: | COMMIT             | TODAY     | RANDOM TIME BEFORE NOW |
+# TODO: | AUTHOR AND COMMIT  | TODAY     | RANDOM TIME BEFORE NOW |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | SAME TIME AS NOW       |
+# TODO: | COMMIT             | YESTERDAY | SAME TIME AS NOW       |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | SAME TIME AS NOW       |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM TIME            |
+# TODO: | COMMIT             | YESTERDAY | RANDOM TIME            |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM TIME            |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM DAY TIME        |
+# TODO: | COMMIT             | YESTERDAY | RANDOM DAY TIME        |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM DAY TIME        |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | YESTERDAY | RANDOM NIGHT TIME      |
+# TODO: | COMMIT             | YESTERDAY | RANDOM NIGHT TIME      |
+# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM NIGHT TIME      |
+#       +--------------------+-----------+------------------------+
+#       |                                                         |
+#       | NOTE: FOLLOWING ARE UNIQUE                              |
+#       | TO `git commit --amend` ONLY:                           |
+#       +--------------------+-----------+------------------------+
+# TODO: | AUTHOR             | UNCHANGED                          |
+#       | COMMIT             | UNCHANGED                          |
+#       | AUTHOR AND COMMIT  | UNCHANGED                          |
 #       +--------------------+-----------+------------------------+
 # TODO: | AUTHOR             | TODAY     | NOW                    |
 #       | COMMIT             | TODAY     | NOW                    |
 #       | AUTHOR AND COMMIT  | TODAY     | NOW                    |
-# TODO: | AUTHOR             | TODAY     | RANDOM TIME            |
-# TODO: | COMMIT             | TODAY     | RANDOM TIME            |
-# TODO: | AUTHOR AND COMMIT  | TODAY     | RANDOM TIME            |
-# TODO: | AUTHOR             | TODAY     | RANDOM TIME BEFORE NOW |
-# TODO: | COMMIT             | TODAY     | RANDOM TIME BEFORE NOW |
-# TODO: | AUTHOR AND COMMIT  | TODAY     | RANDOM TIME BEFORE NOW |
-# TODO: | AUTHOR             | YESTERDAY | SAME TIME              |
-# TODO: | COMMIT             | YESTERDAY | SAME TIME              |
-# TODO: | AUTHOR AND COMMIT  | YESTERDAY | SAME TIME              |
-# TODO: | AUTHOR             | YESTERDAY | RANDOM TIME            |
-# TODO: | COMMIT             | YESTERDAY | RANDOM TIME            |
-# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM TIME            |
 #       +--------------------+-----------+------------------------+
 #
 function gcommit-amend__COMMIT_DATE_SET_TO_NOW \
@@ -2432,19 +2492,6 @@ end
 function gcommit-amend__AUTHOR_AND_COMMIT_DATE_SET_TO_NOW \
     --description "`git commit --amend` but keep commit message and set date to now"
     git commit --amend --date=now $argv
-end
-
-# AMEND ADD {{{4
-function gcommit-amend__ADD_FILE \
-    --description "`git add` given file and `git commit --amend`" \
-    --wraps "git add"
-    if test -z "$argv"
-        echo-USAGE "gcommit-amend__ADD_FILE <file_with_changes >"
-        return 1
-    end
-    git add $arg
-    # WARN: `$argv` cannot be passed to `git commit --amend` here.
-    abd git commit --amend
 end
 
 # GIT BISECT {{{2
