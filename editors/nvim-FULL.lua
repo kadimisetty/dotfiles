@@ -6429,74 +6429,119 @@ require("lazy").setup({
       "folke/trouble.nvim",
       cmd = { "TroubleToggle", "Trouble" },
       opts = { use_diagnostic_signs = true },
-      keys = {
-        -- WINDOW TOGGLING KEYMAPS:
-        -- TODO: Add `<s-cr>` inside trouble window to seelct and go to item
-        -- whil closing trouble window at the same time.
-        -- TODO: Include both `<m-x>*` and `<m-x><m-*>` variants.
-        {
-          "<m-x>x",
-          "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-          desc = "Toggle trouble buffer diagnostics",
-        },
-        {
-          "<m-x>X",
-          "<cmd>Trouble diagnostics toggle<cr>",
-          desc = "Toggle trouible workspace diagnostics",
-        },
-        {
-          "<m-x>s",
-          "<cmd>Trouble symbols toggle focus=false<cr>",
-          desc = "Toggle trouble LSP document symbols",
-        },
-        {
-          "<m-x>p",
-          "<cmd>Trouble todo toggle<cr>",
-          desc = "Toggle trouble pragmas (TODO/NOTE/WARN...)",
-        },
-        {
-          "<m-x>,",
-          "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-          desc = "Toggle trouble LSP definitions/references/...",
-        },
-        {
-          "<m-x>l",
-          "<cmd>Trouble loclist toggle<cr>",
-          desc = "Toggle trouble location list",
-        },
-        {
-          "<m-x>q",
-          "<cmd>Trouble qflist toggle<cr>",
-          desc = "Toggle trouble quickfix list",
-        },
-        -- NAVIGATION KEYMAPS:
-        -- TODO: Add `[Q`and `]Q` to go to first/last trouble item as well.
-        {
-          "[q",
-          function()
-            if require("trouble").is_open() then
-              require("trouble").previous({
-                skip_groups = true,
-                jump = true,
-              })
-            else
-              vim.cmd.cprev()
-            end
+      keys = function()
+        local trouble = require("trouble")
+        local window_toggling_keys = {}
+        vim
+          .iter({
+            {
+              prefix = "x",
+              cmd = "Trouble",
+              desc = "Open trouble",
+            },
+            {
+              prefix = "d",
+              cmd = "Trouble diagnostics toggle filter.buf=0",
+              desc = "Toggle trouble buffer diagnostics",
+            },
+            {
+              prefix = "D",
+              cmd = "Trouble diagnostics toggle",
+              desc = "Toggle trouible workspace diagnostics",
+            },
+
+            {
+              prefix = "s",
+              cmd = "Trouble symbols toggle focus=false",
+              desc = "Toggle trouble LSP document symbols",
+            },
+            {
+              prefix = "p",
+              cmd = "Trouble todo toggle",
+              desc = "Toggle trouble pragmas (TODO/NOTE/WARN...)",
+            },
+            {
+              prefix = ",",
+              cmd = "Trouble lsp toggle focus=false win.position=right",
+              desc = "Toggle trouble LSP definitions/references/...",
+            },
+            {
+              prefix = "l",
+              cmd = "Trouble loclist toggle",
+              desc = "Toggle trouble location list",
+            },
+            {
+              prefix = "q",
+              cmd = "Trouble qflist toggle",
+              desc = "Toggle trouble quickfix list",
+            },
+          })
+          :each(function(v)
+            local prefix = "<m-x>"
+            vim.list_extend(window_toggling_keys, {
+              {
+                prefix .. v.prefix,
+                "<cmd>" .. v.cmd .. "<cr>",
+                desc = v.desc,
+              },
+              {
+                prefix .. "<m-" .. v.prefix .. ">",
+                "<cmd>" .. v.cmd .. "<cr>",
+                desc = v.desc,
+              },
+            })
+          end)
+        local navigation_keys = {
+          {
+            "[x",
+            function()
+              trouble.previous({ skip_groups = true, jump = true })
+            end,
+            desc = "Go to previous trouble item",
+          },
+          {
+            "]x",
+            function()
+              trouble.next({ skip_groups = true, jump = true })
+            end,
+            desc = "Go to next trouble item",
+          },
+          {
+            "[X",
+            function()
+              trouble.first({ skip_groups = true, jump = true })
+            end,
+            desc = "Go to first trouble item",
+          },
+          {
+            "]X",
+            function()
+              trouble.last({ skip_groups = true, jump = true })
+            end,
+            desc = "Go to last trouble item",
+          },
+        }
+        return vim.list_extend(window_toggling_keys, navigation_keys)
+      end,
+      init = function()
+        vim.api.nvim_create_autocmd("FileType", {
+          desc = "Jump to selected item and close trouble window",
+          group = vim.api.nvim_create_augroup("trouble_augroup", {}),
+          pattern = { "trouble" },
+          callback = function()
+            vim.keymap.set(
+              "n",
+              "<s-cr>",
+              "<cmd>Trouble diagnostics jump_close<cr>",
+              {
+                silent = true,
+                buffer = true,
+                desc = "Jump to selected trouble item and close trouble window",
+              }
+            )
           end,
-          desc = "Previous trouble/quickfix item",
-        },
-        {
-          "]q",
-          function()
-            if require("trouble").is_open() then
-              require("trouble").next({ skip_groups = true, jump = true })
-            else
-              vim.cmd.cnext()
-            end
-          end,
-          desc = "Next trouble/quickfix item",
-        },
-      },
+        })
+      end,
     },
 
     -- aerial - LSP symbol outline helper {{{3
