@@ -6114,37 +6114,55 @@ require("lazy").setup({
       end,
     },
 
-    -- rainbow_parentheses - multi-colored nested brackets {{{3
-    -- FIXME: Place after any vim-unimpaired preferences because I'm
-    -- overriding the default `r` for `relativenumber` using in
-    -- vim-unimpaired. Find a better solution to this predicament as this won't
-    -- work if I'm loading "lazily".
+    -- rainbow_parentheses - multi-colored nested "parenthesis" {{{3
     {
-      "junegunn/rainbow_parentheses.vim",
-      event = "VeryLazy",
+      "junegunnE/rainbow_parentheses.vim",
       init = function()
-        vim.cmd(
-          "let g:rainbow#pairs = [['(', ')'], ['[', ']'], [ '{', '}'], ['<', '>']]"
-        )
+        -- CONFIGURATION:
+        vim.g["rainbow#max_level"] = 40
+        vim.g["rainbow#pairs"] = {
+          { "(", ")" },
+          { "[", "]" },
+          { "{", "}" },
+          { "<", ">" },
+        }
+        -- ENABLE IN "PARENTHESIS" HEAVY LANGUAGES:
+        local rainbow_parentheses_augroup =
+          vim.api.nvim_create_augroup("rainbow_parentheses", {})
+        vim.api.nvim_create_autocmd({ "FileType" }, {
+          desc = "Enable rainbox parenthesis automatically for parenthesis heavy languages",
+          group = rainbow_parentheses_augroup,
+          pattern = {
+            -- "rust",
+            "json",
+            "lisp",
+          },
+          callback = function()
+            vim.cmd("RainbowParentheses")
+          end,
+        })
       end,
+      cmd = {
+        "RainbowParentheses", -- ENABLE
+        -- FIXME: Trailing `!` triggers `lazy.nvim` error: Invalid command name.
+        -- "RainbowParentheses!", -- DISABLE
+        -- "RainbowParentheses!!", -- TOGGLE
+      },
       keys = {
-        -- Toggle rainbow parenthesis
+        {
+          "[or",
+          "<cmd>RainbowParentheses<cr>",
+          desc = "Enable rainbow parenthesis",
+        },
+        {
+          "]or",
+          "<cmd>RainbowParentheses!<cr>",
+          desc = "Disable rainbow parenthesis",
+        },
         {
           "yor",
           "<cmd>RainbowParentheses!!<cr>",
           desc = "Toggle rainbow parenthesis",
-        },
-        -- Activate rainbow parenthesis
-        {
-          "[or",
-          "<cmd>RainbowParentheses<cr>",
-          desc = "Activate rainbow parenthesis",
-        },
-        -- Deactivate rainbow parenthesis
-        {
-          "]or",
-          "<cmd>RainbowParentheses!<cr>",
-          desc = "Deactivate rainbow parenthesis",
         },
       },
     },
