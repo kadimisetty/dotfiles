@@ -6204,6 +6204,21 @@ require("lazy").setup({
       event = "VeryLazy",
     },
 
+    -- markdown {{{3
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      ft = { "markdown" },
+      opts = {
+        -- TODO: Add checkbox customizations.
+        -- TODO: Add completions `completions = { blink = { enabled = true }
+        -- }`.
+      },
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "echasnovski/mini.icons",
+      },
+    },
+
     -- zig {{{3
     {
       "ziglang/zig.vim",
