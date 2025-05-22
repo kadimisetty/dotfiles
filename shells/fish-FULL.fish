@@ -2846,6 +2846,15 @@ AUTHOR DATE: $message_color_spec%ad (%ar)%Creset
 COMMIT DATE: $message_color_spec%cd (%cr)" $argv
 end
 
+# GIT LS-FILES {{{3
+alias glsfiles="git ls-files"
+alias glsfiles-TRACKED="git ls-files --cached"
+alias glsfiles-DELETED="git ls-files --deleted"
+alias glsfiles-MODIFIED="git ls-files --modified"
+alias glsfiles-UNTRACKED="git ls-files --others --exclude-standard"
+alias glsfiles-UNTRACKED_BUT_NOT_IGNORED="git ls-files --others --exclude-standard"
+alias glsfiles-IGNORED_AND_UNTRACKED="git ls-files --others --ignored --exclude-standard"
+
 # GIT BROWSE (USING `gh`) {{{2
 alias gbrowse="gh browse"
 alias gbrowse-REPO__HOME="gh browse"
