@@ -28,26 +28,22 @@ fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin decors/fish-colored-man
 fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
 # fundle plugin catppuccin/fish
-if test $(uname) != Darwin
-    # ignore these plugins in macos
+if test $(uname) != Darwin # ignore these plugins in macos
     fundle plugin oh-my-fish/plugin-pbcopy
 end
 
 # START FUNDLE (PLACE AFTER PLUGIN LIST):
 fundle init
 
-# CONFIGURE PLUGINS:
-# TODO
-
 # UTILTIES {{{1
 # REPAINT COMMANDLINE {{{2
 alias commandline-repaint="commandline --function repaint"
 
 # ENSURE DIRS COMMONLY EXPECTED TO HOLD EXECUTABLES EXIST IN PATH {{{2
-# NOTE: Create the dirs if not present
 function _ensure_dir_exists_and_is_in_PATH \
     --argument-names dir
     # TODO: Validate argument
+    # NOTE: Create the dirs if not present
     if not test -e $dir
         mkdir $dir
     end
@@ -682,7 +678,7 @@ bind alt-comma --mode insert _open_dotfiles_and_edit_fish_config
 # OPEN NEOVIM CONFIG IN EDITOR {{{2
 function _open_dotfiles_and_edit_neovim_config \
     --description "`cd` to `dotfiles` and open neovim config"
-    # NOTE: `Hardcoding dotfiles` dir and neovim configuration file for now.
+    # NOTE: Hardcoding `dotfiles` and neovim configuration file paths for now.
     cd /Users/sri/code/personal/dotfiles
     echo # Necessary because the prompts still shows the previous location.
     commandline-repaint
@@ -994,7 +990,6 @@ function shortcut_index
         echo
         _print_shortcut_index_for_prefix (_shortcut_prefix_from_string $current_word)
     end
-
 end
 bind alt-i 'shortcut_index; commandline-repaint'
 bind alt-i --mode default 'shortcut_index; commandline-repaint'
@@ -2020,9 +2015,6 @@ bind ctrl-d --mode insert echo _deactivate_virtual_environment_instead_of_exitin
 
 # DJANGO {{{1
 # MANAGE.PY ALIASES {{{2
-# TODO: Print all `manage.py` aliases with a cmd such as `m-aliases`
-# TODO: Use a generator function to generate these aliases in order to do the
-# `_exit_if_not_in_active_python_virtual_env` automatically.
 function m \
     --description "./manage.py"
     _exit_if_not_in_active_python_virtual_env
@@ -2080,7 +2072,7 @@ function m-test_server \
     and ./manage.py testserver $argv
 end
 # [django-extension](https://github.com/django-extensions/django-extensions):
-function m-show_urls \
+function m-urls \
     --description "./manage.py show_urls"
     _exit_if_not_in_active_python_virtual_env
     and ./manage.py show_urls $argv
