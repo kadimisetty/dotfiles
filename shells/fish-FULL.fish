@@ -26,9 +26,6 @@ set SHELL fish
 # LIST PLUGINS (KEEP SORTED AND USE SINGLE QUOTES):
 fundle plugin 'jorgebucaran/autopair.fish'
 fundle plugin decors/fish-colored-man
-fundle plugin edc/bass
-fundle plugin oh-my-fish/plugin-gi
-fundle plugin oh-my-fish/plugin-license
 fundle plugin tuvistavie/oh-my-fish-core # for oh-my-fish plugins
 # fundle plugin catppuccin/fish
 if test $(uname) != Darwin
