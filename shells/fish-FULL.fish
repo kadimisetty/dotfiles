@@ -2327,7 +2327,7 @@ end
 
 # GIT CUSTOM ALIASES {{{2
 # NOTE: Some of my WIP git shortcuts are in a private scratch space.
-source ~/code/personal/dotfiles-scratch/git-shortcuts.fish
+source ~/code/personal/dotfiles-scratch/fish_config_scratch.fish
 
 # GIT PULL {{{2
 # `tldr`: Download changes from default remote repository and merge it:
