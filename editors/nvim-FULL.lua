@@ -581,15 +581,6 @@ vim.opt.timeoutlen = 350
 -- Characters to treat as keywords
 vim.opt.iskeyword:append({ "_", "$", "@", "%", "#", "-" })
 
--- Print-friendly configuration
--- NOTE:: `printoptions` are now obsolete in neovim
--- vim.o.printoptions = "header:0,duplex:long,paper:A4"
-
--- Toggle paste mode
--- NOTE: nvim 0.9 deprecated `paste`/`pastetoggle` as bracketed paste mode is
--- the default.
--- vim.opt.pastetoggle = '<F12>' -- TODO: Find a better key than `F12`
-
 -- Provide auto-formatting support
 -- `n`: Numbered lists, official example:
 --      1. the first item
