@@ -6222,6 +6222,55 @@ require("lazy").setup({
         -- TODO: Add completions `completions = { blink = { enabled = true }
         -- }`.
       },
+      cmd = {
+        -- "RenderMarkdown", -- NOTE: SEE: `init`.
+        "RenderMarkdownEnable",
+        "RenderMarkdownEnableForCurrentBuffer",
+        "RenderMarkdownDisable",
+        "RenderMarkdownDisableForCurrentBuffer",
+        "RenderMarkdownToggle",
+        "RenderMarkdownToggleForCurrentBuffer",
+      },
+      init = function()
+        local render_markdown = require("render-markdown")
+        -- NOTE: Removing "bare" in-built command `RenderMarkdown` in order to
+        -- use the following more explicit commands to avoid confusion.
+        -- REMOVE BARE `RenderMarkdown`:
+        vim.api.nvim_del_user_command("RenderMarkdown")
+        -- ENABLE:
+        vim.api.nvim_create_user_command(
+          "RenderMarkdownEnableForCurrentBuffer",
+          function()
+            render_markdown.buf_enable()
+          end,
+          { desc = "Enable RenderMarkdown plugin for current buffer" }
+        )
+        vim.api.nvim_create_user_command("RenderMarkdownEnable", function()
+          render_markdown.enable()
+        end, { desc = "Enable RenderMarkdown plugin" })
+        -- DISABLE:
+        vim.api.nvim_create_user_command(
+          "RenderMarkdownDisableForCurrentBuffer",
+          function()
+            render_markdown.buf_disable()
+          end,
+          { desc = "Disable RenderMarkdown plugin for current buffer" }
+        )
+        vim.api.nvim_create_user_command("RenderMarkdownDisable", function()
+          render_markdown.disable()
+        end, { desc = "Disable RenderMarkdown plugin" })
+        -- TOGGLE:
+        vim.api.nvim_create_user_command(
+          "RenderMarkdownToggleForCurrentBuffer",
+          function()
+            render_markdown.buf_toggle()
+          end,
+          { desc = "Toggle RenderMarkdown plugin for current buffer" }
+        )
+        vim.api.nvim_create_user_command("RenderMarkdownToggle", function()
+          render_markdown.toggle()
+        end, { desc = "Toggle RenderMarkdown plugin" })
+      end,
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "echasnovski/mini.icons",
