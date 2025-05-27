@@ -132,7 +132,7 @@ end
 function does_git_branch_exist \
     --description "Check if given branch name exists"
     test (count $argv) -ne 1; and echo-USAGE_WITH_TOPMOST_FUNCTION BRANCH_NAME; and return 1
-    not is_pwd_in_git_repo; and echo-ERROR__RETURN_FAIL_STATUS "Not in git repo"
+    not is_pwd_in_git_repo; and echo-ERROR "Not in git repo"; and return 1
     git show-ref --quiet --branches $argv
 end
 
@@ -153,7 +153,8 @@ function _git_switch_to_first_branch_that_exists_in_given_list \
     end
     set --function formatted \
         (printf '`%s` ' $target_branch_names | string trim | string split " " | string join "/")
-    echo-ERROR__RETURN_FAIL_STATUS "No exsiting branch in: $formatted"
+    echo-ERROR "No exsiting branch in: $formatted"
+    return 1
 end
 
 # REPO NAME FROM GIT REPO URL {{{3
@@ -204,10 +205,8 @@ end
 # echo-INFO          | Print message for informational purposes("INFO").      |
 # echo-DEBUG         | Print message for debugging purposes("DEBUG").         |
 # echo-WARN          | Print message as warning("WARN") to `stdout`.          |
-# echo-ERROR         | Print message as error("ERROR") to `stderr`.           |
-# echo-ERROR__RETURN_FAIL_STATUS | Print message as error("ERROR") to `stderr`|
-#                    | just liek `echo-ERROR` but also return with status     |
-#                    | code 1("failure").                                     |
+# echo-ERROR         | Print message as error("ERROR") with status code       |
+#                    | to `stderr`.                                           |
 #                    |                                                        |
 # MISC: -------------+--------------------------------------------------------+
 # echo-USAGE         | Print message as a function's usage info("USAGE").     |
@@ -290,9 +289,11 @@ function echo-WARN \
 end
 
 # ECHO ERROR
-# Print message as error("ERROR")  to `stderr`.
+# Print message as error("ERROR") with status code to `stderr`.
 # NOTE: Writes to stderr
-# NOTE: Intentionally not returning error status (`return 1`).
+# NOTE: Intentionally not returning error status (i.e. `return 1`).
+# TODO: CONSIDER: A similar variant that will also return failure or accept
+# a "return status code" as argument.
 # TODO: Update `echo_builder` to handle printing to `stderr` on demand and
 # replace this printing section with it.
 # USAGE 1: `echo-ERROR "incorrect configuration file: conf.json"
@@ -403,8 +404,8 @@ function echo-task_WRAP \
         set --function message "`$task_function`"
     end
     if not functions --query $task_function
-        echo-ERROR__RETURN_FAIL_STATUS \
-            "Function with given name does not exist: $task_function"
+        echo-ERROR "Function with given name does not exist: $task_function"
+        return 1
     else
         echo-task_INIT $message
         eval "$task_function"
@@ -456,8 +457,8 @@ function echo-section_WRAP \
         set --function message "`$section_function`"
     end
     if not functions --query $section_function
-        echo-ERROR__RETURN_FAIL_STATUS \
-            "Function with given name does not exist: `$section_function`"
+        echo-ERROR "Function with given name does not exist: `$section_function`"
+        return 1
     else
         echo-section_INIT $message
         eval "$section_function"
@@ -616,8 +617,10 @@ function target-triple \
     target-triple__RUSTC # NOTE: Listing first because it'sthe cleanest version.
     or target-triple__GCC
     or target-triple__LLVM
-    or echo-ERROR__RETURN_FAIL_STATUS \
-        "One of the following binaries required: `rust`/`gcc`/`clang`"
+    or begin
+        echo-ERROR "One of the following binaries required: `rust`/`gcc`/`clang`"
+        return 1
+    end
 end
 
 function target-triple__VERBOSE \
@@ -625,12 +628,13 @@ function target-triple__VERBOSE \
     set --function target_triple_output (target-triple 2>&1)
     set --function target_triple_status $status
     if test $target_triple_status -ne 0
-        echo-ERROR__RETURN_FAIL_STATUS $target_triple_output
+        echo-ERROR $target_triple_output
+        return 1
     end
     set --function parts (string split --right -- '-' $target_triple_output)
     if test (count $parts) -lt 3
-        echo-ERROR__RETURN_FAIL_STATUS \
-            "Unexpected target triple format: `$target_triple_output`"
+        echo-ERROR "Unexpected target triple format: `$target_triple_output`"
+        return 1
     end
     printf "%14s %s\n%14s %s\n%14s %s\n" \
         ARCHITECTURE: $parts[1] \
@@ -724,10 +728,10 @@ function _add_shortcuts_to_dirs_within_parent_dir \
     --argument-names parent_dir parent_dir_prefix # TODO: Use `argparse`
     # CHECKS AND VALIDATIONS:
     if test -z "$parent_dir"
-        echo-ERROR__RETURN_FAIL_STATUS "Provide parent directory"
+        echo-ERROR "Provide parent directory"; and return 1
     end
     if path is --invert $parent_dir
-        echo-ERROR__RETURN_FAIL_STATUS "Invalid parent directory"
+        echo-ERROR "Invalid parent directory"; and return 1
     end
     if test -z "$parent_dir_prefix"
         set --function parent_dir_prefix \
@@ -970,7 +974,8 @@ function _print_shortcut_index_for_prefix \
     test -z "$prefix"; and echo-USAGE "_print_shortcut_index_for_prefix prefix"; and return 1
     set --function shortcut_list (_shortcut_list_for_prefix $prefix 2>/dev/null)
     if test $status -ne 0 # Quit early if no shortcut list found for prefix.
-        echo-ERROR__RETURN_FAIL_STATUS "No shortcuts found for prefix: $prefix"
+        echo-ERROR "No shortcuts found for prefix: $prefix"
+        return 1
     else # Construct shortcut list using a separator(`|`) and display in columns.
         # NOTE: Using unit separator `\x1f`
         begin
@@ -1017,7 +1022,8 @@ function _parent_directories \
     set --function containing_dirs
     set dir (path normalize $dir)
     if not test -d "$dir"
-        echo-ERROR__RETURN_FAIL_STATUS "Invalid directory: $dir"
+        echo-ERROR "Invalid directory: $dir"
+        return 1
     end
     while test "$dir" != "$HOME" -a -n "$dir" -a "$dir" != /
         set --append containing_dirs (path dirname $dir)
@@ -1033,7 +1039,8 @@ function cd-up \
     if contains (path normalize $dir) (_parent_directories (pwd))
         cd $dir
     else
-        echo-ERROR__RETURN_FAIL_STATUS "Invalid containing directory: $dir"
+        echo-ERROR "Invalid containing directory: $dir"
+        return 1
     end
 end
 complete --command cd-up \
@@ -1799,10 +1806,12 @@ alias n-TABS='nvim -p'
 function n-man --description "Open man page for given command name in neovim"
     if test 1 -ne (count $argv)
         # ENSURE SINGLE ARGUMENT:
-        echo-ERROR__RETURN_FAIL_STATUS "Takes one argument"
+        echo-ERROR "takes one argument"
+        return 1
     else if not man $argv &>/dev/null
         # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
-        echo-ERROR__RETURN_FAIL_STATUS "No man page for: $argv"
+        echo-ERROR "no man page for: $argv"
+        return 1
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
         nvim \
@@ -1938,7 +1947,8 @@ function v-create \
     --description "Create python virtual environment in `./venv/`"
     # TODO: Check for proper python version
     if test -e "./venv"
-        echo-ERROR__RETURN_FAIL_STATUS "`./venv/` exists"
+        echo-ERROR "`./venv/` exists"
+        return 1
     else
         python3 -m venv ./venv
     end
@@ -1951,9 +1961,9 @@ function v-activate \
     if test -e "./venv/bin/activate.fish"
         source ./venv/bin/activate.fish
     else
-        echo-ERROR__RETURN_FAIL_STATUS \
-            "Unable to activate activate python virtual environment:" \
+        echo-ERROR "Unable to activate activate python virtual environment:" \
             "File not found: `./venv/bin/activate.fish`"
+        return 1
     end
 end
 
@@ -1963,7 +1973,8 @@ function v-deactivate \
     # NOTE: Consider replacing the "deactivate" command (should be set somwhere
     # in `v-activate` function perhaps).
     if test -z "$VIRTUAL_ENV"
-        echo-ERROR__RETURN_FAIL_STATUS "Not in active python environment"
+        echo-ERROR "Not in active python environment"
+        return 1
     else
         set --function virtual_env_name $VIRTUAL_ENV
         deactivate
@@ -1988,7 +1999,8 @@ end
 function _exit_if_not_in_active_python_virtual_env \
     --description "Exit with failure if python virtual environment not active"
     if not is_inside_virtual_environment
-        echo-ERROR__RETURN_FAIL_STATUS "Not in active python environment"
+        echo-ERROR "Not in active python environment"
+        return 1
     end
 end
 
@@ -2157,7 +2169,8 @@ function b-init_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echo-ERROR__RETURN_FAIL_STATUS "Path with given name already exists"
+        echo-ERROR "path with given name already exists"
+        return 1
     else
         mkdir $project_name
         and cd $project_name
@@ -2182,7 +2195,8 @@ function s-new_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echo-ERROR__RETURN_FAIL_STATUS "Path with given name already exists"
+        echo-ERROR "path with given name already exists"
+        return 1
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
         stack new $project_name kadimisetty/basic
@@ -2231,10 +2245,12 @@ function go-new_cd \
     --argument-names module_path
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
-        echo-ERROR__RETURN_FAIL_STATUS "No module path given"
+        echo-ERROR "no module path given"
+        return 1
         # Exit if path with given name exists in current dir
     else if test -e "$module_path"
-        echo-ERROR__RETURN_FAIL_STATUS "Path with given name exists"
+        echo-ERROR "path with given name exists"
+        return 1
     else
         # Create a new directory with the name, move into it and run `go mod
         # init` there
@@ -2300,7 +2316,8 @@ function gcd \
         cd "$result"
     else
         # FAILURE: `result` is `git rev-parse --show-toplevel`'s stderr message.
-        echo-ERROR__RETURN_FAIL_STATUS $result
+        echo-ERROR $result
+        and return
     end
 end
 
@@ -2526,7 +2543,8 @@ function _create_git_bisect_start_shortcuts_for_custom_terms
     for terms in $argv
         set --local terms (string split "," $terms)
         if test -z "$terms[1]" -o -z "$terms[2]"
-            echo-ERROR__RETURN_FAIL_STATUS "Invalid terms: $terms"
+            echo-ERROR "Invalid terms: $terms"
+            return 1
         end
         set --local upper_terms (string upper $terms)
         # NOTE: Using `function` and not `alias` for a proper `--description`.
@@ -2565,7 +2583,8 @@ function gclone-cd \
     --description "`git clone`s given repo url and `cd` inside" \
     --argument-names repo_url target_directory_name
     if test -z "$repo_url"
-        echo-ERROR__RETURN_FAIL_STATUS "Git repo url not given"
+        echo-ERROR "Git repo url not given"
+        return 1
     else
         if not test -z "$target_directory_name"
             git clone $repo_url $target_directory_name
@@ -2584,7 +2603,8 @@ function gclone-cd_USERNAME \
     --description "`git clone`s given repo url with username and `cd` inside" \
     --argument-names repo_url target_directory_name
     if test -z "$repo_url"
-        echo-ERROR__RETURN_FAIL_STATUS "Git repo url not given"
+        echo-ERROR "Git repo url not given"
+        return 1
     else
         if not test -z "$target_directory_name"
             git clone $repo_url $target_directory_name
@@ -2629,7 +2649,9 @@ function _glog-FIRST_n \
     --argument-names n \
     --wraps "git show"
     if not is_positive_number "$n"
-        echo-ERROR__RETURN_FAIL_STATUS "Requires positive number of commits"
+        echo-ERROR "Requires positive number of commits"
+        echo-USAGE "$(status current-function) (REQ:commit count > 0) (OPT:git log opts)"
+        return
     end
     git log --no-walk (git rev-list HEAD | tail -n $n) \
         --oneline --decorate $argv[2..]
@@ -2722,8 +2744,8 @@ function gstash-push_UNSTAGED_with_message \
     --description 'Run `git stash push` for unstaged changes' \
     --wraps 'git stash push --message'
     if test (count $argv) -eq 0
-        echo-ERROR__RETURN_FAIL_STATUS \
-            "Argument(s) required for `git stash push --message`"
+        echo-ERROR "Argument(s) required for `git stash push --message`"
+        return 1
     end
     if not has_git_staged_changes
         # NOTE: CURRENT STAGED CHANGES? NO: Do `gstash-push_with_message`.
@@ -2870,7 +2892,8 @@ function gtags-show_TAG \
     --argument-names tags
     if not test -n "$tag"
         # TODO:  Check if given argument is an existing git tag
-        echo-ERROR__RETURN_FAIL_STATUS "Provide 1 git tag"
+        echo-ERROR "Provide 1 git tag"
+        return 1
     else
         git show $tags
     end
@@ -2948,7 +2971,8 @@ function gbranch-description_SHOW \
     --wraps "git branch" # NOTE: Completion purposes only.
     begin
         if not is_pwd_in_git_repo
-            echo-ERROR__RETURN_FAIL_STATUS "Not in git repo"
+            echo-ERROR "Not in git repo"
+            return 1
         else
             if test -z "$branch_name"
                 # NOTE: Use current branch name if branch_name not supplied.
@@ -2957,8 +2981,8 @@ function gbranch-description_SHOW \
             # NOTE: Print description if reading description is successful
             git config branch.$branch_name.description
             if test $status -ne 0
-                echo-ERROR__RETURN_FAIL_STATUS \
-                    "No description available for branch: $branch_name"
+                echo-ERROR "No description available for branch: $branch_name"
+                return 1
             end
         end
     end
@@ -3100,12 +3124,14 @@ function gworktree-switch_to_WORKTREE \
     --wraps "git worktree unlock" # NOTE: Completion purposes only.
     # TODO: Assert an argument is given
     if test (count $argv) -eq 0
-        echo-ERROR__RETURN_FAIL_STATUS "Argument required"
+        echo-ERROR "Argument required"
+        return 1
     end
     if contains (path normalize (pwd)) (path normalize (_gworktree-paths))
         cd $worktree
     else
-        echo-ERROR__RETURN_FAIL_STATUS "Invalid git workree"
+        echo-ERROR "Invalid git workree"
+        return 1
     end
 end
 
@@ -3239,8 +3265,8 @@ function bat-supports_language \
     for lang in $languages
         bat --list-languages | rg --ignore-case "\b$lang\b" &>/dev/null
         if test $status -ne 0
-            echo-ERROR__RETURN_FAIL_STATUS \
-                "`$lang` not listed in `bat --list-languages`."
+            echo-ERROR "`$lang` not listed in `bat --list-languages`."
+            and return
         end
     end
     echo-INFO "Yes, all given languages listed in `bat --list-languages`."
