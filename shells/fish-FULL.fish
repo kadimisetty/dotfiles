@@ -1799,11 +1799,11 @@ alias n-TABS='nvim -p'
 function n-man --description "Open man page for given command name in neovim"
     if test 1 -ne (count $argv)
         # ENSURE SINGLE ARGUMENT:
-        echo-ERROR "takes one argument"
+        echo-ERROR "Takes one argument"
         return 1
     else if not man $argv &>/dev/null
         # ENSURE MAN PAGE EXISTS FOR GIVEN COMMAND
-        echo-ERROR "no man page for: $argv"
+        echo-ERROR "No man page for: $argv"
         return 1
     else
         # LOAD NVIM WITH MAN PAGE OF GIVEN COMMAND
@@ -2162,7 +2162,7 @@ function b-init_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echo-ERROR "path with given name already exists"
+        echo-ERROR "Path with given name already exists"
         return 1
     else
         mkdir $project_name
@@ -2188,7 +2188,7 @@ function s-new_cd \
     # NOTE: Uses stack template `kadimisetty/basic`
     # Assert path with given `$project_name` doesn't exists in `cwd`
     if test -e $project_name
-        echo-ERROR "path with given name already exists"
+        echo-ERROR "Path with given name already exists"
         return 1
     else
         # Run `stack new` using the `kadimisetty/basic` stack template
@@ -2238,11 +2238,11 @@ function go-new_cd \
     --argument-names module_path
     # Exit if no `module_path` argument passed in
     if test -z "$module_path"
-        echo-ERROR "no module path given"
+        echo-ERROR "No module path given"
         return 1
         # Exit if path with given name exists in current dir
     else if test -e "$module_path"
-        echo-ERROR "path with given name exists"
+        echo-ERROR "Path with given name exists"
         return 1
     else
         # Create a new directory with the name, move into it and run `go mod
