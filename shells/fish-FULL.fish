@@ -301,7 +301,7 @@ end
 # USAGE 2: `echo "incorrect configuration file: conf.json" | echo-ERROR`
 # OUTPUT(stderr): `ERROR: incorrect configuration file: conf.json`
 function echo-ERROR \
-    --description "Print message as error to `stderr`"
+    --description "Print message as error with status code to `stderr`"
     set --function message $argv
     # Append piped inputs if getting value from pipe
     if not isatty stdin
@@ -325,13 +325,6 @@ function echo-ERROR \
         (set_color $fish_color_error --italic) \
         " $message"
     set_color normal
-end
-
-# ECHO ERROR (AND RETURN FAIL STATUS CODE)
-function echo-ERROR__RETURN_FAIL_STATUS \
-    --description "Print message as error to `stderr` and return failure status code 1"
-    echo-ERROR $argv
-    return 1
 end
 
 # ECHO MISC {{{3
