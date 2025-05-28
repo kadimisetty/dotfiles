@@ -2469,12 +2469,6 @@ do
   end
 end
 
--- YANK TO END OF LINE `Y` LIKE `C` OR `D` {{{2
-vim.keymap.set("n", "Y", "y$", {
-  silent = true,
-  desc = "Yank to end of line",
-})
-
 -- RESTORE CURSOR POSITION AFTER YANK WITH `y` {{{2
 -- SEE: https://nanotipsforvim.prose.sh/sticky-yank
 -- TODO: See if this can be put inside a single block like with `J`
