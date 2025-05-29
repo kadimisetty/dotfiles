@@ -6101,7 +6101,31 @@ require("lazy").setup({
 
     -- rainbow_parentheses - multi-colored nested "parenthesis" {{{3
     {
-      "junegunnE/rainbow_parentheses.vim",
+      "junegunn/rainbow_parentheses.vim",
+      -- lazy = false,
+      keys = {
+        {
+          "[or",
+          "<cmd>RainbowParentheses<cr>",
+          desc = "Enable rainbow parenthesis",
+        },
+        {
+          "]or",
+          "<cmd>RainbowParentheses!<cr>",
+          desc = "Disable rainbow parenthesis",
+        },
+        {
+          "yor",
+          "<cmd>RainbowParentheses!!<cr>",
+          desc = "Toggle rainbow parenthesis",
+        },
+      },
+      cmd = {
+        "RainbowParentheses", -- ENABLE
+        -- FIXME: Trailing `!` triggers `lazy.nvim` error: Invalid command name.
+        -- "RainbowParentheses!", -- DISABLE
+        -- "RainbowParentheses!!", -- TOGGLE
+      },
       init = function()
         -- CONFIGURATION:
         vim.g["rainbow#max_level"] = 40
@@ -6127,29 +6151,6 @@ require("lazy").setup({
           end,
         })
       end,
-      cmd = {
-        "RainbowParentheses", -- ENABLE
-        -- FIXME: Trailing `!` triggers `lazy.nvim` error: Invalid command name.
-        -- "RainbowParentheses!", -- DISABLE
-        -- "RainbowParentheses!!", -- TOGGLE
-      },
-      keys = {
-        {
-          "[or",
-          "<cmd>RainbowParentheses<cr>",
-          desc = "Enable rainbow parenthesis",
-        },
-        {
-          "]or",
-          "<cmd>RainbowParentheses!<cr>",
-          desc = "Disable rainbow parenthesis",
-        },
-        {
-          "yor",
-          "<cmd>RainbowParentheses!!<cr>",
-          desc = "Toggle rainbow parenthesis",
-        },
-      },
     },
 
     -- smear - animate cursor movement with a smear effect {{{3
