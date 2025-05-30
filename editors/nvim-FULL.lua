@@ -7301,7 +7301,7 @@ require("lazy").setup({
       opts = { keymap = "<c-p>" },
     },
 
-    -- LOCAL: plural-thing - toggle leading/trailing patterns on line {{{3
+    -- LOCAL: toggle-thing - toggle leading/trailing patterns on line {{{3
     {
       -- "kadimisetty/nvim-toggle-thing",
       dir = "~/code/personal/nvim-toggle-thing/",
