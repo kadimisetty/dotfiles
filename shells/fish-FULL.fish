@@ -2835,7 +2835,22 @@ AUTHOR DATE: $message_color_spec%ad (%ar)%Creset
 COMMIT DATE: $message_color_spec%cd (%cr)" $argv
 end
 
-# GIT LS-FILES {{{3
+# GIT BLAME {{{2
+# NOTE: `-w`: Ignore whitespace when comparing the parent’s version and the
+# child’s to find where the lines came from.
+# TODO: Repeat alias names to reduce repetitiion i.e. `git blame -w` etc.
+# TODO: Assert file path user argument provided; maybe use functions?
+alias gblame='git blame -w'
+alias gblame-TODAY="git blame -w --since=midnight"
+alias gblame-YESTERDAY="git blame -w --since=yesterday.midnight --before=midnight"
+alias gblame-THIS_DAY="git blame -w --since=midnight"
+alias gblame-THIS_WEEK="git blame -w --since=last.sunday.midnight"
+alias gblame-THIS_MONTH='git blame -w --since="$(date -v1d +%Y-%m-%d)T00:00:00"'
+alias gblame-LAST_DAY='git blame -w --since=1.day'
+alias gblame-LAST_WEEK='git blame -w --since=1.week'
+alias gblame-LAST_MONTH='git blame -w --since=1.month'
+
+# GIT LS-FILES {{{2
 alias glsfiles="git ls-files"
 alias glsfiles-TRACKED="git ls-files --cached"
 alias glsfiles-DELETED="git ls-files --deleted"
