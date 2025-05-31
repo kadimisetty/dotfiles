@@ -3150,6 +3150,39 @@ alias gworktree-prune="git worktree prune --verbose"
 # REPAIR {{{3
 alias gworktree-repair="git worktree repair"
 
+# GH {{{2
+# GH HOMEPAGE {{{3
+alias gh-homepage="gh repo view"
+alias gh-homepage__WEB="gh browse"
+function gh-homepage__PROFILE__WEB \
+    --wraps "gh browse" \
+    --description "Open github user profile in browser for repo in current dir"
+    argparse n/no-browser -- $argv; or return 1
+    if not is_binary_on_path gh; or not is_binary_on_path open
+        echo-ERROR__RETURN_FAIL_STATUS "Need clis: `gh`/`open`"
+    end
+    set --function repo_url (gh browse --no-browser 2>/dev/null)
+    test $status -ne 0
+    and echo-ERROR__RETURN_FAIL_STATUS "Not able to deduce github repository"
+    set --function github_username \
+        (string replace -r "https://github\.com/([^/]+)/.*" '$1' $repo_url)
+    test -z "$github_username"
+    and echo-ERROR__RETURN_FAIL_STATUS \
+        "Could not extract github username from URL: $repo_url"
+    set github_username_profile_url "https://github.com/$github_username"
+    if set --query _flag_no_browser
+        echo "$github_username_profile_url"
+    else
+        echo-INFO "Opening github profile: $github_username_profile_url"
+        open $github_username_profile_url
+    end
+end
+# TODO: `gh-current_branch_commits__WEB`
+
+# GH ISSUES {{{3
+alias gh-issue_list="gh issue list"
+alias gh-issue_list__WEB="gh issue list --web"
+
 # RG {{{1
 alias rg-INVERT="rg --invert-match"
 alias rg-PCRE2="rg --pcre2"
