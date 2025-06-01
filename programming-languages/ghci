@@ -36,9 +36,9 @@ let ghciEscapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\"'\"'"
 -- Uncolored custom prompt
 -- :set prompt "λ "
 -- Colored prompt, Symbol: λ
--- :set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
+:set prompt "\ESC[38;5;208m\STXλ\ESC[m\STX "
 -- Colored prompt, Symbol: 
-:set prompt "\ESC[38;5;208m\STX\ESC[m\STX "
+-- :set prompt "\ESC[38;5;208m\STX\ESC[m\STX "
 -- Colored continuation line prompt, Symbol: |
 :set prompt-cont "\ESC[38;5;208m\STX|\ESC[m\STX "
 
