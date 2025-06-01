@@ -1041,6 +1041,22 @@ complete --command cd-up \
     --keep-order \
     --arguments "(_parent_directories (pwd))"
 
+# SEND OS NOTIFICATIONS {{{2
+function notify \
+    --description "Send given message as OS notification"
+    set --function notification_title FISH
+    if test (count $argv) -eq 0
+        set --function notification_message ""
+    else
+        set --function notification_message $argv
+    end
+    if test $(uname) == Darwin # MACOS
+        osascript -e "display notification \"$notification_message\" with title \"FISH\""
+    else
+        echo-ERROR__RETURN_FAIL_STATUS "Not implemeneted for current OS"
+    end
+end
+
 # PRIVATE FISH SESSION, WHERE HISTORY IS NOT RECORDED {{{2
 # NOTE: `--private` doesn't record history.
 alias fish-PRIVATE="fish --private"
