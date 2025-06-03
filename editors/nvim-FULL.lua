@@ -792,10 +792,12 @@ vim.api.nvim_create_autocmd({ "BufNewFile" }, {
         "module Main (main) where",
         "",
         "",
+        [[main :: IO ()]],
+        [[main = putStrLn "MAIN: Hello!"]],
       }
     else
       content = {
-        "module " .. module_name .. " exposing (..)",
+        "module " .. module_name .. " where",
         "",
         "",
       }
