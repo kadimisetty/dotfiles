@@ -2186,6 +2186,8 @@ function b-init_cd \
         and cabal init --non-interactive
     end
 end
+alias b-repl="cabal repl"
+alias b-repl__VERBOSE="cabal repl --verbose=3"
 
 # STACK {{{2
 # NOTE: stack now uses `~/local/bin`, so not adding `~/.stack/bin` to $PATH
