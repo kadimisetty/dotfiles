@@ -4814,10 +4814,24 @@ require("lazy").setup({
       event = "VeryLazy",
     },
 
+    -- mini.statusline - statusline helper {{{3
+    {
+      "echasnovski/mini.statusline",
+      version = false,
+      opts = {},
+      init = function()
+        -- NOTE: While `mini.statusline` has a nice alternative view for
+        -- compressed window statuslines, I still like having a single
+        -- statusline.
+        vim.go.laststatus = 3
+      end,
+    },
+
     -- lualine - statusline helper {{{3
     {
       "nvim-lualine/lualine.nvim",
       -- TODO: Consider moving to `echasnovski/mini.statusline`
+      enabled = false,
       event = "VeryLazy",
       opts = function()
         return {
