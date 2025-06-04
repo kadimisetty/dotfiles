@@ -4674,6 +4674,7 @@ require("lazy").setup({
         allow_caps_additions = {
           { "true", "false" },
           { "enable", "disable" },
+          { "before", "after" },
           { "enabled", "disabled" },
           { "enables", "disables" },
           { "right", "left" },
