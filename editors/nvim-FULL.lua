@@ -4818,16 +4818,144 @@ require("lazy").setup({
     {
       "echasnovski/mini.statusline",
       version = false,
-      opts = {},
+      opts = {
+        content = {
+          active = function()
+            local mini_statusline = require("mini.statusline")
+            -- PLUGIN FEATURES:
+            local mode, mode_hl =
+              mini_statusline.section_mode({ trunc_width = 120 })
+            -- local git = mini_statusline.section_git({ trunc_width = 40, })
+            local diff = mini_statusline.section_diff({
+              trunc_width = 75,
+              icon = "",
+            })
+            local diagnostics = mini_statusline.section_diagnostics({
+              trunc_width = 75,
+              icon = "",
+            })
+            -- TODO: Use something other than `++` to indicate LSPs.
+            local lsp = mini_statusline.section_lsp({
+              trunc_width = 75,
+              icon = "",
+            })
+            local filename =
+              mini_statusline.section_filename({ trunc_width = 140 })
+            local general_truncate_point_marker = "%<"
+            local end_left_alignment_marker = "%="
+            -- CUSTOM FEATURES:
+            local calculate_progress = function()
+              local cur = vim.fn.line(".")
+              local total = vim.fn.line("$")
+              if cur == 1 then
+                return "TOP"
+              elseif cur == total then
+                return "BOT"
+              else
+                return string.format("%2d%%%%", math.floor(cur / total * 100))
+              end
+            end
+            local calculate_location = function()
+              local col = vim.fn.charcol(".")
+              local line = vim.fn.line(".")
+              return string.format("%3d:%-2d", col, line)
+            end
+            local calculate_git_branch = function()
+              local git_icon = "" -- FIXME: Get from `mini.icon`.
+              local summary =
+                -- FROM `mini.git`:
+                vim.b.minigit_summary_string
+                -- FROM `gitsigns`:
+                or vim.b.gitsigns_head
+              if summary == nil then
+                return "" -- CWD NOT A GIT REPO
+              elseif summary == "main" or summary == "master" then
+                return git_icon -- CWD IS GIT PRIMARY BRANCH i.e.`main`/`master`
+              else
+                return git_icon .. " " .. summary
+              end
+            end
+            local calculate_filetype_icon = function()
+              local filetype_icon
+              if filetype == nil or filetype == "" then
+                filetype_icon = ""
+              else
+                local mini_icons = require("mini.icons")
+                filetype_icon, _, _ = mini_icons.get("filetype", filetype)
+              end
+              return filetype_icon
+            end
+            local filetype = vim.bo.filetype or ""
+            -- local filetype_icon = calculate_filetype_icon()
+            local git_branch = calculate_git_branch()
+            local progress = calculate_progress()
+            local location = calculate_location()
+            -- LAYOUT:
+            -- TODO: Ensure each section has a highlight group, because if
+            -- there isn't an assigned one, the section inherits the previous
+            -- section's highlight group which might result in surprises.
+            return mini_statusline.combine_groups({
+              {
+                hl = mode_hl,
+                strings = { mode },
+              },
+              {
+                hl = "MiniStatuslineDevinfo",
+                strings = {
+                  git_branch,
+                  diff, -- TODO: Make diff coutns more pronounced
+                },
+              },
+              general_truncate_point_marker,
+              {
+                hl = "MiniStatuslineFilename",
+                strings = {
+                  -- filetype_icon,
+                  filename,
+                },
+              },
+              end_left_alignment_marker,
+              {
+                -- hl = "MiniStatuslineDevinfo",
+                strings = {
+                  diagnostics,
+                  lsp,
+                },
+              },
+              {
+                -- hl = "MiniStatuslineFileinfo",
+                strings = {
+                  -- fileinfo,
+                  -- filetype_icon,
+                  filetype,
+                },
+              },
+              {
+                -- hl = MiniStatuslineInactive,
+                strings = {
+                  progress,
+                  location,
+                },
+              },
+            })
+          end,
+        },
+      },
       init = function()
-        -- NOTE: While `mini.statusline` has a nice alternative view for
+        -- NOTE: While `mini.statusline` has a nice truncated view feature for
         -- compressed window statuslines, I still like having a single
         -- statusline.
         vim.go.laststatus = 3
       end,
+      dependencies = {
+        "echasnovski/mini.icons",
+        "echasnovski/mini-git",
+        "echasnovski/mini.diff",
+      },
     },
 
     -- lualine - statusline helper {{{3
+    -- FIXME: Transfer everything to `mini.statusline` and remove `lualine`.
     {
       "nvim-lualine/lualine.nvim",
       -- TODO: Consider moving to `echasnovski/mini.statusline`
