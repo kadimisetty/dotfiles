@@ -6573,9 +6573,56 @@ require("lazy").setup({
       opts = {},
     },
 
+    -- mini notify - notification helper {{{3
+    {
+      "echasnovski/mini.notify",
+      version = false,
+      opts = function()
+        local ui = vim.api.nvim_list_uis()[1]
+        local lsp_icon = "󰆧" -- TODO: Replace with `mini.icons`.
+        return {
+          lsp_progress = {
+            enable = true,
+            -- level = "INFO",
+            duration_last = 1000, -- ms
+          },
+          content = {
+            -- format = nil,
+            format = function(notif)
+              if notif.data.source == "lsp_progress" then
+                return lsp_icon .. " " .. notif.msg
+              end
+              return MiniNotify.default_format(notif)
+            end,
+            sort = nil,
+          },
+          window = {
+            config = {
+              style = "minimal",
+              border = "rounded",
+              title = "",
+              -- title_pos = "right",
+              -- SHOW NOTIFICAITONS IN BOTTOM RIGHT OF EDITOR:
+              -- relative = "editor",
+              -- anchor = "SE",
+              -- row = ui.height - 3, -- NOTE: Account for statuscolumn height
+              -- col = ui.width - 1,
+            },
+            winblend = 60,
+          },
+        }
+      end,
+      init = function()
+        -- Wrap default `vim.notify` with this plugin.
+        local mini_notify = require("mini.notify")
+        vim.notify = mini_notify.make_notify()
+      end,
+    },
+
     -- fidget - LSP loading indicator {{{3
     {
       "j-hui/fidget.nvim",
+      enabled = false,
       opts = {
         progress = {
           display = {
