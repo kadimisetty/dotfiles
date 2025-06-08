@@ -6578,21 +6578,25 @@ require("lazy").setup({
       "echasnovski/mini.notify",
       version = false,
       opts = function()
+        local mini_notify = require("mini.notify")
         local ui = vim.api.nvim_list_uis()[1]
         local lsp_icon = "󰆧" -- TODO: Replace with `mini.icons`.
         return {
           lsp_progress = {
             enable = true,
-            -- level = "INFO",
             duration_last = 1000, -- ms
+            level = "INFO", -- DEFAULT: "INFO"
           },
+          -- format = nil, -- NOTE: `mini_notify.default_format()`
           content = {
-            -- format = nil,
-            format = function(notif)
-              if notif.data.source == "lsp_progress" then
-                return lsp_icon .. " " .. notif.msg
+            format = function(notification)
+              -- return mini_notify.default_format(notification)
+              if notification.data.source == "lsp_progress" then
+                return lsp_icon .. " " .. notification.msg
+              else
+                -- TODO: Setup `mini.icons` and configure icons for each log level.
+                return notification.level .. ": " .. notification.msg
               end
-              return MiniNotify.default_format(notif)
             end,
             sort = nil,
           },
@@ -6600,22 +6604,27 @@ require("lazy").setup({
             config = {
               style = "minimal",
               border = "rounded",
-              title = "",
               -- title_pos = "right",
+              title = "",
               -- SHOW NOTIFICAITONS IN BOTTOM RIGHT OF EDITOR:
-              -- relative = "editor",
-              -- anchor = "SE",
-              -- row = ui.height - 3, -- NOTE: Account for statuscolumn height
-              -- col = ui.width - 1,
+              relative = "editor",
+              anchor = "SE",
+              row = ui.height - 3, -- NOTE: Account for statuscolumn height
+              col = ui.width - 1,
             },
             winblend = 60,
           },
         }
       end,
       init = function()
+        -- TODO: Show previous messages (SEE: `mini_notify.get_all()`).
         -- Wrap default `vim.notify` with this plugin.
         local mini_notify = require("mini.notify")
         vim.notify = mini_notify.make_notify()
+        -- Add user command to clear active notifications.
+        vim.api.nvim_create_user_command("MiniMotifyClear", function()
+          mini_notify.clear()
+        end, { desc = "Remove all active notifications" })
       end,
     },
 
