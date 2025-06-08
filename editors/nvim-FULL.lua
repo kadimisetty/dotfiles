@@ -5449,6 +5449,15 @@ require("lazy").setup({
       end,
     },
 
+    -- mini.git - git helper {{{3
+    {
+      "echasnovski/mini-git",
+      version = false,
+      lazy = false,
+      main = "mini.git",
+      opts = {},
+    },
+
     -- gitsigns - git helper {{{3
     {
       "lewis6991/gitsigns.nvim",
