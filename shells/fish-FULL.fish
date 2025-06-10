@@ -2412,11 +2412,11 @@ end
 #       +--------------------+-----------+------------------------+
 # TODO: | AUTHOR             | YESTERDAY | SAME TIME AS NOW       |
 # TODO: | COMMIT             | YESTERDAY | SAME TIME AS NOW       |
-# TODO: | AUTHOR AND COMMIT  | YESTERDAY | SAME TIME AS NOW       |
+#       | AUTHOR AND COMMIT  | YESTERDAY | SAME TIME AS NOW       |
 #       +--------------------+-----------+------------------------+
 # TODO: | AUTHOR             | YESTERDAY | RANDOM TIME            |
 # TODO: | COMMIT             | YESTERDAY | RANDOM TIME            |
-# TODO: | AUTHOR AND COMMIT  | YESTERDAY | RANDOM TIME            |
+#       | AUTHOR AND COMMIT  | YESTERDAY | RANDOM TIME            |
 #       +--------------------+-----------+------------------------+
 # TODO: | AUTHOR             | YESTERDAY | RANDOM DAY TIME        |
 # TODO: | COMMIT             | YESTERDAY | RANDOM DAY TIME        |
@@ -2434,15 +2434,33 @@ function gcommit-AUTHOR_AND_COMMIT_DATE_SET_TO_YESTERDAY_SAME_TIME \
         GIT_COMMITTER_DATE="$date_yesterday_same_time" \
         git commit $argv
 end
-function gcommit-AUTHOR_AND_COMMIT_DATE_SET_TO_YESTERDAY_RANDOM_TIME
+function gcommit-AUTHOR_AND_COMMIT_DATE_SET_TO_YESTERDAY_RANDOM_TIME \
     --description "`git commit` at a random time yesterday"
-    set --function hour (random 0 23)
-    set --function minute (random 0 59)
-    set --function second (random 0 59)
-    set --function timestamp (date -u -v -1d -v $hour'H' -v $minute'M' -v $second'S' "+%Y-%m-%dT%H:%M:%SZ")
-    GIT_AUTHOR_DATE="$timestamp" \
-        GIT_COMMITTER_DATE="$timestamp" \
-        git commit $argv
+    # NOTE: Consider's local timezone and variances between `date` in
+    # linux and macos.
+    set --function today_date (date +%Y-%m-%d) # today's midnight epoch
+    set --function today_midnight_seconds
+    if date -d "$today_date" +%s >/dev/null 2>&1
+        # GNU date for linux
+        set today_midnight_seconds (date -d "$today_date" +%s)
+    else
+        # BSD date for macos
+        set today_midnight_seconds (date -j -f "%Y-%m-%d" "$today_date" +%s)
+    end
+    # Yesterday's midnight = today's midnight - seconds in a day (86400)
+    set --function yesterday_midnight_seconds (math $today_midnight_seconds - 86400)
+    set --function random_offset_seconds (random 0 86399)
+    set --function target_seconds (math $yesterday_midnight_seconds + $random_offset_seconds)
+    # Convert back to local timestamp
+    set --function timestamp
+    if date -d "@$target_seconds" +%Y-%m-%dT%H:%M:%S >/dev/null 2>&1
+        # GNU date for linux
+        set timestamp (date -d "@$target_seconds" +%Y-%m-%dT%H:%M:%S)
+    else
+        # BSD date for macos
+        set timestamp (date -r $target_seconds +%Y-%m-%dT%H:%M:%S)
+    end
+    GIT_AUTHOR_DATE="$timestamp" GIT_COMMITTER_DATE="$timestamp" git commit $argv
 end
 
 # AMEND {{{3
