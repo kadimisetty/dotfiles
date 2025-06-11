@@ -3182,50 +3182,31 @@ vim.keymap.set("n", "<m-left><m-s-down>", "mzd^o<esc>pJV=`z", {
 })
 
 -- TOGGLE GUTTER (SIGN COLUMN)  {{{2
--- Toggle gutter (sign column)
--- TODO: Add keymap descriptions
--- NOTE: keymaps set in tandem with unimpaired plugin
--- NOTE: Using `g` instead of `s` as mnemonic for keymap because:
---  1. `s` is being used by `spell`
---  2. `g` for `gutter`
---  3. I seem to remember it more as gutter than `signcolumn` anyway.
--- Toggle gutter (sign column)
-vim.keymap.set(
-  "n",
-  "yog",
-  -- "<cmd>call ToggleSignColumn()<cr>",
-  function()
-    -- TODO: When enabling `signcolumn`, this function uses `yes` instead of
-    -- `auto`, use if that is acceptable. Get previous value of signcolumn or
-    -- the global value and consider restoring from that instead.
-    if vim.wo.signcolumn ~= "no" then
-      vim.wo.signcolumn = "no"
-    else
-      vim.wo.signcolumn = "yes"
-    end
-  end,
-  { silent = true }
-)
--- Turn on gutter (sign column)
-vim.keymap.set(
-  "n",
-  "]og",
-  "<cmd>setlocal signcolumn=yes<cr>",
-  { silent = true }
-)
--- Turn off gutter (sign column)
-vim.keymap.set("n", "[og", "<cmd>setlocal signcolumn=no<cr>", { silent = true })
--- Set gutter (sign column) to turn on/off automatically
--- TODO: Consider disabling this, as it's too unwieldy
--- NOTE: This is in the style of `tpope/vim-unimpaired` and since the about
---       keymap/function does not cover `auto` this does;
---       the mnemonic `]oga` is for `turn on the gutter=auto`
-vim.keymap.set(
-  "n",
-  "]oga",
-  "<cmd>setlocal signcolumn=auto<cr>",
-  { silent = true }
-)
+-- NOTE: Using `g` menmonic instead of `s`(`signcolumn`) because `g` can be
+-- "gutter" but primarily because `s` is being used for `spell`.
+-- TOGGLE GUTTER (SIGN COLUMN):
+-- NOTE: Not dealing with `set signcolumn=auto` because it complicates keymaps.
+vim.keymap.set("n", "yog", function()
+  -- NOTE: When enabling `signcolumn`, setting it to `yes` and not `auto`.
+  if vim.wo.signcolumn ~= "no" then -- NOTE: `signcolumn` can be no/yes/auto
+    vim.wo.signcolumn = "no"
+  else
+    vim.wo.signcolumn = "yes"
+  end
+end, {
+  silent = true,
+  desc = "Toggle gutter (`signcolumn`)",
+})
+-- TURN ON GUTTER (SIGN COLUMN):
+vim.keymap.set("n", "]og", "<cmd>setlocal signcolumn=yes<cr>", {
+  silent = true,
+  desc = "Enable gutter (`signcolumn`)",
+})
+-- TURN OFF GUTTER (SIGN COLUMN):
+vim.keymap.set("n", "[og", "<cmd>setlocal signcolumn=no<cr>", {
+  silent = true,
+  desc = "Disable gutter (`signcolumn`)",
+})
 
 -- SCROLL OTHER WINDOW {{{2
 -- TODO: Apply to both "scroll" and "movement" nromal mode commands present
