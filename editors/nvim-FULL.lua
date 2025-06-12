@@ -1939,11 +1939,10 @@ vim.keymap.set("n", "<c-w>O", "<cmd>tabonly<cr>", {
 -- })
 
 -- VIEWS AND SESSIONS {{{1
--- NOTE:
---  1. I want to use `<c-w>` as prefix key to gel with the rest of my window/tab
+-- NOTE: I want to use `<c-w>` as prefix key to gel with the rest of my window/tab
 --     page keymaps and since views act on windows and sessions can be
 --     considered to include tabs.
---  2. The perfect keymap set for views/sessions would have been `<c-w>s/S` for
+-- NOTE: The perfect keymap set for views/sessions would have been `<c-w>s/S` for
 --     saving and `<c-w>l/L` for loading view/sessions. However `<c-w>l` is used
 --     to navigate split views and is too important to sacrifice, hence the
 --     current keymaps.
@@ -1953,46 +1952,44 @@ vim.keymap.set("n", "<c-w>O", "<cmd>tabonly<cr>", {
 --  | `<c-w>m`  | `:mkview`     | Save view                                       |
 --  | `<c-w>v`  | `:loadview`   | Load view saved with `mkview`                   |
 --  +-----------+---------------+-------------------------------------------------+
+--  |  FOR 1..9 DO:(e.g. 1)                                                       |
 --  | `<c-w>m1` | `:mkview 1`   | Save *view no. 1*                               |
 --  | `<c-w>v1` | `:loadview 1` | Load view saved with `mkview 1` i.e *view no.1* |
---  |                                                                             |
---  | ... applies for view numbers 1..9                                           |
 --  +-----------+---------------+-------------------------------------------------+
---  NOTE:
---  1. Using the overwriting variant `mkview!` isn't necessary because AFAICT
+-- NOTE: Using the overwriting variant `mkview!` isn't necessary because AFAICT
 --     it only applies to manually named view files.
---  2. Unlike sessions, views created via `:mkview` (with no filename as
+-- NOTE: Unlike sessions, views created via `:mkview` (with no filename as
 --     argument) aren't saved in the local directory but in vim's `viewdir`.
--- TODO: Convert `mkview` commands to lua
 -- TODO: Use a function here that can report save/overwrite info/errors like
 -- their session counterparts do.
--- TODO: Generate numbered `mkview` commands with iteration
--- TODO: Add keymap descriptions
--- Make and load views:
-vim.keymap.set("n", "<c-w>m", "<cmd>mkview<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v", "<cmd>loadview<cr>", { silent = true })
-
--- Make views:
-vim.keymap.set("n", "<c-w>m1", "<cmd>mkview 1<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m2", "<cmd>mkview 2<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m3", "<cmd>mkview 3<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m4", "<cmd>mkview 4<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m5", "<cmd>mkview 5<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m6", "<cmd>mkview 6<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m7", "<cmd>mkview 7<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m8", "<cmd>mkview 8<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>m9", "<cmd>mkview 9<cr>", { silent = true })
-
--- Load views:
-vim.keymap.set("n", "<c-w>v1", "<cmd>loadview 1<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v2", "<cmd>loadview 2<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v3", "<cmd>loadview 3<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v4", "<cmd>loadview 4<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v5", "<cmd>loadview 5<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v6", "<cmd>loadview 6<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v7", "<cmd>loadview 7<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v8", "<cmd>loadview 8<cr>", { silent = true })
-vim.keymap.set("n", "<c-w>v9", "<cmd>loadview 9<cr>", { silent = true })
+-- SAVE AND LOAD VIEW:
+vim.keymap.set("n", "<c-w>m", function()
+  vim.cmd.mkview()
+end, {
+  silent = true,
+  desc = "Save view",
+})
+vim.keymap.set("n", "<c-w>v", function()
+  vim.cmd.loadview()
+end, {
+  silent = true,
+  desc = "Load view",
+})
+-- SAVE AND LOAD VIEW (1..=9):
+for i = 1, 9 do
+  vim.keymap.set("n", "<c-w>m" .. i, function()
+    vim.cmd.mkview(i)
+  end, {
+    silent = true,
+    desc = "Save view into `" .. i .. "`(view file)",
+  })
+  vim.keymap.set("n", "<c-w>v" .. i, function()
+    vim.cmd.loadview(i)
+  end, {
+    silent = true,
+    desc = "Load view from `" .. i .. "`(view file)",
+  })
+end
 
 -- SESSIONS {{{2
 -- SESSION OPTIONS {{{3
