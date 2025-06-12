@@ -929,25 +929,25 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = elixir_augroup,
   pattern = { "*.html.heex" },
   command = "set filetype=heex",
-  desc = "",
+  desc = "Set `heex` filetype",
 })
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = elixir_augroup,
   pattern = { "*.html.eex" },
   command = "set filetype=eex",
-  desc = "",
+  desc = "Set `eex` filetype",
 })
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = elixir_augroup,
   pattern = { "*.html.heex" },
   command = "set syntax=eelixir",
-  desc = "",
+  desc = "Set `heex` syntax to `eelixir`",
 })
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = elixir_augroup,
   pattern = { "*.html.eex" },
   command = "set syntax=eelixir",
-  desc = "",
+  desc = "See `eex` syntax to `eelixir`",
 })
 
 -- FISH {{{2
