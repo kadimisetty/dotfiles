@@ -1957,20 +1957,37 @@ vim.keymap.set("n", "<c-w>O", "<cmd>tabonly<cr>", {
 --  | `<c-w>v1` | `:loadview 1` | Load view saved with `mkview 1` i.e *view no.1* |
 --  +-----------+---------------+-------------------------------------------------+
 -- NOTE: Using the overwriting variant `mkview!` isn't necessary because AFAICT
---     it only applies to manually named view files.
--- NOTE: Unlike sessions, views created via `:mkview` (with no filename as
---     argument) aren't saved in the local directory but in vim's `viewdir`.
--- TODO: Use a function here that can report save/overwrite info/errors like
--- their session counterparts do.
+-- it only applies to manually named view files.
+-- NOTE: Unlike sessions, views created via `:mkview` (given argument with no
+-- filename/with just filename and no directory) aren't saved in the local
+-- directory but in `viewdir`.
 -- SAVE AND LOAD VIEW:
 vim.keymap.set("n", "<c-w>m", function()
-  vim.cmd.mkview()
+  local ok, res = pcall(vim.cmd.mkview)
+  if ok then
+    vim.notify("Saved view", vim.log.levels.INFO)
+  else
+    local error_message = "Unable to save view"
+    if res ~= "" then
+      error_message = error_message .. ": " .. res
+    end
+    vim.notify(error_message, vim.log.levels.ERROR)
+  end
 end, {
   silent = true,
   desc = "Save view",
 })
 vim.keymap.set("n", "<c-w>v", function()
-  vim.cmd.loadview()
+  local ok, res = pcall(vim.cmd.loadview)
+  if ok then
+    vim.notify("Loaded view", vim.log.levels.INFO)
+  else
+    local error_message = "Unable to load view"
+    if res ~= "" then
+      error_message = error_message .. ": " .. res
+    end
+    vim.notify(error_message, vim.log.levels.ERROR)
+  end
 end, {
   silent = true,
   desc = "Load view",
@@ -1978,13 +1995,31 @@ end, {
 -- SAVE AND LOAD VIEW (1..=9):
 for i = 1, 9 do
   vim.keymap.set("n", "<c-w>m" .. i, function()
-    vim.cmd.mkview(i)
+    local ok, res = pcall(vim.cmd.mkview, i)
+    if ok then
+      vim.notify("Saved view " .. i, vim.log.levels.INFO)
+    else
+      local error_message = "Unable to save view into view file " .. i
+      if res ~= "" then
+        error_message = error_message .. ": " .. res
+      end
+      vim.notify(error_message, vim.log.levels.ERROR)
+    end
   end, {
     silent = true,
     desc = "Save view into `" .. i .. "`(view file)",
   })
   vim.keymap.set("n", "<c-w>v" .. i, function()
-    vim.cmd.loadview(i)
+    local ok, res = pcall(vim.cmd.loadview, i)
+    if ok then
+      vim.notify("Loaded view " .. i, vim.log.levels.INFO)
+    else
+      local error_message = "Unable to load view from view file " .. i
+      if res ~= "" then
+        error_message = error_message .. ": " .. res
+      end
+      vim.notify(error_message, vim.log.levels.ERROR)
+    end
   end, {
     silent = true,
     desc = "Load view from `" .. i .. "`(view file)",
