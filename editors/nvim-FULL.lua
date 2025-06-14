@@ -3370,6 +3370,46 @@ end, {
   desc = "Repeat search backward consistently",
 })
 
+-- REMOVE DUPLICATES IN ARGLIST {{{2
+local remove_duplicates_in_arglist = function()
+  local arglist_items = vim.fn.argv()
+  if #arglist_items == 1 or #arglist_items == 0 then
+    vim.notify("No duplicates in `arglist`", vim.log.levels.INFO)
+    return
+  end
+  local seen_items = {}
+  local unique_items = {}
+  for _, arg in ipairs(arglist_items) do
+    local full_path = vim.fn.fnamemodify(arg, ":p") -- Use full paths to detect duplicates better.
+    if not seen_items[full_path] then
+      seen_items[full_path] = true
+      table.insert(unique_items, arg)
+    end
+  end
+  if #unique_items < #arglist_items then
+    vim.cmd.argdelete("*") -- Clear current arglist to create anew.
+    if #unique_items > 0 then
+      for _, arg in ipairs(unique_items) do
+        vim.cmd.argadd(arg)
+      end
+    end
+    vim.notify(
+      string.format(
+        "Removed %d duplicate(s) from `arglist`",
+        #arglist_items - #unique_items
+      ),
+      vim.log.levels.INFO
+    )
+  else
+    vim.notify("No duplicates in `arglist`", vim.log.levels.INFO)
+  end
+end
+vim.api.nvim_create_user_command("RemoveDuplicatesInArglist", function()
+  remove_duplicates_in_arglist()
+end, {
+  desc = "Remove duplicates in `arglist`",
+})
+
 -- TOGGLE CURSOR LINES {{{2
 -- TODO: Consider using `-` and `|` so like  `yo-` and `yo|`?
 
