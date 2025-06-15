@@ -4149,14 +4149,27 @@ require("lazy").setup({
       opts = {},
     },
 
-    -- surround - act on surroundings {{{3
+    -- mini.surround - surrounding manipulation {{{3
+    -- NOTE: Current line is indicated by `_` in this plugin.
     {
-      "tpope/vim-surround",
+      "echasnovski/mini.surround",
+      version = false,
       event = "VeryLazy",
-      init = function()
-        -- NOTE: Don't use vim.keymap.set for this one.
-        vim.cmd([[ vmap s S ]])
-      end,
+      opts = {
+        highlight_duration = 700, -- DEFAULT: 500
+        search_method = 'cover', -- DEFAULT: `cover`. TODO: Investigate this.
+        mappings = {
+          add = "sa", -- Normal and Visual modes
+          delete = "sd",
+          find_left = "sF", -- Find surrounding to left
+          find = "sf", -- Find surrounding to right
+          highlight = "sh",
+          replace = "sr",
+          update_n_lines = "sn",
+          suffix_last = "N", -- Suffix to search with "prev", DEFAULT: `l`("last")
+          suffix_next = "n", -- Suffix to search with "next", DEFAULT: `n`
+        },
+      },
     },
 
     -- abolish - search word variants {{{3
