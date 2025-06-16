@@ -4157,7 +4157,7 @@ require("lazy").setup({
       event = "VeryLazy",
       opts = {
         highlight_duration = 700, -- DEFAULT: 500
-        search_method = 'cover', -- DEFAULT: `cover`. TODO: Investigate this.
+        search_method = "cover", -- DEFAULT: `cover`. TODO: Investigate this.
         mappings = {
           add = "sa", -- Normal and Visual modes
           delete = "sd",
@@ -6149,15 +6149,43 @@ require("lazy").setup({
       },
     },
 
+    -- mini.ai - text objects {{{3
+    -- TODO: Ensure all my `kana/vim-textobj-user` features added here and then
+    -- remove those plugin(core plugin + custom text obejct ones).
+    -- TODO: First add "entire"("buffer") from `mini.extras`.
+    {
+      "echasnovski/mini.ai",
+      version = false,
+      opts = {
+        mappings = {
+          -- around = "a",
+          -- inside = "i",
+          -- around_next = "an",
+          -- inside_next = "in",
+          -- around_last = "al",
+          -- inside_last = "il",
+          -- Move cursor to corresponding edge of `a`("around") textobject:
+          -- TODO: Check if need to be similar to my `mini.surround` equivalents?
+          -- goto_left = "g[",
+          -- goto_right = "g]",
+        },
+        -- n_lines = 50, -- Span of lines above/below to check.
+        -- search_method = "cover_or_next",
+        -- silent = false,
+      },
+    },
+
     -- vim-textobj-user - text object framework {{{3
     {
       "kana/vim-textobj-user",
+      enabled = false,
       event = "VeryLazy",
     },
 
     -- vim-textobj-entire `e` - text object for entire file {{{3
     {
       "kana/vim-textobj-entire",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6165,6 +6193,7 @@ require("lazy").setup({
     -- vim-textobj-indent `i` - text object for indent {{{3
     {
       "kana/vim-textobj-indent",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6172,6 +6201,7 @@ require("lazy").setup({
     -- vim-textobj-parameter `,` - text object for function parameter {{{3
     {
       "sgur/vim-textobj-parameter",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6179,6 +6209,7 @@ require("lazy").setup({
     -- vim-textobj-chainmember `m` - text object for chained method {{{3
     {
       "D4KU/vim-textobj-chainmember",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6186,6 +6217,7 @@ require("lazy").setup({
     -- vim-textobj-python `f`,`c` - text objects for python {{{3
     {
       "bps/vim-textobj-python",
+      enabled = false,
       ft = "python",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6200,6 +6232,7 @@ require("lazy").setup({
     -- `c` FIXME: Collision with `bps/vim-textobj-python`s`/`c`
     {
       "glts/vim-textobj-comment",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6207,6 +6240,7 @@ require("lazy").setup({
     -- vim-textobj-fold `z` - text objects for folds {{{3
     {
       "kana/vim-textobj-fold",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
@@ -6214,6 +6248,7 @@ require("lazy").setup({
     -- vim-textobj-url `u` - text objects for urls {{{3
     {
       "LeonB/vim-textobj-url",
+      enabled = false,
       event = "VeryLazy",
       dependencies = "kana/vim-textobj-user",
     },
