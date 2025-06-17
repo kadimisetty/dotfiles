@@ -6169,9 +6169,35 @@ require("lazy").setup({
           -- goto_left = "g[",
           -- goto_right = "g]",
         },
-        -- n_lines = 50, -- Span of lines above/below to check.
+        n_lines = 600, -- DEFAULT: 50
         -- search_method = "cover_or_next",
         -- silent = false,
+        custom_textobjects = {
+          -- `e` for "entire" buffer contents
+          -- NOTE: See `mini.extra` for source for this text object
+          e = function(ai_type)
+            local start_line = 1
+            local end_line = vim.fn.line('$')
+            if ai_type == 'i' then
+              local start_nonblank_line= vim.fn.nextnonblank(start_line)
+              local end_nonblank_line =  vim.fn.prevnonblank(end_line)
+              -- If all lines are blank, do nothing and return early
+              if start_nonblank_line == 0 or end_nonblank_line == 0 then
+                return {
+                  from = { line = start_line, col = 1 }
+                }
+              end
+              -- Use content between starting/ending blank lines for `i`.
+              start_line = start_nonblank_line
+              end_line = end_nonblank_line
+            end
+            local to_col = math.max(vim.fn.getline(end_line):len(), 1)
+            return {
+              from = { line = start_line, col = 1},
+              to = { line = end_line, col = to_col }
+            }
+          end,
+        },
       },
     },
 
