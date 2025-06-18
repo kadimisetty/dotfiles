@@ -6177,14 +6177,14 @@ require("lazy").setup({
           -- NOTE: See `mini.extra` for source for this text object
           e = function(ai_type)
             local start_line = 1
-            local end_line = vim.fn.line('$')
-            if ai_type == 'i' then
-              local start_nonblank_line= vim.fn.nextnonblank(start_line)
-              local end_nonblank_line =  vim.fn.prevnonblank(end_line)
+            local end_line = vim.fn.line("$")
+            if ai_type == "i" then
+              local start_nonblank_line = vim.fn.nextnonblank(start_line)
+              local end_nonblank_line = vim.fn.prevnonblank(end_line)
               -- If all lines are blank, do nothing and return early
               if start_nonblank_line == 0 or end_nonblank_line == 0 then
                 return {
-                  from = { line = start_line, col = 1 }
+                  from = { line = start_line, col = 1 },
                 }
               end
               -- Use content between starting/ending blank lines for `i`.
@@ -6193,8 +6193,8 @@ require("lazy").setup({
             end
             local to_col = math.max(vim.fn.getline(end_line):len(), 1)
             return {
-              from = { line = start_line, col = 1},
-              to = { line = end_line, col = to_col }
+              from = { line = start_line, col = 1 },
+              to = { line = end_line, col = to_col },
             }
           end,
         },
