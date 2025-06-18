@@ -6156,49 +6156,35 @@ require("lazy").setup({
     {
       "echasnovski/mini.ai",
       version = false,
-      opts = {
-        mappings = {
-          -- around = "a",
-          -- inside = "i",
-          -- around_next = "an",
-          -- inside_next = "in",
-          -- around_last = "al",
-          -- inside_last = "il",
-          -- Move cursor to corresponding edge of `a`("around") textobject:
-          -- TODO: Check if need to be similar to my `mini.surround` equivalents?
-          -- goto_left = "g[",
-          -- goto_right = "g]",
-        },
-        n_lines = 600, -- DEFAULT: 50
-        -- search_method = "cover_or_next",
-        -- silent = false,
-        custom_textobjects = {
-          -- `e` for "entire" buffer contents
-          -- NOTE: See `mini.extra` for source for this text object
-          e = function(ai_type)
-            local start_line = 1
-            local end_line = vim.fn.line("$")
-            if ai_type == "i" then
-              local start_nonblank_line = vim.fn.nextnonblank(start_line)
-              local end_nonblank_line = vim.fn.prevnonblank(end_line)
-              -- If all lines are blank, do nothing and return early
-              if start_nonblank_line == 0 or end_nonblank_line == 0 then
-                return {
-                  from = { line = start_line, col = 1 },
-                }
-              end
-              -- Use content between starting/ending blank lines for `i`.
-              start_line = start_nonblank_line
-              end_line = end_nonblank_line
-            end
-            local to_col = math.max(vim.fn.getline(end_line):len(), 1)
-            return {
-              from = { line = start_line, col = 1 },
-              to = { line = end_line, col = to_col },
-            }
-          end,
-        },
-      },
+      opts = function()
+        local mini_extra = require("mini.extra")
+        return {
+          mappings = {
+            -- around = "a",
+            -- inside = "i",
+            -- TODO: Use `n`/`N` here? (Something like my `mini.surround` config)
+            -- around_next = "an",
+            -- inside_next = "in",
+            -- around_last = "al",
+            -- inside_last = "il",
+            -- TODO: Check if need to be similar to my `mini.surround` equivalents?
+            -- goto_left = "g[",
+            -- goto_right = "g]",
+          },
+          n_lines = 600, -- DEFAULT: 50
+          -- search_method = "cover_or_next",
+          -- silent = false,
+          custom_textobjects = {
+            -- NOTE: MNEMONIC: `e` for entire buffer.
+            -- NOTE: Leading/trailing blank lines are consdered in `a`/`i`.
+            e = mini_extra.gen_ai_spec.buffer(),
+            i = mini_extra.gen_ai_spec.indent(),
+            -- NOTE: MNEMONIC: `d` for digits. `n` is used by `mini.ai` itself.
+            d = mini_extra.gen_ai_spec.number(), -- e.g. `123`, `1.23`, `-1.23`
+          },
+        }
+      end,
+      dependencies = { "echasnovski/mini.extra", version = false },
     },
 
     -- vim-textobj-user - text object framework {{{3
@@ -6206,30 +6192,6 @@ require("lazy").setup({
       "kana/vim-textobj-user",
       enabled = false,
       event = "VeryLazy",
-    },
-
-    -- vim-textobj-entire `e` - text object for entire file {{{3
-    {
-      "kana/vim-textobj-entire",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-indent `i` - text object for indent {{{3
-    {
-      "kana/vim-textobj-indent",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-parameter `,` - text object for function parameter {{{3
-    {
-      "sgur/vim-textobj-parameter",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
     },
 
     -- vim-textobj-chainmember `m` - text object for chained method {{{3
