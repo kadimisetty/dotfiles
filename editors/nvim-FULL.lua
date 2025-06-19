@@ -6175,6 +6175,9 @@ require("lazy").setup({
           -- search_method = "cover_or_next",
           -- silent = false,
           custom_textobjects = {
+            -- TODO: COMMENT (e.g. `glts/vim-textobj-commen`)
+            -- TODO: URL (e.g. `LeonB/vim-textobj-url`)
+            -- TODO: CHAINMEMBER FUNCTION (e.g. `D4KU/vim-textobj-chainmember`)
             -- ENTIRE BUFFER (MNEMONIC: `e` for entire buffer.):
             -- NOTE: Leading/trailing blank lines are consdered in `a`/`i`.
             e = mini_extra.gen_ai_spec.buffer(),
@@ -6288,67 +6291,6 @@ require("lazy").setup({
       end,
       dependencies = { "echasnovski/mini.extra", version = false },
     },
-
-    -- vim-textobj-user - text object framework {{{3
-    {
-      "kana/vim-textobj-user",
-      enabled = false,
-      event = "VeryLazy",
-    },
-
-    -- vim-textobj-chainmember `m` - text object for chained method {{{3
-    {
-      "D4KU/vim-textobj-chainmember",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-python `f`,`c` - text objects for python {{{3
-    {
-      "bps/vim-textobj-python",
-      enabled = false,
-      ft = "python",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-lua `l` - text objects for lua {{{3
-    -- {"spacewander/vim-textobj-lua",
-    --     ft = "lua",
-    --     dependencies = "kana/vim-textobj-user",
-    -- },
-
-    -- vim-textobj-comment `c` - text objects for comments {{3
-    -- `c` FIXME: Collision with `bps/vim-textobj-python`s`/`c`
-    {
-      "glts/vim-textobj-comment",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-fold `z` - text objects for folds {{{3
-    {
-      "kana/vim-textobj-fold",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-url `u` - text objects for urls {{{3
-    {
-      "LeonB/vim-textobj-url",
-      enabled = false,
-      event = "VeryLazy",
-      dependencies = "kana/vim-textobj-user",
-    },
-
-    -- vim-textobj-elixir `e` - text objects for elixir {{{3
-    -- `e` FIXME: Collision with "entire", Change to `x`?
-    -- {"andyl/vim-textobj-elixir",
-    --      ft = "elixir",
-    --      dependencies = "kana/vim-textobj-user",
-    -- },
 
     -- cool - turn off search highlight after search completed {{{3
     {
