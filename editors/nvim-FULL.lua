@@ -6175,12 +6175,114 @@ require("lazy").setup({
           -- search_method = "cover_or_next",
           -- silent = false,
           custom_textobjects = {
-            -- NOTE: MNEMONIC: `e` for entire buffer.
+            -- ENTIRE BUFFER (MNEMONIC: `e` for entire buffer.):
             -- NOTE: Leading/trailing blank lines are consdered in `a`/`i`.
             e = mini_extra.gen_ai_spec.buffer(),
+            -- INDENTS:
             i = mini_extra.gen_ai_spec.indent(),
-            -- NOTE: MNEMONIC: `d` for digits. `n` is used by `mini.ai` itself.
+            -- NUMBERS(MNEMONIC: `d` for digits. `n` is used by `mini.ai` itself.):
             d = mini_extra.gen_ai_spec.number(), -- e.g. `123`, `1.23`, `-1.23`
+            -- FOLDS:
+            -- FIXME: Remove usage of `normal` command here, it's messing with
+            -- active fold layouts and is also inelegant.
+            -- NOTE: When making changes to this, there are 2 considerations:
+            -- 1. `a` will have to include blank lines following current fold.
+            -- 2. When say deleting current fold `diz`, it shouldn't delete any
+            --    attached different folds(i.e. no blank lines between them).
+            z = function(ai_type)
+              local current_line = vim.api.nvim_win_get_cursor(0)[1]
+              local current_buffer = 0
+              local current_fold_level = vim.fn.foldlevel(current_line)
+              if current_fold_level == 0 then
+                return nil
+              end
+              local fold_start_line = vim.fn.foldclosed(current_line)
+              local fold_end_line = vim.fn.foldclosedend(current_line)
+              if fold_start_line == -1 then
+                -- Use foldtextresult to find actual fold boundaries
+                local search_line = current_line
+                -- Find fold start - go up until we find the start of this fold
+                while search_line >= 1 do
+                  -- Check if this line can be folded and would include our current line
+                  vim.cmd("normal! " .. search_line .. "G")
+                  local test_fold_start = vim.fn.foldclosed(search_line)
+                  local test_fold_end = vim.fn.foldclosedend(search_line)
+                  if
+                    test_fold_start ~= -1
+                    and test_fold_start <= current_line
+                    and test_fold_end >= current_line
+                  then
+                    fold_start_line = test_fold_start
+                    fold_end_line = test_fold_end
+                    break
+                  end
+                  -- Try to create a fold at this line and see if it includes current line
+                  local saved_foldenable = vim.wo.foldenable
+                  vim.wo.foldenable = true
+                  pcall(vim.cmd, "normal! zc")
+                  local fold_start_test = vim.fn.foldclosed(current_line)
+                  local fold_end_test = vim.fn.foldclosedend(current_line)
+                  pcall(vim.cmd, "normal! zo")
+                  vim.wo.foldenable = saved_foldenable
+                  if fold_start_test == search_line then
+                    fold_start_line = fold_start_test
+                    fold_end_line = fold_end_test
+                    break
+                  end
+                  search_line = search_line - 1
+                end
+                -- Restore cursor position
+                vim.api.nvim_win_set_cursor(0, { current_line, 0 })
+                -- Fallback to original method if nothing found
+                if fold_start_line == -1 then
+                  return nil
+                end
+              end
+              local selection_start_line = fold_start_line
+              local selection_start_col = 1
+              local selection_end_line = fold_end_line
+              local selection_end_col
+              if ai_type == "a" then
+                local buffer_last_line =
+                  vim.api.nvim_buf_line_count(current_buffer)
+                while selection_end_line < buffer_last_line do
+                  local next_line = selection_end_line + 1
+                  local next_line_content = vim.api.nvim_buf_get_lines(
+                    current_buffer,
+                    next_line - 1,
+                    next_line,
+                    false
+                  )[1]
+                  local next_line_fold_level = vim.fn.foldlevel(next_line)
+                  if
+                    next_line_content
+                    and next_line_content:match("^%s*$")
+                    and next_line_fold_level <= current_fold_level
+                  then
+                    selection_end_line = next_line
+                  else
+                    break
+                  end
+                end
+              end
+              local end_line_content = vim.api.nvim_buf_get_lines(
+                current_buffer,
+                selection_end_line - 1,
+                selection_end_line,
+                false
+              )[1] or ""
+              selection_end_col = #end_line_content
+              if selection_end_col == 0 then
+                selection_end_col = 1
+              end
+              return {
+                from = {
+                  line = selection_start_line,
+                  col = selection_start_col,
+                },
+                to = { line = selection_end_line, col = selection_end_col },
+              }
+            end,
           },
         }
       end,
