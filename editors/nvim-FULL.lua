@@ -6759,14 +6759,28 @@ require("lazy").setup({
         }
       end,
       init = function()
-        -- TODO: Show previous messages (SEE: `mini_notify.get_all()`).
-        -- Wrap default `vim.notify` with this plugin.
         local mini_notify = require("mini.notify")
+        -- NOTE: Make `mini.notify` the default notification handler by
+        -- wrapping `vim.notify` itself.
         vim.notify = mini_notify.make_notify()
-        -- Add user command to clear active notifications.
+        -- CLEAR ACTIVE NOTIFICATIONS:
         vim.api.nvim_create_user_command("MiniMotifyClear", function()
           mini_notify.clear()
-        end, { desc = "Remove all active notifications" })
+        end, { desc = "Remove active `mini.notify` messages" })
+        vim.keymap.set("n", "<leader>zm", function()
+          mini_notify.clear()
+        end, {
+          silent = true,
+          desc = "Remove active `mini.notify` messages",
+        })
+        -- SHOW HISTORY:
+        vim.api.nvim_create_user_command("MiniMotifyHistory", function()
+          mini_notify.show_history()
+        end, { desc = "Show `mini.notify` message history" })
+        -- REFRESH NOTIFICATION WINDOW:
+        vim.api.nvim_create_user_command("MiniMotifyRefresh", function()
+          mini_notify.refresh()
+        end, { desc = "Refresh `mini.notify` messages" })
       end,
     },
 
