@@ -6157,6 +6157,7 @@ require("lazy").setup({
       "echasnovski/mini.ai",
       version = false,
       opts = function()
+        local mini_ai = require("mini.ai")
         local mini_extra = require("mini.extra")
         return {
           mappings = {
@@ -6175,23 +6176,60 @@ require("lazy").setup({
           -- search_method = "cover_or_next",
           -- silent = false,
           custom_textobjects = {
-            -- TODO: COMMENT (e.g. `glts/vim-textobj-commen`)
             -- TODO: URL (e.g. `LeonB/vim-textobj-url`)
-            -- TODO: CHAINMEMBER FUNCTION (e.g. `D4KU/vim-textobj-chainmember`)
             -- ENTIRE BUFFER (MNEMONIC: `e` for entire buffer.):
             -- NOTE: Leading/trailing blank lines are consdered in `a`/`i`.
             e = mini_extra.gen_ai_spec.buffer(),
-            -- INDENTS:
+            -- INDENT:
             i = mini_extra.gen_ai_spec.indent(),
-            -- NUMBERS(MNEMONIC: `d` for digits. `n` is used by `mini.ai` itself.):
+            -- ASSIGNMENT:
+            ["="] = mini_ai.gen_spec.treesitter({
+              a = "@assignment.outer", --  "@assignment.rhs",
+              i = "@assignment.inner", -- "@assignment.lhs",
+            }),
+            -- CLASS:
+            c = mini_ai.gen_spec.treesitter({
+              a = { "@class.outer" },
+              i = { "@class.inner" },
+            }),
+            -- COMMENT:
+            ["#"] = mini_ai.gen_spec.treesitter({
+              a = { "@comment.outer" },
+              i = { "@comment.inner" },
+            }),
+            -- LOOP:
+            l = mini_ai.gen_spec.treesitter({
+              a = "@loop.outer",
+              i = "@loop.inner",
+            }),
+            -- FUNCTION DEFINITION:
+            f = mini_ai.gen_spec.treesitter({
+              a = "@function.outer",
+              i = "@function.inner",
+            }),
+            -- FUNCTION CALL:
+            F = mini_ai.gen_spec.function_call(), -- DEFAULT: `f`
+            -- TODO: "CHAINMEMBER" FUNCTION (e.g. `D4KU/vim-textobj-chainmember`)
+            -- CODE BLOCK:
+            k = mini_ai.gen_spec.treesitter({ -- code block
+              a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+              i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+            }),
+            -- MARKDOWN CODE BLOCK:
+            M = mini_ai.gen_spec.treesitter({
+              a = { "@codeblock.outer" },
+              i = { "@codeblock.inner" },
+            }),
+            -- NUMBER(MNEMONIC: `d` for digits. `n` is used by `mini.ai` itself.):
             d = mini_extra.gen_ai_spec.number(), -- e.g. `123`, `1.23`, `-1.23`
-            -- FOLDS:
+            -- FOLD:
             -- FIXME: Remove usage of `normal` command here, it's messing with
             -- active fold layouts and is also inelegant.
-            -- NOTE: When making changes to this, there are 2 considerations:
+            -- NOTE: When making changes to this, consider:
             -- 1. `a` will have to include blank lines following current fold.
-            -- 2. When say deleting current fold `diz`, it shouldn't delete any
-            --    attached different folds(i.e. no blank lines between them).
+            -- 2. When deleting current fold `diz`, it shouldn't delete any
+            --    attached different folds(i.e. fo;ds with no blank lines
+            --    between them).
             z = function(ai_type)
               local current_line = vim.api.nvim_win_get_cursor(0)[1]
               local current_buffer = 0
@@ -6289,7 +6327,11 @@ require("lazy").setup({
           },
         }
       end,
-      dependencies = { "echasnovski/mini.extra", version = false },
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        { "echasnovski/mini.extra", version = false },
+      },
     },
 
     -- cool - turn off search highlight after search completed {{{3
