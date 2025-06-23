@@ -6150,9 +6150,6 @@ require("lazy").setup({
     },
 
     -- mini.ai - text objects {{{3
-    -- TODO: Ensure all my `kana/vim-textobj-user` features added here and then
-    -- remove those plugin(core plugin + custom text obejct ones).
-    -- TODO: First add "entire"("buffer") from `mini.extras`.
     {
       "echasnovski/mini.ai",
       version = false,
@@ -6182,6 +6179,9 @@ require("lazy").setup({
             e = mini_extra.gen_ai_spec.buffer(),
             -- INDENT:
             i = mini_extra.gen_ai_spec.indent(),
+            -- ARGUMENT:
+            a = false, -- NOTE: Disabling argument default `a`.
+            [","] = mini_ai.gen_spec.argument(),
             -- ASSIGNMENT:
             ["="] = mini_ai.gen_spec.treesitter({
               a = "@assignment.outer", --  "@assignment.rhs",
