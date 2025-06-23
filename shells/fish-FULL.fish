@@ -2732,17 +2732,22 @@ alias glog-LAST_MONTH='git log --oneline --decorate --graph --since=1.month'
 alias glog-LAST_QUARTER='git log --oneline --decorate --graph --since=4.month'
 alias glog-LAST_YEAR='git log --oneline --decorate --graph --since=1.year'
 # VERBOSE {{{3
-alias glog-TODAY_VERBOSE='glog-TODAY --compact-summary'
-alias glog-YESTERDAY_VERBOSE='glog-YESTERDAY --compact-summary'
-alias glog-THIS_DAY_VERBOSE='glog-THIS_DAY --compact-summary'
-alias glog-THIS_WEEK_VERBOSE='glog-THIS_WEEK --compact-summary'
-alias glog-THIS_MONTH_VERBOSE='glog-THIS_MONTH --compact-summary'
-alias glog-THIS_QUARTER_VERBOSE='glog-THIS_QUARTER --compact-summary'
-alias glog-THIS_YEAR_VERBOSE='glog-THIS_YEAR --compact-summary'
-alias glog-LAST_WEEK_VERBOSE='glog-LAST_WEEK --compact-summary'
-alias glog-LAST_MONTH_VERBOSE='glog-LAST_MONTH --compact-summary'
-alias glog-LAST_QUARTER_VERBOSE='glog-LAST_QUARTER --compact-summary'
-alias glog-LAST_YEAR_VERBOSE='glog-LAST_YEAR --compact-summary'
+begin
+    set --local _glog_verbose_cli_flags \
+        '--compact-summary --date=short --pretty=format:"%C(auto)%h%d %cd | %s%n"'
+    alias glog-TODAY_VERBOSE="glog-TODAY $_glog_verbose_cli_flags"
+    alias glog-TODAY_VERBOSE="glog-TODAY $_glog_verbose_cli_flags"
+    alias glog-YESTERDAY_VERBOSE="glog-YESTERDAY $_glog_verbose_cli_flags"
+    alias glog-THIS_DAY_VERBOSE="glog-THIS_DAY $_glog_verbose_cli_flags"
+    alias glog-THIS_WEEK_VERBOSE="glog-THIS_WEEK $_glog_verbose_cli_flags"
+    alias glog-THIS_MONTH_VERBOSE="glog-THIS_MONTH $_glog_verbose_cli_flags"
+    alias glog-THIS_QUARTER_VERBOSE="glog-THIS_QUARTER $_glog_verbose_cli_flags"
+    alias glog-THIS_YEAR_VERBOSE="glog-THIS_YEAR $_glog_verbose_cli_flags"
+    alias glog-LAST_WEEK_VERBOSE="glog-LAST_WEEK $_glog_verbose_cli_flags"
+    alias glog-LAST_MONTH_VERBOSE="glog-LAST_MONTH $_glog_verbose_cli_flags"
+    alias glog-LAST_QUARTER_VERBOSE="glog-LAST_QUARTER $_glog_verbose_cli_flags"
+    alias glog-LAST_YEAR_VERBOSE="glog-LAST_YEAR $_glog_verbose_cli_flags"
+end
 
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
