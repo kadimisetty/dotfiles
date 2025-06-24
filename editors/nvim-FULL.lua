@@ -4727,6 +4727,38 @@ require("lazy").setup({
       end,
     },
 
+    -- mini.hipatterns - highlight "pragma" patterns like `TODO`/`NOTE`… {{{3
+    -- TODO: Add helpers to move between these pragmas.
+    -- TODO: Add helpers to search among them inside project or current file.
+    -- TODO: Replace my other trailing whitespace plugin with this plugin's
+    -- similar feature.
+    -- FIXME: Remove `folke/todo-comments.nvim` when done replacing it.
+    {
+      "echasnovski/mini.hipatterns",
+      version = false,
+      opts = function()
+        local mini_hipatterns = require("mini.hipatterns")
+        return {
+          highlighters = {
+            -- TODO: Try to get preceding space as padding inside the highlight
+            -- like `folke/todo-comments.nvim` does.
+            -- TODO: Consider using `mini_extra.gen_highlighter.words`.
+            -- TODO: MAIN FUNCTIONS:
+            -- TODO: GIT (`Closes`, `Fixes` etc.):
+            -- TODO: HEX COLORS:
+            -- PRAGMAS:
+            -- TODO: Use frontier matching, see plugin docs.
+            -- TODO: Fill quickfix/location_list/picker with matches.
+            TODO = { pattern = "TODO", group = "MiniHipatternsTodo" },
+            NOTE = { pattern = "NOTE", group = "MiniHipatternsNote" },
+            WARN = { pattern = "WARN", group = "MiniHipatternsHack" },
+            FIXME = { pattern = "FIXME", group = "MiniHipatternsFixme" },
+            XXX = { pattern = "XXX", group = "MiniHipatternsNote" }, -- TODO: Customize highlight
+          },
+        }
+      end,
+    },
+
     -- boole - toggle/invert current word {{{3
     {
       "nat-418/boole.nvim",
@@ -6083,9 +6115,10 @@ require("lazy").setup({
     },
 
     -- todo-comments - highlight "pragmas" like `TODO` {{{3
-    -- TODO: Toggle display in gutter
+    -- FIXME: Remove this plugin.
     {
       "folke/todo-comments.nvim",
+      enabled = false,
       event = { "BufReadPost", "BufNewFile" },
       opts = {
         -- Hide pragma signs in gutter, until a toggling option via `yop` is
