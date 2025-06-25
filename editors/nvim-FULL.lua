@@ -4737,26 +4737,42 @@ require("lazy").setup({
       "echasnovski/mini.hipatterns",
       version = false,
       opts = function()
-        local mini_hipatterns = require("mini.hipatterns")
+        local mini_extra_gen_highlighter_words =
+          require("mini.extra").gen_highlighter.words
         return {
           highlighters = {
             -- TODO: Try to get preceding space as padding inside the highlight
             -- like `folke/todo-comments.nvim` does.
-            -- TODO: Consider using `mini_extra.gen_highlighter.words`.
             -- TODO: MAIN FUNCTIONS:
             -- TODO: GIT (`Closes`, `Fixes` etc.):
             -- TODO: HEX COLORS:
             -- PRAGMAS:
-            -- TODO: Use frontier matching, see plugin docs.
+            -- TODO: Consider frontier matching(SEE PLUGIN helpdocs).
             -- TODO: Fill quickfix/location_list/picker with matches.
-            TODO = { pattern = "TODO", group = "MiniHipatternsTodo" },
-            NOTE = { pattern = "NOTE", group = "MiniHipatternsNote" },
-            WARN = { pattern = "WARN", group = "MiniHipatternsHack" },
-            FIXME = { pattern = "FIXME", group = "MiniHipatternsFixme" },
-            XXX = { pattern = "XXX", group = "MiniHipatternsNote" }, -- TODO: Customize highlight
+            TODO = mini_extra_gen_highlighter_words(
+              { "TODO" },
+              "MiniHipatternsTodo"
+            ),
+            NOTE = mini_extra_gen_highlighter_words(
+              { "NOTE" },
+              "MiniHipatternsNote"
+            ),
+            WARN = mini_extra_gen_highlighter_words(
+              { "WARN" },
+              "MiniHipatternsHack"
+            ),
+            FIXME = mini_extra_gen_highlighter_words(
+              { "FIXME" },
+              "MiniHipatternsFixme"
+            ),
+            XXX = mini_extra_gen_highlighter_words(
+              { "XXX" },
+              "MiniHipatternsHack"
+            ),
           },
         }
       end,
+      dependencies = { "echasnovski/mini.extra", version = false },
     },
 
     -- boole - toggle/invert current word {{{3
