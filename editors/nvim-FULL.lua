@@ -4744,7 +4744,37 @@ require("lazy").setup({
             -- TODO: Try to get preceding space as padding inside the highlight
             -- like `folke/todo-comments.nvim` does.
             -- TODO: MAIN FUNCTIONS:
-            -- TODO: GIT (`Closes`, `Fixes` etc.):
+            -- GIT COMMIT MESSAGE "CLOSES" KEYWORD HIGHLIGHTER(Closes/Fixes/Resolves):
+            -- TODO: Make a generator for these:
+            git_closes = {
+              pattern = function(buf_id)
+                if vim.bo[buf_id].filetype == "gitcommit" then
+                  return "^%s*()[Cc][Ll][Oo][Ss][Ee][SsDd]?():?[ ]+"
+                end
+              end,
+              group = "MiniHipatternsNote",
+            },
+            git_resolves = {
+              pattern = function(buf_id)
+                if vim.bo[buf_id].filetype == "gitcommit" then
+                  return "^%s*()[Rr][Ee][Ss][Oo][Ll][Vv][Ee][SsDd]+():?[ ]+"
+                end
+              end,
+              group = "MiniHipatternsNote",
+            },
+            git_fixes = {
+              -- FIXME: Unlike "closes" and "resolves", this "fixes" pattern
+              -- will end up allowing "wrong" words like `fixd`/`fixs`/`fixe`.
+              -- I'm allowing that to keep the pattern here simple as can't
+              -- seem to use `|` or `(...)` within the selection boundaries
+              -- `()..()` in these patterns.
+              pattern = function(buf_id)
+                if vim.bo[buf_id].filetype == "gitcommit" then
+                  return "^%s*()[Ff][Ii][Xx][Ee]?[SsDd]?():?[ ]+"
+                end
+              end,
+              group = "MiniHipatternsNote",
+            },
             -- TODO: HEX COLORS:
             -- PRAGMAS:
             -- TODO: Consider frontier matching(SEE PLUGIN helpdocs).
