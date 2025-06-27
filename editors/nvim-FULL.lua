@@ -4739,6 +4739,32 @@ require("lazy").setup({
       opts = function()
         local mini_extra_gen_highlighter_words =
           require("mini.extra").gen_highlighter.words
+        -- USE CUSTOM HIGHLIGHT IN `GIT COMMIT CLOSES MARKER`:
+        -- TODO: Use an API-style function to set highlight with backup.
+        -- NOTE: Link to @keyword if defined, else fallback; reapplied on
+        -- colorscheme change since highlights may reset
+        local function set_git_commit_closer_marker_highlight()
+          local ok, keyword_highlight =
+            pcall(vim.api.nvim_get_hl, 0, { name = "@keyword", link = false })
+          local highlight_to_link_to = "MiniHipatternsNote" -- Use as default
+          if
+            ok -- `nvim_get_hl` may succeed even if highlight group is undefined
+            and keyword_highlight --  Is a table (not nil or error),
+            and next(keyword_highlight) ~= nil --  Has atleast 1 attr(`fg`/`bg`)
+          then
+            highlight_to_link_to = "@keyword"
+          end
+          vim.api.nvim_set_hl(
+            0,
+            "GitCommitClosesMarker",
+            { link = highlight_to_link_to }
+          )
+        end
+        set_git_commit_closer_marker_highlight() -- Apply now
+        vim.api.nvim_create_autocmd("ColorScheme", {
+          -- Reapply when colorscheme changes, as highlights may be cleared
+          callback = set_git_commit_closer_marker_highlight,
+        })
         return {
           highlighters = {
             -- TODO: Try to get preceding space as padding inside the highlight
