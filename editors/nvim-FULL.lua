@@ -154,7 +154,7 @@ vim.opt.foldopen = {
   "search", -- triggering search patterns
   "tag", -- tag jumps like `:ta`, `<c-T>` etc.
   "undo", -- undo or redo
-  "hor", -- horizontal movement like `l`,`w`, `fx` etc.
+  -- "hor", -- horizontal movement like `l`,`w`, `fx` etc.
   -- "jump", -- far jumps like `G`, `gg` etc.
   -- `all`    -- everything
 }
