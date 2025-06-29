@@ -2465,8 +2465,8 @@ end
 
 # AMEND {{{3
 # AMEND BARE {{{4
-alias gcommit-amend='git commit --amend'
-function gcommit-amend__KEEP_MESSAGE \
+alias gcommitamend='git commit --amend'
+function gcommitamend-KEEP_MESSAGE \
     --description "`git commit --amend` but keep commit message"
     git commit --amend --no-edit $argv
 end
@@ -2510,11 +2510,11 @@ end
 #       | AUTHOR AND COMMIT  | TODAY     | NOW                    |
 #       +--------------------+-----------+------------------------+
 #
-function gcommit-amend__COMMIT_DATE_SET_TO_NOW \
+function gcommitamend-COMMIT_DATE_SET_TO_NOW \
     --description "`git commit --amend` but keep commit message"
     git commit --amend $argv
 end
-function gcommit-amend__AUTHOR_AND_COMMIT_DATE_SET_TO_NOW \
+function gcommitamend-AUTHOR_AND_COMMIT_DATE_SET_TO_NOW \
     --description "`git commit --amend` but keep commit message and set date to now"
     git commit --amend --date=now $argv
 end
