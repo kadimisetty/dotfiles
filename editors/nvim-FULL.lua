@@ -4454,38 +4454,18 @@ require("lazy").setup({
       },
     },
 
-    -- bad-whitespace - highlight trailing whitespace {{{3
+    -- mini.trailspace - highlight/trim trailing whitespace {{{3
+    -- NOTE: I'm using this plugin to highlight trailing whitespace only, not
+    -- trim it because I'm using `vim-strip-trailing-whitespace` for trimming
+    -- due to git-related nuances.
+    -- TODO: This behavior can be performed by another `mini` plugin
+    -- `mini.hipatterns`. Consider jsut removing this plugin in favor of that?
     {
-      "bitc/vim-bad-whitespace",
-      -- TODO: Delete the provided command `EraseBadWhitespace`, I'm using a
-      -- different plugin for that.
-      init = function()
-        vim.api.nvim_create_autocmd("FileType", {
-          desc = "Disable bad whitespace highlighting for given filetypes",
-          group = vim.api.nvim_create_augroup("bad_whitespace_augroup", {}),
-          pattern = {
-            "alpha",
-            "minimap",
-            -- FIXME: `orphans` isn't being picked right away like the rest, so
-            -- adding a delay before running callback. Upstream issue, but
-            -- re-check at some point in the future - DEC 2024.
-            "orphans",
-          },
-          callback = function()
-            -- NOTE:
-            -- - NO DELAY VERSION: Just `vim.cmd.HideBadWhitespace()`
-            -- - USING SLIGHTLY DELAYED VERSION:
-            --    - Because of `orphan` not being picked up right away.
-            --    - The slight delay will cause a quick glitchy twitch.
-            (function()
-              -- NOTE: Run given command with a one-shot timer.
-              vim.loop
-                .new_timer()
-                :start(6, 0, vim.schedule_wrap(vim.cmd.HideBadWhitespace))
-            end)()
-          end,
-        })
-      end,
+      "echasnovski/mini.trailspace",
+      version = false,
+      opts = {
+        -- only_in_normal_buffers = true, -- DEFAULT
+      },
     },
 
     -- strip-trailing-whitespace - strip trailing whitespace {{{3
