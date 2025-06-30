@@ -4397,8 +4397,8 @@ require("lazy").setup({
       lazy = false,
       opts = {
         mappings = {
-          start = "ga",
-          start_with_preview = "gA",
+          start_with_preview = "ga",
+          start = "gA",
         },
       },
     },
