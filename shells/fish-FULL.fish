@@ -2749,6 +2749,24 @@ begin
     alias glog-LAST_YEAR_VERBOSE="glog-LAST_YEAR $_glog_verbose_cli_flags"
 end
 
+# GIT RESTORE {{{2
+# NOTE: `restore` works on tracked files
+# NOTE: Default restoration `--source` is HEAD. If necessary set explicity.
+# TODO: Get user confirmation.
+# FIXME: In between restore and reset, Use better naming por favor.
+alias grestore="git restore"
+# FILE {{{3
+#  TODO: Ensure `*_FILE` receives a user argument
+# TODO: VERIFY FIRST: `alias grestore-TRACKED_TO_HEAD__DISCARD_CHANGES__FILE="git restore --worktree --staged"`
+alias grestore-UNSTAGED_TO_HEAD__DISCARD_CHANGES__FILE='git restore'
+alias grestore-STAGED_TO_UNSTAGED__KEEP_CHANGES__FILE='git restore --staged'
+alias grestore-STAGED_TO_UNSTAGED__DISCARD_CHANGES__FILE='git restore --staged --worktree' #  TODO: Ensure accepts an arg
+# ALL {{{3
+alias grestore-STAGED_TO_UNSTAGED__KEEP_CHANGES__ALL='git restore --staged :/'
+alias grestore-STAGED_TO_UNSTAGED__DISCARD_CHANGES__ALL='git restore --staged --worktree :/'
+alias grestore-UNSTAGED_TO_HEAD__DISCARD_CHANGES__ALL='git restore :/'
+alias grestore-TRACKED_TO_HEAD__DISCARD_CHANGES__ALL="git restore --worktree --staged :/"
+
 # GIT STASH {{{2
 # TODO: Insist on an explicit stash number (i.e. do not assume 0 by default):
 #         1. Make user specify stash number explicitly, even for the latest one.
