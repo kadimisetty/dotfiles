@@ -5600,13 +5600,14 @@ require("lazy").setup({
     },
 
     -- mini.git - git helper {{{3
-    {
-      "echasnovski/mini-git",
-      version = false,
-      lazy = false,
-      main = "mini.git",
-      opts = {},
-    },
+    -- FIXME: Add fugitive user command equivalents before enabling.
+    -- {
+    --   "echasnovski/mini-git",
+    --   version = false,
+    --   lazy = false,
+    --   main = "mini.git",
+    --   opts = {},
+    -- },
 
     -- gitsigns - git helper {{{3
     {
