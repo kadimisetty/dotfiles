@@ -42,8 +42,11 @@ alias commandline-repaint="commandline --function repaint"
 # ENSURE DIRS COMMONLY EXPECTED TO HOLD EXECUTABLES EXIST IN PATH {{{2
 function _ensure_dir_exists_and_is_in_PATH \
     --argument-names dir
-    # TODO: Validate argument
-    # NOTE: Create the dirs if not present
+    if test (count $argv) -ne 1
+        echo-USAGE "_ensure_dir_exists_and_is_in_PATH DIR_TO_ADD_TO_PATH"
+        return 1
+    end
+    # NOTE: Create dir if it doesn't exist.
     if not test -e $dir
         mkdir $dir
     end
