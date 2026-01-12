@@ -3375,6 +3375,10 @@ function bat-supports_language \
     echo-INFO "Yes, all given languages listed in `bat --list-languages`."
 end
 
+# LM STUDIO {{{1
+# LM Studio CLI (`lms`)
+fish_add_path $HOME/.lmstudio/bin
+
 # HOMEBREW {{{1
 # XXX:
 # NOTE: Get homebrew prefix with command `brew --prefix` instead of a preset
