@@ -4140,7 +4140,7 @@ require("lazy").setup({
         },
         -- win = { no_overlap = true, -- don't allow popup to overlap cursor },
       },
-      dependencies = "echasnovski/mini.icons",
+      dependencies = "nvim-mini/mini.icons",
     },
 
     -- key-analyzer - show vacant keymaps {{{3
@@ -4152,7 +4152,7 @@ require("lazy").setup({
     -- mini.surround - surrounding manipulation {{{3
     -- NOTE: Current line is indicated by `_` in this plugin.
     {
-      "echasnovski/mini.surround",
+      "nvim-mini/mini.surround",
       version = false,
       event = "VeryLazy",
       opts = {
@@ -4347,7 +4347,7 @@ require("lazy").setup({
 
     -- mini move - text movement {{{3
     {
-      "echasnovski/mini.move",
+      "nvim-mini/mini.move",
       version = false,
       event = "VeryLazy",
       opts = {
@@ -4391,7 +4391,7 @@ require("lazy").setup({
 
     -- mini align - text alignment {{{3
     {
-      "echasnovski/mini.align",
+      "nvim-mini/mini.align",
       version = false, -- KEEP(version): as per docs
       event = "VeryLazy",
       lazy = false,
@@ -4446,7 +4446,7 @@ require("lazy").setup({
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         {
-          "echasnovski/mini.splitjoin",
+          "nvim-mini/mini.splitjoin",
           version = "*",
           -- NOTE: Disable default keymaps because this is here as backup only
           opts = { mappings = { toggle = "", split = "", join = "" } },
@@ -4461,7 +4461,7 @@ require("lazy").setup({
     -- TODO: This behavior can be performed by another `mini` plugin
     -- `mini.hipatterns`. Consider jsut removing this plugin in favor of that?
     {
-      "echasnovski/mini.trailspace",
+      "nvim-mini/mini.trailspace",
       version = false,
       opts = {
         -- only_in_normal_buffers = true, -- DEFAULT
@@ -4501,7 +4501,7 @@ require("lazy").setup({
 
     -- mini.animate - animate movements/actions {{{3
     {
-      "echasnovski/mini.animate",
+      "nvim-mini/mini.animate",
       event = "VeryLazy",
       opts = function()
         -- don't use animate when scrolling with the mouse
@@ -4547,7 +4547,7 @@ require("lazy").setup({
 
     -- mini.map - sidebar minimap {{{3
     {
-      "echasnovski/mini.map",
+      "nvim-mini/mini.map",
       event = "VeryLazy",
       keys = function()
         local minimap = require("mini.map")
@@ -4714,7 +4714,7 @@ require("lazy").setup({
     -- similar feature.
     -- FIXME: Remove `folke/todo-comments.nvim` when done replacing it.
     {
-      "echasnovski/mini.hipatterns",
+      "nvim-mini/mini.hipatterns",
       version = false,
       opts = function()
         local mini_extra_gen_highlighter_words =
@@ -4808,7 +4808,7 @@ require("lazy").setup({
           },
         }
       end,
-      dependencies = { "echasnovski/mini.extra", version = false },
+      dependencies = { "nvim-mini/mini.extra", version = false },
     },
 
     -- boole - toggle/invert current word {{{3
@@ -4966,7 +4966,7 @@ require("lazy").setup({
 
     -- mini.statusline - statusline helper {{{3
     {
-      "echasnovski/mini.statusline",
+      "nvim-mini/mini.statusline",
       version = false,
       opts = {
         content = {
@@ -5098,9 +5098,9 @@ require("lazy").setup({
         vim.go.laststatus = 3
       end,
       dependencies = {
-        "echasnovski/mini.icons",
-        "echasnovski/mini-git",
-        "echasnovski/mini.diff",
+        "nvim-mini/mini.icons",
+        "nvim-mini/mini-git",
+        "nvim-mini/mini.diff",
       },
     },
 
@@ -5108,7 +5108,7 @@ require("lazy").setup({
     -- FIXME: Transfer everything to `mini.statusline` and remove `lualine`.
     {
       "nvim-lualine/lualine.nvim",
-      -- TODO: Consider moving to `echasnovski/mini.statusline`
+      -- TODO: Consider moving to `nvim-mini/mini.statusline`
       enabled = false,
       event = "VeryLazy",
       opts = function()
@@ -5359,7 +5359,7 @@ require("lazy").setup({
     -- but consider enabling it as long as the previous location is a child
     -- directory of current plugin parent root directory.
     {
-      "echasnovski/mini.files",
+      "nvim-mini/mini.files",
       version = false,
       event = "VeryLazy",
       opts = {
@@ -5602,7 +5602,7 @@ require("lazy").setup({
     -- mini.git - git helper {{{3
     -- FIXME: Add fugitive user command equivalents before enabling.
     -- {
-    --   "echasnovski/mini-git",
+    --   "nvim-mini/mini-git",
     --   version = false,
     --   lazy = false,
     --   main = "mini.git",
@@ -6027,7 +6027,7 @@ require("lazy").setup({
 
     -- mini.jump - jump helper {{{3
     {
-      "echasnovski/mini.jump",
+      "nvim-mini/mini.jump",
       version = false,
       event = "VeryLazy",
       opts = { delay = { highlight = 10 } },
@@ -6237,7 +6237,7 @@ require("lazy").setup({
 
     -- mini.ai - text objects {{{3
     {
-      "echasnovski/mini.ai",
+      "nvim-mini/mini.ai",
       version = false,
       opts = function()
         local mini_ai = require("mini.ai")
@@ -6416,7 +6416,7 @@ require("lazy").setup({
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-treesitter/nvim-treesitter-textobjects",
-        { "echasnovski/mini.extra", version = false },
+        { "nvim-mini/mini.extra", version = false },
       },
     },
 
@@ -6683,7 +6683,7 @@ require("lazy").setup({
       end,
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "echasnovski/mini.icons",
+        "nvim-mini/mini.icons",
       },
     },
 
@@ -6810,7 +6810,7 @@ require("lazy").setup({
     -- `vim-illuminate` which didn't work for me because it adds unremovable
     -- default keymaps (`<m-n>`, `<m-p>`).
     {
-      "echasnovski/mini.cursorword",
+      "nvim-mini/mini.cursorword",
       version = false,
       opts = {},
     },
@@ -6845,7 +6845,7 @@ require("lazy").setup({
 
     -- mini notify - notification helper {{{3
     {
-      "echasnovski/mini.notify",
+      "nvim-mini/mini.notify",
       version = false,
       opts = function()
         local mini_notify = require("mini.notify")
