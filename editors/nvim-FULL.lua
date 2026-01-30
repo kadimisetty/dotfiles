@@ -3571,23 +3571,21 @@ vim.keymap.set("x", "<c-s>", "<c-c>:<c-u>update<cr>", { silent = true })
 vim.keymap.set("i", "<c-s>", "<c-o>:<c-u>update<cr>", { silent = true })
 
 -- GENERAL LSP & DIAGNOSTICS SETTINGS {{{1
--- LSP SIGN SYMBOLS {{{2
-vim.fn.sign_define(
-  "DiagnosticSignError",
-  { text = "󰬌 ", texthl = "DiagnosticSignError" }
-)
-vim.fn.sign_define(
-  "DiagnosticSignWarn",
-  { text = "󰬞 ", texthl = "DiagnosticSignWarn" }
-)
-vim.fn.sign_define(
-  "DiagnosticSignInfo",
-  { text = "󰬐 ", texthl = "DiagnosticSignInfo" }
-)
-vim.fn.sign_define(
-  "DiagnosticSignHint",
-  { text = " ", texthl = "DiagnosticSignHint" }
-)
+-- LSP DIAGNOSTIC SIGN SYMBOLS {{{2
+-- TODO: Handle LSP diagnostics more efficiently.
+-- TODO: `vim.diagnostic.config(...)` is likely being called elsewhere as well.
+-- so at the least ensure `signs`(if not `signs.text`)  is appended to here and
+-- not over-written.
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰬌",
+      [vim.diagnostic.severity.WARN] = "󰬞",
+      [vim.diagnostic.severity.INFO] = "󰬐",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+  },
+})
 
 -- LSP KEYMAPS (Uses buffer) {{{2
 local set_common_lsp_keymaps = function(bufnr)
